@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valley City - Crime Unit</title>
+<style>
+:root {
+--bg-dark: #05070a;
+--bg-panel: rgba(5, 7, 10, 0.92);
+--accent: #1ee3ff;
+--accent-soft: rgba(30, 227, 255, 0.18);
+--danger: #ff3b3b;
+--success: #3bff7b;
+--warning: #ffc857;
+--text-main: #f5f7fa;
+--text-soft: #c3cad6;
+}
+
+
+* {
+box-sizing: border-box;
+-webkit-tap-highlight-color: transparent;
+}
+
+
+body {
+margin: 0;
+font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+background: radial-gradient(circle at top, #101726 0, #020308 55%, #000 100%);
+color: var(--text-main);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: stretch;
+}
+
+
+#app {
+width: 100%;
+max-width: 480px; /* foco mobile */
+min-height: 100vh;
+background: linear-gradient(180deg, rgba(5,7,12,0.96), rgba(2,3,6,0.98));
+position: relative;
+overflow: hidden;
+}
+
+
+.screen {
+display: none;
+flex-direction: column;
+min-height: 100vh;
+padding: 16px 16px 24px;
+background-size: cover;
+background-position: center;
+position: absolute;
+inset: 0;
+overflow-y: auto;
+}
+
+
+.screen.visible {
+display: flex;
+}
+</html>
