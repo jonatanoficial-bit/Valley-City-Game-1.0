@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valley City - Crime Unit</title>
+  <style>
+    :root {
+      --bg-dark: #05070a;
+      --bg-panel: rgba(5, 7, 10, 0.92);
+      --accent: #1ee3ff;
+      --accent-soft: rgba(30, 227, 255, 0.18);
+      --danger: #ff3b3b;
+      --success: #3bff7b;
+      --warning: #ffc857;
+      --text-main: #f5f7fa;
+      --text-soft: #c3cad6;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #101726 0, #020308 55%, #000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    #app {
+      width: 100%;
+      max-width: 480px; /* foco mobile */
+      min-height: 100vh;
+      background: linear-gradient(180deg, rgba(5,7,12,0.96), rgba(2,3,6,0.98));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 16px 16px 24px;
+      background-size: cover;
+      background-position: center;
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+    }
+
+    .screen.visible {
+      display: flex;
+    }
+
+    .overlay {
+      background: radial-gradient(circle at top, rgba(17, 24, 39, 0.96), rgba(3, 4, 6, 0.98));
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: auto;
+      margin-bottom: 12px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      backdrop-filter: blur(14px);
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1.title-main {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 0.78rem;
+      text-align: center;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 1000px;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: radial-gradient(circle at top, #111827, #020617);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      border-color: var(--accent);
+      background: radial-gradient(circle at top, #0891b2, #020617);
+      box-shadow: 0 0 18px rgba(8,145,178,0.4);
+    }
+
+    .btn-danger {
+      border-color: var(--danger);
+      background: radial-gradient(circle at top, #7f1d1d, #020617);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-style: dashed;
+      opacity: 0.85;
+    }
+
+    .btn-sm {
+      padding: 10px 12px;
+      font-size: 0.75rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.5);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+    }
+
+    .tag-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 10px rgba(56,189,248,0.9);
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .stat-card {
+      background: radial-gradient(circle at top, #020617, #020617);
+      border-radius: 12px;
+      padding: 8px;
+      border: 1px solid rgba(51,65,85,0.9);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 2px;
+    }
+
+    .stat-value {
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22d3ee, #0ea5e9);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .avatar-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: radial-gradient(circle at top, #020617, #020617);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .avatar-card.selected {
+      box-shadow: 0 0 18px rgba(56,189,248,0.9);
+      border-color: var(--accent);
+    }
+
+    .avatar-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .avatar-label {
+      font-size: 0.72rem;
+      padding: 6px 8px;
+      text-align: center;
+      color: var(--text-soft);
+    }
+
+    .bottom-safe {
+      padding-bottom: 10px;
+    }
+
+    .list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      background: radial-gradient(circle at top, #020617, #020617);
+      border: 1px solid rgba(51,65,85,0.9);
+      cursor: pointer;
+    }
+
+    .card-line img {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      object-fit: cover;
+    }
+
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .card-sub {
+      font-size: 0.72rem;
+      color: var(--text-soft);
+    }
+
+    .pill {
+      font-size: 0.68rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .body-text {
+      font-size: 0.86rem;
+      line-height: 1.5;
+      color: var(--text-soft);
+    }
+
+    .terminal-box {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      background: radial-gradient(circle at top, #020617, #000);
+      border: 1px solid rgba(75,85,99,0.8);
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.8rem;
+      position: relative;
+      min-height: 72px;
+    }
+
+    .terminal-cursor {
+      display: inline-block;
+      width: 7px;
+      height: 12px;
+      background: var(--accent);
+      margin-left: 2px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.1%, 100% { opacity: 0; }
+    }
+
+    .input-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .input-row input {
+      flex: 1;
+      padding: 9px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.95);
+      color: var(--text-main);
+      font-size: 0.82rem;
+    }
+
+    .chip-row {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(75,85,99,0.9);
+      background: rgba(15,23,42,0.9);
+      font-size: 0.74rem;
+      cursor: pointer;
+      color: var(--text-soft);
+    }
+
+    .pill-level {
+      background: rgba(37,99,235,0.18);
+      border-color: rgba(59,130,246,0.6);
+    }
+
+    .pill-warning {
+      background: rgba(127,29,29,0.28);
+      border-color: rgba(248,113,113,0.8);
+      color: #fecaca;
+    }
+
+    .pill-success {
+      background: rgba(22,163,74,0.25);
+      border-color: rgba(34,197,94,0.9);
+      color: #bbf7d0;
+    }
+
+    .mini-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    .qa-log {
+      margin-top: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.76rem;
+    }
+
+    .qa-entry {
+      margin-bottom: 6px;
+    }
+
+    .qa-q {
+      color: var(--accent);
+    }
+
+    .qa-a {
+      color: var(--text-soft);
+    }
+
+    .pill-small {
+      font-size: 0.68rem;
+      padding: 3px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+    }
+
+    .mt-1 { margin-top: 4px; }
+    .mt-2 { margin-top: 8px; }
+    .mt-3 { margin-top: 12px; }
+    .mt-4 { margin-top: 16px; }
+    .mt-5 { margin-top: 20px; }
+    .mb-2 { margin-bottom: 8px; }
+
+    @media (min-width: 481px) {
+      #app {
+        margin: 18px auto;
+        border-radius: 26px;
+        border: 1px solid rgba(148,163,184,0.4);
+      }
+      .screen {
+        border-radius: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <!-- MENU PRINCIPAL -->
+  <section id="screen-menu" class="screen visible" style="background-image:url('assets/capa_principal.jpg');">
+    <div style="margin-top:auto; margin-bottom:18px;">
+      <div class="overlay">
+        <div class="tag"><span class="tag-dot"></span><span>Valley City Police • FBI • CIA</span></div>
+        <h1 class="title-main">VALLEY CITY<br>CRIME UNIT</h1>
+        <p class="subtitle">Simulador de investigação criminal</p>
+        <button class="btn btn-primary" onclick="goTo('screen-save')">Iniciar / Carregar</button>
+        <button class="btn btn-ghost" onclick="showAbout()">Sobre o Jogo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALVAMENTO / LOGIN -->
+  <section id="screen-save" class="screen" style="background-image:url('assets/bg_login.jpg');">
+    <div class="overlay" style="margin-top:32px;">
+      <h2>Arquivos de Caso</h2>
+      <p class="body-text">Seu progresso é salvo localmente neste dispositivo. Você pode exportar ou importar um arquivo JSON quando quiser.</p>
+      <div id="saveSlots" class="list mt-3"></div>
+      <div class="mt-3">
+        <button class="btn btn-ghost btn-sm" onclick="exportSave()">Exportar Save (JSON)</button>
+        <label class="btn btn-ghost btn-sm" style="margin-top:6px;">
+          Importar Save
+          <input type="file" accept="application/json" style="display:none" onchange="importSave(event)" />
+        </label>
+        <button class="btn btn-sm" style="margin-top:10px;" onclick="goTo('screen-menu')">Voltar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESCOLHA DE AVATAR -->
+  <section id="screen-avatar" class="screen">
+    <div class="overlay" style="margin-top:26px;">
+      <h2>Seu Agente</h2>
+      <p class="body-text">Escolha o avatar que representará você em Valley City. Isso não altera as habilidades, apenas o visual.</p>
+      <div id="avatarGrid" class="avatar-grid mt-2"></div>
+      <button class="btn btn-primary mt-4" onclick="confirmAvatar()">Confirmar Avatar</button>
+      <button class="btn btn-ghost btn-sm" onclick="goTo('screen-save')">Voltar</button>
+    </div>
+  </section>
+
+  <!-- BRIEFING + TUTORIAL -->
+  <section id="screen-briefing" class="screen" style="background-image:url('assets/capitao_office.jpg');">
+    <div class="overlay" style="margin-top:26px;">
+      <h2>Capitão Harrison</h2>
+      <p class="body-text">Bem-vindo a Valley City, detetive. Cidade violenta, poucos policiais e muitos crimes. Aqui não há espaço para amadores.</p>
+      <p class="mini-label">Regras de Serviço</p>
+      <ul class="body-text" style="padding-left:18px; margin-top:4px;">
+        <li>Cada caso tem um culpado real. Escolha com base em testemunhas, provas e interrogatórios.</li>
+        <li>Erros derrubam seu prestígio. A partir do 3º erro, cada falha gera uma advertência.</li>
+        <li>Com 6 advertências, você será demitido.</li>
+        <li>Para pedir promoção: prestígio &ge; 80%, boa taxa de acertos e aprovação na prova interna.</li>
+      </ul>
+      <p class="body-text mt-2">Faça o seu trabalho, mantenha a cidade respirando... e não me dê motivos para tirar seu distintivo.</p>
+      <button class="btn btn-primary mt-3" onclick="goTo('screen-office')">Entendido, chefe</button>
+    </div>
+  </section>
+
+  <!-- ESCRITÓRIO / HUB -->
+  <section id="screen-office" class="screen" style="background-image:url('assets/escritorio_detective.jpg');">
+    <div class="overlay" style="margin-top:22px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <div>
+          <div class="tag"><span class="tag-dot"></span><span id="officeRank">Detetive Júnior</span></div>
+          <h2 id="officeName" class="mt-1">Agente</h2>
+        </div>
+        <div id="officeAvatar" style="width:60px; height:60px; border-radius:50%; border:2px solid rgba(148,163,184,0.8); overflow:hidden; background:#020617;"></div>
+      </div>
+      <div class="stats-row mt-3">
+        <div class="stat-card">
+          <div class="stat-label">Prestígio</div>
+          <div class="stat-value" id="statPrestigio">0%</div>
+          <div class="progress-bar"><div id="barPrestigio" class="progress-fill"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Casos</div>
+          <div class="stat-value" id="statCases">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Advertências</div>
+          <div class="stat-value" id="statWarnings">0</div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-primary" onclick="startNextCase()">Próximo Caso</button>
+        <button class="btn" onclick="goTo('screen-phone')">Telefonar</button>
+        <button class="btn" onclick="openPromotion()">Pedir Promoção</button>
+        <button class="btn btn-ghost" onclick="showStats()">Histórico / Estatísticas</button>
+        <button class="btn btn-ghost btn-sm" onclick="saveGame()">Salvar Agora</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELEFONE -->
+  <section id="screen-phone" class="screen" style="background-image:url('assets/phone_interface.jpg');">
+    <div class="overlay" style="margin-top:32px;">
+      <h2>Telefone de Serviço</h2>
+      <p class="body-text">Use as ligações com sabedoria. Algumas melhoram sua moral e prestígio no distrito.</p>
+      <div class="list mt-3">
+        <div class="card-line" onclick="callChief()">
+          <div style="width:42px; height:42px; border-radius:50%; background:#020617; display:flex; align-items:center; justify-content:center; font-size:0.8rem;">C</div>
+          <div>
+            <div class="card-title">Capitão Harrison</div>
+            <div class="card-sub">Desculpar, elogiar ou pedir demissão.</div>
+          </div>
+        </div>
+        <div class="card-line" onclick="callCoroner()">
+          <div style="width:42px; height:42px; border-radius:50%; background:#020617; display:flex; align-items:center; justify-content:center; font-size:0.8rem;">IML</div>
+          <div>
+            <div class="card-title">Perito Legista</div>
+            <div class="card-sub">Esclarecer detalhes sobre o laudo.</div>
+          </div>
+        </div>
+        <div class="card-line" onclick="callStreetTeam()">
+          <div style="width:42px; height:42px; border-radius:50%; background:#020617; display:flex; align-items:center; justify-content:center; font-size:0.8rem;">EQ</div>
+          <div>
+            <div class="card-title">Equipe de Rua</div>
+            <div class="card-sub">Solicitar mandado de busca.</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-office')">Voltar ao Escritório</button>
+    </div>
+  </section>
+
+  <!-- CASO ATUAL (HUB)-->
+  <section id="screen-case" class="screen" style="background-image:url('assets/case_scene_bg.jpg');">
+    <div class="overlay" style="margin-top:26px;">
+      <div class="tag"><span class="tag-dot"></span><span id="caseLevelTag">Distrito Policial</span></div>
+      <h2 id="caseTitle">Caso</h2>
+      <p id="caseDesc" class="body-text"></p>
+      <div class="mt-3">
+        <button class="btn" onclick="goTo('screen-witnesses')">Testemunhas</button>
+        <button class="btn" onclick="goTo('screen-evidence')">Provas</button>
+        <button class="btn" onclick="goTo('screen-suspects')">Suspeitos</button>
+        <button class="btn btn-danger" onclick="goTo('screen-conclude')">Concluir Caso</button>
+        <button class="btn btn-ghost btn-sm" onclick="goTo('screen-office')">Voltar ao Escritório</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTEMUNHAS -->
+  <section id="screen-witnesses" class="screen" style="background-image:url('assets/witness_room.jpg');">
+    <div class="overlay" style="margin-top:24px;">
+      <h2>Testemunhas</h2>
+      <p class="body-text">Escolha quem ouvir. Preste atenção em contradições, detalhes de horário e relação com a vítima.</p>
+      <div id="witnessList" class="list mt-3"></div>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-case')">Voltar ao Caso</button>
+    </div>
+  </section>
+
+  <!-- DETALHE DA TESTEMUNHA -->
+  <section id="screen-witness-detail" class="screen" style="background-image:url('assets/witness_room.jpg');">
+    <div class="overlay" style="margin-top:20px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div id="witnessPhoto" style="width:52px; height:52px; border-radius:50%; overflow:hidden; border:1px solid rgba(148,163,184,0.7);"></div>
+        <div>
+          <div class="pill pill-level" id="witnessName">Testemunha</div>
+          <div class="card-sub" id="witnessRelation"></div>
+        </div>
+      </div>
+      <div class="terminal-box mt-3">
+        <div class="mini-label">Depoimento</div>
+        <div id="witnessStatement" class="body-text" style="margin-top:4px;"></div>
+        <span class="terminal-cursor"></span>
+      </div>
+      <div class="mini-label mt-3">Perguntas rápidas</div>
+      <div id="witnessChips" class="chip-row"></div>
+      <div class="input-row mt-2">
+        <input id="witnessQuestion" placeholder="Digite uma pergunta..." />
+        <button class="btn btn-sm" style="width:auto; padding:0 12px;" onclick="askWitness()">Perguntar</button>
+      </div>
+      <div class="qa-log" id="witnessLog"></div>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-witnesses')">Voltar às Testemunhas</button>
+    </div>
+  </section>
+
+  <!-- PROVAS -->
+  <section id="screen-evidence" class="screen" style="background-image:url('assets/evidence_room.jpg');">
+    <div class="overlay" style="margin-top:24px;">
+      <h2>Provas</h2>
+      <p class="body-text">Analise os itens coletados na cena. Combine horário, localização e tipo de prova com os álibis.</p>
+      <div id="evidenceList" class="list mt-3"></div>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-case')">Voltar ao Caso</button>
+    </div>
+  </section>
+
+  <!-- SALA DO IML -->
+  <section id="screen-morgue" class="screen" style="background-image:url('assets/morgue_room.jpg');">
+    <div class="overlay" style="margin-top:24px;">
+      <h2>Laudo do IML</h2>
+      <p id="morgueText" class="body-text"></p>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-evidence')">Voltar às Provas</button>
+    </div>
+  </section>
+
+  <!-- SUSPEITOS -->
+  <section id="screen-suspects" class="screen" style="background-image:url('assets/suspect_file_bg.jpg');">
+    <div class="overlay" style="margin-top:22px;">
+      <h2>Suspeitos</h2>
+      <p class="body-text">Abra o dossiê completo de cada suspeito. Verifique o histórico, o álibi e a relação com a vítima.</p>
+      <div id="suspectList" class="list mt-3"></div>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-case')">Voltar ao Caso</button>
+    </div>
+  </section>
+
+  <!-- DETALHE DO SUSPEITO -->
+  <section id="screen-suspect-detail" class="screen" style="background-image:url('assets/suspect_file_bg.jpg');">
+    <div class="overlay" style="margin-top:20px;">
+      <div style="display:flex; gap:10px; align-items:center;">
+        <div id="suspectPhoto" style="width:60px; height:60px; border-radius:50%; overflow:hidden; border:1px solid rgba(148,163,184,0.7);"></div>
+        <div>
+          <div class="card-title" id="suspectName">Suspeito</div>
+          <div class="card-sub" id="suspectRelation"></div>
+          <div class="chip-row mt-1">
+            <span class="pill-small" id="suspectAge"></span>
+            <span class="pill-small" id="suspectAddress"></span>
+          </div>
+        </div>
+      </div>
+      <p class="mini-label mt-3">Histórico</p>
+      <p id="suspectRecord" class="body-text"></p>
+      <p class="mini-label mt-2">Álibi</p>
+      <p id="suspectAlibi" class="body-text"></p>
+      <button class="btn mt-3" onclick="openInterrogation()">Convidar para Interrogatório</button>
+      <button class="btn btn-sm mt-2" onclick="goTo('screen-suspects')">Voltar aos Suspeitos</button>
+    </div>
+  </section>
+
+  <!-- INTERROGATÓRIO -->
+  <section id="screen-interrogation" class="screen" style="background-image:url('assets/interrogation_room.jpg');">
+    <div class="overlay" style="margin-top:20px;">
+      <h2 id="interrogationTitle">Interrogatório</h2>
+      <p class="body-text">Use perguntas diretas. Compare tudo com os álibis e o laudo.</p>
+      <div class="terminal-box mt-2">
+        <div class="mini-label">Registro</div>
+        <div id="interrogationLog" class="qa-log"></div>
+      </div>
+      <div class="mini-label mt-3">Perguntas sugeridas</div>
+      <div id="interrogationChips" class="chip-row"></div>
+      <div class="input-row mt-2">
+        <input id="interrogationQuestion" placeholder="Pergunte algo ao suspeito..." />
+        <button class="btn btn-sm" style="width:auto; padding:0 12px;" onclick="askSuspect()">Perguntar</button>
+      </div>
+      <button class="btn btn-sm mt-3" onclick="goTo('screen-suspect-detail')">Encerrar Interrogatório</button>
+    </div>
+  </section>
+
+  <!-- CONCLUSÃO DO CASO -->
+  <section id="screen-conclude" class="screen">
+    <div class="overlay" style="margin-top:26px;">
+      <h2>Concluir Caso</h2>
+      <p class="body-text">Escolha quem você acredita ser o verdadeiro culpado. Erros impactam sua carreira.</p>
+      <div id="concludeList" class="list mt-3"></div>
+      <button class="btn btn-danger mt-3" onclick="finalizeCase()">Confirmar Decisão</button>
+      <button class="btn btn-sm mt-2" onclick="goTo('screen-case')">Voltar ao Caso</button>
+    </div>
+  </section>
+
+  <!-- PROMOÇÃO / PROVA -->
+  <section id="screen-promotion" class="screen" style="background-image:url('assets/promotion_bg.jpg');">
+    <div class="overlay" style="margin-top:26px;">
+      <h2>Pedido de Promoção</h2>
+      <p id="promotionInfo" class="body-text"></p>
+      <button class="btn btn-primary mt-3" id="btnStartExam" onclick="startExam()">Iniciar Prova</button>
+      <button class="btn btn-sm mt-2" onclick="goTo('screen-office')">Voltar ao Escritório</button>
+    </div>
+  </section>
+
+  <!-- PROVA (10 QUESTÕES) -->
+  <section id="screen-exam" class="screen" style="background-image:url('assets/exam_room.jpg');">
+    <div class="overlay" style="margin-top:26px;">
+      <h2>Prova de Promoção</h2>
+      <p id="examProgress" class="body-text"></p>
+      <p id="examQuestion" class="body-text mt-2"></p>
+      <div id="examOptions" class="list mt-2"></div>
+      <button class="btn btn-sm mt-3" onclick="cancelExam()">Cancelar Prova</button>
+    </div>
+  </section>
+
+  <!-- TELA FIM / DEMISSÃO -->
+  <section id="screen-gameover" class="screen" style="background-image:url('assets/fired_screen.jpg');">
+    <div class="overlay" style="margin-top:26px;">
+      <h2>Carreira Encerrada</h2>
+      <p class="body-text">Você acumulou advertências demais. Seu distintivo foi recolhido e seu acesso em Valley City foi encerrado.</p>
+      <button class="btn btn-primary mt-3" onclick="resetCareer()">Recomeçar do Zero</button>
+      <button class="btn btn-ghost btn-sm" onclick="goTo('screen-menu')">Voltar ao Menu</button>
+    </div>
+  </section>
+</div>
+
+<script>
+  // --------- ESTADO BÁSICO DO JOGO ---------
+  const RANKS = {
+    VCPD: [
+      "Detetive Júnior",
+      "Detetive Titular",
+      "Detetive Casos Especiais"
+    ],
+    FBI: [
+      "Agente de Investigação Júnior",
+      "Agente de Investigação Federal",
+      "Agente Federal Casos Especiais"
+    ],
+    CIA: [
+      "Analista de Dados Júnior",
+      "Agente Nível 1",
+      "Agente Nível 2",
+      "Agente Nível 3",
+      "Agente Nível 4",
+      "Agente Especial"
+    ]
+  };
+
+  const CAREER_ORDER = ["VCPD", "FBI", "CIA"];
+
+  let gameState = {
+    name: "Agente",
+    avatarId: 1,
+    corp: "VCPD",
+    rankIndex: 0,
+    prestige: 50,
+    casesSolved: 0,
+    errors: 0,
+    warnings: 0,
+    history: [],
+    currentCaseId: null,
+    saveSlot: 1
+  };
+
+  // --------- DEFINIÇÃO DE CASOS (EXEMPLOS) ---------
+  const CASES = [
+    {
+      id: "case1",
+      levelLabel: "Distrito Policial • VCPD",
+      title: "Homicídio no Motel da Rodovia",
+      description:
+        "Um corpo foi encontrado em um quarto de motel na saída norte da Valley City. Poucas câmeras, muitos furos no sistema. Alguém está mentindo.",
+      culpritId: "s2",
+      morgue:
+        "Homem, 38 anos. Morte por perfuração única no tórax, arma branca compatível com faca longa. Horário estimado do óbito: entre 22h10 e 22h40. Não há sinais de luta intensa, o que indica surpresa ou confiança na pessoa que se aproximou.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Recepcionista do Motel",
+          relation: "Funcionária do local",
+          portrait: "witness_01",
+          statement:
+            "Eu estava no balcão a noite inteira. Lembro de ver o hóspede entrando por volta das 21h30. Mais tarde, acho que perto de 22h20, uma mulher de casaco escuro passou rápido pelo corredor.",
+          qa: [
+            {
+              keywords: ["onde", "estava", "momento"],
+              answer:
+                "Eu estava no balcão de recepção, conferindo reservas e câmeras internas. Não saí de lá entre 21h e 23h."
+            },
+            {
+              keywords: ["conhecia", "vítima"],
+              answer:
+                "Nunca tinha visto ele antes aqui. Pelo cadastro, parece que não era da cidade."
+            },
+            {
+              keywords: ["viu", "alguém"],
+              answer:
+                "Vi uma mulher de casaco escuro passando pelo corredor do quarto dele por volta das 22h20. Não consegui ver o rosto."
+            },
+            {
+              keywords: ["quem", "poderia"],
+              answer:
+                "Sinceramente, aqui aparece de tudo. Mas aquela mulher andando rápido e olhando pro chão me pareceu nervosa."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Hóspede do Quarto ao Lado",
+          relation: "Testemunha indireta",
+          portrait: "witness_02",
+          statement:
+            "Eu ouvi uma discussão abafada, tipo uns sussurros mais altos, mas foi coisa rápida. Depois só o barulho da TV. Achei que era casal brigando.",
+          qa: [
+            {
+              keywords: ["horário", "discussão"],
+              answer:
+                "Olhei no celular logo depois, dava algo em torno de 22h15. Foi bem nesse intervalo."
+            },
+            {
+              keywords: ["viu", "quem"],
+              answer:
+                "Não vi quem entrou ou saiu, eu não abri a porta. Só escutei a voz de um homem e de uma mulher."
+            },
+            {
+              keywords: ["som", "tiro"],
+              answer:
+                "Não ouvi tiro nenhum. Parecia algo mais próximo de empurra-empurra e TV ligada."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Faxineira",
+          relation: "Equipe de limpeza",
+          portrait: "witness_03",
+          statement:
+            "Eu só subi para o andar porque disseram que tinha um quarto atrasado para checkout. Quando abri a porta com a chave mestra, ele já estava morto.",
+          qa: [
+            {
+              keywords: ["que horas", "achou"],
+              answer:
+                "Isso foi perto de 23h05, por aí. Eu já estava encerrando o turno."
+            },
+            {
+              keywords: ["mexeu", "corpo"],
+              answer:
+                "Não, senhor. Fiquei paralisada. Só gritei e chamei a recepção."
+            }
+          ]
+        },
+        {
+          id: "w4",
+          name: "Vizinho de Loja",
+          relation: "Dono de posto próximo",
+          portrait: "witness_04",
+          statement:
+            "Eu vi um carro prata parado perto da entrada lateral do motel. Parecia alguém esperando dentro, com o farol apagado.",
+          qa: [
+            {
+              keywords: ["placa"],
+              answer:
+                "Não consegui ver a placa, estava distante e com pouca luz."
+            },
+            {
+              keywords: ["horário"],
+              answer:
+                "Isso foi um pouco depois das 22h. Eu estava fechando o caixa do posto."
+            }
+          ]
+        },
+        {
+          id: "w5",
+          name: "Motorista de aplicativo",
+          relation: "Possível ligação externa",
+          portrait: "witness_05",
+          statement:
+            "Eu deixei uma passageira perto dali às 21h55. Ela pediu pra parar na esquina, disse que ia entrar a pé.",
+          qa: [
+            {
+              keywords: ["descrição", "passageira"],
+              answer:
+                "Mulher, mais ou menos 30 e poucos anos, cabelo preso, casaco escuro. Estava bem calada, só mexia no celular."
+            },
+            {
+              keywords: ["voltou", "buscar"],
+              answer:
+                "Não, não tive outra corrida naquela região naquela noite."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s1",
+          name: "Ex-esposa da vítima",
+          age: "36 anos",
+          address: "Bairro residencial em outra cidade",
+          relation: "Ex-parceira com histórico de brigas",
+          portrait: "suspect_01",
+          record:
+            "Boletins de ocorrência por discussão doméstica, mas sem condenações. Histórico de ciúmes e brigas acaloradas.",
+          alibi:
+            "Diz que estava em casa com o filho. Alega que colocou o menino para dormir às 21h30 e não saiu mais.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu estava em casa com meu filho. Coloquei ele pra dormir e fiquei vendo série. Não saí de casa."
+            },
+            {
+              keywords: ["motivo", "matar"],
+              answer:
+                "Nós brigávamos, mas eu nunca faria isso. Ele era pai do meu filho."
+            }
+          ]
+        },
+        {
+          id: "s2",
+          name: "Namorada atual",
+          age: "29 anos",
+          address: "Apartamento no centro de Valley City",
+          relation: "Relacionamento recente, ciúmes e discussões",
+          portrait: "suspect_02",
+          record:
+            "Sem antecedentes criminais. Mensagens recentes mostram discussões sobre traição e dinheiro.",
+          alibi:
+            "Afirma que estava jogando videogame na casa da avó naquela noite, em outro bairro, e que só soube da morte no dia seguinte.",
+          qa: [
+            {
+              keywords: ["onde", "estava", "momento"],
+              answer:
+                "Eu já disse, estava na casa da minha avó jogando videogame. Cheguei lá antes das 21h e não saí até tarde."
+            },
+            {
+              keywords: ["sabia", "motel"],
+              answer:
+                "Não fazia ideia que ele estava num motel. Ele disse que ia resolver coisa de trabalho."
+            },
+            {
+              keywords: ["relacionamento", "briga"],
+              answer:
+                "Todo casal briga. A gente discutiu por mensagem, mas isso não quer dizer que eu fiz alguma coisa."
+            }
+          ]
+        },
+        {
+          id: "s3",
+          name: "Agiota local",
+          age: "45 anos",
+          address: "Zona norte de Valley City",
+          relation: "Credor, a vítima devia dinheiro",
+          portrait: "suspect_03",
+          record:
+            "Envolvimento com cobrança violenta, mas sem provas diretas. Já foi investigado por extorsão.",
+          alibi:
+            "Diz que estava em um bar lotado assistindo a um jogo de futebol. Afirma que muita gente pode confirmar.",
+          qa: [
+            {
+              keywords: ["dívida"],
+              answer:
+                "Ele devia, sim, mas eu gosto de receber vivo. Morto não paga conta."
+            },
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Tava no bar do centro vendo o jogo. Pergunta pra qualquer um lá."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Câmera interna do corredor",
+          type: "video",
+          description:
+            "Imagem borrada mostra uma figura de casaco escuro aproximando-se do quarto da vítima entre 22h18 e 22h22.",
+          image: "crime_scene_01"
+        },
+        {
+          id: "ev2",
+          title: "Registro de entrada no motel",
+          type: "document",
+          description:
+            "A vítima entrou sozinha às 21h32. Nenhum acompanhante foi registrado oficialmente na recepção.",
+          image: "evidence_doc_01"
+        },
+        {
+          id: "ev3",
+          title: "Mensagens de celular",
+          type: "document",
+          description:
+            "Conversas acaloradas com a namorada atual entre 20h45 e 21h10, com acusações de traição.",
+          image: "evidence_text_01"
+        },
+        {
+          id: "ev4",
+          title: "Laudo de perfuração",
+          type: "morgue",
+          description:
+            "Perfuração única no tórax, arma branca. Compatível com ataque rápido e direcionado.",
+          image: "evidence_weapon_01"
+        }
+      ]
+    }
+  ];
+
+  // --------- EXAME / PROVA (10 QUESTÕES SIMPLES) ---------
+  const EXAM_QUESTIONS = [
+    {
+      q: "Antes de acusar alguém, o que deve ser prioritário?",
+      options: [
+        "Ter um palpite forte",
+        "Colecionar provas que sustentem o álibi",
+        "Conectar provas, depoimentos e motivação",
+        "Escolher o suspeito mais antipático"
+      ],
+      correctIndex: 2
+    },
+    {
+      q: "O que um álibi confiável precisa ter?",
+      options: [
+        "Ser convincente pela emoção",
+        "Ter alguma comprovação externa ou testemunhas",
+        "Ser repetido várias vezes",
+        "Ser escrito em mensagem"
+      ],
+      correctIndex: 1
+    },
+    {
+      q: "Ao analisar horários de morte e relatos, você deve:",
+      options: [
+        "Ignorar minutos, só olhar a hora",
+        "Comparar janela de tempo do crime com o álibi",
+        "Confiar em quem falar primeiro",
+        "Sempre culpar a última pessoa que viu a vítima"
+      ],
+      correctIndex: 1
+    },
+    {
+      q: "Qual é o papel do legista no caso?",
+      options: [
+        "Acusar diretamente o suspeito",
+        "Determinar causa e horário aproximado da morte",
+        "Decidir se foi crime ou acidente sozinho",
+        "Conduzir interrogatórios"
+      ],
+      correctIndex: 1
+    },
+    {
+      q: "Em um interrogatório, perguntas boas são aquelas que:",
+      options: [
+        "São vagas e abertas",
+        "São diretas, específicas e verificáveis",
+        "Confundem o suspeito de propósito",
+        "Geram discussões longas"
+      ],
+      correctIndex: 1
+    },
+    {
+      q: "Sobre prestígio na corporação:",
+      options: [
+        "Só depende de puxar saco do chefe",
+        "É influenciado por acertos, postura e respeito",
+        "Não tem relação com advertências",
+        "É algo puramente aleatório"
+      ],
+      correctIndex: 1
+    },
+    {
+      q: "Se duas testemunhas se contradizem:",
+      options: [
+        "Descarte ambas",
+        "Escolha a que parecer mais simpática",
+        "Investigue quem ganha com a mentira e quem errou por confusão",
+        "Ignore o horário e foque só em emoções"
+      ],
+      correctIndex: 2
+    },
+    {
+      q: "Ao pedir mandado de busca, você deve:",
+      options: [
+        "Ter justificativa baseada em indícios",
+        "Pedir sempre que desconfiar de alguém",
+        "Usar apenas como ameaça",
+        "Esperar o suspeito confessar primeiro"
+      ],
+      correctIndex: 0
+    },
+    {
+      q: "A diferença entre suspeita e prova é:",
+      options: [
+        "Nenhuma, são sinônimos",
+        "Suspeita é intuição, prova é elemento verificável",
+        "Suspeita é mais forte que prova",
+        "Prova é apenas opinião escrita"
+      ],
+      correctIndex: 1
+    },
+    {
+      q: "Quando concluir um caso:",
+      options: [
+        "Basta escolher o suspeito que você menos gosta",
+        "Escolha quem tem pior histórico criminal",
+        "Reúna motivo, oportunidade e meios compatíveis",
+        "Deixe o sistema decidir sozinho"
+      ],
+      correctIndex: 2
+    }
+  ];
+
+  let currentWitness = null;
+  let currentSuspect = null;
+  let currentExamIndex = 0;
+  let currentExamScore = 0;
+  let selectedCulpritId = null;
+
+  // --------- NAVEGAÇÃO DE TELAS ---------
+  function goTo(id) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("visible"));
+    const el = document.getElementById(id);
+    if (el) el.classList.add("visible");
+    if (id === "screen-office") updateOfficeUI();
+    if (id === "screen-case") updateCaseUI();
+  }
+
+  function showAbout() {
+    alert(
+      "Valley City: Crime Unit\n\nSimulador narrativo de investigação. Use lógica, análise de provas e interrogatórios inteligentes para evoluir de detetive a agente de elite."
+    );
+  }
+
+  // --------- SALVAMENTO LOCAL / SLOTS ---------
+  function loadSaveSlots() {
+    const container = document.getElementById("saveSlots");
+    container.innerHTML = "";
+    for (let i = 1; i <= 3; i++) {
+      const key = `valley_save_${i}`;
+      const raw = localStorage.getItem(key);
+      const div = document.createElement("div");
+      div.className = "card-line";
+      if (raw) {
+        const data = JSON.parse(raw);
+        div.innerHTML = `<div class="pill">Slot ${i}</div>
+          <div style="flex:1;">
+            <div class="card-title">${data.name || "Agente"}</div>
+            <div class="card-sub">${data.corp} • ${getRankLabel(data)}</div>
+            <div class="card-sub">Prestígio: ${data.prestige}% • Casos: ${data.casesSolved}</div>
+          </div>`;
+        div.onclick = () => {
+          gameState = data;
+          goTo("screen-office");
+        };
+      } else {
+        div.innerHTML = `<div class="pill pill-warning">Slot ${i} vazio</div>
+          <div class="card-sub">Criar novo jogo neste slot.</div>`;
+        div.onclick = () => {
+          startNewGame(i);
+        };
+      }
+      container.appendChild(div);
+    }
+  }
+
+  function startNewGame(slot) {
+    gameState = {
+      name: "Detetive",
+      avatarId: 1,
+      corp: "VCPD",
+      rankIndex: 0,
+      prestige: 50,
+      casesSolved: 0,
+      errors: 0,
+      warnings: 0,
+      history: [],
+      currentCaseId: null,
+      saveSlot: slot
+    };
+    goTo("screen-avatar");
+  }
+
+  function saveGame() {
+    const slot = gameState.saveSlot || 1;
+    localStorage.setItem(`valley_save_${slot}`, JSON.stringify(gameState));
+    alert("Progresso salvo no Slot " + slot + ".");
+    loadSaveSlots();
+  }
+
+  function exportSave() {
+    const dataStr = JSON.stringify(gameState, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "valley_city_save.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function importSave(evt) {
+    const file = evt.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      try {
+        const data = JSON.parse(e.target.result);
+        gameState = data;
+        alert("Save importado com sucesso.");
+        goTo("screen-office");
+      } catch (err) {
+        alert("Arquivo inválido.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  // --------- AVATAR ---------
+  function initAvatars() {
+    const grid = document.getElementById("avatarGrid");
+    grid.innerHTML = "";
+    for (let i = 1; i <= 10; i++) {
+      const card = document.createElement("div");
+      card.className = "avatar-card";
+      card.dataset.id = i;
+      card.innerHTML = `<img src="assets/avatar_${String(i).padStart(2,"0")}.png" alt="Avatar ${i}">
+        <div class="avatar-label">Agente ${i}</div>`;
+      card.onclick = () => {
+        document.querySelectorAll(".avatar-card").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        gameState.avatarId = i;
+      };
+      grid.appendChild(card);
+    }
+  }
+
+  function confirmAvatar() {
+    if (!gameState.avatarId) {
+      alert("Selecione um avatar antes de continuar.");
+      return;
+    }
+    goTo("screen-briefing");
+  }
+
+  // --------- OFFICE UI ---------
+  function getRankLabel(state) {
+    const arr = RANKS[state.corp] || [];
+    return arr[state.rankIndex] || "Agente";
+  }
+
+  function updateOfficeUI() {
+    document.getElementById("officeName").textContent = gameState.name || "Agente";
+    document.getElementById("officeRank").textContent = getRankLabel(gameState);
+    document.getElementById("statPrestigio").textContent = gameState.prestige + "%";
+    document.getElementById("statCases").textContent = gameState.casesSolved;
+    document.getElementById("statWarnings").textContent = gameState.warnings;
+    const bar = document.getElementById("barPrestigio");
+    bar.style.width = Math.max(0, Math.min(100, gameState.prestige)) + "%";
+
+    const avatarDiv = document.getElementById("officeAvatar");
+    avatarDiv.innerHTML = `<img src="assets/avatar_${String(gameState.avatarId).padStart(2,"0")}.png" style="width:100%;height:100%;object-fit:cover;" alt="avatar">`;
+  }
+
+  function showStats() {
+    alert(
+      `Resumo de carreira:\n\nPrestígio: ${gameState.prestige}%\nCasos resolvidos: ${gameState.casesSolved}\nErros: ${gameState.errors}\nAdvertências: ${gameState.warnings}`
+    );
+  }
+
+  // --------- GERENCIAMENTO DE CASOS ---------
+  function getCurrentCase() {
+    if (!gameState.currentCaseId) return null;
+    return CASES.find(c => c.id === gameState.currentCaseId) || null;
+  }
+
+  function startNextCase() {
+    // por enquanto, sempre usa o primeiro caso como exemplo
+    const next = CASES[0];
+    gameState.currentCaseId = next.id;
+    goTo("screen-case");
+  }
+
+  function updateCaseUI() {
+    const c = getCurrentCase();
+    if (!c) {
+      document.getElementById("caseTitle").textContent = "Nenhum caso ativo";
+      document.getElementById("caseDesc").textContent = "Use 'Próximo Caso' no escritório para iniciar uma nova investigação.";
+      return;
+    }
+    document.getElementById("caseTitle").textContent = c.title;
+    document.getElementById("caseDesc").textContent = c.description;
+    document.getElementById("caseLevelTag").textContent = c.levelLabel;
+    buildWitnessList(c);
+    buildEvidenceList(c);
+    buildSuspectList(c);
+    buildConcludeList(c);
+  }
+
+  // --------- TESTEMUNHAS ---------
+  function buildWitnessList(c) {
+    const list = document.getElementById("witnessList");
+    list.innerHTML = "";
+    c.witnesses.forEach(w => {
+      const row = document.createElement("div");
+      row.className = "card-line";
+      row.innerHTML = `<img src="assets/${w.portrait}.jpg" alt="${w.name}">
+        <div style="flex:1;">
+          <div class="card-title">${w.name}</div>
+          <div class="card-sub">${w.relation}</div>
+        </div>`;
+      row.onclick = () => openWitness(w.id);
+      list.appendChild(row);
+    });
+  }
+
+  function openWitness(id) {
+    const c = getCurrentCase();
+    currentWitness = c.witnesses.find(w => w.id === id) || null;
+    if (!currentWitness) return;
+    document.getElementById("witnessPhoto").innerHTML = `<img src="assets/${currentWitness.portrait}.jpg" style="width:100%;height:100%;object-fit:cover;" alt="${currentWitness.name}">`;
+    document.getElementById("witnessName").textContent = currentWitness.name;
+    document.getElementById("witnessRelation").textContent = currentWitness.relation;
+    document.getElementById("witnessStatement").textContent = currentWitness.statement;
+    document.getElementById("witnessLog").innerHTML = "";
+
+    const chips = document.getElementById("witnessChips");
+    chips.innerHTML = "";
+    const commonQs = [
+      "Onde você estava no momento do crime?",
+      "Você conhecia a vítima?",
+      "Você viu alguém suspeito no corredor?",
+      "Sabe quem poderia querer machucar a vítima?"
+    ];
+    commonQs.forEach(q => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.textContent = q;
+      chip.onclick = () => {
+        document.getElementById("witnessQuestion").value = q;
+        askWitness();
+      };
+      chips.appendChild(chip);
+    });
+    goTo("screen-witness-detail");
+  }
+
+  function askWitness() {
+    if (!currentWitness) return;
+    const input = document.getElementById("witnessQuestion");
+    const question = input.value.trim();
+    if (!question) return;
+    input.value = "";
+
+    const lower = question.toLowerCase();
+    let answer = "Não sei dizer com certeza sobre isso.";
+    for (const qa of currentWitness.qa || []) {
+      const ok = qa.keywords.every(k => lower.includes(k));
+      if (ok) {
+        answer = qa.answer;
+        break;
+      }
+    }
+
+    const log = document.getElementById("witnessLog");
+    const block = document.createElement("div");
+    block.className = "qa-entry";
+    block.innerHTML = `<div class="qa-q">Você: ${question}</div><div class="qa-a">${currentWitness.name}: ${answer}</div>`;
+    log.appendChild(block);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  // --------- PROVAS ---------
+  function buildEvidenceList(c) {
+    const list = document.getElementById("evidenceList");
+    list.innerHTML = "";
+    c.evidence.forEach(ev => {
+      const row = document.createElement("div");
+      row.className = "card-line";
+      row.innerHTML = `<div class="pill">${ev.type.toUpperCase()}</div>
+        <div style="flex:1;">
+          <div class="card-title">${ev.title}</div>
+          <div class="card-sub">${ev.description}</div>
+        </div>`;
+      row.onclick = () => {
+        if (ev.type === "morgue") {
+          openMorgue(c);
+        } else {
+          alert(ev.description);
+        }
+      };
+      list.appendChild(row);
+    });
+  }
+
+  function openMorgue(c) {
+    document.getElementById("morgueText").textContent = c.morgue;
+    goTo("screen-morgue");
+  }
+
+  function callCoroner() {
+    const c = getCurrentCase();
+    if (!c) {
+      alert("Você só pode falar com o legista quando houver um caso ativo.");
+      return;
+    }
+    alert(
+      "Perito Legista:\n\n— Confirmo a causa da morte e a janela de horário informada no laudo. Compare isso com os álibis, detetive."
+    );
+  }
+
+  // --------- SUSPEITOS ---------
+  function buildSuspectList(c) {
+    const list = document.getElementById("suspectList");
+    list.innerHTML = "";
+    c.suspects.forEach(s => {
+      const row = document.createElement("div");
+      row.className = "card-line";
+      row.innerHTML = `<img src="assets/${s.portrait}.jpg" alt="${s.name}">
+        <div style="flex:1;">
+          <div class="card-title">${s.name}</div>
+          <div class="card-sub">${s.relation}</div>
+        </div>`;
+      row.onclick = () => openSuspect(s.id);
+      list.appendChild(row);
+    });
+  }
+
+  function openSuspect(id) {
+    const c = getCurrentCase();
+    currentSuspect = c.suspects.find(s => s.id === id) || null;
+    if (!currentSuspect) return;
+    document.getElementById("suspectPhoto").innerHTML = `<img src="assets/${currentSuspect.portrait}.jpg" style="width:100%;height:100%;object-fit:cover;" alt="${currentSuspect.name}">`;
+    document.getElementById("suspectName").textContent = currentSuspect.name;
+    document.getElementById("suspectRelation").textContent = currentSuspect.relation;
+    document.getElementById("suspectAge").textContent = currentSuspect.age;
+    document.getElementById("suspectAddress").textContent = currentSuspect.address;
+    document.getElementById("suspectRecord").textContent = currentSuspect.record;
+    document.getElementById("suspectAlibi").textContent = currentSuspect.alibi;
+    goTo("screen-suspect-detail");
+  }
+
+  function openInterrogation() {
+    if (!currentSuspect) return;
+    document.getElementById("interrogationTitle").textContent = "Interrogatório – " + currentSuspect.name;
+    document.getElementById("interrogationLog").innerHTML = "";
+    const chips = document.getElementById("interrogationChips");
+    chips.innerHTML = "";
+    const qs = [
+      "Onde você estava no momento do crime?",
+      "Qual era sua relação com a vítima?",
+      "Alguém pode confirmar o seu álibi?",
+      "Você tinha algum motivo para machucar a vítima?"
+    ];
+    qs.forEach(q => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.textContent = q;
+      chip.onclick = () => {
+        document.getElementById("interrogationQuestion").value = q;
+        askSuspect();
+      };
+      chips.appendChild(chip);
+    });
+    goTo("screen-interrogation");
+  }
+
+  function askSuspect() {
+    if (!currentSuspect) return;
+    const input = document.getElementById("interrogationQuestion");
+    const question = input.value.trim();
+    if (!question) return;
+    input.value = "";
+    const lower = question.toLowerCase();
+    let answer = "Não vejo por que responder isso.";
+    for (const qa of currentSuspect.qa || []) {
+      const ok = qa.keywords.every(k => lower.includes(k));
+      if (ok) {
+        answer = qa.answer;
+        break;
+      }
+    }
+    const log = document.getElementById("interrogationLog");
+    const block = document.createElement("div");
+    block.className = "qa-entry";
+    block.innerHTML = `<div class="qa-q">Você: ${question}</div><div class="qa-a">${currentSuspect.name}: ${answer}</div>`;
+    log.appendChild(block);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  // --------- CONCLUSÃO DO CASO ---------
+  function buildConcludeList(c) {
+    const list = document.getElementById("concludeList");
+    list.innerHTML = "";
+    selectedCulpritId = null;
+    c.suspects.forEach(s => {
+      const row = document.createElement("div");
+      row.className = "card-line";
+      row.innerHTML = `<input type="radio" name="culprit" value="${s.id}" style="margin-right:8px;">
+        <div>
+          <div class="card-title">${s.name}</div>
+          <div class="card-sub">${s.relation}</div>
+        </div>`;
+      row.onclick = () => {
+        selectedCulpritId = s.id;
+        list.querySelectorAll("input[type=radio]").forEach(r => (r.checked = r.value === s.id));
+      };
+      list.appendChild(row);
+    });
+  }
+
+  function finalizeCase() {
+    const c = getCurrentCase();
+    if (!c) {
+      alert("Nenhum caso ativo.");
+      return;
+    }
+    if (!selectedCulpritId) {
+      alert("Selecione um suspeito antes de concluir.");
+      return;
+    }
+    const correct = selectedCulpritId === c.culpritId;
+    if (correct) {
+      gameState.casesSolved++;
+      gameState.prestige = Math.min(100, gameState.prestige + 8);
+      gameState.history.push({ id: c.id, result: "acerto" });
+      alert("Caso resolvido. Seu prestígio aumentou.");
+    } else {
+      gameState.errors++;
+      if (gameState.errors >= 3) {
+        gameState.warnings++;
+      }
+      gameState.prestige = Math.max(0, gameState.prestige - 10);
+      gameState.history.push({ id: c.id, result: "erro" });
+      alert("Você errou o culpado. Isso ficará no seu histórico.");
+      if (gameState.warnings >= 6) {
+        goTo("screen-gameover");
+        return;
+      }
+    }
+    gameState.currentCaseId = null;
+    saveGame();
+    goTo("screen-office");
+  }
+
+  // --------- PROMOÇÃO ---------
+  function openPromotion() {
+    const label = getRankLabel(gameState);
+    document.getElementById("promotionInfo").textContent =
+      "Cargo atual: " + label + ". " +
+      "Para ser promovido, é recomendável ter prestígio acima de 80%, boa taxa de acerto e responsabilidade exemplar.";
+
+    const btn = document.getElementById("btnStartExam");
+    if (gameState.prestige >= 80 && gameState.casesSolved >= 3 && gameState.warnings < 4) {
+      btn.disabled = false;
+      btn.classList.add("btn-primary");
+    } else {
+      btn.disabled = true;
+      btn.classList.remove("btn-primary");
+      document.getElementById("promotionInfo").textContent +=
+        "\n\nAinda não é o momento: melhore seu prestígio e resolva mais casos corretamente.";
+    }
+    goTo("screen-promotion");
+  }
+
+  function startExam() {
+    currentExamIndex = 0;
+    currentExamScore = 0;
+    showExamQuestion();
+    goTo("screen-exam");
+  }
+
+  function showExamQuestion() {
+    const qObj = EXAM_QUESTIONS[currentExamIndex];
+    document.getElementById("examProgress").textContent =
+      `Questão ${currentExamIndex + 1} de ${EXAM_QUESTIONS.length}`;
+    document.getElementById("examQuestion").textContent = qObj.q;
+    const optsDiv = document.getElementById("examOptions");
+    optsDiv.innerHTML = "";
+    qObj.options.forEach((opt, idx) => {
+      const b = document.createElement("button");
+      b.className = "btn btn-sm";
+      b.textContent = opt;
+      b.onclick = () => answerExam(idx);
+      optsDiv.appendChild(b);
+    });
+  }
+
+  function answerExam(idx) {
+    const qObj = EXAM_QUESTIONS[currentExamIndex];
+    if (idx === qObj.correctIndex) currentExamScore++;
+    currentExamIndex++;
+    if (currentExamIndex >= EXAM_QUESTIONS.length) {
+      finishExam();
+    } else {
+      showExamQuestion();
+    }
+  }
+
+  function finishExam() {
+    alert(
+      `Você acertou ${currentExamScore} de ${EXAM_QUESTIONS.length} questões.`
+    );
+    if (currentExamScore >= 7) {
+      promoteRank();
+      goTo("screen-office");
+    } else {
+      alert("Reprovado na prova de promoção. Tente novamente após resolver mais casos.");
+      goTo("screen-office");
+    }
+  }
+
+  function cancelExam() {
+    if (confirm("Cancelar a prova agora irá descartá-la. Deseja voltar?")) {
+      goTo("screen-office");
+    }
+  }
+
+  function promoteRank() {
+    const ranks = RANKS[gameState.corp];
+    if (gameState.rankIndex < ranks.length - 1) {
+      gameState.rankIndex++;
+      alert("Parabéns! Você foi promovido a " + getRankLabel(gameState) + ".");
+    } else {
+      const currentCorpIndex = CAREER_ORDER.indexOf(gameState.corp);
+      if (currentCorpIndex < CAREER_ORDER.length - 1) {
+        gameState.corp = CAREER_ORDER[currentCorpIndex + 1];
+        gameState.rankIndex = 0;
+        alert("Você foi transferido para " + gameState.corp + " como " + getRankLabel(gameState) + ".");
+      } else {
+        alert("Você já está no topo da carreira.");
+      }
+    }
+  }
+
+  // --------- TELEFONEMAS EXTRAS ---------
+  function callChief() {
+    const choice = prompt(
+      "Capitão Harrison:\n\n1 - Pedir desculpas pelos erros\n2 - Elogiar a equipe\n3 - Pedir demissão\n\nDigite 1, 2 ou 3"
+    );
+    if (choice === "1") {
+      gameState.prestige = Math.min(100, gameState.prestige + 3);
+      alert("Você assumiu seus erros. O capitão reconhece sua postura. Prestígio levemente aumentado.");
+    } else if (choice === "2") {
+      gameState.prestige = Math.min(100, gameState.prestige + 2);
+      alert("Você valorizou o trabalho da equipe. Isso fortalece sua imagem interna.");
+    } else if (choice === "3") {
+      if (confirm("Tem certeza que deseja pedir demissão e encerrar esta carreira?")) {
+        goTo("screen-gameover");
+      }
+    }
+  }
+
+  function callStreetTeam() {
+    alert(
+      "Equipe de Rua:\n\n— Para mandado de busca, precisamos de indícios consistentes. Use isso quando tiver provas ligando diretamente o suspeito ao crime."
+    );
+  }
+
+  // --------- GAME OVER / RESET ---------
+  function resetCareer() {
+    localStorage.clear();
+    loadSaveSlots();
+    goTo("screen-save");
+  }
+
+  // --------- TESTES RÁPIDOS (sanidade) ---------
+  function runSmokeTests() {
+    console.assert(typeof goTo === "function", "[TESTE] goTo deve estar definido.");
+    console.assert(Array.isArray(CASES) && CASES.length > 0, "[TESTE] Deve haver ao menos um caso definido.");
+    console.assert(Array.isArray(EXAM_QUESTIONS) && EXAM_QUESTIONS.length === 10, "[TESTE] Devem existir 10 questões na prova.");
+    console.assert(getRankLabel({ corp: "VCPD", rankIndex: 0 }) === "Detetive Júnior", "[TESTE] Rank inicial VCPD incorreto.");
+    console.assert(CAREER_ORDER[0] === "VCPD" && CAREER_ORDER[2] === "CIA", "[TESTE] Ordem de carreira incorreta.");
+  }
+
+  // --------- INICIALIZAÇÃO ---------
+  window.addEventListener("load", () => {
+    initAvatars();
+    loadSaveSlots();
+    runSmokeTests();
+  });
+</script>
+</body>
+</html>
