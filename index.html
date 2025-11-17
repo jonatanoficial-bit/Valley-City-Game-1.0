@@ -764,7 +764,7 @@
           relation: "Funcionária do local",
           portrait: "witness_01",
           statement:
-            "Eu estava no balcão a noite inteira. Lembro de ver o hóspede entrando por volta das 21h30. Mais tarde, acho que perto de 22h20, uma mulher de casaco escuro passou rápido pelo corredor.",
+            "Eu estava no balcão a noite inteira. Lembro de ver o hóspede entrando por volta das 21h30. Mais tarde, perto de 22h20, uma mulher de casaco escuro passou rápido pelo corredor.",
           qa: [
             {
               keywords: ["onde", "estava", "momento"],
@@ -774,7 +774,7 @@
             {
               keywords: ["conhecia", "vítima"],
               answer:
-                "Nunca tinha visto ele antes aqui. Pelo cadastro, parece que não era da cidade."
+                "Nunca tinha visto ele antes aqui. Pelo cadastro, parecia não ser da cidade."
             },
             {
               keywords: ["viu", "alguém"],
@@ -784,7 +784,7 @@
             {
               keywords: ["quem", "poderia"],
               answer:
-                "Sinceramente, aqui aparece de tudo. Mas aquela mulher andando rápido e olhando pro chão me pareceu nervosa."
+                "Aqui aparece de tudo, mas aquela mulher andando rápido e olhando pro chão me pareceu nervosa."
             }
           ]
         },
@@ -794,12 +794,12 @@
           relation: "Testemunha indireta",
           portrait: "witness_02",
           statement:
-            "Eu ouvi uma discussão abafada, tipo uns sussurros mais altos, mas foi coisa rápida. Depois só o barulho da TV. Achei que era casal brigando.",
+            "Eu ouvi uma discussão abafada, tipo uns sussurros mais altos, mas foi rápido. Depois só o barulho da TV. Achei que era casal brigando.",
           qa: [
             {
               keywords: ["horário", "discussão"],
               answer:
-                "Olhei no celular logo depois, dava algo em torno de 22h15. Foi bem nesse intervalo."
+                "Olhei no celular logo depois, era algo em torno de 22h15. Foi bem nesse intervalo."
             },
             {
               keywords: ["viu", "quem"],
@@ -809,7 +809,7 @@
             {
               keywords: ["som", "tiro"],
               answer:
-                "Não ouvi tiro nenhum. Parecia algo mais próximo de empurra-empurra e TV ligada."
+                "Não ouvi tiro nenhum. Parecia mais empurra-empurra com TV ligada."
             }
           ]
         },
@@ -819,12 +819,12 @@
           relation: "Equipe de limpeza",
           portrait: "witness_03",
           statement:
-            "Eu só subi para o andar porque disseram que tinha um quarto atrasado para checkout. Quando abri a porta com a chave mestra, ele já estava morto.",
+            "Eu subi para o andar porque disseram que tinha um quarto atrasado para checkout. Quando abri a porta com a chave mestra, ele já estava morto.",
           qa: [
             {
               keywords: ["que horas", "achou"],
               answer:
-                "Isso foi perto de 23h05, por aí. Eu já estava encerrando o turno."
+                "Isso foi perto de 23h05. Eu já estava encerrando o turno."
             },
             {
               keywords: ["mexeu", "corpo"],
@@ -864,7 +864,7 @@
             {
               keywords: ["descrição", "passageira"],
               answer:
-                "Mulher, mais ou menos 30 e poucos anos, cabelo preso, casaco escuro. Estava bem calada, só mexia no celular."
+                "Mulher, uns 30 e poucos anos, cabelo preso, casaco escuro. Estava bem calada, só mexia no celular."
             },
             {
               keywords: ["voltou", "buscar"],
@@ -985,6 +985,948 @@
           description:
             "Perfuração única no tórax, arma branca. Compatível com ataque rápido e direcionado.",
           image: "evidence_weapon_01"
+        }
+      ]
+    },
+    {
+      id: "case2",
+      levelLabel: "Distrito Policial • VCPD",
+      title: "Roubo à Mão Armada na Loja 24h",
+      description:
+        "Uma loja de conveniência 24h foi assaltada. O caixa foi baleado na perna e o bandido fugiu com o dinheiro. A câmera de segurança foi virada para a parede minutos antes do crime.",
+      culpritId: "s4",
+      morgue:
+        "Vítima sobrevivente, homem de 26 anos. Ferimento por arma de fogo em coxa direita, trajeto único, sem risco de morte. Trajetória indica tiro disparado a curta distância por alguém do lado interno do balcão.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Caixa da loja",
+          relation: "Vítima sobrevivente",
+          portrait: "witness_01",
+          statement:
+            "Eu estava fechando o caixa quando um cara entrou com capuz, apontou a arma e mandou entregar o dinheiro. Quando tentei acionar o alarme, ele atirou na minha perna.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Atrás do balcão, conferindo o troco e olhando o monitor de câmeras."
+            },
+            {
+              keywords: ["viu", "rosto"],
+              answer:
+                "Ele tava de capuz e máscara. Não consegui ver o rosto direito."
+            },
+            {
+              keywords: ["alarme"],
+              answer:
+                "O botão do alarme fica embaixo do balcão. Quando tentei alcançar, ele percebeu."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Cliente da fila",
+          relation: "Cliente presente no momento",
+          portrait: "witness_02",
+          statement:
+            "Eu tava na fila com umas compras quando ouvi o cara gritar pra passar o dinheiro. Me abaixei e só ouvi o tiro.",
+          qa: [
+            {
+              keywords: ["descrição", "assaltante"],
+              answer:
+                "Era alto, casaco escuro, calça jeans clara e tênis branco. Não lembro de tatuagem aparente."
+            },
+            {
+              keywords: ["acesso", "porta"],
+              answer:
+                "Ele entrou pela porta da frente e saiu correndo pela mesma porta. Não vi carro esperando."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Entregador",
+          relation: "Chegava para entregar mercadorias",
+          portrait: "witness_03",
+          statement:
+            "Eu tava descarregando caixas na porta dos fundos quando ouvi o tiro. Quando corri pra frente, a loja tava um caos.",
+          qa: [
+            {
+              keywords: ["porta", "fundos"],
+              answer:
+                "A porta dos fundos fica sempre encostada, mas não vi ninguém sair por ali naquele momento."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s4",
+          name: "Segurança noturno",
+          age: "39 anos",
+          address: "Apartamento a duas quadras da loja",
+          relation: "Responsável pela segurança do local naquela noite",
+          portrait: "suspect_01",
+          record:
+            "Ex-militar, sem antecedentes, mas com histórico de dívidas recentes.",
+          alibi:
+            "Diz que saiu para fumar do lado de fora e não viu o assaltante entrar. Afirma que só ouviu o tiro lá fora.",
+          qa: [
+            {
+              keywords: ["onde", "estava", "momento"],
+              answer:
+                "Eu tava do lado de fora, fumando. Não vi ninguém entrar armado. Quando ouvi o tiro, voltei correndo."
+            },
+            {
+              keywords: ["câmera", "virada"],
+              answer:
+                "Às vezes a câmera dá problema e precisa ser ajustada. Eu mexi um pouco antes, mas não pensei que ia acontecer isso."
+            },
+            {
+              keywords: ["dívida"],
+              answer:
+                "Minhas contas não têm nada a ver com isso. Eu não arriscaria meu emprego por dinheiro de caixa."
+            }
+          ]
+        },
+        {
+          id: "s5",
+          name: "Ex-funcionário demitido",
+          age: "32 anos",
+          address: "Bairro industrial de Valley City",
+          relation: "Demitido da mesma loja há três meses",
+          portrait: "suspect_02",
+          record:
+            "Demitido por desfalque no estoque. Sem passagem registrada, mas com má reputação entre antigos colegas.",
+          alibi:
+            "Afirma que estava em um bar assistindo ao jogo com amigos e que pode provar com fotos nas redes sociais.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu tava no bar do centro. Postei foto no stories, dá pra ver o horário."
+            },
+            {
+              keywords: ["motivo", "vingança"],
+              answer:
+                "Eu fiquei puto quando me demitiram, mas assalto é outra história. Não sou maluco."
+            }
+          ]
+        },
+        {
+          id: "s6",
+          name: "Cliente frequente",
+          age: "28 anos",
+          address: "Conjunto habitacional próximo",
+          relation: "Viciado em jogos, frequentemente endividado",
+          portrait: "suspect_03",
+          record:
+            "Pequenas ocorrências por confusão em bares e inadimplência. Nada violento registrado.",
+          alibi:
+            "Diz que estava em casa vendo TV com a mãe e que ela pode confirmar.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu tava em casa vendo TV com a minha mãe. Pergunta pra ela."
+            },
+            {
+              keywords: ["arma"],
+              answer:
+                "Nunca nem peguei numa arma de verdade. Tenho medo dessas coisas."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Câmera interna virada",
+          type: "document",
+          description:
+            "Registro mostra que a câmera foi manualmente virada para a parede cerca de cinco minutos antes do assalto.",
+          image: "crime_scene_01"
+        },
+        {
+          id: "ev2",
+          title: "Pólvora no balcão",
+          type: "morgue",
+          description:
+            "Resíduos de pólvora encontrados na borda interna do balcão, compatíveis com disparo a curta distância a partir do lado de dentro.",
+          image: "evidence_weapon_01"
+        },
+        {
+          id: "ev3",
+          title: "Relatório de movimentação de caixa",
+          type: "document",
+          description:
+            "O valor levado corresponde a praticamente todo o dinheiro que ficaria para depósito naquele turno.",
+          image: "evidence_doc_01"
+        }
+      ]
+    },
+    {
+      id: "case3",
+      levelLabel: "Divisão de Casos Especiais • VCPD",
+      title: "Incêndio no Galpão de Veículos",
+      description:
+        "Um incêndio destruiu parcialmente um galpão que abrigava carros apreendidos. Um veículo em específico parece ter sido o alvo principal. Há suspeita de fogo criminoso para destruir provas.",
+      culpritId: "s8",
+      morgue:
+        "Laudo do Corpo de Bombeiros: foco inicial próximo ao veículo esportivo vermelho, na parte frontal. Presença de acelerante inflamável no piso e na lataria. Sem vítimas fatais, apenas um vigia com intoxicação leve pela fumaça.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Vigia noturno",
+          relation: "Funcionário do galpão",
+          portrait: "witness_01",
+          statement:
+            "Eu tava fazendo a ronda quando senti cheiro forte de gasolina. Pouco depois, o fogo começou perto daquele carro vermelho apreendido semana passada.",
+          qa: [
+            {
+              keywords: ["cheiro", "gasolina"],
+              answer:
+                "O cheiro tava concentrado perto da entrada lateral, não era normal pro galpão."
+            },
+            {
+              keywords: ["quem", "acesso"],
+              answer:
+                "Só eu e o gerente temos chave do portão principal. A polícia entra quando precisa, mas sempre registra."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Morador da esquina",
+          relation: "Vizinho",
+          portrait: "witness_02",
+          statement:
+            "Eu ouvi um carro acelerar forte logo antes de ver o clarão do fogo. Parecia um sedã escuro saindo rápido.",
+          qa: [
+            {
+              keywords: ["modelo", "carro"],
+              answer:
+                "Não tenho certeza, mas parecia um sedã médio, desses comuns, cor escura."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Bombeiro chefe da ocorrência",
+          relation: "Responsável pela perícia inicial",
+          portrait: "witness_03",
+          statement:
+            "O padrão do fogo indica uso de acelerante. Não foi curto-circuito simples. Alguém quis que aquele carro específico queimasse rápido.",
+          qa: [
+            {
+              keywords: ["acelerante"],
+              answer:
+                "Encontramos traços de combustível não compatível com os tanques dos veículos. Provavelmente foi trazido em recipiente à parte."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s7",
+          name: "Vigia noturno",
+          age: "41 anos",
+          address: "Casa a três quarteirões do galpão",
+          relation: "Funcionário direto do local",
+          portrait: "suspect_01",
+          record:
+            "Sem antecedentes. Pequenas advertências internas por atrasos e faltas. Situação financeira apertada.",
+          alibi:
+            "Alega que estava do lado oposto do galpão quando o fogo começou e que chamou os bombeiros assim que viu o clarão.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu tava na outra ponta do galpão, perto do portão de serviço. Quando vi o fogo, liguei pros bombeiros."
+            },
+            {
+              keywords: ["chave", "portão"],
+              answer:
+                "Eu tenho a chave, sim, mas nunca deixo o portão aberto sem necessidade."
+            }
+          ]
+        },
+        {
+          id: "s8",
+          name: "Empresário investigado",
+          age: "52 anos",
+          address: "Bairro nobre de Valley City",
+          relation: "Proprietário do carro vermelho apreendido",
+          portrait: "suspect_02",
+          record:
+            "Responde a investigação por lavagem de dinheiro e fraude fiscal. O veículo apreendido era peça importante no inquérito.",
+          alibi:
+            "Diz que estava em viagem de negócios em outra cidade e mostra passagem de avião, mas o horário de chegada não cobre toda a noite.",
+          qa: [
+            {
+              keywords: ["carro", "apreendido"],
+              answer:
+                "Aquele carro já não me interessa mais, era só um bem entre muitos. Eu não ia me arriscar por isso."
+            },
+            {
+              keywords: ["onde", "estava", "noite"],
+              answer:
+                "Eu estava viajando. Cheguei no hotel tarde, por volta de 23h, mas não lembro o número do quarto."
+            }
+          ]
+        },
+        {
+          id: "s9",
+          name: "Concorrente no ramo de automóveis",
+          age: "47 anos",
+          address: "Cidade vizinha",
+          relation: "Concorrente de negócios do empresário",
+          portrait: "suspect_03",
+          record:
+            "Disputas comerciais acirradas, acusações mútuas em processos cíveis. Sem antecedentes criminais.",
+          alibi:
+            "Afirma que estava em um evento de lançamento de carros, com fotos e vídeos em redes sociais.",
+          qa: [
+            {
+              keywords: ["evento", "lançamento"],
+              answer:
+                "Passei a noite inteira no evento. Dá pra ver nos vídeos e nas fotos que eu postei."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Resíduos de combustível",
+          type: "morgue",
+          description:
+            "Análise aponta combustível diferente do existente nos tanques dos carros, espalhado ao redor do veículo esportivo vermelho.",
+          image: "evidence_weapon_01"
+        },
+        {
+          id: "ev2",
+          title: "Registros de acesso ao galpão",
+          type: "document",
+          description:
+            "Somente o vigia e o gerente aparecem nos registros de entrada na noite do incêndio. Nenhuma patrulha policial registrada após o horário de fechamento.",
+          image: "evidence_doc_01"
+        },
+        {
+          id: "ev3",
+          title: "Processo de investigação financeira",
+          type: "document",
+          description:
+            "O carro esportivo vermelho estava vinculado diretamente a transações suspeitas da empresa do empresário investigado.",
+          image: "evidence_text_01"
+        }
+      ]
+    },
+    {
+      id: "case4",
+      levelLabel: "Agente Federal • FBI",
+      title: "Sequestro Relâmpago de Executivo",
+      description:
+        "Um executivo de tecnologia foi sequestrado ao sair do trabalho e liberado horas depois, sem ferimentos graves, mas com forte abalo psicológico. Parte das transações da empresa foi acessada durante o período em que ele esteve sob domínio dos criminosos.",
+      culpritId: "s11",
+      morgue:
+        "Relatório médico: pequenas escoriações nos punhos e sinais de sedação leve. Exames toxicológicos indicam uso de sedativo de uso hospitalar, dose controlada para mantê-lo calmo sem apagar totalmente.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Segurança do prédio",
+          relation: "Responsável pela portaria",
+          portrait: "witness_01",
+          statement:
+            "Eu vi o executivo sair pelo portão principal como sempre, falando ao celular. Logo depois, uma van branca se aproximou do meio-fio.",
+          qa: [
+            {
+              keywords: ["van", "branca"],
+              answer:
+                "Era uma van branca sem logotipo, com película escura. Não deu pra ver quem tava dirigindo."
+            },
+            {
+              keywords: ["câmera", "prédio"],
+              answer:
+                "As câmeras pegaram a van chegando, mas a placa tá difícil de ler. Já mandei as imagens pra perícia."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Colega de trabalho",
+          relation: "Analista da mesma empresa",
+          portrait: "witness_02",
+          statement:
+            "Ele comentou mais cedo que tava preocupado com vazamento de informações internas. Disse que alguém de dentro poderia estar cooperando com gente de fora.",
+          qa: [
+            {
+              keywords: ["vazamento", "informações"],
+              answer:
+                "Ele disse que tinha notado acessos estranhos em servidores, principalmente fora do horário comercial."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Vítima",
+          relation: "Executivo sequestrado",
+          portrait: "witness_03",
+          statement:
+            "Eu fui empurrado pra dentro da van, alguém colocou um pano no meu rosto e senti um cheiro forte. Acordei amarrado, ouvi uma voz conhecida discutindo sobre senhas de acesso.",
+          qa: [
+            {
+              keywords: ["voz", "conhecida"],
+              answer:
+                "Eu tenho quase certeza de que era alguém da própria empresa, mas ainda tô tentando lembrar exatamente quem."
+            },
+            {
+              keywords: ["senha", "acesso"],
+              answer:
+                "Me obrigaram a passar algumas senhas, mas eu não entreguei tudo. Mesmo assim, deu pra mexerem em algumas contas."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s10",
+          name: "Motorista de aplicativo",
+          age: "34 anos",
+          address: "Bairro periférico de Valley City",
+          relation: "Fez corridas para o executivo em dias anteriores",
+          portrait: "suspect_01",
+          record:
+            "Sem antecedentes. Histórico de corridas regulares pela região empresarial.",
+          alibi:
+            "Diz que naquele horário estava em outra corrida em bairro distante e que o aplicativo pode comprovar.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu tava em outra corrida, em um bairro longe dali. O próprio app mostra o trajeto."
+            },
+            {
+              keywords: ["van", "branca"],
+              answer:
+                "Eu dirijo carro pequeno, não tenho van. Dá pra ver isso no meu cadastro."
+            }
+          ]
+        },
+        {
+          id: "s11",
+          name: "Diretor de tecnologia",
+          age: "44 anos",
+          address: "Zona nobre",
+          relation: "Superior hierárquico da vítima",
+          portrait: "suspect_02",
+          record:
+            "Nenhum antecedente. Porém, investigações internas indicam que ele tinha acesso total aos servidores e poderia se beneficiar de operações financeiras sigilosas.",
+          alibi:
+            "Afirma que estava em reunião por vídeo com investidores estrangeiros durante o horário do sequestro.",
+          qa: [
+            {
+              keywords: ["reunião", "investidores"],
+              answer:
+                "Eu estava em videoconferência. Os registros da plataforma mostram meu login ativo."
+            },
+            {
+              keywords: ["acesso", "servidores"],
+              answer:
+                "Como diretor de tecnologia, eu tenho acesso, mas não sou o único. Várias pessoas da equipe também têm."
+            }
+          ]
+        },
+        {
+          id: "s12",
+          name: "Analista financeiro",
+          age: "31 anos",
+          address: "Apartamento próximo à empresa",
+          relation: "Trabalha diretamente com as contas acessadas durante o sequestro",
+          portrait: "suspect_03",
+          record:
+            "Sem antecedentes. Histórico de desempenho acima da média, recebeu bônus recentemente.",
+          alibi:
+            "Diz que estava em casa, sozinho, preparando relatórios, e que acessou os servidores apenas pelo sistema oficial.",
+          qa: [
+            {
+              keywords: ["relatórios", "casa"],
+              answer:
+                "Levei trabalho pra casa, sim. Mas tudo que fiz foi pelo sistema normal, dá pra rastrear."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Log de acessos aos servidores",
+          type: "document",
+          description:
+            "Registros mostram acessos incomuns às contas da vítima e de clientes importantes exatamente durante o período do sequestro, usando credenciais de alto nível.",
+          image: "evidence_text_01"
+        },
+        {
+          id: "ev2",
+          title: "Filmagem da van branca",
+          type: "video",
+          description:
+            "Câmeras mostram uma van branca se aproximando do prédio e saindo em alta velocidade minutos depois da saída do executivo.",
+          image: "crime_scene_01"
+        },
+        {
+          id: "ev3",
+          title: "Relatório interno de auditoria",
+          type: "document",
+          description:
+            "A auditoria indica que apenas poucos cargos, incluindo o diretor de tecnologia, possuíam as permissões usadas nos acessos suspeitos.",
+          image: "evidence_doc_01"
+        }
+      ]
+    },
+    {
+      id: "case5",
+      levelLabel: "Crimes Cibernéticos • FBI",
+      title: "Ataque Cibernético ao Hospital Central",
+      description:
+        "O sistema do Hospital Central de Valley City foi sequestrado por ransomware durante a madrugada, derrubando prontuários e aparelhos conectados. Um paciente em estado grave quase morreu após atraso em um procedimento crítico.",
+      culpritId: "s14",
+      morgue:
+        "Relatório técnico: logs indicam invasão por acesso remoto utilizando credenciais antigas de administrador de TI. O ataque foi disparado a partir de um notebook residencial ligado a um provedor local.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Enfermeira plantonista",
+          relation: "Profissional em plantão noturno",
+          portrait: "witness_01",
+          statement:
+            "Do nada, os monitores começaram a travar e o sistema de medicamentos ficou fora do ar. A gente teve que voltar pro papel e caneta no meio do caos.",
+          qa: [
+            {
+              keywords: ["horário", "queda"],
+              answer:
+                "Eu lembro de olhar o relógio, eram mais ou menos 2h10 da madrugada quando tudo começou a travar."
+            },
+            {
+              keywords: ["paciente", "grave"],
+              answer:
+                "Tinha um paciente na UTI precisando de medicação precisa. Atrasou, mas conseguimos estabilizar por pouco."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Diretor clínico",
+          relation: "Responsável médico do hospital",
+          portrait: "witness_02",
+          statement:
+            "Recebi uma mensagem na tela exigindo pagamento em criptomoeda para liberar os sistemas. Parecia coisa profissional, não amador.",
+          qa: [
+            {
+              keywords: ["mensagem", "resgate"],
+              answer:
+                "A mensagem dizia que nossos dados estavam criptografados e que sem pagamento eles começariam a vazar informações sigilosas."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Analista de TI do hospital",
+          relation: "Equipe interna de tecnologia",
+          portrait: "witness_03",
+          statement:
+            "Nós já tínhamos alertado sobre uma conta antiga de administrador que não foi desativada depois da demissão de um funcionário. Ela foi usada no ataque.",
+          qa: [
+            {
+              keywords: ["conta", "antiga"],
+              answer:
+                "Era uma conta com privilégios altos, pertencente a um ex-funcionário. Estava marcada para remoção, mas o processo atrasou."
+            },
+            {
+              keywords: ["quem", "acesso"],
+              answer:
+                "Só a equipe de TI sabia da existência dessa conta antiga. Isso restringe bastante a lista de suspeitos."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s13",
+          name: "Administrador de TI atual",
+          age: "37 anos",
+          address: "Apartamento no centro",
+          relation: "Responsável técnico pelos servidores do hospital",
+          portrait: "suspect_01",
+          record:
+            "Sem antecedentes. Histórico de sobrecarga de trabalho e reclamações sobre falta de investimento em segurança.",
+          alibi:
+            "Diz que estava no próprio hospital tentando conter o ataque a partir de terminais internos.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu tava na sala de servidores, tentando derrubar as conexões suspeitas. Qualquer log interno vai mostrar isso."
+            }
+          ]
+        },
+        {
+          id: "s14",
+          name: "Ex-funcionário de TI demitido",
+          age: "33 anos",
+          address: "Bairro residencial de Valley City",
+          relation: "Ex-administrador com acesso às credenciais antigas",
+          portrait: "suspect_02",
+          record:
+            "Demitido após conflitos com a direção por causa de cortes de orçamento. Conhecimento profundo da infraestrutura do hospital.",
+          alibi:
+            "Afirma que estava dormindo em casa e que nem sabia do ataque até ver as notícias pela manhã.",
+          qa: [
+            {
+              keywords: ["demissão", "motivo"],
+              answer:
+                "Me mandaram embora porque eu batia de frente quando cortavam segurança. Agora tão pagando o preço, mas não foi coisa minha."
+            },
+            {
+              keywords: ["acesso", "conta"],
+              answer:
+                "Eu não tenho mais acesso oficial a nada lá dentro. Se usaram algo meu, é porque não fizeram o trabalho de casa e apagaram as contas."
+            }
+          ]
+        },
+        {
+          id: "s15",
+          name: "Consultor externo de software",
+          age: "42 anos",
+          address: "Cidade vizinha",
+          relation: "Fornecedor de sistemas para o hospital",
+          portrait: "suspect_03",
+          record:
+            "Trabalha com vários hospitais da região. Não há registros criminais, mas há boatos de contratos mal explicados.",
+          alibi:
+            "Diz que estava em viagem atendendo outro cliente e apresenta notas fiscais do hotel.",
+          qa: [
+            {
+              keywords: ["outro", "cliente"],
+              answer:
+                "Eu tava em outro hospital, em outra cidade. Tenho agenda, notas e e-mails que provam isso."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Logs de acesso remoto",
+          type: "document",
+          description:
+            "Registros mostram login pela conta de administrador antiga, a partir de um IP residencial em Valley City.",
+          image: "evidence_text_01"
+        },
+        {
+          id: "ev2",
+          title: "Contrato de demissão do ex-funcionário",
+          type: "document",
+          description:
+            "Documento aponta desentendimentos entre o ex-funcionário e a direção por causa de investimento em segurança.",
+          image: "evidence_doc_01"
+        },
+        {
+          id: "ev3",
+          title: "Rastreamento do IP",
+          type: "document",
+          description:
+            "O IP utilizado no ataque está vinculado ao endereço residencial do ex-funcionário de TI.",
+          image: "crime_scene_01"
+        }
+      ]
+    },
+    {
+      id: "case6",
+      levelLabel: "Divisão de Contrainteligência • CIA",
+      title: "Vazamento de Identidades de Agentes",
+      description:
+        "Nomes codificados de agentes em operação no exterior vazaram em um fórum clandestino da deep web. Parte das informações só poderia ter sido acessada a partir de um núcleo interno da CIA.",
+      culpritId: "s17",
+      morgue:
+        "Relatório de segurança: acesso não autorizado a um banco de dados restrito ocorreu durante a madrugada, usando credenciais de um analista de dados. O download foi mascarado como rotina de backup.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Chefe de segurança da informação",
+          relation: "Responsável por monitorar acessos internos",
+          portrait: "witness_01",
+          statement:
+            "Detectamos um pico de tráfego incomum vindo de uma estação de trabalho interna, disfarçado como backup. Isso não foi acidente.",
+          qa: [
+            {
+              keywords: ["estação", "trabalho"],
+              answer:
+                "O terminal usado pertence a um analista de dados de nível intermediário. Ele alega que não estava logado na hora."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Analista de dados intermediário",
+          relation: "Dono do terminal suspeito",
+          portrait: "witness_02",
+          statement:
+            "Meu login aparece nos logs, mas eu não estava no prédio naquele horário. Alguém deve ter usado minhas credenciais.",
+          qa: [
+            {
+              keywords: ["onde", "estava"],
+              answer:
+                "Eu estava em casa, de folga. Cartões de acesso confirmam que eu não entrei no prédio à noite."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Responsável pelo controle de acessos físicos",
+          relation: "Controle de cartões e catracas",
+          portrait: "witness_03",
+          statement:
+            "Nenhum acesso físico foi registrado com o cartão do analista durante a madrugada. O terminal pode ter sido acionado remotamente.",
+          qa: [
+            {
+              keywords: ["cartão", "entrada"],
+              answer:
+                "Os registros mostram que o cartão dele foi usado pela última vez no fim da tarde. Depois disso, nada."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s16",
+          name: "Analista de dados intermediário",
+          age: "35 anos",
+          address: "Subúrbio de Washington",
+          relation: "Dono das credenciais usadas no acesso",
+          portrait: "suspect_01",
+          record:
+            "Sem antecedentes. Histórico de desempenho estável, sem grandes destaques.",
+          alibi:
+            "Afirma que passou a noite em casa com a família e que seu cartão de acesso ficou guardado.",
+          qa: [
+            {
+              keywords: ["credenciais", "roubadas"],
+              answer:
+                "Se alguém usou meu login, isso aconteceu de dentro da rede. Eu mesmo não estava conectado."
+            }
+          ]
+        },
+        {
+          id: "s17",
+          name: "Administrador de rede sênior",
+          age: "46 anos",
+          address: "Bairro nobre de Washington",
+          relation: "Tem acesso a múltiplas contas e à camada de infraestrutura",
+          portrait: "suspect_02",
+          record:
+            "Veterano respeitado, mas com recentes problemas financeiros. Acesso privilegiado a registros e logs.",
+          alibi:
+            "Diz que estava em casa revisando documentação e que só se conectou brevemente para checar alertas.",
+          qa: [
+            {
+              keywords: ["acesso", "madrugada"],
+              answer:
+                "Eu me conectei rapidamente para ver um alerta automático, nada além disso. O resto deve ser rotina de sistema."
+            },
+            {
+              keywords: ["logs", "apagar"],
+              answer:
+                "Eu não apaguei log nenhum. Qualquer ausência de registro pode ser falha no sistema, não minha."
+            }
+          ]
+        },
+        {
+          id: "s18",
+          name: "Consultor terceirizado",
+          age: "39 anos",
+          address: "Cidade contratada por contrato temporário",
+          relation: "Trabalha remotamente em auditorias esporádicas",
+          portrait: "suspect_03",
+          record:
+            "Histórico limpo, mas com envolvimento anterior em projetos que sofreram vazamentos menores.",
+          alibi:
+            "Afirma que, por contrato, não tinha acesso à base de identidades de agentes, apenas a relatórios agregados.",
+          qa: [
+            {
+              keywords: ["acesso", "base"],
+              answer:
+                "Eu nunca tive acesso direto à base de identidades. Meu trabalho é em cima de dados já anonimizados."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Trajeto do tráfego suspeito",
+          type: "document",
+          description:
+            "Análise mostra que o tráfego passou por uma camada de rede interna administrada diretamente pelo administrador de rede sênior.",
+          image: "evidence_text_01"
+        },
+        {
+          id: "ev2",
+          title: "Registros de cartão de acesso",
+          type: "document",
+          description:
+            "Nenhum uso do cartão do analista intermediário foi registrado durante a madrugada do vazamento.",
+          image: "evidence_doc_01"
+        },
+        {
+          id: "ev3",
+          title: "Verificação de logs apagados",
+          type: "document",
+          description:
+            "Auditoria indica tentativas de apagar e sobrescrever logs minutos depois do vazamento, usando privilégios de administrador de rede.",
+          image: "crime_scene_01"
+        }
+      ]
+    },
+    {
+      id: "case7",
+      levelLabel: "Operações Especiais • CIA",
+      title: "Operação Phantom Link",
+      description:
+        "Uma operação secreta para desmontar uma célula criminosa internacional em Valley City foi comprometida. Um esconderijo preparado para prisão em flagrante foi esvaziado minutos antes da chegada da equipe.",
+      culpritId: "s20",
+      morgue:
+        "Relatório de campo: nenhum agente foi ferido, mas toda a documentação sensível deixada no local desapareceu. Rastros apontam para alguém com conhecimento dos horários exatos da operação.",
+      witnesses: [
+        {
+          id: "w1",
+          name: "Agente de campo nível 3",
+          relation: "Participou da equipe de entrada",
+          portrait: "witness_01",
+          statement:
+            "Quando invadimos o galpão, tudo já estava limpo. Eles saíram pouco antes, deixando só marcas de pneus frescas.",
+          qa: [
+            {
+              keywords: ["horário", "invasão"],
+              answer:
+                "A ordem de entrada foi exatamente às 03h00. Pelo calor do piso, eles devem ter saído uns 10 a 15 minutos antes."
+            }
+          ]
+        },
+        {
+          id: "w2",
+          name: "Informante local",
+          relation: "Contato que passou a localização do galpão",
+          portrait: "witness_02",
+          statement:
+            "Eu jurei que eles estavam lá. Passei a localização certa. Se alguém avisou, não fui eu.",
+          qa: [
+            {
+              keywords: ["aviso", "traidor"],
+              answer:
+                "Eu tô tentando sobreviver nessa cidade. Se eu quisesse enganar vocês, nem tava aqui falando."
+            }
+          ]
+        },
+        {
+          id: "w3",
+          name: "Operador de comunicações",
+          relation: "Responsável pelo canal codificado",
+          portrait: "witness_03",
+          statement:
+            "Os detalhes da operação só foram transmitidos por canal cifrado para um grupo restrito. Alguém de dentro repassou horário e rota.",
+          qa: [
+            {
+              keywords: ["quem", "sabia"],
+              answer:
+                "Somente o coordenador, dois agentes de campo e um analista de apoio tinham o pacote completo da missão."
+            }
+          ]
+        }
+      ],
+      suspects: [
+        {
+          id: "s19",
+          name: "Agente de campo nível 3",
+          age: "38 anos",
+          address: "Residência funcional",
+          relation: "Participou diretamente da operação",
+          portrait: "suspect_01",
+          record:
+            "Histórico exemplar em missões anteriores, mas com recente pedido de afastamento negado.",
+          alibi:
+            "Afirma que esteve com a equipe o tempo todo e que não teve acesso ao canal externo.",
+          qa: [
+            {
+              keywords: ["afastamento", "pedido"],
+              answer:
+                "Eu pedi afastamento por exaustão, não por conflito. Não sou eu que vou jogar tudo pro alto agora."
+            }
+          ]
+        },
+        {
+          id: "s20",
+          name: "Analista de apoio",
+          age: "34 anos",
+          address: "Apartamento discreto em Washington",
+          relation: "Responsável por compilar e enviar o pacote de missão",
+          portrait: "suspect_02",
+          record:
+            "Sem antecedentes. Historial de acesso frequente a múltiplas operações, incluindo missões fracassadas recentes.",
+          alibi:
+            "Diz que seguiu o protocolo, enviou os dados e ficou monitorando de longe, sem contato externo.",
+          qa: [
+            {
+              keywords: ["contato", "externo"],
+              answer:
+                "Eu só usei os canais oficiais. Se alguém vazou, foi depois que o pacote já tinha saído da minha mão."            }
+          ]
+        },
+        {
+          id: "s21",
+          name: "Coordenador da operação",
+          age: "49 anos",
+          address: "Base da agência",
+          relation: "Planejou a ação com base em relatórios de inteligência",
+          portrait: "suspect_03",
+          record:
+            "Veterano de diversas operações, alguns insucessos recentes sob sua supervisão.",
+          alibi:
+            "Afirma que centralizou as decisões, mas delegou os detalhes técnicos para o analista de apoio.",
+          qa: [
+            {
+              keywords: ["delegou", "detalhes"],
+              answer:
+                "Eu defino o quadro geral. Quem cuida de rota, horário exato e encriptação é a equipe técnica."
+            }
+          ]
+        }
+      ],
+      evidence: [
+        {
+          id: "ev1",
+          title: "Rastreamento de comunicação vazada",
+          type: "document",
+          description:
+            "Trechos do plano da operação encontrados em canal criptografado coincidem com o pacote enviado pelo analista de apoio, incluindo ajustes de última hora.",
+          image: "evidence_text_01"
+        },
+        {
+          id: "ev2",
+          title: "Horário de abertura do canal externo",
+          type: "document",
+          description:
+            "Registros mostram um acesso breve a um canal de comunicação não autorizado, a partir da estação de trabalho do analista de apoio, minutos após o envio do plano."
+          ,
+          image: "evidence_doc_01"
+        },
+        {
+          id: "ev3",
+          title: "Marcas de pneus no galpão",
+          type: "morgue",
+          description:
+            "Pistas indicam que os veículos deixaram o local com poucos minutos de diferença em relação ao horário exato da operação, sugerindo informação antecipada.",
+          image: "crime_scene_01"
         }
       ]
     }
@@ -1260,8 +2202,13 @@
   }
 
   function startNextCase() {
-    // por enquanto, sempre usa o primeiro caso como exemplo
-    const next = CASES[0];
+    // Seleciona o próximo caso ainda não resolvido; se todos já foram jogados, repete o último
+    const playedIds = new Set((gameState.history || []).map(h => h.id));
+    let next = CASES.find(c => !playedIds.has(c.id));
+    if (!next) {
+      next = CASES[CASES.length - 1];
+      alert("Você já investigou todos os casos disponíveis. Reabrindo o último caso para revisão.");
+    }
     gameState.currentCaseId = next.id;
     goTo("screen-case");
   }
@@ -1271,8 +2218,19 @@
     if (!c) {
       document.getElementById("caseTitle").textContent = "Nenhum caso ativo";
       document.getElementById("caseDesc").textContent = "Use 'Próximo Caso' no escritório para iniciar uma nova investigação.";
+      document.getElementById("caseLevelTag").textContent = "";
       return;
     }
+    const idx = CASES.findIndex(cs => cs.id === c.id);
+    const prefix = idx >= 0 ? "Caso " + (idx + 1) + " • " : "";
+    document.getElementById("caseTitle").textContent = prefix + c.title;
+    document.getElementById("caseDesc").textContent = c.description;
+    document.getElementById("caseLevelTag").textContent = c.levelLabel;
+    buildWitnessList(c);
+    buildEvidenceList(c);
+    buildSuspectList(c);
+    buildConcludeList(c);
+  }
     document.getElementById("caseTitle").textContent = c.title;
     document.getElementById("caseDesc").textContent = c.description;
     document.getElementById("caseLevelTag").textContent = c.levelLabel;
