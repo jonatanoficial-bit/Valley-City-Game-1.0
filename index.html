@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Valley City • Crime Unit</title>
+  <title>Valley City • Crime Unit (AAA)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
   <style>
     :root {
@@ -52,10 +52,10 @@
 
     .screen {
       display: none;
-      padding: 20px 18px 26px;
+      padding: 52px 18px 26px; /* espaço pro HUD */
       min-height: 100vh;
       position: relative;
-      background-color: #05070d;       /* fallback */
+      background-color: #05070d;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -63,7 +63,6 @@
 
     .screen.active {
       display: block;
-      /* sem animação para evitar “piscar” */
     }
 
     /* FUNDOS DAS TELAS - ASSETS */
@@ -76,9 +75,11 @@
     #screen-phone { background-image: url("assets/phone_interface.png"); }
     #screen-promotion { background-image: url("assets/promotion_bg.png"); }
     #screen-stats { background-image: url("assets/valley_city_night.png"); }
+    #screen-map { background-image: url("assets/valley_city_day.png"); }
     #screen-case { background-image: url("assets/case_scene_bg.png"); }
     #screen-witnesses { background-image: url("assets/witness_room.png"); }
     #screen-evidence { background-image: url("assets/evidence_room.png"); }
+    #screen-board { background-image: url("assets/police_station_front.png"); }
     #screen-suspects { background-image: url("assets/suspect_file_bg.png"); }
     #screen-interrogation { background-image: url("assets/interrogation_room.png"); }
     #screen-iml { background-image: url("assets/morgue_room.png"); }
@@ -561,10 +562,164 @@
       color: var(--accent-soft);
       backdrop-filter: blur(3px);
     }
+
+    /* HUD */
+
+    #hud {
+      position: fixed;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .hud-inner {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(2,4,10,0.94), rgba(20,26,54,0.96));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+    }
+
+    .hud-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .hud-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-soft);
+    }
+
+    .hud-value {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .hud-time {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+    }
+
+    .hud-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 130px;
+    }
+
+    .hud-bar {
+      width: 100%;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      overflow: hidden;
+    }
+
+    .hud-bar-inner {
+      height: 100%;
+      width: 50%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ffb321, #30d178);
+      transition: width 0.25s ease-out;
+    }
+
+    .hud-tag {
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: var(--accent-soft);
+    }
+
+    /* Evidence board */
+
+    .board-columns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .board-col {
+      background: rgba(6,8,18,0.92);
+      border-radius: 12px;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(4px);
+    }
+
+    .board-col h4 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 4px;
+      color: var(--accent-soft);
+    }
+
+    .board-chip {
+      font-size: 11px;
+      margin-bottom: 4px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .board-link {
+      font-size: 11px;
+      margin-top: 6px;
+      color: var(--text-soft);
+    }
+
+    /* Interrogation metrics */
+
+    #interrogation-metrics {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
   </style>
 </head>
 <body>
   <div class="app">
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-inner">
+        <div class="hud-col">
+          <div class="hud-label">Hora In-Game</div>
+          <div class="hud-time" id="hud-time">08:00</div>
+        </div>
+        <div class="hud-bars">
+          <div class="hud-label">Moral / Prestígio</div>
+          <div class="hud-bar">
+            <div id="hud-moral-bar" class="hud-bar-inner"></div>
+          </div>
+          <div class="hud-bar">
+            <div id="hud-prestige-bar" class="hud-bar-inner"></div>
+          </div>
+        </div>
+        <div class="hud-col" style="align-items:flex-end;">
+          <div class="hud-label">Status</div>
+          <div class="hud-value" id="hud-rank">Detetive Júnior</div>
+          <div class="hud-tag" id="hud-agency">VCPD</div>
+        </div>
+      </div>
+    </div>
+
     <!-- START -->
     <section id="screen-start" class="screen active">
       <header class="topline">Valley City • Crime Unit</header>
@@ -709,6 +864,7 @@
       <button class="btn btn-outline" onclick="openPhone()">Telefonar</button>
       <button class="btn btn-outline" onclick="openPromotion()">Pedir Promoção</button>
       <button class="btn btn-outline" onclick="openStats()">Histórico / Estatísticas</button>
+      <button class="btn btn-outline" onclick="openMap()">Mapa de Valley City</button>
       <button class="btn btn-outline" onclick="saveGame(true)">Salvar Agora</button>
       <button class="btn btn-outline" onclick="goTo('start')">Sair para Menu</button>
 
@@ -719,7 +875,8 @@
         <p>
           Três erros começam a gerar advertências. Acima de seis advertências, sua
           carreira neste distrito termina. Prestígio e reputação sobem com casos
-          resolvidos e caem com acusações erradas.
+          resolvidos e caem com acusações erradas. Sua <b>moral</b> também muda
+          conforme suas decisões.
         </p>
       </div>
     </section>
@@ -733,7 +890,7 @@
         <div class="list">
           <div class="list-item" onclick="callChief()">
             <h4>Chefe de Polícia</h4>
-            <p>Discutir desempenho, pedir desculpas, elogiar equipe ou pedir demissão.</p>
+            <p>Discutir desempenho, moral, elogios, broncas ou demissão.</p>
           </div>
           <div class="list-item" onclick="callForensics()">
             <h4>Perito Legista / Forense</h4>
@@ -798,12 +955,47 @@
           <div class="stat-number" id="stats-prestigio-pub">0%</div>
         </div>
         <div class="row mt-4">
+          <div class="stat-text">Moral</div>
+          <div class="stat-number" id="stats-moral">0%</div>
+        </div>
+        <div class="row mt-4">
           <div class="stat-text">Agência Atual</div>
           <div class="stat-number" id="stats-agency">VCPD</div>
         </div>
         <button class="btn btn-outline mt-12" onclick="goTo('office')">
           Voltar ao Escritório
         </button>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section id="screen-map" class="screen">
+      <header class="topline">Valley City • Mapa Estratégico</header>
+      <h1 class="title">Mapa da Cidade</h1>
+      <div class="card">
+        <p>
+          Escolha um ponto de interesse para visualizar ou visitar na narrativa.
+          Alguns locais só ganham sentido dentro de casos específicos.
+        </p>
+        <div class="list">
+          <div class="list-item">
+            <h4>Delegacia Central</h4>
+            <p>Seu ponto de partida, interrogatórios formais e papelada.</p>
+          </div>
+          <div class="list-item">
+            <h4>IML • Instituto Médico Legal</h4>
+            <p>Laudos de homicídio, análises de lesão corporal, perícia de corpos.</p>
+          </div>
+          <div class="list-item">
+            <h4>Laboratório Forense</h4>
+            <p>Digitais, DNA, análise balística e química.</p>
+          </div>
+          <div class="list-item">
+            <h4>Bairros Críticos</h4>
+            <p>Riverside, Distrito Industrial, Centro Velho. Fontes, gangues, caos.</p>
+          </div>
+        </div>
+        <button class="btn btn-outline mt-8" onclick="goTo('office')">Voltar ao Escritório</button>
       </div>
     </section>
 
@@ -830,6 +1022,9 @@
         </button>
         <button class="btn btn-outline" onclick="openSuspects()">
           Suspeitos & Dossiês
+        </button>
+        <button class="btn btn-outline" onclick="openBoard()">
+          Quadro Investigativo
         </button>
         <button class="btn btn-danger" onclick="openConcludeCase()">
           Concluir Caso (Indicar Culpado)
@@ -878,6 +1073,26 @@
       </div>
     </section>
 
+    <!-- QUADRO INVESTIGATIVO -->
+    <section id="screen-board" class="screen">
+      <header class="topline">Valley City • Quadro Investigativo</header>
+      <h1 class="title">Conexões do Caso</h1>
+      <div class="card">
+        <div class="badge" id="board-case-name">Caso Atual</div>
+        <p>
+          Este quadro resume visualmente quem está ligado a quem. Não é arrastar-e-soltar
+          ainda, mas já funciona como sua “parede de investigador”.
+        </p>
+        <div class="board-columns" id="board-columns"></div>
+        <div class="board-link" id="board-summary">
+          —
+        </div>
+        <button class="btn btn-outline mt-8" onclick="goTo('case')">
+          Voltar ao Caso
+        </button>
+      </div>
+    </section>
+
     <!-- SUSPECTS -->
     <section id="screen-suspects" class="screen">
       <header class="topline">Valley City • Arquivo de Suspeitos</header>
@@ -903,6 +1118,9 @@
         <div class="typewriter mt-8" id="interrogation-log">
           Comece fazendo perguntas. O suspeito responderá com base no álibi e
           no perfil registrado.
+        </div>
+        <div id="interrogation-metrics">
+          Stress: 0 • Confiança: 0 • Raiva: 0
         </div>
         <input
           id="interrogation-input"
@@ -1013,6 +1231,7 @@
       "assets/phone_interface.png",
       "assets/promotion_bg.png",
       "assets/valley_city_night.png",
+      "assets/valley_city_day.png",
       "assets/case_scene_bg.png",
       "assets/witness_room.png",
       "assets/evidence_room.png",
@@ -1048,26 +1267,27 @@
       "Você sabia da rotina da vítima?",
       "Tem alguma dívida com a vítima?",
       "Por que não procurou a polícia antes?",
-      "O que você faria no lugar da vítima?",
       "Há algo que ainda não nos contou?",
       "Você entrou no local do crime?",
       "Conhece os outros suspeitos?",
       "Por que seu veículo foi visto próximo ao local?",
-      "Alguma vez esteve no motel da rodovia?",
       "Você ameaçou a vítima recentemente?",
       "Tem acesso à arma compatível com o crime?",
-      "Quanto tempo conhece a vítima?",
-      "Você lucra de alguma forma com a morte dela?",
+      "Você lucra de alguma forma com o crime?",
       "Alguém pediu para você mentir aqui?",
       "Você alterou sua versão dos fatos?",
-      "Por que seu álibi é tão confuso?",
       "Onde estava seu celular no horário do crime?",
       "Deixou a cidade nos dias seguintes?",
       "Tem algo a declarar em sua defesa?",
-      "Você gostaria de acrescentar mais algum detalhe?"
+      "Você gostaria de acrescentar mais algum detalhe?",
+      "Você está dizendo a verdade?",
+      "Você se sente culpado por algo?",
+      "Alguma vez pensou em machucar a vítima?",
+      "Existe alguém acima de você nisso?"
     ];
 
     /* ====== 10 CASOS COMPLETOS ====== */
+
     const CASES = [
       /* ---------- CASE 1: MOTEL ---------- */
       {
@@ -1085,6 +1305,7 @@
             name: "Atendente do Motel",
             relation: "Funcionária do turno",
             portrait: "witness_01",
+            truthfulness: 80,
             statement:
               "O casal entrou por volta das 21h30. Ela parecia irritada, ele tentando acalmar. Uns minutos depois, percebi que um homem de terno chegou sozinho e pediu um quarto no mesmo corredor.",
             qa: [
@@ -1110,6 +1331,7 @@
             name: "Camareira",
             relation: "Equipe de limpeza",
             portrait: "witness_03",
+            truthfulness: 85,
             statement:
               "Eu ia limpar o corredor daquele andar quando vi a porta do quarto deles entreaberta. Chamei, ninguém respondeu. Quando empurrei, ele já estava caído, muito sangue na parte de trás da cabeça.",
             qa: [
@@ -1130,6 +1352,7 @@
             name: "Hóspede do Quarto ao Lado",
             relation: "Hóspede",
             portrait: "witness_05",
+            truthfulness: 75,
             statement:
               "Ouvi uma discussão mais forte, uns 20 minutos após eles entrarem. Depois ouvi uma batida seca, como algo pesado batendo na cabeça de alguém, e silêncio em seguida.",
             qa: [
@@ -1150,6 +1373,7 @@
             name: "Dono do Posto ao Lado",
             relation: "Comerciante local",
             portrait: "witness_06",
+            truthfulness: 70,
             statement:
               "Eu vi um sedã prata estacionado perto da entrada lateral do motel. Placa começando com VCX. Esse carro costuma abastecer no meu posto, pertence a um dos sócios da empresa do morto.",
             qa: [
@@ -1165,6 +1389,7 @@
             name: "Funcionário da Portaria",
             relation: "Segurança",
             portrait: "witness_11",
+            truthfulness: 90,
             statement:
               "Ninguém registrou saída pelo saguão principal naquele horário. Se alguém saiu, foi pela lateral ou saída de serviço.",
             qa: [
@@ -1304,6 +1529,7 @@
             name: "Gerente da Agência",
             relation: "Responsável",
             portrait: "witness_12",
+            truthfulness: 85,
             statement:
               "Cheguei às 07h e encontrei a porta do cofre semiaberta. O sistema não registrou disparo de alarme.",
             qa: [
@@ -1319,6 +1545,7 @@
             name: "Segurança Noturno",
             relation: "Vigilante",
             portrait: "witness_13",
+            truthfulness: 70,
             statement:
               "As câmeras deram um 'apagão' por alguns minutos. Nesse intervalo, não consegui ver nada do interior.",
             qa: [
@@ -1334,6 +1561,7 @@
             name: "Analista de TI",
             relation: "TI do banco",
             portrait: "witness_14",
+            truthfulness: 90,
             statement:
               "A desativação do alarme foi feita de um terminal interno, com login de um dos supervisores.",
             qa: [
@@ -1447,6 +1675,7 @@
             name: "Vigia do Galpão 12",
             relation: "Segurança privado",
             portrait: "witness_15",
+            truthfulness: 80,
             statement:
               "Vi o caminhão passando perto das 02h. Mais tarde, ouvi porta batendo e barulho metálico, como rampa de carga.",
             qa: []
@@ -1456,6 +1685,7 @@
             name: "Moradora da Vila Operária",
             relation: "Residente",
             portrait: "witness_16",
+            truthfulness: 70,
             statement:
               "Ouvi pneus derrapando e um veículo menor acelerando forte logo depois.",
             qa: []
@@ -1465,6 +1695,7 @@
             name: "Colega de Rota",
             relation: "Outro motorista",
             portrait: "witness_17",
+            truthfulness: 85,
             statement:
               "Recebi mensagem dele dizendo que um carro escuro o seguia há alguns quilômetros.",
             qa: []
@@ -1565,6 +1796,7 @@
             name: "Morador do Prédio 3",
             relation: "Testemunha parcial",
             portrait: "witness_18",
+            truthfulness: 70,
             statement:
               "Ouvi gritos e três tiros. Vi um rapaz de boné vermelho correndo para uma moto.",
             qa: []
@@ -1574,6 +1806,7 @@
             name: "Dona de Mercearia",
             relation: "Comerciante",
             portrait: "witness_19",
+            truthfulness: 75,
             statement:
               "Antes dos tiros, a vítima discutiu com dois rapazes tatuados. Falavam em dívida.",
             qa: []
@@ -1583,6 +1816,7 @@
             name: "Mototaxista",
             relation: "Passava pela rua",
             portrait: "witness_20",
+            truthfulness: 80,
             statement:
               "Vi uma moto preta sem placa entrar no beco com um garupa de boné vermelho.",
             qa: []
@@ -1684,6 +1918,7 @@
             name: "Vizinho de Porta",
             relation: "Dono de papelaria",
             portrait: "witness_21",
+            truthfulness: 80,
             statement:
               "Vi o dono saindo mais tarde que o normal, carregando uma caixa pesada para o carro.",
             qa: []
@@ -1693,6 +1928,7 @@
             name: "Moradora do Prédio",
             relation: "Residente",
             portrait: "witness_22",
+            truthfulness: 75,
             statement:
               "Senti cheiro forte de gasolina pouco antes da fumaça.",
             qa: []
@@ -1702,6 +1938,7 @@
             name: "Perito dos Bombeiros",
             relation: "Perito em incêndio",
             portrait: "witness_23",
+            truthfulness: 90,
             statement:
               "O fogo começou em mais de um ponto, típico de uso de acelerante.",
             qa: []
@@ -1803,6 +2040,7 @@
             name: "Analista de Compras",
             relation: "Servidor público",
             portrait: "witness_24",
+            truthfulness: 85,
             statement:
               "O edital foi alterado em cima da hora, favorecendo especificações que só uma empresa atendia.",
             qa: []
@@ -1812,6 +2050,7 @@
             name: "Concorrente Excluído",
             relation: "Empresário",
             portrait: "witness_25",
+            truthfulness: 80,
             statement:
               "Nossa proposta era mais barata, mas fomos desclassificados por um detalhe que sempre foi aceito antes.",
             qa: []
@@ -1821,6 +2060,7 @@
             name: "Assessor Político",
             relation: "Ligado ao gabinete",
             portrait: "witness_26",
+            truthfulness: 70,
             statement:
               "Ouvi conversas sobre 'ajustar o edital' para um parceiro específico, mas ninguém falava abertamente.",
             qa: []
@@ -1921,6 +2161,7 @@
             name: "Diretor de TI do Hospital",
             relation: "Responsável pelo sistema",
             portrait: "witness_27",
+            truthfulness: 85,
             statement:
               "O ataque começou pela conta de um médico que clicou em anexo malicioso.",
             qa: []
@@ -1930,6 +2171,7 @@
             name: "Enfermeira-Chefe",
             relation: "Usuária impactada",
             portrait: "witness_28",
+            truthfulness: 80,
             statement:
               "Os computadores exibiam só uma tela exigindo pagamento; tivemos que voltar a tudo em papel.",
             qa: []
@@ -1939,6 +2181,7 @@
             name: "Analista do FBI em Cibercrimes",
             relation: "Perito",
             portrait: "witness_29",
+            truthfulness: 90,
             statement:
               "O servidor de comando e controle aponta para VPS usada anteriormente em ataques de um grupo identificado.",
             qa: []
@@ -2039,6 +2282,7 @@
             name: "Chefe de Segurança da Informação",
             relation: "Responsável pelo SIG",
             portrait: "witness_30",
+            truthfulness: 90,
             statement:
               "O vazamento veio de credenciais internas usadas fora do horário de expediente.",
             qa: []
@@ -2048,6 +2292,7 @@
             name: "Analista Colega",
             relation: "Trabalha no mesmo setor",
             portrait: "witness_31",
+            truthfulness: 75,
             statement:
               "Um dos analistas andava insatisfeito com cortes de verba e falava em 'expor a verdade'.",
             qa: []
@@ -2057,6 +2302,7 @@
             name: "Contato do Departamento de Contrainteligência",
             relation: "Ligação interna",
             portrait: "witness_32",
+            truthfulness: 80,
             statement:
               "Há indícios de comunicação criptografada entre um analista e endereço IP vinculado a serviço de proxy em país adversário.",
             qa: []
@@ -2157,6 +2403,7 @@
             name: "Supervisor Operacional",
             relation: "Chefe direto",
             portrait: "witness_33",
+            truthfulness: 80,
             statement:
               "Ele tem sido evasivo sobre alguns deslocamentos e atrasos em relatórios.",
             qa: []
@@ -2166,6 +2413,7 @@
             name: "Parceiro de Missões",
             relation: "Agente colega",
             portrait: "witness_34",
+            truthfulness: 85,
             statement:
               "Em algumas operações, ele se afastou do ponto combinado sem explicar direito.",
             qa: []
@@ -2175,6 +2423,7 @@
             name: "Analista de Sinais",
             relation: "SIGINT",
             portrait: "witness_35",
+            truthfulness: 90,
             statement:
               "Telefone dele se conectou repetidas vezes a antena próxima a café usado por contatos de organização estrangeira.",
             qa: []
@@ -2275,6 +2524,7 @@
             name: "Informante Infiltrado",
             relation: "Fonte humana",
             portrait: "witness_01",
+            truthfulness: 75,
             statement:
               "Ouvi falar de 'teste' na estação central, com malas largadas em horários de pico.",
             qa: []
@@ -2284,6 +2534,7 @@
             name: "Analista de Tráfego",
             relation: "Controle do metrô",
             portrait: "witness_02",
+            truthfulness: 80,
             statement:
               "Há registros de mesma pessoa circulando em horários incomuns, sem pegar trem.",
             qa: []
@@ -2293,6 +2544,7 @@
             name: "Policial do K9",
             relation: "Equipe com cães farejadores",
             portrait: "witness_03",
+            truthfulness: 90,
             statement:
               "Cão marcou positivo para traços de explosivos em um dos bancos da plataforma.",
             qa: []
@@ -2384,6 +2636,7 @@
       agency: "VCPD",
       prestigioInterno: 10,
       prestigioPublico: 5,
+      moral: 60,
       xp: 0,
       skills: { intuicao: 1, forense: 1 },
       casesSolved: 0,
@@ -2392,7 +2645,9 @@
       wrongAccusations: 0,
       warnings: 0,
       fired: false,
-      currentCaseIndex: null
+      currentCaseIndex: null,
+      gameMinutes: 8 * 60,
+      endingShown: false
     };
 
     let state = JSON.parse(JSON.stringify(INITIAL_STATE));
@@ -2408,6 +2663,54 @@
       });
     }
 
+    // ---------- HUD & TEMPO ----------
+    function formatTime(minutes) {
+      const h = Math.floor(minutes / 60) % 24;
+      const m = minutes % 60;
+      const hh = h < 10 ? "0" + h : "" + h;
+      const mm = m < 10 ? "0" + m : "" + m;
+      return hh + ":" + mm;
+    }
+
+    function updateHUD() {
+      const timeEl = document.getElementById("hud-time");
+      const moralBar = document.getElementById("hud-moral-bar");
+      const prestigeBar = document.getElementById("hud-prestige-bar");
+      const rankEl = document.getElementById("hud-rank");
+      const agencyEl = document.getElementById("hud-agency");
+
+      if (!timeEl) return;
+
+      timeEl.textContent = formatTime(state.gameMinutes);
+      moralBar.style.width = Math.min(Math.max(state.moral, 0), 100) + "%";
+      prestigeBar.style.width =
+        Math.min(Math.max(state.prestigioInterno, 0), 100) + "%";
+      rankEl.textContent = state.rank;
+      agencyEl.textContent = state.agency;
+
+      // leve mudança de tom de fundo conforme horário
+      const hour = Math.floor(state.gameMinutes / 60) % 24;
+      let overlay = "rgba(0,0,0,0.5)";
+      if (hour >= 6 && hour < 12) {
+        overlay = "rgba(40,80,140,0.45)"; // manhã
+      } else if (hour >= 12 && hour < 18) {
+        overlay = "rgba(140,90,40,0.45)"; // tarde
+      } else if (hour >= 18 && hour < 22) {
+        overlay = "rgba(20,20,60,0.6)"; // noite
+      } else {
+        overlay = "rgba(0,0,0,0.7)"; // madrugada
+      }
+      document.body.style.background =
+        "radial-gradient(circle at top, " +
+        overlay +
+        ", #000 70%)";
+    }
+
+    function advanceTime(mins) {
+      state.gameMinutes = (state.gameMinutes + mins + 1440) % 1440;
+      updateHUD();
+    }
+
     // ---------- NAVEGAÇÃO ----------
     function goTo(id) {
       const current = document.querySelector(".screen.active");
@@ -2421,6 +2724,8 @@
 
       if (id === "office") renderOffice();
       if (id === "stats") renderStats();
+      if (id === "case") renderCase();
+      updateHUD();
     }
 
     // ---------- AVATAR ----------
@@ -2466,7 +2771,30 @@
       }
     }
 
-    // ---------- ESCRITÓRIO / STATS ----------
+    // ---------- ESCRITÓRIO / STATS / FINAIS ----------
+    function checkEnding() {
+      if (state.endingShown || state.casesSolved < 10) return;
+
+      let msg = "";
+      if (state.moral >= 80 && state.prestigioInterno >= 80) {
+        msg =
+          "Final de Elite:\n\nVocê se torna uma referência nacional, convidado para liderar operações especiais interagências entre FBI e CIA.";
+      } else if (state.moral >= 50) {
+        msg =
+          "Final Profissional:\n\nSeu histórico é sólido. Você segue na carreira como investigador senior, respeitado, mas sempre em campo.";
+      } else if (state.moral >= 20) {
+        msg =
+          "Final Cinza:\n\nVocê resolve casos, mas atropela regras. A corregedoria observa cada passo seu.";
+      } else {
+        msg =
+          "Final Sombrio:\n\nSuas escolhas corroeram a moral. Investigações internas sugerem abuso de autoridade e manipulação de provas.";
+      }
+
+      alert(msg);
+      state.endingShown = true;
+      saveGame();
+    }
+
     function renderOffice() {
       updateOfficeAvatar();
       document.getElementById("office-rank").textContent =
@@ -2492,7 +2820,11 @@
         state.fired = true;
         saveGame();
         goTo("fired");
+        return;
       }
+
+      checkEnding();
+      updateHUD();
     }
 
     function renderStats() {
@@ -2509,6 +2841,8 @@
         "stats-prestigio-pub"
       ).textContent = state.prestigioPublico + "%";
       document.getElementById("stats-agency").textContent = state.agency;
+      document.getElementById("stats-moral").textContent = state.moral + "%";
+      updateHUD();
     }
 
     // ---------- SAVE / LOAD ----------
@@ -2536,6 +2870,7 @@
       state = JSON.parse(JSON.stringify(INITIAL_STATE));
       state.casesTotal = CASES.length;
       initAvatarScreen();
+      updateHUD();
       goTo("avatar");
     }
 
@@ -2558,55 +2893,135 @@
 
     // ---------- PHONE ----------
     function openPhone() {
+      advanceTime(5);
       goTo("phone");
     }
 
+    function askTone() {
+      const tone = prompt(
+        "Escolha o tom da ligação:\n\n1 - Diplomático\n2 - Neutro\n3 - Agressivo\n\nDigite o número:"
+      );
+      if (!tone) return 2;
+      const n = tone.trim();
+      return n === "1" || n === "3" ? Number(n) : 2;
+    }
+
     function callChief() {
-      const choice = prompt(
+      advanceTime(5);
+      const tone = askTone();
+      if (!tone) return;
+
+      let choice = prompt(
         "Chefe de Polícia na linha:\n\n1 - Pedir demissão\n2 - Pedir desculpas\n3 - Elogiar equipe\n4 - Elogiar o chefe\n\nDigite o número da opção:"
       );
       if (!choice) return;
-      switch (choice.trim()) {
-        case "1":
-          if (confirm("Tem certeza que deseja se demitir?")) {
-            state = JSON.parse(JSON.stringify(INITIAL_STATE));
-            alert("Você deixou o cargo. Inicie uma nova carreira.");
-            goTo("start");
-          }
-          break;
-        case "2":
-          state.prestigioInterno = Math.min(100, state.prestigioInterno + 4);
-          alert("Você reconheceu seus erros. Prestígio interno aumentado.");
-          break;
-        case "3":
-          state.prestigioInterno = Math.min(100, state.prestigioInterno + 3);
-          state.prestigioPublico = Math.min(100, state.prestigioPublico + 1);
-          alert("A equipe se sente valorizada. Prestígio melhorou.");
-          break;
-        case "4":
-          state.prestigioInterno = Math.min(100, state.prestigioInterno + 2);
-          alert("O chefe aprecia o reconhecimento, mas lembra que resultados contam mais.");
-          break;
-        default:
-          alert("Opção inválida.");
+      choice = choice.trim();
+
+      if (choice === "1") {
+        if (confirm("Tem certeza que deseja se demitir?")) {
+          state = JSON.parse(JSON.stringify(INITIAL_STATE));
+          alert("Você deixou o cargo. Inicie uma nova carreira.");
+          goTo("start");
+        }
+        return;
       }
+
+      // efeito de tom na moral/prestígio
+      let moralDelta = 0;
+      let prestDelta = 0;
+
+      if (choice === "2") {
+        moralDelta += 3;
+        prestDelta += 4;
+        alert("Você reconheceu seus erros. Prestígio interno aumentado.");
+      } else if (choice === "3") {
+        moralDelta += 2;
+        prestDelta += 3;
+        state.prestigioPublico = Math.min(100, state.prestigioPublico + 1);
+        alert("A equipe se sente valorizada. Prestígio melhorou.");
+      } else if (choice === "4") {
+        moralDelta += 1;
+        prestDelta += 2;
+        alert("O chefe aprecia o reconhecimento, mas lembra que resultados contam mais.");
+      } else {
+        alert("Opção inválida.");
+      }
+
+      if (tone === 1) {
+        // diplomático melhora moral/prestígio
+        moralDelta += 2;
+        prestDelta += 1;
+      } else if (tone === 3) {
+        // agressivo pode piorar
+        moralDelta -= 3;
+        prestDelta -= 3;
+      }
+
+      state.moral = Math.min(100, Math.max(0, state.moral + moralDelta));
+      state.prestigioInterno = Math.min(
+        100,
+        Math.max(0, state.prestigioInterno + prestDelta)
+      );
       saveGame();
+      updateHUD();
     }
 
     function callForensics() {
+      advanceTime(5);
+      const tone = askTone();
+      if (!tone) return;
+
       alert(
         "O perito responde:\n\n“Posso complementar o laudo se você encontrar novas provas ou inconsistências. Confira o relatório no setor de Provas.”"
       );
+
+      if (tone === 1) {
+        state.moral = Math.min(100, state.moral + 1);
+        state.prestigioInterno = Math.min(100, state.prestigioInterno + 1);
+      } else if (tone === 3) {
+        state.moral = Math.max(0, state.moral - 2);
+      }
+      saveGame();
+      updateHUD();
     }
 
     function callStreetUnit() {
-      alert(
-        "Equipe de rua acionada.\n\nEles executarão mandados de busca e podem retornar com novos elementos em futuros casos."
-      );
+      advanceTime(10);
+      const tone = askTone();
+      if (!tone) return;
+
+      const roll = Math.random() * 100;
+      let msg;
+
+      if (roll < 20) {
+        msg =
+          "Equipe de rua: Mandado negado por falta de elementos. O promotor quer mais consistência nas provas.";
+        state.prestigioPublico = Math.max(0, state.prestigioPublico - 2);
+      } else if (roll < 70) {
+        msg =
+          "Equipe de rua: Mandado cumprido com sucesso. Provas coletadas serão integradas em futuros casos.";
+        state.prestigioPublico = Math.min(100, state.prestigioPublico + 2);
+        state.skills.forense = Math.min(5, state.skills.forense + 0.1);
+      } else {
+        msg =
+          "Equipe de rua: Houve perseguição, mas o alvo escapou. Pelo menos, a cena foi preservada.";
+      }
+
+      alert(msg);
+
+      if (tone === 3) {
+        state.moral = Math.max(0, state.moral - 2);
+      } else if (tone === 1) {
+        state.moral = Math.min(100, state.moral + 1);
+      }
+
+      saveGame();
+      updateHUD();
     }
 
     // ---------- PROMOTION ----------
     function openPromotion() {
+      advanceTime(5);
       goTo("promotion");
       const text = document.getElementById("promotion-text");
       text.textContent =
@@ -2636,6 +3051,7 @@
         if (!ans) continue;
         if (ans.trim().toUpperCase() === "B") score++;
       }
+      advanceTime(30);
       if (score >= 7) {
         alert(
           "Parabéns! Você acertou " +
@@ -2673,6 +3089,7 @@
             state.rank = "Agente Especial";
           }
         }
+        state.moral = Math.min(100, state.moral + 5);
         saveGame();
         goTo("office");
       } else {
@@ -2682,32 +3099,80 @@
             " de 10. Ainda não foi desta vez. Continue investigando e tente novamente."
         );
       }
+      updateHUD();
     }
 
     function openStats() {
+      advanceTime(2);
       goTo("stats");
     }
 
+    function openMap() {
+      advanceTime(2);
+      goTo("map");
+    }
+
     // ---------- CASOS ----------
+    function getCurrentCase() {
+      if (state.currentCaseIndex === null) return null;
+      return CASES[state.currentCaseIndex];
+    }
+
+    function generateProceduralCase() {
+      const id = "proc_" + Date.now();
+      const idx = CASES.length + 1;
+      return {
+        id,
+        name: "Caso Procedural #" + idx,
+        level: "Procedural",
+        difficulty: "Variável",
+        type: "Crime Genérico",
+        needsIML: false,
+        description:
+          "Caso gerado automaticamente em Valley City. Use seu instinto para ligar testemunhas, provas e suspeitos.",
+        witnesses: [],
+        evidence: [],
+        imlReport: "",
+        suspects: [
+          {
+            id: id + "_s1",
+            name: "Suspeito Procedural",
+            portrait: "suspect_01",
+            age: 30,
+            occupation: "Indefinido",
+            relation: "Gerado automaticamente",
+            criminalRecord: "",
+            address: "Valley City",
+            alibi: "Diz não lembrar de nada dessa noite.",
+            profileNotes:
+              "Este caso existe para dar longevidade ao jogo. Sinta-se livre para expandir.",
+            keywordsAnswers: [],
+            isGuilty: true
+          }
+        ]
+      };
+    }
+
     function openNextCase() {
       if (state.fired) {
         goTo("fired");
         return;
       }
+      advanceTime(20);
+
       if (state.currentCaseIndex === null) {
         state.currentCaseIndex = 0;
       } else if (state.currentCaseIndex < CASES.length - 1) {
         state.currentCaseIndex++;
       } else {
-        alert("Nenhum novo caso disponível por enquanto.");
+        // gera procedural
+        const newCase = generateProceduralCase();
+        CASES.push(newCase);
+        state.casesTotal = CASES.length;
+        state.currentCaseIndex = CASES.length - 1;
       }
       renderCase();
       goTo("case");
-    }
-
-    function getCurrentCase() {
-      if (state.currentCaseIndex === null) return null;
-      return CASES[state.currentCaseIndex];
     }
 
     function renderCase() {
@@ -2727,11 +3192,13 @@
     function openWitnesses() {
       const c = getCurrentCase();
       if (!c) return;
+      advanceTime(10);
       goTo("witnesses");
       document.getElementById("witness-case-name").textContent = c.name;
       const list = document.getElementById("witness-list");
       list.innerHTML = "";
       c.witnesses.forEach((w) => {
+        if (typeof w.truthfulness === "undefined") w.truthfulness = 75;
         const item = document.createElement("div");
         item.className = "list-item";
         item.onclick = () => selectWitness(w);
@@ -2740,7 +3207,9 @@
           w.name +
           "</h4><p>" +
           w.relation +
-          "</p>";
+          " • Confiabilidade: " +
+          w.truthfulness +
+          "%</p>";
         list.appendChild(item);
       });
 
@@ -2779,6 +3248,9 @@
             break;
           }
         }
+      } else if (currentWitness.truthfulness < 60) {
+        answer =
+          "Ela responde de forma evasiva, evitando detalhes. Parece esconder alguma coisa.";
       }
       typewriterEffect(
         "witness-statement",
@@ -2788,11 +3260,13 @@
           "\nResposta: " +
           answer
       );
+      advanceTime(5);
     }
 
     function openEvidence() {
       const c = getCurrentCase();
       if (!c) return;
+      advanceTime(8);
       goTo("evidence");
       document.getElementById("evidence-case-name").textContent = c.name;
       const list = document.getElementById("evidence-list");
@@ -2828,6 +3302,7 @@
         alert("Não há laudo de IML disponível para este caso.");
         return;
       }
+      advanceTime(10);
       document.getElementById("iml-report-text").textContent = c.imlReport;
       goTo("iml");
     }
@@ -2835,6 +3310,7 @@
     function openSuspects() {
       const c = getCurrentCase();
       if (!c) return;
+      advanceTime(8);
       goTo("suspects");
       document.getElementById("suspects-case-name").textContent = c.name;
       const list = document.getElementById("suspects-list");
@@ -2854,9 +3330,8 @@
           '<div><h4>' +
           s.name +
           "</h4><p>" +
-          s.relation +
-          " • " +
-          s.occupation +
+          (s.relation || "") +
+          (s.occupation ? " • " + s.occupation : "") +
           "</p></div></div>";
 
         item.onclick = () => openSuspectDetail(s);
@@ -2869,13 +3344,13 @@
         "Nome: " +
         s.name +
         "\nIdade: " +
-        s.age +
+        (s.age || "N/D") +
         "\nProfissão: " +
-        s.occupation +
+        (s.occupation || "N/D") +
         "\nRelação: " +
-        s.relation +
+        (s.relation || "N/D") +
         "\nEndereço: " +
-        s.address +
+        (s.address || "N/D") +
         "\n\nFicha Criminal: " +
         (s.criminalRecord || "Sem informações") +
         "\n\nÁlibi: " +
@@ -2909,9 +3384,8 @@
           '<div><h4>' +
           s.name +
           "</h4><p>" +
-          s.relation +
-          " • " +
-          s.occupation +
+          (s.relation || "") +
+          (s.occupation ? " • " + s.occupation : "") +
           "</p></div></div>";
 
         item.onclick = () => concludeCaseWithSuspect(s);
@@ -2939,6 +3413,7 @@
         state.correctAccusations++;
         state.prestigioInterno = Math.min(100, state.prestigioInterno + 6);
         state.prestigioPublico = Math.min(100, state.prestigioPublico + 5);
+        state.moral = Math.min(100, state.moral + 4);
         alert(
           "Acusação correta.\n\nAs provas se alinham e o culpado é responsabilizado."
         );
@@ -2947,19 +3422,81 @@
         if (state.wrongAccusations >= 3) state.warnings++;
         state.prestigioInterno = Math.max(0, state.prestigioInterno - 8);
         state.prestigioPublico = Math.max(0, state.prestigioPublico - 6);
+        state.moral = Math.max(0, state.moral - 10);
         alert(
           "Acusação incorreta.\n\nA promotoria recusa o caso e sua reputação sofre."
         );
       }
 
+      advanceTime(30);
       saveGame();
       state.currentCaseIndex = null;
       goTo("office");
     }
 
+    // ---------- QUADRO INVESTIGATIVO ----------
+    function openBoard() {
+      const c = getCurrentCase();
+      if (!c) return;
+      advanceTime(5);
+      goTo("board");
+      document.getElementById("board-case-name").textContent = c.name;
+
+      const cols = document.getElementById("board-columns");
+      cols.innerHTML = "";
+
+      const colW = document.createElement("div");
+      colW.className = "board-col";
+      colW.innerHTML = "<h4>Testemunhas</h4>";
+      c.witnesses.forEach((w) => {
+        const span = document.createElement("div");
+        span.className = "board-chip";
+        span.textContent = w.name + " • " + (w.truthfulness || 75) + "%";
+        colW.appendChild(span);
+      });
+
+      const colS = document.createElement("div");
+      colS.className = "board-col";
+      colS.innerHTML = "<h4>Suspeitos</h4>";
+      c.suspects.forEach((s) => {
+        const span = document.createElement("div");
+        span.className = "board-chip";
+        span.textContent =
+          s.name + (s.isGuilty ? " • PRINCIPAL" : " • Possível");
+        colS.appendChild(span);
+      });
+
+      const colE = document.createElement("div");
+      colE.className = "board-col";
+      colE.innerHTML = "<h4>Provas</h4>";
+      c.evidence.forEach((e) => {
+        const span = document.createElement("div");
+        span.className = "board-chip";
+        span.textContent = e.name;
+        colE.appendChild(span);
+      });
+
+      cols.appendChild(colW);
+      cols.appendChild(colS);
+      cols.appendChild(colE);
+
+      const summary = document.getElementById("board-summary");
+      summary.textContent =
+        "Use este quadro para visualizar quem se conecta a quem. Dica: quase sempre haverá uma prova que liga diretamente o culpado à cena ou à vítima.";
+    }
+
     // ---------- INTERROGATÓRIO ----------
     function startInterrogation(s) {
       currentInterrogationSuspect = s;
+
+      // inicializar métricas emocionais
+      if (typeof s.stress === "undefined") {
+        s.stress = 30;
+        s.confidence = 70;
+        s.anger = 10;
+      }
+
+      advanceTime(5);
       goTo("interrogation");
       document.getElementById("interrogation-title").textContent =
         "Interrogando " + s.name;
@@ -2987,6 +3524,21 @@
         };
         sug.appendChild(btn);
       });
+
+      updateInterrogationMetrics();
+    }
+
+    function updateInterrogationMetrics() {
+      if (!currentInterrogationSuspect) return;
+      const s = currentInterrogationSuspect;
+      const el = document.getElementById("interrogation-metrics");
+      el.textContent =
+        "Stress: " +
+        Math.round(s.stress) +
+        " • Confiança: " +
+        Math.round(s.confidence) +
+        " • Raiva: " +
+        Math.round(s.anger);
     }
 
     function sendInterrogationQuestion() {
@@ -2995,15 +3547,62 @@
       const question = input.value.trim();
       if (!question) return;
 
+      advanceTime(5);
+
       const answer = getInterrogationAnswer(currentInterrogationSuspect, question);
       const log = document.getElementById("interrogation-log");
       log.textContent +=
         "\n\nVocê: " + question + "\n" + currentInterrogationSuspect.name + ": " + answer;
       input.value = "";
+      updateInterrogationMetrics();
+    }
+
+    function clamp01(v) {
+      return Math.min(100, Math.max(0, v));
     }
 
     function getInterrogationAnswer(s, question) {
       const qLower = question.toLowerCase();
+
+      // ajustes de stress/confiança/raiva
+      if (qLower.includes("por que") || qLower.includes("porque")) {
+        s.stress += 4;
+        s.anger += 6;
+        s.confidence -= 3;
+      }
+      if (
+        qLower.includes("prova") ||
+        qLower.includes("evidência") ||
+        qLower.includes("evidencia")
+      ) {
+        s.stress += 6;
+        s.confidence -= 10;
+      }
+      if (
+        qLower.includes("confessar") ||
+        qLower.includes("culpado") ||
+        qLower.includes("culpa")
+      ) {
+        s.stress += 8;
+        s.anger += 10;
+        s.confidence -= 5;
+      }
+      if (qLower.includes("mentiu") || qLower.includes("mentira")) {
+        s.stress += 7;
+        s.anger += 8;
+      }
+      if (qLower.includes("arma")) {
+        s.stress += 4;
+      }
+      if (qLower.includes("vítima") || qLower.includes("vitima")) {
+        s.stress += 3;
+      }
+
+      s.stress = clamp01(s.stress);
+      s.confidence = clamp01(s.confidence);
+      s.anger = clamp01(s.anger);
+
+      // respostas custom por keywords
       if (s.keywordsAnswers) {
         for (const ka of s.keywordsAnswers) {
           if (ka.keywords.some((k) => qLower.includes(k))) {
@@ -3012,6 +3611,7 @@
         }
       }
 
+      // respostas genéricas contextualizadas
       if (qLower.includes("onde") && qLower.includes("estava")) {
         return s.alibi || "Já disse: eu não estava na cena do crime.";
       }
@@ -3023,13 +3623,29 @@
         );
       }
       if (qLower.includes("motivo") || qLower.includes("por que") || qLower.includes("porque")) {
+        if (s.isGuilty && s.stress > 70 && s.confidence < 40) {
+          return "Olha... eu não vou dizer que era um bom motivo, mas eu estava encurralado. Não parece que alguém se importa com o meu lado.";
+        }
         return "Você está tentando forçar um motivo onde não existe. Eu não ganharia nada com esse crime.";
       }
       if (qLower.includes("arma")) {
-        return "Eu não tinha nenhuma arma comigo naquela noite.";
+        return "Eu não tinha nenhuma arma comigo naquela noite. Você tem algo que prove o contrário?";
       }
       if (qLower.includes("confessar") || qLower.includes("culpado")) {
+        if (s.isGuilty && s.stress > 85 && s.anger < 50) {
+          return "Tá bom, chega. Eu não planejei que fosse tão longe... mas eu estava lá, sim.";
+        }
         return "Não tenho nada para confessar. Eu não cometi esse crime.";
+      }
+      if (qLower.includes("celular") || qLower.includes("telefone")) {
+        return "Meu celular estava comigo. Se vocês têm rastros, então já sabem por onde eu passei.";
+      }
+
+      if (s.anger > 80) {
+        return "Você acha que repetir as mesmas perguntas vai mudar alguma coisa? Eu já cansei desse circo.";
+      }
+      if (s.stress > 80 && s.confidence < 40) {
+        return "Eu... eu já falei o que lembrava. Qualquer coisa além disso vai ser chute.";
       }
 
       return "Já respondi tudo que sei sobre isso. Qualquer coisa além será só especulação.";
@@ -3070,6 +3686,7 @@
         state.casesTotal = CASES.length;
       }
       updateOfficeAvatar();
+      updateHUD();
     });
   </script>
 </body>
