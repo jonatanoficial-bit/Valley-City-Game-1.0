@@ -3,998 +3,1145 @@
 <head>
   <meta charset="UTF-8" />
   <title>Valley City • Crime Unit</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
   <style>
+    :root {
+      --bg-main: #05070d;
+      --bg-card: #111524;
+      --bg-card-soft: #161a2b;
+      --accent: #ffb321;
+      --accent-soft: #ffdd7a;
+      --text-main: #f5f7ff;
+      --text-soft: #a0a7c4;
+      --danger: #ff4d4d;
+      --success: #30d178;
+      --warning: #ffb648;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --transition-fast: 0.18s ease-out;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.6);
+    }
+
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
     }
 
     body {
-      margin: 0;
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #1c2740 0, #050810 55%, #020308 100%);
-      color: #f5f7ff;
+      background: radial-gradient(circle at top, #151a2d 0, #03040a 55%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
     }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    button {
-      font-family: inherit;
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      margin: 0 auto;
+      position: relative;
+      background: rgba(3, 5, 12, 0.96);
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
     }
 
     .screen {
-      max-width: 960px;
-      margin: 0 auto;
-      min-height: 100vh;
-      padding: 16px 16px 40px;
-      box-sizing: border-box;
       display: none;
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
+      padding: 20px 18px 26px;
+      min-height: 100vh;
+      position: relative;
     }
 
-    .screen-inner {
-      background: rgba(5, 8, 16, 0.85);
-      border-radius: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(16px);
-      padding: 20px;
-      margin-top: 12px;
-    }
-
-    @media (max-width: 768px) {
-      .screen-inner {
-        border-radius: 0;
-        margin: -16px -16px 0;
-        min-height: calc(100vh - 24px);
-      }
-    }
-
-    .screen.show {
+    .screen.active {
       display: block;
-      animation: fadeInScreen 0.22s ease-out forwards;
+      animation: fadeIn 0.28s ease-out;
     }
 
-    @keyframes fadeInScreen {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    h1, h2, h3 {
-      font-family: "Russo One", system-ui, sans-serif;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #f9fbff;
-      margin-top: 0;
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.25;
+      background-size: cover;
+      background-position: center;
+      pointer-events: none;
+      z-index: -1;
+      filter: saturate(1.1) contrast(1.05);
     }
 
-    .subtitle {
-      font-size: 0.8rem;
+    #screen-start::before {
+      background-image: url("assets/valley_city_night.png");
+    }
+
+    #screen-login::before {
+      background-image: url("assets/bg_login.png");
+    }
+
+    #screen-avatar::before {
+      background-image: url("assets/police_station_front.png");
+    }
+
+    #screen-briefing::before {
+      background-image: url("assets/captain_room_cinematic.png");
+    }
+
+    #screen-office::before {
+      background-image: url("assets/escritorio_detective.png");
+    }
+
+    #screen-case::before {
+      background-image: url("assets/case_scene_bg.png");
+    }
+
+    #screen-witnesses::before {
+      background-image: url("assets/witness_room.png");
+    }
+
+    #screen-evidence::before {
+      background-image: url("assets/evidence_room.png");
+    }
+
+    #screen-suspects::before {
+      background-image: url("assets/suspect_file_bg.png");
+    }
+
+    #screen-interrogation::before {
+      background-image: url("assets/interrogation_room.png");
+    }
+
+    #screen-iml::before {
+      background-image: url("assets/morgue_room.png");
+    }
+
+    #screen-promotion::before {
+      background-image: url("assets/promotion_bg.png");
+    }
+
+    #screen-fired::before {
+      background-image: url("assets/fired_screen.png");
+    }
+
+    header.topline {
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.18em;
-      color: #7b86a6;
+      color: var(--text-soft);
       margin-bottom: 6px;
     }
 
-    p {
-      font-size: 0.9rem;
-      line-height: 1.5;
-      color: #d8def8;
+    h1.title {
+      font-size: 28px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      letter-spacing: 0.12em;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      background: linear-gradient(135deg, #162034, #121622);
-      color: #f5f7ff;
-      font-size: 0.78rem;
+    h2.subtitle {
+      font-size: 20px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      cursor: pointer;
-      outline: none;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
-      text-decoration: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #ffd200, #ff9d00);
-      color: #14151c;
-      border-color: #ffbf00;
-    }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #ff4b4b, #b31217);
-      border-color: #ff6b6b;
-    }
-
-    .btn-ghost {
-      background: transparent;
-    }
-
-    .btn + .btn {
-      margin-left: 8px;
-    }
-
-    .btn:active {
-      transform: scale(0.97) translateY(1px);
-    }
-
-    .btn-block {
-      width: 100%;
-      justify-content: center;
-    }
-
-    .card {
-      background: rgba(12, 16, 32, 0.9);
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 14px;
       margin-bottom: 12px;
     }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-      font-size: 0.9rem;
-      color: #c7d0f5;
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text-soft);
+      margin-bottom: 8px;
     }
 
-    .tag {
-      padding: 2px 8px;
+    .card {
+      background: radial-gradient(circle at top left, #1f2640 0, #101423 55%);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .card-soft {
+      background: rgba(12, 16, 30, 0.95);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .btn {
+      width: 100%;
       border-radius: 999px;
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #9aa2c7;
-    }
-
-    .office-hud {
-      display: grid;
-      grid-template-columns: 1.2fr 1.2fr 1.2fr;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .stat-label {
-      font-size: 0.65rem;
+      padding: 13px 16px;
+      border: none;
+      font-size: 14px;
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      color: #9aa2c7;
-      margin-bottom: 4px;
+      margin-top: 8px;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+        background var(--transition-fast), opacity var(--transition-fast);
+      font-weight: 600;
     }
 
-    .stat-value {
-      font-size: 0.95rem;
+    .btn-primary {
+      background: linear-gradient(135deg, #ffb321, #ffdf7a);
+      color: #22130a;
+      box-shadow: 0 12px 26px rgba(255, 179, 33, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 8px 20px rgba(255, 179, 33, 0.3);
+    }
+
+    .btn-outline {
+      background: rgba(7, 10, 22, 0.9);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-outline:active {
+      transform: translateY(1px) scale(0.99);
+      background: rgba(20, 25, 40, 0.98);
+    }
+
+    .btn-danger {
+      background: rgba(198, 59, 59, 0.15);
+      color: var(--danger);
+      border: 1px solid rgba(255, 77, 77, 0.4);
+    }
+
+    small {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 6px;
+    }
+
+    .avatar-list {
+      margin-top: 12px;
+    }
+
+    .avatar-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(9, 12, 24, 0.94);
+      margin-bottom: 8px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: border var(--transition-fast), background var(--transition-fast);
+    }
+
+    .avatar-item img {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .avatar-info {
+      flex: 1;
+    }
+
+    .avatar-name {
+      font-size: 14px;
       font-weight: 600;
-      color: #f5f7ff;
+    }
+
+    .avatar-desc {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .avatar-item.selected {
+      border-color: var(--accent-soft);
+      background: radial-gradient(circle at top left, #2a3250 0, #101423 65%);
+    }
+
+    .office-layout {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .office-left {
+      width: 80px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .office-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+    }
+
+    .office-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tag-pill {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-soft);
+    }
+
+    .office-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .label {
+      font-size: 11px;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 2px;
+    }
+
+    .value-main {
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .bar {
-      position: relative;
       width: 100%;
       height: 6px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.06);
       overflow: hidden;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
-    .bar-fill {
-      position: absolute;
-      inset: 0;
+    .bar-inner {
+      height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #22c55e, #ffd200);
-      transition: width 0.25s ease;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ffb321, #30d178);
+      transition: width 0.3s ease-out;
     }
 
-    .office-actions {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    @media (max-width: 640px) {
-      .office-hud {
-        grid-template-columns: 1fr;
-      }
-      .office-actions {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .player-avatar {
-      width: 72px;
-      height: 72px;
-      border-radius: 18px;
-      border: 2px solid rgba(255, 255, 255, 0.35);
-      object-fit: cover;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
-    }
-
-    .list-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
-    }
-
-    .portrait {
-      width: 64px;
-      height: 64px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      margin-right: 10px;
+    .bar-inner.warning {
+      background: linear-gradient(90deg, #ffb321, #ff4d4d);
     }
 
     .row {
       display: flex;
-      align-items: flex-start;
-    }
-
-    .row-space {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: baseline;
     }
 
-    .dialog-text {
-      font-family: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
-      font-size: 0.82rem;
-      line-height: 1.4rem;
-      color: #d4ddff;
-      white-space: pre-wrap;
+    .stat-text {
+      font-size: 13px;
+      color: var(--text-soft);
     }
 
-    .pill {
+    .stat-number {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .rules-box {
+      margin-top: 14px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: rgba(8, 10, 20, 0.96);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 12px;
+    }
+
+    .rules-title {
       display: inline-flex;
       align-items: center;
-      padding: 4px 10px;
+      gap: 4px;
+      margin-bottom: 4px;
+      color: var(--accent-soft);
+    }
+
+    .rules-title span {
+      font-size: 11px;
+      padding: 2px 8px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      font-size: 0.75rem;
-      cursor: pointer;
-      margin: 0 4px 4px 0;
-      background: rgba(20, 26, 48, 0.9);
+      border: 1px solid rgba(255, 179, 33, 0.8);
     }
 
-    .pill:hover {
-      background: rgba(35, 48, 90, 0.95);
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+      margin-bottom: 4px;
     }
 
-    textarea, input[type="text"] {
-      width: 100%;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: rgba(4, 8, 18, 0.9);
-      color: #f5f7ff;
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      font-family: inherit;
-      resize: vertical;
+    .chip {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-soft);
     }
 
-    textarea:focus, input:focus {
-      outline: none;
-      border-color: #ffd200;
-      box-shadow: 0 0 0 1px rgba(255, 210, 0, 0.35);
-    }
-
-    .small {
-      font-size: 0.78rem;
-      color: #9aa2c7;
+    .case-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
     .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 6px;
+      display: inline-block;
+      font-size: 10px;
+      padding: 3px 8px;
       border-radius: 999px;
-      font-size: 0.7rem;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      margin-right: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 8px;
     }
 
-    .badge-danger {
-      border-color: #ff6b6b;
-      color: #ff9c9c;
+    .list {
+      margin-top: 8px;
+      max-height: 340px;
+      overflow-y: auto;
+      padding-right: 4px;
     }
 
-    .badge-success {
-      border-color: #22c55e;
-      color: #a7f3d0;
+    .list-item {
+      border-radius: 12px;
+      padding: 10px 11px;
+      background: rgba(7, 10, 20, 0.94);
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      transition: background var(--transition-fast), border var(--transition-fast);
     }
 
-    .badge-warning {
-      border-color: #ffd200;
-      color: #fef3c7;
+    .list-item:hover {
+      background: rgba(17, 21, 35, 0.98);
+      border-color: rgba(255, 255, 255, 0.08);
     }
 
-    ul {
-      padding-left: 18px;
-      margin-top: 6px;
-      margin-bottom: 6px;
+    .list-item.selected {
+      border-color: var(--accent-soft);
+      background: radial-gradient(circle at top left, #2a3250 0, #0b0f1c 70%);
+    }
+
+    .list-item h4 {
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .list-item p {
+      font-size: 12px;
+      margin-bottom: 0;
+    }
+
+    .typewriter {
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: rgba(2, 4, 10, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+      min-height: 70px;
+      white-space: pre-wrap;
+    }
+
+    .pill-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .q-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .q-btn {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(8, 10, 20, 0.96);
+      padding: 5px 8px;
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .q-btn:active {
+      background: rgba(20, 25, 40, 0.98);
+    }
+
+    .input-text {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 10px 12px;
+      background: rgba(4, 6, 14, 0.96);
+      color: var(--text-main);
+      font-size: 13px;
+      margin-top: 8px;
+      outline: none;
+    }
+
+    .input-text::placeholder {
+      color: rgba(160, 167, 196, 0.7);
+    }
+
+    .tag-danger {
+      color: var(--danger);
+    }
+
+    .tag-success {
+      color: var(--success);
     }
 
     .center {
       text-align: center;
     }
 
-    .mt-1 { margin-top: 4px; }
-    .mt-2 { margin-top: 8px; }
-    .mt-3 { margin-top: 12px; }
-    .mt-4 { margin-top: 16px; }
+    .mt-4 { margin-top: 4px; }
+    .mt-8 { margin-top: 8px; }
+    .mt-12 { margin-top: 12px; }
+    .mt-16 { margin-top: 16px; }
 
-    .mb-1 { margin-bottom: 4px; }
-    .mb-2 { margin-bottom: 8px; }
-    .mb-3 { margin-bottom: 12px; }
-
-    .text-right { text-align: right; }
-
-    .chip-group {
-      margin-top: 6px;
-      margin-bottom: 6px;
-    }
-
-    .exam-question {
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .exam-question label {
-      font-size: 0.85rem;
-      display: block;
+    .small-label {
+      font-size: 11px;
+      color: var(--text-soft);
       margin-bottom: 2px;
     }
 
-    .exam-question input[type="radio"] {
-      margin-right: 4px;
+    .file-input {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-soft);
     }
 
-    .screen-bg-menu {
-      background-image: url("assets/capa_principal.jpg");
+    .iml-header {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    .screen-bg-save {
-      background-image: url("assets/bg_login.jpg");
+    .iml-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
-    .screen-bg-briefing {
-      background-image: url("assets/capitao_office.jpg");
-    }
-
-    .screen-bg-office {
-      background-image: url("assets/escritorio_detective.jpg");
-    }
-
-    .screen-bg-phone {
-      background-image: url("assets/phone_interface.jpg");
-    }
-
-    .screen-bg-case {
-      background-image: url("assets/case_scene_bg.jpg");
-    }
-
-    .screen-bg-witness {
-      background-image: url("assets/witness_room.jpg");
-    }
-
-    .screen-bg-evidence {
-      background-image: url("assets/evidence_room.jpg");
-    }
-
-    .screen-bg-morgue {
-      background-image: url("assets/morgue_room.jpg");
-    }
-
-    .screen-bg-suspect {
-      background-image: url("assets/suspect_file_bg.jpg");
-    }
-
-    .screen-bg-interrogation {
-      background-image: url("assets/interrogation_room.jpg");
-    }
-
-    .screen-bg-promotion {
-      background-image: url("assets/promotion_bg.jpg");
-    }
-
-    .screen-bg-exam {
-      background-image: url("assets/exam_room.jpg");
-    }
-
-    .screen-bg-fired {
-      background-image: url("assets/fired_screen.jpg");
-    }
-
-    .slot-btn {
+    .iml-photo img {
       width: 100%;
-      justify-content: space-between;
-      font-size: 0.8rem;
+      height: 100%;
+      object-fit: cover;
     }
 
-    .slot-label {
-      display: block;
-      font-size: 0.8rem;
-      color: #d8def8;
+    .tag-iml {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-soft);
     }
 
+    .danger-text {
+      color: var(--danger);
+      font-size: 13px;
+    }
+
+    .badge-rank {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--accent-soft);
+    }
   </style>
 </head>
 <body>
-
-  <!-- MENU -->
-  <section id="screen-menu" class="screen screen-bg-menu">
-    <div class="screen-inner">
-      <div class="subtitle">Valley City • Crime Unit</div>
-      <h1>Início</h1>
-      <p>Bem-vindo a Valley City. Uma cidade violenta, poucos policiais e crimes demais. O distrito precisa de um detetive com nervos de aço... ou alguém disposto a quebrá-los.</p>
-
-      <div class="mt-3">
-        <button class="btn btn-primary btn-block" onclick="goTo('screen-save')">Iniciar / Carregar Jogo</button>
+  <div class="app">
+    <!-- START -->
+    <section id="screen-start" class="screen active">
+      <header class="topline">Valley City • Crime Unit</header>
+      <h1 class="title">Início</h1>
+      <div class="card">
+        <p>
+          Bem-vindo a Valley City. Uma cidade violenta, poucos policiais e crimes
+          demais. O distrito precisa de um detetive com nervos de aço... ou
+          alguém disposto a quebrá-los.
+        </p>
+        <p class="hint">
+          Seu progresso é salvo localmente neste dispositivo. Você poderá exportar
+          e importar seu arquivo de jogo em formato JSON para continuar em outro
+          aparelho.
+        </p>
+        <button class="btn btn-primary mt-8" onclick="goTo('login')">
+          Iniciar / Carregar Jogo
+        </button>
       </div>
+    </section>
 
-      <div class="mt-3 small">
-        <p>Seu progresso é salvo localmente neste dispositivo. Você poderá exportar e importar seu arquivo de jogo em formato JSON para continuar em outro aparelho.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SAVE / LOAD -->
-  <section id="screen-save" class="screen screen-bg-save">
-    <div class="screen-inner">
-      <div class="subtitle">Arquivos de Caso</div>
-      <h1>Carregar ou Criar Perfil</h1>
-
-      <div id="saveSlots" class="mt-2"></div>
-
-      <div class="mt-3 card">
-        <div class="card-header">
-          <span>Exportar / Importar Progresso</span>
-          <span class="tag">JSON</span>
+    <!-- LOGIN / SAVE -->
+    <section id="screen-login" class="screen">
+      <header class="topline">Valley City • Sistema de Arquivos</header>
+      <h1 class="title">Carregar / Salvar</h1>
+      <div class="card">
+        <p>
+          Você pode começar um novo jogo ou carregar um arquivo JSON salvo
+          anteriormente. Todo progresso fica guardado neste aparelho, sem conexão
+          com servidores externos.
+        </p>
+        <button class="btn btn-primary mt-8" onclick="startNewGame()">
+          Novo Jogo
+        </button>
+        <div class="mt-12">
+          <div class="small-label">Importar arquivo de save (.json)</div>
+          <input
+            id="import-file"
+            type="file"
+            accept="application/json"
+            class="file-input"
+            onchange="handleImportFile(event)"
+          />
         </div>
-        <p class="small">Use este bloco para copiar ou colar o arquivo JSON com o seu jogo salvo. Isso permite levar seu progresso para outro dispositivo ou fazer backup.</p>
-        <textarea id="saveJsonArea" rows="5" placeholder="Clique em 'Exportar' para gerar o JSON do seu jogo ou cole aqui um JSON para importar."></textarea>
-        <div class="mt-2">
-          <button class="btn btn-primary" onclick="exportSave()">Exportar</button>
-          <button class="btn" onclick="importSave()">Importar</button>
-          <button class="btn btn-ghost" onclick="goTo('screen-menu')">Voltar ao Menu</button>
+        <button class="btn btn-outline mt-8" onclick="loadFromLocalStorage()">
+          Carregar último jogo deste dispositivo
+        </button>
+        <button class="btn btn-outline mt-8" onclick="goTo('start')">
+          Voltar
+        </button>
+      </div>
+    </section>
+
+    <!-- AVATAR -->
+    <section id="screen-avatar" class="screen">
+      <header class="topline">Perfil do Agente</header>
+      <h1 class="title">Escolha seu Avatar</h1>
+      <p>
+        Selecione um dos agentes disponíveis. Este avatar representará você nos
+        dossiês e telas de status.
+      </p>
+      <div id="avatar-list" class="avatar-list"></div>
+      <button class="btn btn-primary mt-8" onclick="confirmAvatar()">
+        Continuar
+      </button>
+      <button class="btn btn-outline mt-4" onclick="goTo('login')">
+        Voltar
+      </button>
+    </section>
+
+    <!-- BRIEFING -->
+    <section id="screen-briefing" class="screen">
+      <header class="topline">Distrito Policial • Valley City</header>
+      <h1 class="title">Briefing do Capitão</h1>
+      <div class="card">
+        <p>
+          “Valley City não é lugar para amadores. Aqui a violência é o idioma
+          local, e a gente fala na mesma altura. Você foi designado para este
+          distrito porque alguém acha que você pode fazer a diferença.”
+        </p>
+        <p>
+          “Nós temos poucos policiais, muitos crimes e quase nenhuma segunda
+          chance. Você vai receber casos um por vez, com acesso a documentos,
+          perícia, testemunhas e suspeitos. Use o que tiver. Se errar demais, vai
+          para a rua.”
+        </p>
+        <p>
+          “Não pise na bola. Se fizer um bom trabalho, promoções podem te levar
+          para o FBI... talvez até para a CIA. Mas se estragar tudo, eu mesmo
+          assino sua demissão. Boa sorte, detetive. Você vai precisar.”
+        </p>
+        <button class="btn btn-primary mt-12" onclick="goTo('office')">
+          Entendido, chefe
+        </button>
+      </div>
+    </section>
+
+    <!-- OFFICE -->
+    <section id="screen-office" class="screen">
+      <header class="topline">Valley City • Unidade de Investigação</header>
+      <h1 class="title">Escritório do Detetive</h1>
+
+      <div class="office-layout">
+        <div class="office-left">
+          <div class="office-avatar">
+            <img id="office-avatar-img" src="assets/avatar_01.png" alt="Avatar" />
+          </div>
+          <div class="tag-pill" id="office-agency-tag">Detetive • VCPD</div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- AVATAR -->
-  <section id="screen-avatar" class="screen screen-bg-office">
-    <div class="screen-inner">
-      <div class="subtitle">Perfil do Agente</div>
-      <h1>Escolha seu Avatar</h1>
-      <p>Selecione um dos agentes disponíveis. Este avatar representará você nos dossiês e telas de status.</p>
-
-      <div id="avatarGrid" class="list-grid mt-2"></div>
-
-      <div class="mt-3">
-        <button class="btn btn-primary" onclick="confirmAvatar()">Confirmar Avatar</button>
-        <button class="btn btn-ghost" onclick="goTo('screen-save')">Voltar</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- BRIEFING CAPITÃO -->
-  <section id="screen-briefing" class="screen screen-bg-briefing">
-    <div class="screen-inner">
-      <div class="subtitle">Distrito Policial • Valley City</div>
-      <h1>Briefing do Capitão</h1>
-      <p>“Valley City não é lugar para amadores. Aqui a violência é o idioma local, e a gente fala na mesma altura. Você foi designado para este distrito porque alguém acha que você pode fazer a diferença.”</p>
-      <p>“Nós temos poucos policiais, muitos crimes e quase nenhuma segunda chance. Você vai receber casos um por vez, com acesso a documentos, perícia, testemunhas e suspeitos. Use o que tiver. Se errar demais, vai para a rua.”</p>
-      <p>“Não pise na bola. Se fizer um bom trabalho, promoções podem te levar para o FBI... talvez até para a CIA. Mas se estragar tudo, eu mesmo assino sua demissão. Boa sorte, detetive. Você vai precisar.”</p>
-
-      <div class="mt-3">
-        <button class="btn btn-primary" onclick="goTo('screen-office')">Entendido, chefe</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ESCRITÓRIO -->
-  <section id="screen-office" class="screen screen-bg-office">
-    <div class="screen-inner">
-      <div class="subtitle">Valley City • Unidade de Investigação</div>
-      <h1>Escritório do Detetive</h1>
-
-      <div style="display:flex; gap:16px; align-items:flex-start; margin-top:12px; flex-wrap:wrap;">
-        <img id="officeAvatar" class="player-avatar" src="assets/avatar_01.png" alt="Avatar do jogador" />
-        <div style="flex:1; min-width:200px;">
-          <div class="office-hud">
-            <div class="card">
-              <div class="stat-label">Cargo atual</div>
-              <div id="hudRank" class="stat-value">Detetive Júnior</div>
-              <div class="stat-label" style="margin-top:6px;">Prestígio interno</div>
-              <div class="bar">
-                <div id="barPrestige" class="bar-fill"></div>
-              </div>
+        <div class="office-right">
+          <div class="card-soft">
+            <div class="label">Cargo Atual</div>
+            <div class="value-main" id="office-rank">Detetive Júnior • VCPD</div>
+            <div class="label mt-4">Prestígio Interno</div>
+            <div class="bar">
+              <div id="bar-prestigio-interno" class="bar-inner"></div>
             </div>
-
-            <div class="card">
-              <div class="stat-label">Casos resolvidos</div>
-              <div id="hudCases" class="stat-value">0 / 0</div>
-              <div class="stat-label" style="margin-top:6px;">Reputação pública</div>
-              <div class="bar">
-                <div id="barReputation" class="bar-fill"></div>
+          </div>
+          <div class="card-soft">
+            <div class="row">
+              <div>
+                <div class="label">Casos Resolvidos</div>
+                <div class="value-main" id="office-casos">0 / 0</div>
               </div>
+              <div class="label" style="text-align:right;">Reputação Pública</div>
             </div>
-
-            <div class="card">
-              <div class="stat-label">Skills</div>
-              <div class="stat-value" id="hudSkillsMain">Intuição 1 • Forense 1</div>
-              <div class="stat-label" style="margin-top:6px;">XP disponível</div>
-              <div id="hudXP" class="stat-value">0 pts</div>
+            <div class="bar">
+              <div id="bar-prestigio-publico" class="bar-inner warning"></div>
+            </div>
+          </div>
+          <div class="card-soft">
+            <div class="label">Skills</div>
+            <div class="row">
+              <div class="stat-text" id="office-skills">Intuição 1 • Forense 1</div>
+              <div class="stat-number" id="office-xp">0 pts</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="office-actions mt-2">
-        <button class="btn btn-primary btn-block" onclick="startNextCase()">Próximo Caso</button>
-        <button class="btn btn-block" onclick="goTo('screen-phone')">Telefonar</button>
-        <button class="btn btn-block" onclick="openPromotion()">Pedir Promoção</button>
-        <button class="btn btn-block" onclick="showStats()">Histórico / Estatísticas</button>
-        <button class="btn btn-block" onclick="saveGame()">Salvar Agora</button>
-        <button class="btn btn-ghost btn-block" onclick="goTo('screen-menu')">Sair para Menu</button>
-      </div>
+      <button class="btn btn-primary" onclick="openNextCase()">Próximo Caso</button>
+      <button class="btn btn-outline" onclick="openPhone()">Telefonar</button>
+      <button class="btn btn-outline" onclick="openPromotion()">Pedir Promoção</button>
+      <button class="btn btn-outline" onclick="openStats()">Histórico / Estatísticas</button>
+      <button class="btn btn-outline" onclick="saveGame(true)">Salvar Agora</button>
+      <button class="btn btn-outline" onclick="goTo('start')">Sair para Menu</button>
 
-      <div class="mt-3 small">
+      <div class="rules-box">
+        <div class="rules-title">
+          <span>Regras</span>
+        </div>
         <p>
-          <span class="badge badge-warning">Regras</span>
-          Três erros começam a gerar advertências. Acima de seis advertências, sua carreira neste distrito termina. Prestígio e reputação sobem com casos resolvidos e caem com acusações erradas.
+          Três erros começam a gerar advertências. Acima de seis advertências, sua
+          carreira neste distrito termina. Prestígio e reputação sobem com casos
+          resolvidos e caem com acusações erradas.
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TELEFONE -->
-  <section id="screen-phone" class="screen screen-bg-phone">
-    <div class="screen-inner">
-      <div class="subtitle">Comunicações</div>
-      <h1>Telefone do Detetive</h1>
-      <p>Escolha quem deseja contatar. Algumas ligações podem melhorar sua moral e prestígio; outras podem resolver detalhes do caso.</p>
-
-      <div class="list-grid mt-2">
-        <div class="card">
-          <div class="card-header">
-            <span>Capitão Harrison</span>
-            <span class="tag">Chefia</span>
+    <!-- PHONE -->
+    <section id="screen-phone" class="screen">
+      <header class="topline">Valley City • Linha Segura</header>
+      <h1 class="title">Telefone do Distrito</h1>
+      <div class="card">
+        <p>Escolha para quem deseja ligar.</p>
+        <div class="list">
+          <div class="list-item" onclick="callChief()">
+            <h4>Chefe de Polícia</h4>
+            <p>Discutir desempenho, pedir desculpas, elogiar equipe ou pedir demissão.</p>
           </div>
-          <p class="small">Converse com o chefe do distrito. Peça desculpas, elogie a equipe ou até peça demissão.</p>
-          <button class="btn btn-block" onclick="callChief()">Ligar para o Capitão</button>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <span>Perito Legista</span>
-            <span class="tag">IML</span>
+          <div class="list-item" onclick="callForensics()">
+            <h4>Perito Legista / Forense</h4>
+            <p>Solicitar detalhes adicionais do laudo ou esclarecimentos técnicos.</p>
           </div>
-          <p class="small">Tire dúvidas sobre o laudo de morte em casos com vítima fatal.</p>
-          <button class="btn btn-block" onclick="callCoroner()">Ligar para o Perito</button>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <span>Equipe de Rua</span>
-            <span class="tag">Patrulha</span>
+          <div class="list-item" onclick="callStreetUnit()">
+            <h4>Equipe de Rua</h4>
+            <p>Acionar patrulha para mandado de busca ou condução de suspeitos.</p>
           </div>
-          <p class="small">Acione a equipe para cumprir mandado de busca ou checar endereços de suspeitos.</p>
-          <button class="btn btn-block" onclick="callStreetTeam()">Ligar para a Equipe</button>
         </div>
+        <button class="btn btn-outline mt-8" onclick="goTo('office')">
+          Voltar ao Escritório
+        </button>
       </div>
+    </section>
 
-      <div class="mt-3">
-        <button class="btn btn-ghost" onclick="goTo('screen-office')">Voltar ao Escritório</button>
+    <!-- PROMOTION / STATS PLACEHOLDER -->
+    <section id="screen-promotion" class="screen">
+      <header class="topline">Valley City • Comissão de Carreira</header>
+      <h1 class="title">Pedido de Promoção</h1>
+      <div class="card">
+        <p id="promotion-text">
+          Para se candidatar à próxima patente, você precisa de prestígio interno
+          mínimo de 80% e bom histórico de acertos.
+        </p>
+        <button class="btn btn-primary mt-8" onclick="startPromotionExam()">
+          Iniciar Prova (10 questões)
+        </button>
+        <button class="btn btn-outline mt-8" onclick="goTo('office')">
+          Voltar ao Escritório
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- TELA DO CASO -->
-  <section id="screen-case" class="screen screen-bg-case">
-    <div class="screen-inner">
-      <div class="subtitle" id="caseLevelTag"></div>
-      <h1 id="caseTitle">Caso Ativo</h1>
-      <p id="caseDesc"></p>
-
-      <div class="office-actions mt-3">
-        <button class="btn btn-primary btn-block" onclick="goTo('screen-witnesses')">Testemunhas</button>
-        <button class="btn btn-block" onclick="goTo('screen-evidence')">Provas</button>
-        <button class="btn btn-block" onclick="goTo('screen-suspects')">Suspeitos</button>
-        <button class="btn btn-block" onclick="goTo('screen-morgue')">Laudo / IML</button>
-        <button class="btn btn-block" onclick="goTo('screen-conclude')">Concluir Caso</button>
-        <button class="btn btn-ghost btn-block" onclick="goTo('screen-office')">Voltar ao Escritório</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTEMUNHAS -->
-  <section id="screen-witnesses" class="screen screen-bg-witness">
-    <div class="screen-inner">
-      <div class="subtitle">Investigação</div>
-      <h1>Testemunhas</h1>
-      <div id="witnessList" class="list-grid mt-2"></div>
-
-      <div id="witnessDetail" class="card mt-2" style="display:none;"></div>
-
-      <div class="mt-3">
-        <button class="btn btn-ghost" onclick="goTo('screen-case')">Voltar ao Caso</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROVAS -->
-  <section id="screen-evidence" class="screen screen-bg-evidence">
-    <div class="screen-inner">
-      <div class="subtitle">Investigação</div>
-      <h1>Provas</h1>
-      <div id="evidenceList" class="list-grid mt-2"></div>
-
-      <div class="mt-3">
-        <button class="btn btn-ghost" onclick="goTo('screen-case')">Voltar ao Caso</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- MORGUE / IML -->
-  <section id="screen-morgue" class="screen screen-bg-morgue">
-    <div class="screen-inner">
-      <div class="subtitle">IML</div>
-      <h1>Laudo do Perito</h1>
-      <p id="morgueText" class="dialog-text"></p>
-      <div class="mt-3">
-        <button class="btn btn-ghost" onclick="goTo('screen-case')">Voltar ao Caso</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SUSPEITOS -->
-  <section id="screen-suspects" class="screen screen-bg-suspect">
-    <div class="screen-inner">
-      <div class="subtitle">Investigação</div>
-      <h1>Suspeitos</h1>
-      <div id="suspectList" class="list-grid mt-2"></div>
-      <div id="suspectDetail" class="card mt-2" style="display:none;"></div>
-      <div class="mt-3">
-        <button class="btn btn-ghost" onclick="goTo('screen-case')">Voltar ao Caso</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- INTERROGATÓRIO -->
-  <section id="screen-interrogation" class="screen screen-bg-interrogation">
-    <div class="screen-inner">
-      <div class="subtitle">Interrogatório</div>
-      <h1 id="interrogationTitle">Sala de Interrogatório</h1>
-
-      <div id="interrogationHeader" class="card"></div>
-
-      <div class="card mt-2">
-        <div class="stat-label">Perguntas rápidas</div>
-        <div id="interrogationQuick" class="chip-group"></div>
-        <div class="stat-label mt-2">Escreva sua pergunta</div>
-        <input id="interrogationInput" type="text" placeholder="Ex.: Onde você estava no momento do crime?" />
-        <div class="mt-2">
-          <button class="btn btn-primary" onclick="sendInterrogationQuestion()">Perguntar</button>
+    <section id="screen-stats" class="screen">
+      <header class="topline">Valley City • Dossiê do Agente</header>
+      <h1 class="title">Histórico & Estatísticas</h1>
+      <div class="card">
+        <div class="row">
+          <div class="stat-text">Casos Concluídos</div>
+          <div class="stat-number" id="stats-cases">0</div>
         </div>
+        <div class="row mt-4">
+          <div class="stat-text">Acusações Corretas</div>
+          <div class="stat-number tag-success" id="stats-correct">0</div>
+        </div>
+        <div class="row mt-4">
+          <div class="stat-text">Acusações Erradas</div>
+          <div class="stat-number tag-danger" id="stats-wrong">0</div>
+        </div>
+        <div class="row mt-4">
+          <div class="stat-text">Advertências</div>
+          <div class="stat-number tag-danger" id="stats-warnings">0</div>
+        </div>
+        <div class="row mt-4">
+          <div class="stat-text">Prestígio Interno</div>
+          <div class="stat-number" id="stats-prestigio-int">0%</div>
+        </div>
+        <div class="row mt-4">
+          <div class="stat-text">Reputação Pública</div>
+          <div class="stat-number" id="stats-prestigio-pub">0%</div>
+        </div>
+        <div class="row mt-4">
+          <div class="stat-text">Agência Atual</div>
+          <div class="stat-number" id="stats-agency">VCPD</div>
+        </div>
+        <button class="btn btn-outline mt-12" onclick="goTo('office')">
+          Voltar ao Escritório
+        </button>
       </div>
+    </section>
 
-      <div class="card mt-2">
-        <div class="stat-label">Registro de perguntas e respostas</div>
-        <div id="interrogationLog" class="dialog-text" style="max-height:260px; overflow-y:auto;"></div>
+    <!-- CASE SCREEN -->
+    <section id="screen-case" class="screen">
+      <header class="topline">Valley City • Caso Ativo</header>
+      <h1 class="title" id="case-title">Caso</h1>
+      <div class="card">
+        <div class="badge" id="case-badge">Nível • Desconhecido</div>
+        <div class="case-title" id="case-name">Nome do Caso</div>
+        <p id="case-description">Descrição do caso em andamento.</p>
+
+        <div class="chip-row">
+          <div class="chip" id="chip-dificuldade">Dificuldade: —</div>
+          <div class="chip" id="chip-tipo">Tipo: —</div>
+          <div class="chip" id="chip-objetivo">Objetivo: Encontrar culpado</div>
+        </div>
+
+        <button class="btn btn-primary mt-8" onclick="openWitnesses()">
+          Testemunhas
+        </button>
+        <button class="btn btn-outline" onclick="openEvidence()">
+          Provas & Perícia
+        </button>
+        <button class="btn btn-outline" onclick="openSuspects()">
+          Suspeitos & Dossiês
+        </button>
+        <button class="btn btn-danger" onclick="openConcludeCase()">
+          Concluir Caso (Indicar Culpado)
+        </button>
+        <button class="btn btn-outline mt-4" onclick="goTo('office')">
+          Voltar ao Escritório
+        </button>
       </div>
+    </section>
 
-      <div class="mt-3">
-        <button class="btn btn-ghost" onclick="backFromInterrogation()">Voltar aos Suspeitos</button>
+    <!-- WITNESSES -->
+    <section id="screen-witnesses" class="screen">
+      <header class="topline">Valley City • Depoimentos</header>
+      <h1 class="title">Testemunhas</h1>
+      <div class="card">
+        <div class="row">
+          <div class="stat-text">Caso Ativo</div>
+          <div class="badge-rank" id="witness-case-name">—</div>
+        </div>
+        <div class="list" id="witness-list"></div>
+        <div class="pill-label mt-8">Depoimento</div>
+        <div id="witness-statement" class="typewriter">
+          Selecione uma testemunha para ouvir o depoimento.
+        </div>
+        <div class="pill-label mt-8">Perguntas rápidas</div>
+        <div class="q-grid" id="witness-quick-questions"></div>
+        <button class="btn btn-outline mt-12" onclick="goTo('case')">
+          Voltar ao Caso
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONCLUSÃO DO CASO -->
-  <section id="screen-conclude" class="screen screen-bg-case">
-    <div class="screen-inner">
-      <div class="subtitle">Conclusão</div>
-      <h1>Quem é o culpado?</h1>
-      <p>Revise testemunhas, provas e álibis. Escolha o suspeito que você acredita ser o verdadeiro responsável. Acusações erradas impactam sua carreira.</p>
-
-      <form id="concludeForm" class="mt-2"></form>
-
-      <div class="mt-3">
-        <button class="btn btn-primary" onclick="submitConclusion()">Confirmar Acusação</button>
-        <button class="btn btn-ghost" onclick="goTo('screen-case')">Voltar ao Caso</button>
+    <!-- EVIDENCE -->
+    <section id="screen-evidence" class="screen">
+      <header class="topline">Valley City • Setor de Provas</header>
+      <h1 class="title">Provas & Perícia</h1>
+      <div class="card">
+        <div class="badge" id="evidence-case-name">Caso Atual</div>
+        <div class="list" id="evidence-list"></div>
+        <button class="btn btn-outline mt-8" onclick="openIMLIfAvailable()">
+          Ver Laudo do Perito (IML)
+        </button>
+        <button class="btn btn-outline mt-8" onclick="goTo('case')">
+          Voltar ao Caso
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PROMOÇÃO -->
-  <section id="screen-promotion" class="screen screen-bg-promotion">
-    <div class="screen-inner">
-      <div class="subtitle">Carreira</div>
-      <h1>Pedido de Promoção</h1>
-      <div id="promotionInfo" class="card"></div>
-
-      <div class="mt-3">
-        <button id="btnStartExam" class="btn btn-primary" onclick="startExam()">Fazer Prova</button>
-        <button class="btn btn-ghost" onclick="goTo('screen-office')">Voltar ao Escritório</button>
+    <!-- SUSPECTS -->
+    <section id="screen-suspects" class="screen">
+      <header class="topline">Valley City • Arquivo de Suspeitos</header>
+      <h1 class="title">Suspeitos</h1>
+      <div class="card">
+        <div class="badge" id="suspects-case-name">Caso Atual</div>
+        <div class="list" id="suspects-list"></div>
+        <button class="btn btn-outline mt-8" onclick="goTo('case')">
+          Voltar ao Caso
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PROVA -->
-  <section id="screen-exam" class="screen screen-bg-exam">
-    <div class="screen-inner">
-      <div class="subtitle">Avaliação Interna</div>
-      <h1>Prova de Promoção</h1>
-      <p class="small">Responda às 10 questões abaixo. Você precisa acertar pelo menos 7 para ser promovido.</p>
-
-      <form id="examForm" class="mt-2"></form>
-
-      <div class="mt-3">
-        <button class="btn btn-primary" onclick="finishExam()">Finalizar Prova</button>
-        <button class="btn btn-ghost" onclick="goTo('screen-office')">Cancelar</button>
+    <!-- INTERROGATION -->
+    <section id="screen-interrogation" class="screen">
+      <header class="topline">Valley City • Sala de Interrogatório</header>
+      <h1 class="title" id="interrogation-title">Interrogatório</h1>
+      <div class="card">
+        <div class="row">
+          <div class="stat-text" id="interrogation-suspect-label">Suspeito</div>
+          <div class="badge-rank" id="interrogation-case-label">Caso Atual</div>
+        </div>
+        <div class="typewriter mt-8" id="interrogation-log">
+          Comece fazendo perguntas. O suspeito responderá com base no álibi e
+          no perfil registrado.
+        </div>
+        <input
+          id="interrogation-input"
+          class="input-text"
+          type="text"
+          placeholder="Digite sua pergunta aqui..."
+          onkeydown="if(event.key==='Enter'){sendInterrogationQuestion();}"
+        />
+        <button class="btn btn-primary mt-8" onclick="sendInterrogationQuestion()">
+          Perguntar
+        </button>
+        <div class="pill-label mt-8">Sugestões de perguntas</div>
+        <div class="q-grid" id="interrogation-suggestions"></div>
+        <button class="btn btn-outline mt-12" onclick="goTo('suspects')">
+          Voltar aos Suspeitos
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- DEMISSÃO -->
-  <section id="screen-fired" class="screen screen-bg-fired">
-    <div class="screen-inner">
-      <div class="subtitle">Carreira Encerrada</div>
-      <h1>Você foi demitido</h1>
-      <p>Seus erros e advertências ultrapassaram o limite aceitável para este distrito. Seu crachá foi recolhido e sua arma oficialmente devolvida.</p>
-      <p class="small">Você ainda pode iniciar um novo jogo em outro arquivo de caso, aprendendo com as falhas desta trajetória.</p>
-
-      <div class="mt-3">
-        <button class="btn btn-primary" onclick="goTo('screen-save')">Escolher outro Arquivo</button>
-        <button class="btn btn-ghost" onclick="goTo('screen-menu')">Voltar ao Menu</button>
+    <!-- IML -->
+    <section id="screen-iml" class="screen">
+      <header class="topline">Valley City • Instituto Médico Legal</header>
+      <h1 class="title">Laudo do Perito</h1>
+      <div class="card">
+        <div class="iml-header">
+          <div class="iml-photo">
+            <img src="assets/perito_legista.png" alt="Perito Legista" />
+          </div>
+          <div>
+            <div class="tag-iml">Dr. Collins • Perito Legista</div>
+            <p class="mt-4">
+              Análise técnica do corpo da vítima, horário provável da morte,
+              tipo de arma utilizada e demais observações forenses.
+            </p>
+          </div>
+        </div>
+        <div id="iml-report-text" class="typewriter">
+          Nenhum laudo carregado. Abra um caso com vítima fatal para visualizar
+          o relatório detalhado.
+        </div>
+        <button class="btn btn-outline mt-12" onclick="goTo('evidence')">
+          Voltar às Provas
+        </button>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- CONCLUDE CASE (SIMPLE MODAL SCREEN) -->
+    <section id="screen-conclude" class="screen">
+      <header class="topline">Valley City • Encerramento de Caso</header>
+      <h1 class="title">Indicar Culpado</h1>
+      <div class="card">
+        <p>
+          Escolha um suspeito para acusar formalmente. Se estiver errado, sua
+          reputação e prestígio serão afetados, e advertências podem ser geradas.
+        </p>
+        <div class="list" id="conclude-suspects-list"></div>
+        <button class="btn btn-outline mt-8" onclick="goTo('case')">
+          Voltar ao Caso
+        </button>
+      </div>
+    </section>
+
+    <!-- FIRED -->
+    <section id="screen-fired" class="screen">
+      <header class="topline">Valley City • Recursos Humanos</header>
+      <h1 class="title">Você foi demitido</h1>
+      <div class="card">
+        <p class="danger-text">
+          O excesso de erros e advertências comprometeu a confiança do distrito
+          no seu trabalho. Seu crachá foi recolhido e seu acesso aos casos
+          encerrado.
+        </p>
+        <p class="mt-8">
+          Você pode iniciar uma nova carreira em Valley City, desta vez com mais
+          cuidado nas investigações.
+        </p>
+        <button class="btn btn-primary mt-12" onclick="startNewGame()">
+          Recomeçar do Zero
+        </button>
+        <button class="btn btn-outline mt-8" onclick="goTo('start')">
+          Voltar ao Início
+        </button>
+      </div>
+    </section>
+  </div>
 
   <script>
-    const CORPS = ["VCPD", "FBI", "CIA"];
-
-    const RANKS = {
-      VCPD: ["Detetive Júnior", "Detetive Titular", "Divisão de Casos Especiais"],
-      FBI: ["Agente de Investigação Júnior", "Agente de Investigação Federal", "Agente Federal de Investigações Especiais"],
-      CIA: ["Analista de Dados Júnior", "Agente Nível 1", "Agente Nível 2", "Agente Nível 3", "Agente Nível 4", "Agente Especial"]
-    };
-
-    const DEFAULT_SKILLS = {
-      intuicao: 1,
-      forense: 1,
-      persuasao: 1,
-      carisma: 1
-    };
-
-    const DEFAULT_XP = 0;
-
-    let gameState = null;
-    let currentSlot = null;
-    let currentWitnessId = null;
-    let currentSuspectId = null;
-    let interrogationTarget = null;
-    let lastInterrogationScreen = "screen-suspects";
-
-    const EXAM_QUESTIONS = [
-      {
-        id: "q1",
-        text: "1. Qual é o objetivo principal de um interrogatório policial?",
-        options: [
-          "Humilhar o suspeito até ele confessar.",
-          "Confirmar hipóteses a qualquer custo.",
-          "Coletar informações e esclarecer contradições de forma legal.",
-          "Obter uma confissão rápida, mesmo sem provas."
-        ],
-        correct: 2
-      },
-      {
-        id: "q2",
-        text: "2. Sobre a cena do crime, o que é mais importante?",
-        options: [
-          "Movimentar o corpo para ter uma visão melhor.",
-          "Preservar o local e registrar tudo antes de mexer em qualquer coisa.",
-          "Concentrar-se apenas na arma do crime.",
-          "Priorizar o depoimento das testemunhas e ignorar o local."
-        ],
-        correct: 1
-      },
-      {
-        id: "q3",
-        text: "3. Em uma investigação, o álibi de um suspeito deve ser:",
-        options: [
-          "Aceito se for dito com convicção.",
-          "Verificado com evidências independentes.",
-          "Ignorado em casos de crimes graves.",
-          "Sempre considerado falso até prova em contrário."
-        ],
-        correct: 1
-      },
-      {
-        id: "q4",
-        text: "4. O que caracteriza um interrogatório bem conduzido?",
-        options: [
-          "Perguntas confusas para deixar o suspeito nervoso.",
-          "Uso constante de ameaças físicas.",
-          "Sequência lógica de perguntas e registro cuidadoso das respostas.",
-          "Deixar o suspeito falar sem nenhuma direção."
-        ],
-        correct: 2
-      },
-      {
-        id: "q5",
-        text: "5. Sobre evidências forenses:",
-        options: [
-          "Sempre falam por si mesmas, sem necessidade de contexto.",
-          "Devem ser analisadas junto com testemunhos e álibis.",
-          "Podem ser ignoradas se o suspeito confessa.",
-          "São menos importantes que a intuição do detetive."
-        ],
-        correct: 1
-      },
-      {
-        id: "q6",
-        text: "6. Qual postura é mais profissional diante do capitão?",
-        options: [
-          "Esconder erros para preservar a imagem.",
-          "Assumir falhas, aprender com elas e melhorar os procedimentos.",
-          "Culpar sempre a equipe de rua.",
-          "Evitar contato com a chefia."
-        ],
-        correct: 1
-      },
-      {
-        id: "q7",
-        text: "7. No contexto de crimes cibernéticos, o que costuma ser crucial?",
-        options: [
-          "Aparência física do suspeito.",
-          "Horário dos acessos registrados em log.",
-          "Histórico escolar do suspeito.",
-          "Número de amigos nas redes sociais."
-        ],
-        correct: 1
-      },
-      {
-        id: "q8",
-        text: "8. Em operações sigilosas, vazamentos internos geralmente envolvem:",
-        options: [
-          "Pessoas sem qualquer acesso à informação.",
-          "Apenas suspeitos externos.",
-          "Alguém com acesso legítimo que quebra protocolos.",
-          "Somente estagiários."
-        ],
-        correct: 2
-      },
-      {
-        id: "q9",
-        text: "9. Repetir a mesma pergunta em momentos diferentes serve para:",
-        options: [
-          "Cansar o suspeito.",
-          "Ver se a resposta se mantém coerente.",
-          "Ganhar tempo na sala de interrogatório.",
-          "Impressionar o promotor."
-        ],
-        correct: 1
-      },
-      {
-        id: "q10",
-        text: "10. Um bom detetive:",
-        options: [
-          "Depende apenas da própria intuição.",
-          "Ignora a perícia se não gostar do laudo.",
-          "Equilibra intuição, evidências e depoimentos.",
-          "Decide tudo com base em boatos."
-        ],
-        correct: 2
-      }
+    // ---------- STATE ----------
+    const AVATARS = [
+      "avatar_01",
+      "avatar_02",
+      "avatar_03",
+      "avatar_04",
+      "avatar_05",
+      "avatar_06",
+      "avatar_07",
+      "avatar_08",
+      "avatar_09",
+      "avatar_10"
     ];
 
+    const QUICK_QUESTIONS_WITNESS = [
+      "Onde você estava no momento do crime?",
+      "Você conhecia a vítima?",
+      "Você viu alguém fugir da cena?",
+      "Consegue descrever algum veículo?",
+      "Percebeu algo estranho nos dias anteriores?",
+      "Sabe se a vítima tinha inimigos?",
+      "Ouviu algum barulho ou discussão?",
+      "Tem mais alguma informação importante?"
+    ];
+
+    const INTERROGATION_QUESTIONS = [
+      "Onde você estava no momento do crime?",
+      "Alguém pode confirmar seu álibi?",
+      "Qual é sua relação com a vítima?",
+      "Você já discutiu com a vítima?",
+      "Por que seu nome apareceu na investigação?",
+      "Você possui antecedentes criminais?",
+      "Como explica as provas encontradas?",
+      "Conhece alguém que queira incriminar você?",
+      "Estava armado naquela noite?",
+      "Quando viu a vítima pela última vez?",
+      "Você sabia da rotina da vítima?",
+      "Tem alguma dívida com a vítima?",
+      "Por que não procurou a polícia antes?",
+      "O que você faria no lugar da vítima?",
+      "Há algo que ainda não nos contou?",
+      "Você entrou no local do crime?",
+      "Conhece os outros suspeitos?",
+      "Por que seu veículo foi visto próximo ao local?",
+      "Alguma vez esteve no motel da rodovia?",
+      "Você ameaçou a vítima recentemente?",
+      "Tem acesso à arma compatível com o crime?",
+      "Quanto tempo conhece a vítima?",
+      "Você lucra de alguma forma com a morte dela?",
+      "Alguém pediu para você mentir aqui?",
+      "Você alterou sua versão dos fatos?",
+      "Por que seu álibi é tão confuso?",
+      "Onde estava seu celular no horário do crime?",
+      "Deixou a cidade nos dias seguintes?",
+      "Tem algo a declarar em sua defesa?",
+      "Você gostaria de acrescentar mais algum detalhe?"
+    ];
+
+    // Casos simplificados de exemplo
     const CASES = [
       {
         id: "case1",
-        levelLabel: "Distrito Policial • VCPD",
-        title: "Homicídio no Motel da Rodovia",
+        name: "Homicídio no Motel da Rodovia",
+        level: "Júnior",
+        difficulty: "Alta",
+        type: "Homicídio",
+        needsIML: true,
         description:
-          "Um corpo foi encontrado em um quarto de motel na saída norte da Valley City. Poucas câmeras, muitos furos no sistema. Alguém está mentindo.",
-        culpritId: "s2",
-        morgue:
-          "Homem, 38 anos. Morte por perfuração única no tórax, arma branca compatível com faca longa. Horário estimado do óbito: entre 22h10 e 22h40. Não há sinais de luta intensa, o que indica surpresa ou confiança na pessoa que se aproximou.",
+          "Um empresário foi encontrado morto em um quarto de motel na saída leste de Valley City. A cena indica possível crime passional, mas há sinais de algo mais planejado.",
         witnesses: [
           {
             id: "w1",
-            name: "Recepcionista do Motel",
-            relation: "Funcionária do local",
+            name: "Atendente do Motel",
+            relation: "Funcionária do turno",
             portrait: "witness_01",
             statement:
-              "Eu estava no balcão a noite inteira. Lembro de ver o hóspede entrando por volta das 21h30. Mais tarde, perto de 22h20, uma mulher de casaco escuro passou rápido pelo corredor.",
+              "O casal entrou por volta das 21h30. Pareciam discutindo baixo, mas nada muito agressivo. Depois disso, não vi mais ninguém entrar ou sair pelo corredor.",
             qa: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu estava no balcão de recepção, conferindo reservas e câmeras internas. Não saí de lá entre 21h e 23h."
+                  "Eu estava na recepção conferindo reservas e câmeras do saguão."
               },
               {
-                keywords: ["conhecia", "vítima"],
+                keywords: ["conhecia", "vítima", "vitima"],
                 answer:
-                  "Nunca tinha visto ele antes aqui. Pelo cadastro, parecia não ser da cidade."
-              },
-              {
-                keywords: ["viu", "alguém"],
-                answer:
-                  "Vi uma mulher de casaco escuro passando pelo corredor do quarto dele por volta das 22h20. Não consegui ver o rosto."
-              },
-              {
-                keywords: ["quem", "poderia"],
-                answer:
-                  "Aqui aparece de tudo, mas aquela mulher andando rápido e olhando pro chão me pareceu nervosa."
+                  "Não, nunca tinha visto ele antes. Mas ela já veio outras vezes."
               }
             ]
           },
           {
             id: "w2",
-            name: "Hóspede do Quarto ao Lado",
-            relation: "Testemunha indireta",
-            portrait: "witness_02",
+            name: "Camareira",
+            relation: "Equipe de limpeza",
+            portrait: "witness_03",
             statement:
-              "Eu ouvi uma discussão abafada, tipo uns sussurros mais altos, mas foi rápido. Depois só o barulho da TV. Achei que era casal brigando.",
+              "Eu ia começar a limpar o corredor daquele andar quando vi a porta entreaberta. Chamei, ninguém respondeu. Quando empurrei, ele já estava caído.",
             qa: [
               {
-                keywords: ["horário", "discussão"],
+                keywords: ["hora", "que horas", "horário"],
                 answer:
-                  "Olhei no celular logo depois, era algo em torno de 22h15. Foi bem nesse intervalo."
-              },
-              {
-                keywords: ["viu", "quem"],
-                answer:
-                  "Não vi quem entrou ou saiu, eu não abri a porta. Só escutei a voz de um homem e de uma mulher."
-              },
-              {
-                keywords: ["som", "tiro"],
-                answer:
-                  "Não ouvi tiro nenhum. Parecia mais empurra-empurra com TV ligada."
+                  "Isso foi perto das 23h10. Eu sigo sempre o mesmo cronograma de limpeza."
               }
             ]
           },
           {
             id: "w3",
-            name: "Faxineira",
-            relation: "Equipe de limpeza",
-            portrait: "witness_03",
+            name: "Hóspede do Quarto ao Lado",
+            relation: "Hóspede",
+            portrait: "witness_05",
             statement:
-              "Eu subi para o andar porque disseram que tinha um quarto atrasado para checkout. Quando abri a porta com a chave mestra, ele já estava morto.",
+              "Ouvi uma discussão aumentando de tom, uns 20 minutos depois de eles entrarem. Parecia que alguém bateu na mesa ou jogou algo no chão.",
             qa: [
               {
-                keywords: ["que horas", "achou"],
+                keywords: ["barulho", "ruído", "som"],
                 answer:
-                  "Isso foi perto de 23h05. Eu já estava encerrando o turno."
+                  "Ouvi algo como um objeto pesado caindo, talvez uma cadeira ou mala."
               },
               {
-                keywords: ["mexeu", "corpo"],
+                keywords: ["viu", "porta"],
                 answer:
-                  "Não, senhor. Fiquei paralisada. Só gritei e chamei a recepção."
+                  "Não abri a porta. Só aumentei o volume da TV para tentar ignorar."
               }
             ]
           },
@@ -1002,7 +1149,7 @@
             id: "w4",
             name: "Vizinho de Loja",
             relation: "Dono de posto próximo",
-            portrait: "witness_04",
+            portrait: "witness_06",
             statement:
               "Eu vi um carro prata parado perto da entrada lateral do motel. Parecia alguém esperando dentro, com o farol apagado.",
             qa: [
@@ -1020,1942 +1167,783 @@
           },
           {
             id: "w5",
-            name: "Motorista de aplicativo",
-            relation: "Possível ligação externa",
-            portrait: "witness_05",
+            name: "Funcionário da Portaria",
+            relation: "Segurança",
+            portrait: "witness_11",
             statement:
-              "Eu deixei uma passageira perto dali às 21h55. Ela pediu pra parar na esquina, disse que ia entrar a pé.",
+              "Ninguém registrou saída pelo saguão principal naquele horário. Se alguém saiu, pode ter usado a saída de serviço.",
             qa: [
               {
-                keywords: ["descrição", "passageira"],
+                keywords: ["câmera", "camera"],
                 answer:
-                  "Mulher, uns 30 e poucos anos, cabelo preso, casaco escuro. Estava bem calada, só mexia no celular."
-              },
-              {
-                keywords: ["voltou", "buscar"],
-                answer:
-                  "Não, não tive outra corrida naquela região naquela noite."
+                  "As câmeras da saída de serviço estavam com interferência de sinal naquela noite."
               }
             ]
           }
         ],
+        evidence: [
+          {
+            id: "e1",
+            type: "Documento",
+            name: "Registro de Check-in",
+            description:
+              "Ficha de entrada com nome falso usado pelo empresário, horário de 21h28 e pagamento em dinheiro.",
+            image: "evidence_doc_01"
+          },
+          {
+            id: "e2",
+            type: "Objeto",
+            name: "Copo de Whisky Quebrado",
+            description:
+              "Copo estilhaçado próximo ao corpo, com impressões parciais da vítima e de uma segunda pessoa.",
+            image: "evidence_obj_01"
+          },
+          {
+            id: "e3",
+            type: "Arma",
+            name: "Objeto Contundente Não Encontrado",
+            description:
+              "Marca de impacto na região occipital indica uso de objeto pesado e alongado, possivelmente um abajur ou barra de ferro.",
+            image: "evidence_weapon_01"
+          }
+        ],
+        imlReport:
+          "Homem, 46 anos. Tempo estimado de morte: entre 22h30 e 23h. Causa provável: traumatismo craniano por objeto contundente. Há marcas de defesa nos antebraços, indicando reação à agressão. Vestígios de álcool no sangue, porém em nível moderado.",
         suspects: [
           {
             id: "s1",
-            name: "Ex-esposa da vítima",
-            age: "36 anos",
-            address: "Bairro residencial em outra cidade",
-            relation: "Ex-parceira com histórico de brigas",
+            name: "Larissa M.",
             portrait: "suspect_01",
-            record:
-              "Boletins de ocorrência por discussão doméstica, mas sem condenações. Histórico de ciúmes e brigas acaloradas.",
+            age: 32,
+            occupation: "Advogada",
+            relation: "Acompanhante no motel",
+            criminalRecord: "Sem antecedentes criminais registrados.",
+            address: "Bairro central, apartamento de médio padrão.",
             alibi:
-              "Diz que estava em casa com o filho. Alega que colocou o menino para dormir às 21h30 e não saiu mais.",
-            qa: [
+              "Afirma ter deixado o quarto após uma discussão, por volta das 22h15, e voltado de táxi para casa.",
+            profileNotes:
+              "Histórico de relacionamento conturbado com a vítima. Troca de mensagens mostra ciúme e ameaças veladas.",
+            keywordsAnswers: [
               {
-                keywords: ["onde", "estava"],
+                keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu estava em casa com meu filho. Coloquei ele pra dormir e fiquei vendo série. Não saí de casa."
+                  "Eu já estava em casa quando isso aconteceu. Saí do motel bem antes, ele ainda estava vivo."
               },
               {
-                keywords: ["motivo", "matar"],
+                keywords: ["táxi", "taxi"],
                 answer:
-                  "Nós brigávamos, mas eu nunca faria isso. Ele era pai do meu filho."
+                  "Peguei um táxi na porta do motel. O motorista deve lembrar, eu estava chorando."
+              },
+              {
+                keywords: ["motivo", "briga", "discussão"],
+                answer:
+                  "A discussão foi por causa de uma mentira que ele me contou. Mas eu nunca faria isso."
               }
-            ]
+            ],
+            isGuilty: false
           },
           {
             id: "s2",
-            name: "Namorada atual",
-            age: "29 anos",
-            address: "Apartamento no centro de Valley City",
-            relation: "Relacionamento recente, ciúmes e discussões",
+            name: "Marcos A.",
             portrait: "suspect_02",
-            record:
-              "Sem antecedentes criminais. Mensagens recentes mostram discussões sobre traição e dinheiro.",
+            age: 41,
+            occupation: "Sócio de Negócios",
+            relation: "Sócio em empresa de logística",
+            criminalRecord:
+              "Envolvimento anterior em fraude tributária, processo arquivado.",
+            address: "Condomínio fechado na zona norte.",
             alibi:
-              "Afirma que estava jogando videogame na casa da avó naquela noite, em outro bairro, e que só soube da morte no dia seguinte.",
-            qa: [
+              "Diz que estava em uma reunião informal com clientes em um bar do centro, até depois das 23h.",
+            profileNotes:
+              "Tinha divergências financeiras com a vítima. E-mails revelam ameaças indiretas sobre 'acertar contas'.",
+            keywordsAnswers: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu já disse, estava na casa da minha avó jogando videogame. Cheguei lá antes das 21h e não saí até tarde."
+                  "Eu estava no bar com dois clientes. Eles podem confirmar cada minuto daquela noite."
               },
               {
-                keywords: ["sabia", "motel"],
+                keywords: ["dinheiro", "dívida", "divida"],
                 answer:
-                  "Não fazia ideia que ele estava num motel. Ele disse que ia resolver coisa de trabalho."
+                  "Tínhamos desentendimentos, sim, mas isso é normal em negócios. Não sou assassino."
               },
               {
-                keywords: ["relacionamento", "briga"],
+                keywords: ["motel", "rodovia"],
                 answer:
-                  "Todo casal briga. A gente discutiu por mensagem, mas isso não quer dizer que eu fiz alguma coisa."
+                  "Eu nem sabia que ele ia para esse motel. Isso não tem nada a ver comigo."
               }
-            ]
+            ],
+            isGuilty: true
           },
           {
             id: "s3",
-            name: "Agiota local",
-            age: "45 anos",
-            address: "Zona norte de Valley City",
-            relation: "Credor, a vítima devia dinheiro",
+            name: "Bruna C.",
             portrait: "suspect_03",
-            record:
-              "Envolvimento com cobrança violenta, mas sem provas diretas. Já foi investigado por extorsão.",
+            age: 29,
+            occupation: "Recepcionista de Hotel",
+            relation: "Ex-namorada",
+            criminalRecord: "Nenhum registro criminal.",
+            address: "Bairro residencial de classe média.",
             alibi:
-              "Diz que estava em um bar lotado assistindo a um jogo de futebol. Afirma que muita gente pode confirmar.",
-            qa: [
-              {
-                keywords: ["dívida"],
-                answer:
-                  "Ele devia, sim, mas eu gosto de receber vivo. Morto não paga conta."
-              },
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Tava no bar do centro vendo o jogo. Pergunta pra qualquer um lá."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Câmera interna do corredor",
-            type: "video",
-            description:
-              "Imagem borrada mostra uma figura de casaco escuro aproximando-se do quarto da vítima entre 22h18 e 22h22.",
-            image: "crime_scene_01"
-          },
-          {
-            id: "ev2",
-            title: "Registro de entrada no motel",
-            type: "document",
-            description:
-              "A vítima entrou sozinha às 21h32. Nenhum acompanhante foi registrado oficialmente na recepção.",
-            image: "evidence_doc_01"
-          },
-          {
-            id: "ev3",
-            title: "Mensagens de celular",
-            type: "document",
-            description:
-              "Conversas acaloradas com a namorada atual entre 20h45 e 21h10, com acusações de traição.",
-            image: "evidence_text_01"
-          },
-          {
-            id: "ev4",
-            title: "Laudo de perfuração",
-            type: "morgue",
-            description:
-              "Perfuração única no tórax, arma branca. Compatível com ataque rápido e direcionado.",
-            image: "evidence_weapon_01"
-          }
-        ]
-      },
-      {
-        id: "case2",
-        levelLabel: "Distrito Policial • VCPD",
-        title: "Roubo à Mão Armada na Loja 24h",
-        description:
-          "Uma loja de conveniência 24h foi assaltada. O caixa foi baleado na perna e o bandido fugiu com o dinheiro. A câmera de segurança foi virada para a parede minutos antes do crime.",
-        culpritId: "s4",
-        morgue:
-          "Vítima sobrevivente, homem de 26 anos. Ferimento por arma de fogo em coxa direita, trajeto único, sem risco de morte. Trajetória indica tiro disparado a curta distância por alguém do lado interno do balcão.",
-        witnesses: [
-          {
-            id: "w1",
-            name: "Caixa da loja",
-            relation: "Vítima sobrevivente",
-            portrait: "witness_01",
-            statement:
-              "Eu estava fechando o caixa quando um cara entrou com capuz, apontou a arma e mandou entregar o dinheiro. Quando tentei acionar o alarme, ele atirou na minha perna.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Atrás do balcão, conferindo o troco e olhando o monitor de câmeras."
-              },
-              {
-                keywords: ["viu", "rosto"],
-                answer:
-                  "Ele tava de capuz e máscara. Não consegui ver o rosto direito."
-              },
-              {
-                keywords: ["alarme"],
-                answer:
-                  "O botão do alarme fica embaixo do balcão. Quando tentei alcançar, ele percebeu."
-              }
-            ]
-          },
-          {
-            id: "w2",
-            name: "Cliente da fila",
-            relation: "Cliente presente no momento",
-            portrait: "witness_02",
-            statement:
-              "Eu tava na fila com umas compras quando ouvi o cara gritar pra passar o dinheiro. Me abaixei e só ouvi o tiro.",
-            qa: [
-              {
-                keywords: ["descrição", "assaltante"],
-                answer:
-                  "Era alto, casaco escuro, calça jeans clara e tênis branco. Não lembro de tatuagem aparente."
-              },
-              {
-                keywords: ["acesso", "porta"],
-                answer:
-                  "Ele entrou pela porta da frente e saiu correndo pela mesma porta. Não vi carro esperando."
-              }
-            ]
-          },
-          {
-            id: "w3",
-            name: "Entregador",
-            relation: "Chegava para entregar mercadorias",
-            portrait: "witness_03",
-            statement:
-              "Eu tava descarregando caixas na porta dos fundos quando ouvi o tiro. Quando corri pra frente, a loja tava um caos.",
-            qa: [
-              {
-                keywords: ["porta", "fundos"],
-                answer:
-                  "A porta dos fundos fica sempre encostada, mas não vi ninguém sair por ali naquele momento."
-              }
-            ]
-          }
-        ],
-        suspects: [
-          {
-            id: "s4",
-            name: "Segurança noturno",
-            age: "39 anos",
-            address: "Apartamento a duas quadras da loja",
-            relation: "Responsável pela segurança do local naquela noite",
-            portrait: "suspect_01",
-            record:
-              "Ex-militar, sem antecedentes, mas com histórico de dívidas recentes.",
-            alibi:
-              "Diz que saiu para fumar do lado de fora e não viu o assaltante entrar. Afirma que só ouviu o tiro lá fora.",
-            qa: [
+              "Afirma estar trabalhando em turno da noite em outro hotel da cidade.",
+            profileNotes:
+              "Término recente e mensagens carregadas de mágoa. Mas não há evidência direta ligando-a ao motel.",
+            keywordsAnswers: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu tava do lado de fora, fumando. Não vi ninguém entrar armado. Quando ouvi o tiro, voltei correndo."
+                  "Eu estava no balcão do hotel onde trabalho. Tem câmeras, colegas, tudo."
               },
               {
-                keywords: ["câmera", "virada"],
+                keywords: ["motel"],
                 answer:
-                  "Às vezes a câmera dá problema e precisa ser ajustada. Eu mexi um pouco antes, mas não pensei que ia acontecer isso."
-              },
-              {
-                keywords: ["dívida"],
-                answer:
-                  "Minhas contas não têm nada a ver com isso. Eu não arriscaria meu emprego por dinheiro de caixa."
+                  "Se eu soubesse que ele estava num motel naquela noite, teria ficado ainda mais decepcionada, mas não fui atrás."
               }
-            ]
-          },
-          {
-            id: "s5",
-            name: "Ex-funcionário demitido",
-            age: "32 anos",
-            address: "Bairro industrial de Valley City",
-            relation: "Demitido da mesma loja há três meses",
-            portrait: "suspect_02",
-            record:
-              "Demitido por desfalque no estoque. Sem passagem registrada, mas com má reputação entre antigos colegas.",
-            alibi:
-              "Afirma que estava em um bar assistindo ao jogo com amigos e que pode provar com fotos nas redes sociais.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Eu tava no bar do centro. Postei foto no stories, dá pra ver o horário."
-              },
-              {
-                keywords: ["motivo", "vingança"],
-                answer:
-                  "Eu fiquei puto quando me demitiram, mas assalto é outra história. Não sou maluco."
-              }
-            ]
-          },
-          {
-            id: "s6",
-            name: "Cliente frequente",
-            age: "28 anos",
-            address: "Conjunto habitacional próximo",
-            relation: "Viciado em jogos, frequentemente endividado",
-            portrait: "suspect_03",
-            record:
-              "Pequenas ocorrências por confusão em bares e inadimplência. Nada violento registrado.",
-            alibi:
-              "Diz que estava em casa vendo TV com a mãe e que ela pode confirmar.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Eu tava em casa vendo TV com a minha mãe. Pergunta pra ela."
-              },
-              {
-                keywords: ["arma"],
-                answer:
-                  "Nunca nem peguei numa arma de verdade. Tenho medo dessas coisas."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Câmera interna virada",
-            type: "document",
-            description:
-              "Registro mostra que a câmera foi manualmente virada para a parede cerca de cinco minutos antes do assalto.",
-            image: "crime_scene_01"
-          },
-          {
-            id: "ev2",
-            title: "Pólvora no balcão",
-            type: "morgue",
-            description:
-              "Resíduos de pólvora encontrados na borda interna do balcão, compatíveis com disparo a curta distância a partir do lado de dentro.",
-            image: "evidence_weapon_01"
-          },
-          {
-            id: "ev3",
-            title: "Relatório de movimentação de caixa",
-            type: "document",
-            description:
-              "O valor levado corresponde a praticamente todo o dinheiro que ficaria para depósito naquele turno.",
-            image: "evidence_doc_01"
-          }
-        ]
-      },
-      {
-        id: "case3",
-        levelLabel: "Divisão de Casos Especiais • VCPD",
-        title: "Incêndio no Galpão de Veículos",
-        description:
-          "Um incêndio destruiu parcialmente um galpão que abrigava carros apreendidos. Um veículo em específico parece ter sido o alvo principal. Há suspeita de fogo criminoso para destruir provas.",
-        culpritId: "s8",
-        morgue:
-          "Laudo do Corpo de Bombeiros: foco inicial próximo ao veículo esportivo vermelho, na parte frontal. Presença de acelerante inflamável no piso e na lataria. Sem vítimas fatais, apenas um vigia com intoxicação leve pela fumaça.",
-        witnesses: [
-          {
-            id: "w1",
-            name: "Vigia noturno",
-            relation: "Funcionário do galpão",
-            portrait: "witness_01",
-            statement:
-              "Eu tava fazendo a ronda quando senti cheiro forte de gasolina. Pouco depois, o fogo começou perto daquele carro vermelho apreendido semana passada.",
-            qa: [
-              {
-                keywords: ["cheiro", "gasolina"],
-                answer:
-                  "O cheiro tava concentrado perto da entrada lateral, não era normal pro galpão."
-              },
-              {
-                keywords: ["quem", "acesso"],
-                answer:
-                  "Só eu e o gerente temos chave do portão principal. A polícia entra quando precisa, mas sempre registra."
-              }
-            ]
-          },
-          {
-            id: "w2",
-            name: "Morador da esquina",
-            relation: "Vizinho",
-            portrait: "witness_02",
-            statement:
-              "Eu ouvi um carro acelerar forte logo antes de ver o clarão do fogo. Parecia um sedã escuro saindo rápido.",
-            qa: [
-              {
-                keywords: ["modelo", "carro"],
-                answer:
-                  "Não tenho certeza, mas parecia um sedã médio, desses comuns, cor escura."
-              }
-            ]
-          },
-          {
-            id: "w3",
-            name: "Bombeiro chefe da ocorrência",
-            relation: "Responsável pela perícia inicial",
-            portrait: "witness_03",
-            statement:
-              "O padrão do fogo indica uso de acelerante. Não foi curto-circuito simples. Alguém quis que aquele carro específico queimasse rápido.",
-            qa: [
-              {
-                keywords: ["acelerante"],
-                answer:
-                  "Encontramos traços de combustível não compatível com os tanques dos veículos. Provavelmente foi trazido em recipiente à parte."
-              }
-            ]
-          }
-        ],
-        suspects: [
-          {
-            id: "s7",
-            name: "Vigia noturno",
-            age: "41 anos",
-            address: "Casa a três quarteirões do galpão",
-            relation: "Funcionário direto do local",
-            portrait: "suspect_01",
-            record:
-              "Sem antecedentes. Pequenas advertências internas por atrasos e faltas. Situação financeira apertada.",
-            alibi:
-              "Alega que estava do lado oposto do galpão quando o fogo começou e que chamou os bombeiros assim que viu o clarão.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Eu tava na outra ponta do galpão, perto do portão de serviço. Quando vi o fogo, liguei pros bombeiros."
-              },
-              {
-                keywords: ["chave", "portão"],
-                answer:
-                  "Eu tenho a chave, sim, mas nunca deixo o portão aberto sem necessidade."
-              }
-            ]
-          },
-          {
-            id: "s8",
-            name: "Empresário investigado",
-            age: "52 anos",
-            address: "Bairro nobre de Valley City",
-            relation: "Proprietário do carro vermelho apreendido",
-            portrait: "suspect_02",
-            record:
-              "Responde a investigação por lavagem de dinheiro e fraude fiscal. O veículo apreendido era peça importante no inquérito.",
-            alibi:
-              "Diz que estava em viagem de negócios em outra cidade e mostra passagem de avião, mas o horário de chegada não cobre toda a noite.",
-            qa: [
-              {
-                keywords: ["carro", "apreendido"],
-                answer:
-                  "Aquele carro já não me interessa mais, era só um bem entre muitos. Eu não ia me arriscar por isso."
-              },
-              {
-                keywords: ["onde", "estava", "noite"],
-                answer:
-                  "Eu estava viajando. Cheguei no hotel tarde, por volta de 23h, mas não lembro o número do quarto."
-              }
-            ]
-          },
-          {
-            id: "s9",
-            name: "Concorrente no ramo de automóveis",
-            age: "47 anos",
-            address: "Cidade vizinha",
-            relation: "Concorrente de negócios do empresário",
-            portrait: "suspect_03",
-            record:
-              "Disputas comerciais acirradas, acusações mútuas em processos cíveis. Sem antecedentes criminais.",
-            alibi:
-              "Afirma que estava em um evento de lançamento de carros, com fotos e vídeos em redes sociais.",
-            qa: [
-              {
-                keywords: ["evento", "lançamento"],
-                answer:
-                  "Passei a noite inteira no evento. Dá pra ver nos vídeos e nas fotos que eu postei."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Resíduos de combustível",
-            type: "morgue",
-            description:
-              "Análise aponta combustível diferente do existente nos tanques dos carros, espalhado ao redor do veículo esportivo vermelho.",
-            image: "evidence_weapon_01"
-          },
-          {
-            id: "ev2",
-            title: "Registros de acesso ao galpão",
-            type: "document",
-            description:
-              "Somente o vigia e o gerente aparecem nos registros de entrada na noite do incêndio. Nenhuma patrulha policial registrada após o horário de fechamento.",
-            image: "evidence_doc_01"
-          },
-          {
-            id: "ev3",
-            title: "Processo de investigação financeira",
-            type: "document",
-            description:
-              "O carro esportivo vermelho estava vinculado diretamente a transações suspeitas da empresa do empresário investigado.",
-            image: "evidence_text_01"
-          }
-        ]
-      },
-      {
-        id: "case4",
-        levelLabel: "Agente Federal • FBI",
-        title: "Sequestro Relâmpago de Executivo",
-        description:
-          "Um executivo de tecnologia foi sequestrado ao sair do trabalho e liberado horas depois, sem ferimentos graves, mas com forte abalo psicológico. Parte das transações da empresa foi acessada durante o período em que ele esteve sob domínio dos criminosos.",
-        culpritId: "s11",
-        morgue:
-          "Relatório médico: pequenas escoriações nos punhos e sinais de sedação leve. Exames toxicológicos indicam uso de sedativo de uso hospitalar, dose controlada para mantê-lo calmo sem apagar totalmente.",
-        witnesses: [
-          {
-            id: "w1",
-            name: "Segurança do prédio",
-            relation: "Responsável pela portaria",
-            portrait: "witness_01",
-            statement:
-              "Eu vi o executivo sair pelo portão principal como sempre, falando ao celular. Logo depois, uma van branca se aproximou do meio-fio.",
-            qa: [
-              {
-                keywords: ["van", "branca"],
-                answer:
-                  "Era uma van branca sem logotipo, com película escura. Não deu pra ver quem tava dirigindo."
-              },
-              {
-                keywords: ["câmera", "prédio"],
-                answer:
-                  "As câmeras pegaram a van chegando, mas a placa tá difícil de ler. Já mandei as imagens pra perícia."
-              }
-            ]
-          },
-          {
-            id: "w2",
-            name: "Colega de trabalho",
-            relation: "Analista da mesma empresa",
-            portrait: "witness_02",
-            statement:
-              "Ele comentou mais cedo que tava preocupado com vazamento de informações internas. Disse que alguém de dentro poderia estar cooperando com gente de fora.",
-            qa: [
-              {
-                keywords: ["vazamento", "informações"],
-                answer:
-                  "Ele disse que tinha notado acessos estranhos em servidores, principalmente fora do horário comercial."
-              }
-            ]
-          },
-          {
-            id: "w3",
-            name: "Vítima",
-            relation: "Executivo sequestrado",
-            portrait: "witness_03",
-            statement:
-              "Eu fui empurrado pra dentro da van, alguém colocou um pano no meu rosto e senti um cheiro forte. Acordei amarrado, ouvi uma voz conhecida discutindo sobre senhas de acesso.",
-            qa: [
-              {
-                keywords: ["voz", "conhecida"],
-                answer:
-                  "Eu tenho quase certeza de que era alguém da própria empresa, mas ainda tô tentando lembrar exatamente quem."
-              },
-              {
-                keywords: ["senha", "acesso"],
-                answer:
-                  "Me obrigaram a passar algumas senhas, mas eu não entreguei tudo. Mesmo assim, deu pra mexerem em algumas contas."
-              }
-            ]
-          }
-        ],
-        suspects: [
-          {
-            id: "s10",
-            name: "Motorista de aplicativo",
-            age: "34 anos",
-            address: "Bairro periférico de Valley City",
-            relation: "Fez corridas para o executivo em dias anteriores",
-            portrait: "suspect_01",
-            record:
-              "Sem antecedentes. Histórico de corridas regulares pela região empresarial.",
-            alibi:
-              "Diz que naquele horário estava em outra corrida em bairro distante e que o aplicativo pode comprovar.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Eu tava em outra corrida, em um bairro longe dali. O próprio app mostra o trajeto."
-              },
-              {
-                keywords: ["van", "branca"],
-                answer:
-                  "Eu dirijo carro pequeno, não tenho van. Dá pra ver isso no meu cadastro."
-              }
-            ]
-          },
-          {
-            id: "s11",
-            name: "Diretor de tecnologia",
-            age: "44 anos",
-            address: "Zona nobre",
-            relation: "Superior hierárquico da vítima",
-            portrait: "suspect_02",
-            record:
-              "Nenhum antecedente. Porém, investigações internas indicam que ele tinha acesso total aos servidores e poderia se beneficiar de operações financeiras sigilosas.",
-            alibi:
-              "Afirma que estava em reunião por vídeo com investidores estrangeiros durante o horário do sequestro.",
-            qa: [
-              {
-                keywords: ["reunião", "investidores"],
-                answer:
-                  "Eu estava em videoconferência. Os registros da plataforma mostram meu login ativo."
-              },
-              {
-                keywords: ["acesso", "servidores"],
-                answer:
-                  "Como diretor de tecnologia, eu tenho acesso, mas não sou o único. Várias pessoas da equipe também têm."
-              }
-            ]
-          },
-          {
-            id: "s12",
-            name: "Analista financeiro",
-            age: "31 anos",
-            address: "Apartamento próximo à empresa",
-            relation: "Trabalha diretamente com as contas acessadas durante o sequestro",
-            portrait: "suspect_03",
-            record:
-              "Sem antecedentes. Histórico de desempenho acima da média, recebeu bônus recentemente.",
-            alibi:
-              "Diz que estava em casa, sozinho, preparando relatórios, e que acessou os servidores apenas pelo sistema oficial.",
-            qa: [
-              {
-                keywords: ["relatórios", "casa"],
-                answer:
-                  "Levei trabalho pra casa, sim. Mas tudo que fiz foi pelo sistema normal, dá pra rastrear."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Log de acessos aos servidores",
-            type: "document",
-            description:
-              "Registros mostram acessos incomuns às contas da vítima e de clientes importantes exatamente durante o período do sequestro, usando credenciais de alto nível.",
-            image: "evidence_text_01"
-          },
-          {
-            id: "ev2",
-            title: "Filmagem da van branca",
-            type: "video",
-            description:
-              "Câmeras mostram uma van branca se aproximando do prédio e saindo em alta velocidade minutos depois da saída do executivo.",
-            image: "crime_scene_01"
-          },
-          {
-            id: "ev3",
-            title: "Relatório interno de auditoria",
-            type: "document",
-            description:
-              "A auditoria indica que apenas poucos cargos, incluindo o diretor de tecnologia, possuíam as permissões usadas nos acessos suspeitos.",
-            image: "evidence_doc_01"
-          }
-        ]
-      },
-      {
-        id: "case5",
-        levelLabel: "Crimes Cibernéticos • FBI",
-        title: "Ataque Cibernético ao Hospital Central",
-        description:
-          "O sistema do Hospital Central de Valley City foi sequestrado por ransomware durante a madrugada, derrubando prontuários e aparelhos conectados. Um paciente em estado grave quase morreu após atraso em um procedimento crítico.",
-        culpritId: "s14",
-        morgue:
-          "Relatório técnico: logs indicam invasão por acesso remoto utilizando credenciais antigas de administrador de TI. O ataque foi disparado a partir de um notebook residencial ligado a um provedor local.",
-        witnesses: [
-          {
-            id: "w1",
-            name: "Enfermeira plantonista",
-            relation: "Profissional em plantão noturno",
-            portrait: "witness_01",
-            statement:
-              "Do nada, os monitores começaram a travar e o sistema de medicamentos ficou fora do ar. A gente teve que voltar pro papel e caneta no meio do caos.",
-            qa: [
-              {
-                keywords: ["horário", "queda"],
-                answer:
-                  "Eu lembro de olhar o relógio, eram mais ou menos 2h10 da madrugada quando tudo começou a travar."
-              },
-              {
-                keywords: ["paciente", "grave"],
-                answer:
-                  "Tinha um paciente na UTI precisando de medicação precisa. Atrasou, mas conseguimos estabilizar por pouco."
-              }
-            ]
-          },
-          {
-            id: "w2",
-            name: "Diretor clínico",
-            relation: "Responsável médico do hospital",
-            portrait: "witness_02",
-            statement:
-              "Recebi uma mensagem na tela exigindo pagamento em criptomoeda para liberar os sistemas. Parecia coisa profissional, não amador.",
-            qa: [
-              {
-                keywords: ["mensagem", "resgate"],
-                answer:
-                  "A mensagem dizia que nossos dados estavam criptografados e que sem pagamento eles começariam a vazar informações sigilosas."
-              }
-            ]
-          },
-          {
-            id: "w3",
-            name: "Analista de TI do hospital",
-            relation: "Equipe interna de tecnologia",
-            portrait: "witness_03",
-            statement:
-              "Nós já tínhamos alertado sobre uma conta antiga de administrador que não foi desativada depois da demissão de um funcionário. Ela foi usada no ataque.",
-            qa: [
-              {
-                keywords: ["conta", "antiga"],
-                answer:
-                  "Era uma conta com privilégios altos, pertencente a um ex-funcionário. Estava marcada para remoção, mas o processo atrasou."
-              },
-              {
-                keywords: ["quem", "acesso"],
-                answer:
-                  "Só a equipe de TI sabia da existência dessa conta antiga. Isso restringe bastante a lista de suspeitos."
-              }
-            ]
-          }
-        ],
-        suspects: [
-          {
-            id: "s13",
-            name: "Administrador de TI atual",
-            age: "37 anos",
-            address: "Apartamento no centro",
-            relation: "Responsável técnico pelos servidores do hospital",
-            portrait: "suspect_01",
-            record:
-              "Sem antecedentes. Histórico de sobrecarga de trabalho e reclamações sobre falta de investimento em segurança.",
-            alibi:
-              "Diz que estava no próprio hospital tentando conter o ataque a partir de terminais internos.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Eu tava na sala de servidores, tentando derrubar as conexões suspeitas. Qualquer log interno vai mostrar isso."
-              }
-            ]
-          },
-          {
-            id: "s14",
-            name: "Ex-funcionário de TI demitido",
-            age: "33 anos",
-            address: "Bairro residencial de Valley City",
-            relation: "Ex-administrador com acesso às credenciais antigas",
-            portrait: "suspect_02",
-            record:
-              "Demitido após conflitos com a direção por causa de cortes de orçamento. Conhecimento profundo da infraestrutura do hospital.",
-            alibi:
-              "Afirma que estava dormindo em casa e que nem sabia do ataque até ver as notícias pela manhã.",
-            qa: [
-              {
-                keywords: ["demissão", "motivo"],
-                answer:
-                  "Me mandaram embora porque eu batia de frente quando cortavam segurança. Agora tão pagando o preço, mas não foi coisa minha."
-              },
-              {
-                keywords: ["acesso", "conta"],
-                answer:
-                  "Eu não tenho mais acesso oficial a nada lá dentro. Se usaram algo meu, é porque não fizeram o trabalho de casa e apagaram as contas."
-              }
-            ]
-          },
-          {
-            id: "s15",
-            name: "Consultor externo de software",
-            age: "42 anos",
-            address: "Cidade vizinha",
-            relation: "Fornecedor de sistemas para o hospital",
-            portrait: "suspect_03",
-            record:
-              "Trabalha com vários hospitais da região. Não há registros criminais, mas há boatos de contratos mal explicados.",
-            alibi:
-              "Diz que estava em viagem atendendo outro cliente e apresenta notas fiscais do hotel.",
-            qa: [
-              {
-                keywords: ["outro", "cliente"],
-                answer:
-                  "Eu tava em outro hospital, em outra cidade. Tenho agenda, notas e e-mails que provam isso."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Logs de acesso remoto",
-            type: "document",
-            description:
-              "Registros mostram login pela conta de administrador antiga, a partir de um IP residencial em Valley City.",
-            image: "evidence_text_01"
-          },
-          {
-            id: "ev2",
-            title: "Contrato de demissão do ex-funcionário",
-            type: "document",
-            description:
-              "Documento aponta desentendimentos entre o ex-funcionário e a direção por causa de investimento em segurança.",
-            image: "evidence_doc_01"
-          },
-          {
-            id: "ev3",
-            title: "Rastreamento do IP",
-            type: "document",
-            description:
-              "O IP utilizado no ataque está vinculado ao endereço residencial do ex-funcionário de TI.",
-            image: "crime_scene_01"
-          }
-        ]
-      },
-      {
-        id: "case6",
-        levelLabel: "Divisão de Contrainteligência • CIA",
-        title: "Vazamento de Identidades de Agentes",
-        description:
-          "Nomes codificados de agentes em operação no exterior vazaram em um fórum clandestino da deep web. Parte das informações só poderia ter sido acessada a partir de um núcleo interno da CIA.",
-        culpritId: "s17",
-        morgue:
-          "Relatório de segurança: acesso não autorizado a um banco de dados restrito ocorreu durante a madrugada, usando credenciais de um analista de dados. O download foi mascarado como rotina de backup.",
-        witnesses: [
-          {
-            id: "w1",
-            name: "Chefe de segurança da informação",
-            relation: "Responsável por monitorar acessos internos",
-            portrait: "witness_01",
-            statement:
-              "Detectamos um pico de tráfego incomum vindo de uma estação de trabalho interna, disfarçado como backup. Isso não foi acidente.",
-            qa: [
-              {
-                keywords: ["estação", "trabalho"],
-                answer:
-                  "O terminal usado pertence a um analista de dados de nível intermediário. Ele alega que não estava no prédio na hora."
-              }
-            ]
-          },
-          {
-            id: "w2",
-            name: "Analista de dados intermediário",
-            relation: "Dono do terminal suspeito",
-            portrait: "witness_02",
-            statement:
-              "Meu login aparece nos logs, mas eu não estava no prédio naquele horário. Alguém deve ter usado minhas credenciais.",
-            qa: [
-              {
-                keywords: ["onde", "estava"],
-                answer:
-                  "Eu estava em casa, de folga. Cartões de acesso confirmam que eu não entrei no prédio à noite."
-              }
-            ]
-          },
-          {
-            id: "w3",
-            name: "Responsável pelo controle de acessos físicos",
-            relation: "Controle de cartões e catracas",
-            portrait: "witness_03",
-            statement:
-              "Nenhum acesso físico foi registrado com o cartão do analista durante a madrugada. O terminal pode ter sido acionado remotamente.",
-            qa: [
-              {
-                keywords: ["cartão", "entrada"],
-                answer:
-                  "Os registros mostram que o cartão dele foi usado pela última vez no fim da tarde. Depois disso, nada."
-              }
-            ]
-          }
-        ],
-        suspects: [
-          {
-            id: "s16",
-            name: "Analista de dados intermediário",
-            age: "35 anos",
-            address: "Subúrbio de Washington",
-            relation: "Dono das credenciais usadas no acesso",
-            portrait: "suspect_01",
-            record:
-              "Sem antecedentes. Histórico de desempenho estável, sem grandes destaques.",
-            alibi:
-              "Afirma que passou a noite em casa com a família e que seu cartão de acesso ficou guardado.",
-            qa: [
-              {
-                keywords: ["credenciais", "roubadas"],
-                answer:
-                  "Se alguém usou meu login, isso aconteceu de dentro da rede. Eu mesmo não estava conectado."
-              }
-            ]
-          },
-          {
-            id: "s17",
-            name: "Administrador de rede sênior",
-            age: "46 anos",
-            address: "Bairro nobre de Washington",
-            relation: "Tem acesso a múltiplas contas e à camada de infraestrutura",
-            portrait: "suspect_02",
-            record:
-              "Veterano respeitado, mas com recentes problemas financeiros. Acesso privilegiado a registros e logs.",
-            alibi:
-              "Diz que estava em casa revisando documentação e que só se conectou brevemente para checar alertas.",
-            qa: [
-              {
-                keywords: ["acesso", "madrugada"],
-                answer:
-                  "Eu me conectei rapidamente para ver um alerta automático, nada além disso. O resto deve ser rotina de sistema."
-              },
-              {
-                keywords: ["logs", "apagar"],
-                answer:
-                  "Eu não apaguei log nenhum. Qualquer ausência de registro pode ser falha no sistema, não minha."
-              }
-            ]
-          },
-          {
-            id: "s18",
-            name: "Consultor terceirizado",
-            age: "39 anos",
-            address: "Cidade contratada por contrato temporário",
-            relation: "Trabalha remotamente em auditorias esporádicas",
-            portrait: "suspect_03",
-            record:
-              "Histórico limpo, mas com envolvimento anterior em projetos que sofreram vazamentos menores.",
-            alibi:
-              "Afirma que, por contrato, não tinha acesso à base de identidades de agentes, apenas a relatórios agregados.",
-            qa: [
-              {
-                keywords: ["acesso", "base"],
-                answer:
-                  "Eu nunca tive acesso direto à base de identidades. Meu trabalho é em cima de dados já anonimizados."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Trajeto do tráfego suspeito",
-            type: "document",
-            description:
-              "Análise mostra que o tráfego passou por uma camada de rede interna administrada diretamente pelo administrador de rede sênior.",
-            image: "evidence_text_01"
-          },
-          {
-            id: "ev2",
-            title: "Registros de cartão de acesso",
-            type: "document",
-            description:
-              "Nenhum uso do cartão do analista intermediário foi registrado durante a madrugada do vazamento.",
-            image: "evidence_doc_01"
-          },
-          {
-            id: "ev3",
-            title: "Verificação de logs apagados",
-            type: "document",
-            description:
-              "Auditoria indica tentativas de apagar e sobrescrever logs minutos depois do vazamento, usando privilégios de administrador de rede.",
-            image: "crime_scene_01"
-          }
-        ]
-      },
-      {
-        id: "case7",
-        levelLabel: "Operações Especiais • CIA",
-        title: "Operação Phantom Link",
-        description:
-          "Uma operação secreta para desmontar uma célula criminosa internacional em Valley City foi comprometida. Um esconderijo preparado para prisão em flagrante foi esvaziado minutos antes da chegada da equipe.",
-        culpritId: "s20",
-        morgue:
-          "Relatório de campo: nenhum agente foi ferido, mas toda a documentação sensível deixada no local desapareceu. Rastros apontam para alguém com conhecimento dos horários exatos da operação.",
-        witnesses: [
-          {
-            id: "w1",
-            name: "Agente de campo nível 3",
-            relation: "Participou da equipe de entrada",
-            portrait: "witness_01",
-            statement:
-              "Quando invadimos o galpão, tudo já estava limpo. Eles saíram pouco antes, deixando só marcas de pneus frescas.",
-            qa: [
-              {
-                keywords: ["horário", "invasão"],
-                answer:
-                  "A ordem de entrada foi exatamente às 03h00. Pelo calor do piso, eles devem ter saído uns 10 a 15 minutos antes."
-              }
-            ]
-          },
-          {
-            id: "w2",
-            name: "Informante local",
-            relation: "Contato que passou a localização do galpão",
-            portrait: "witness_02",
-            statement:
-              "Eu jurei que eles estavam lá. Passei a localização certa. Se alguém avisou, não fui eu.",
-            qa: [
-              {
-                keywords: ["aviso", "traidor"],
-                answer:
-                  "Eu tô tentando sobreviver nessa cidade. Se eu quisesse enganar vocês, nem tava aqui falando."
-              }
-            ]
-          },
-          {
-            id: "w3",
-            name: "Operador de comunicações",
-            relation: "Responsável pelo canal codificado",
-            portrait: "witness_03",
-            statement:
-              "Os detalhes da operação só foram transmitidos por canal cifrado para um grupo restrito. Alguém de dentro repassou horário e rota.",
-            qa: [
-              {
-                keywords: ["quem", "sabia"],
-                answer:
-                  "Somente o coordenador, dois agentes de campo e um analista de apoio tinham o pacote completo da missão."
-              }
-            ]
-          }
-        ],
-        suspects: [
-          {
-            id: "s19",
-            name: "Agente de campo nível 3",
-            age: "38 anos",
-            address: "Residência funcional",
-            relation: "Participou diretamente da operação",
-            portrait: "suspect_01",
-            record:
-              "Histórico exemplar em missões anteriores, mas com recente pedido de afastamento negado.",
-            alibi:
-              "Afirma que esteve com a equipe o tempo todo e que não teve acesso ao canal externo.",
-            qa: [
-              {
-                keywords: ["afastamento", "pedido"],
-                answer:
-                  "Eu pedi afastamento por exaustão, não por conflito. Não sou eu que vou jogar tudo pro alto agora."
-              }
-            ]
-          },
-          {
-            id: "s20",
-            name: "Analista de apoio",
-            age: "34 anos",
-            address: "Apartamento discreto em Washington",
-            relation: "Responsável por compilar e enviar o pacote de missão",
-            portrait: "suspect_02",
-            record:
-              "Sem antecedentes. Historial de acesso frequente a múltiplas operações, incluindo missões fracassadas recentes.",
-            alibi:
-              "Diz que seguiu o protocolo, enviou os dados e ficou monitorando de longe, sem contato externo.",
-            qa: [
-              {
-                keywords: ["contato", "externo"],
-                answer:
-                  "Eu só usei os canais oficiais. Se alguém vazou, foi depois que o pacote já tinha saído da minha mão."
-              }
-            ]
-          },
-          {
-            id: "s21",
-            name: "Coordenador da operação",
-            age: "49 anos",
-            address: "Base da agência",
-            relation: "Planejou a ação com base em relatórios de inteligência",
-            portrait: "suspect_03",
-            record:
-              "Veterano de diversas operações, alguns insucessos recentes sob sua supervisão.",
-            alibi:
-              "Afirma que centralizou as decisões, mas delegou os detalhes técnicos para o analista de apoio.",
-            qa: [
-              {
-                keywords: ["delegou", "detalhes"],
-                answer:
-                  "Eu defino o quadro geral. Quem cuida de rota, horário exato e encriptação é a equipe técnica."
-              }
-            ]
-          }
-        ],
-        evidence: [
-          {
-            id: "ev1",
-            title: "Rastreamento de comunicação vazada",
-            type: "document",
-            description:
-              "Trechos do plano da operação encontrados em canal criptografado coincidem com o pacote enviado pelo analista de apoio, incluindo ajustes de última hora.",
-            image: "evidence_text_01"
-          },
-          {
-            id: "ev2",
-            title: "Horário de abertura do canal externo",
-            type: "document",
-            description:
-              "Registros mostram um acesso breve a um canal de comunicação não autorizado, a partir da estação de trabalho do analista de apoio, minutos após o envio do plano.",
-            image: "evidence_doc_01"
-          },
-          {
-            id: "ev3",
-            title: "Marcas de pneus no galpão",
-            type: "morgue",
-            description:
-              "Pistas indicam que os veículos deixaram o local com poucos minutos de diferença em relação ao horário exato da operação, sugerindo informação antecipada.",
-            image: "crime_scene_01"
+            ],
+            isGuilty: false
           }
         ]
       }
+      // Casos adicionais podem ser adicionados aqui
     ];
 
-    function clamp(v, min, max) {
-      return Math.max(min, Math.min(max, v));
-    }
+    const INITIAL_STATE = {
+      avatarIndex: 0,
+      rank: "Detetive Júnior",
+      agency: "VCPD",
+      prestigioInterno: 10,
+      prestigioPublico: 5,
+      xp: 0,
+      skills: { intuicao: 1, forense: 1 },
+      casesSolved: 0,
+      casesTotal: 0,
+      correctAccusations: 0,
+      wrongAccusations: 0,
+      warnings: 0,
+      fired: false,
+      currentCaseIndex: null
+    };
 
-    function goTo(screenId) {
+    let state = JSON.parse(JSON.stringify(INITIAL_STATE));
+    let currentWitnessTypingTimeout = null;
+    let currentInterrogationSuspect = null;
+
+    // ---------- NAVIGATION ----------
+    function goTo(id) {
       const screens = document.querySelectorAll(".screen");
-      screens.forEach(s => s.classList.remove("show"));
-      const target = document.getElementById(screenId);
-      if (target) {
-        target.classList.add("show");
-        if (screenId === "screen-office") updateOfficeHUD();
-        if (screenId === "screen-case") updateCaseUI();
-        if (screenId === "screen-witnesses") buildWitnessList(getCurrentCase());
-        if (screenId === "screen-evidence") buildEvidenceList(getCurrentCase());
-        if (screenId === "screen-suspects") buildSuspectList(getCurrentCase());
-        if (screenId === "screen-morgue") updateMorgueUI();
-        if (screenId === "screen-promotion") updatePromotionUI();
-        if (screenId === "screen-exam") buildExamForm();
-      }
+      screens.forEach((s) => s.classList.remove("active"));
+      const el = document.getElementById("screen-" + id);
+      if (el) el.classList.add("active");
+
+      if (id === "office") renderOffice();
+      if (id === "stats") renderStats();
     }
 
-    function initGameState(slot) {
-      currentSlot = slot;
-      gameState = {
-        slot: slot,
-        corp: "VCPD",
-        rankIndex: 0,
-        selectedAvatar: "avatar_01",
-        prestige: 0,
-        publicReputation: 50,
-        casesSolved: 0,
-        errors: 0,
-        warnings: 0,
-        history: [],
-        currentCaseId: null,
-        skills: { ...DEFAULT_SKILLS },
-        xp: DEFAULT_XP
-      };
-    }
-
-    function getSaveKey(slot) {
-      return "valley_save_" + slot;
-    }
-
-    function saveGame() {
-      if (!gameState || currentSlot == null) return;
-      localStorage.setItem(getSaveKey(currentSlot), JSON.stringify(gameState));
-      alert("Jogo salvo no arquivo " + currentSlot + ".");
-      buildSaveSlots();
-    }
-
-    function loadSlot(slot) {
-      const raw = localStorage.getItem(getSaveKey(slot));
-      currentSlot = slot;
-      if (!raw) {
-        initGameState(slot);
-        buildAvatarGrid();
-        goTo("screen-avatar");
-        return;
-      }
-      try {
-        gameState = JSON.parse(raw);
-      } catch (e) {
-        alert("Falha ao carregar o arquivo de caso. Iniciando novo jogo neste slot.");
-        initGameState(slot);
-      }
-      goTo("screen-office");
-    }
-
-    function buildSaveSlots() {
-      const container = document.getElementById("saveSlots");
+    // ---------- INIT ----------
+    function initAvatarScreen() {
+      const container = document.getElementById("avatar-list");
       container.innerHTML = "";
-      for (let i = 1; i <= 3; i++) {
-        const raw = localStorage.getItem(getSaveKey(i));
-        let label = "Arquivo " + i + " - Vazio";
-        let sub = "Clique para iniciar um novo jogo neste arquivo.";
-        if (raw) {
-          try {
-            const data = JSON.parse(raw);
-            const rankName = getFullRankNameFromData(data);
-            const cases = (data.history || []).length;
-            label = "Arquivo " + i + " - " + rankName;
-            sub = cases + " caso(s) investigado(s).";
-          } catch (e) {}
-        }
-        const card = document.createElement("div");
-        card.className = "card";
-        const btn = document.createElement("button");
-        btn.className = "btn slot-btn";
-        btn.onclick = () => loadSlot(i);
-        btn.innerHTML = "<span class='slot-label'>" + label + "<br/><span class='small'>" + sub + "</span></span><span>▶</span>";
-        card.appendChild(btn);
-        container.appendChild(card);
-      }
-    }
-
-    function getFullRankName() {
-      if (!gameState) return "";
-      const corps = gameState.corp || "VCPD";
-      const idx = gameState.rankIndex || 0;
-      const list = RANKS[corps] || [];
-      const rank = list[idx] || "Cargo indefinido";
-      return rank + " • " + corps;
-    }
-
-    function getFullRankNameFromData(data) {
-      const corps = data.corp || "VCPD";
-      const idx = data.rankIndex || 0;
-      const list = RANKS[corps] || [];
-      const rank = list[idx] || "Cargo indefinido";
-      return rank + " • " + corps;
-    }
-
-    function exportSave() {
-      if (!gameState) {
-        alert("Nenhum jogo carregado. Abra um arquivo de caso primeiro.");
-        return;
-      }
-      const area = document.getElementById("saveJsonArea");
-      area.value = JSON.stringify(gameState, null, 2);
-      area.select();
-      document.execCommand("copy");
-      alert("JSON do jogo copiado para a área de transferência. Você também pode salvar esse texto em um arquivo .json.");
-    }
-
-    function importSave() {
-      const area = document.getElementById("saveJsonArea");
-      if (!area.value.trim()) {
-        alert("Cole um JSON de jogo no campo antes de importar.");
-        return;
-      }
-      try {
-        const data = JSON.parse(area.value);
-        gameState = data;
-        currentSlot = data.slot || 1;
-        saveGame();
-        alert("Jogo importado com sucesso no arquivo " + currentSlot + ".");
-        goTo("screen-office");
-      } catch (e) {
-        alert("JSON inválido. Verifique o conteúdo e tente novamente.");
-      }
-    }
-
-    function buildAvatarGrid() {
-      const container = document.getElementById("avatarGrid");
-      container.innerHTML = "";
-      for (let i = 1; i <= 10; i++) {
-        const id = "avatar_" + String(i).padStart(2, "0");
-        const card = document.createElement("div");
-        card.className = "card";
-        const row = document.createElement("div");
-        row.className = "row";
-        const img = document.createElement("img");
-        img.src = "assets/" + id + ".png";
-        img.alt = id;
-        img.className = "portrait";
-        const info = document.createElement("div");
-        const lbl = document.createElement("div");
-        lbl.textContent = "Agente " + i;
-        lbl.style.fontWeight = "600";
-        const small = document.createElement("div");
-        small.className = "small";
-        small.textContent = "Toque para selecionar este avatar.";
-        info.appendChild(lbl);
-        info.appendChild(small);
-        row.appendChild(img);
-        row.appendChild(info);
-        card.appendChild(row);
-        card.onclick = () => {
-          gameState.selectedAvatar = id;
-          const cards = container.querySelectorAll(".card");
-          cards.forEach(c => (c.style.borderColor = "rgba(255,255,255,0.05)"));
-          card.style.borderColor = "#ffd200";
+      AVATARS.forEach((key, i) => {
+        const item = document.createElement("div");
+        item.className = "avatar-item" + (i === state.avatarIndex ? " selected" : "");
+        item.dataset.index = i;
+        item.onclick = () => {
+          state.avatarIndex = i;
+          initAvatarScreen();
         };
-        container.appendChild(card);
-      }
+        const img = document.createElement("img");
+        img.src = "assets/" + key + ".png";
+        img.alt = "Avatar " + (i + 1);
+        const info = document.createElement("div");
+        info.className = "avatar-info";
+        const name = document.createElement("div");
+        name.className = "avatar-name";
+        name.textContent = "Agente " + (i + 1);
+        const desc = document.createElement("div");
+        desc.className = "avatar-desc";
+        desc.textContent = "Toque para selecionar este avatar.";
+        info.appendChild(name);
+        info.appendChild(desc);
+        item.appendChild(img);
+        item.appendChild(info);
+        container.appendChild(item);
+      });
     }
 
     function confirmAvatar() {
-      if (!gameState.selectedAvatar) {
-        alert("Selecione um avatar antes de continuar.");
+      goTo("briefing");
+      updateOfficeAvatar();
+    }
+
+    function updateOfficeAvatar() {
+      const img = document.getElementById("office-avatar-img");
+      img.src = "assets/" + AVATARS[state.avatarIndex] + ".png";
+    }
+
+    function renderOffice() {
+      updateOfficeAvatar();
+      document.getElementById("office-rank").textContent =
+        state.rank + " • " + state.agency;
+      document.getElementById("office-agency-tag").textContent =
+        state.agency === "VCPD"
+          ? "Detetive • VCPD"
+          : state.agency === "FBI"
+          ? "Agente Federal • FBI"
+          : "Agente Especial • CIA";
+      document.getElementById("office-casos").textContent =
+        state.casesSolved + " / " + state.casesTotal;
+      document.getElementById("office-skills").textContent =
+        "Intuição " + state.skills.intuicao + " • Forense " + state.skills.forense;
+      document.getElementById("office-xp").textContent = state.xp + " pts";
+
+      const intBar = document.getElementById("bar-prestigio-interno");
+      const pubBar = document.getElementById("bar-prestigio-publico");
+      intBar.style.width = Math.min(state.prestigioInterno, 100) + "%";
+      pubBar.style.width = Math.min(state.prestigioPublico, 100) + "%";
+
+      if (state.warnings >= 6 && !state.fired) {
+        state.fired = true;
+        saveGame();
+        goTo("fired");
+      }
+    }
+
+    function renderStats() {
+      document.getElementById("stats-cases").textContent = state.casesSolved;
+      document.getElementById("stats-correct").textContent =
+        state.correctAccusations;
+      document.getElementById("stats-wrong").textContent =
+        state.wrongAccusations;
+      document.getElementById("stats-warnings").textContent = state.warnings;
+      document.getElementById(
+        "stats-prestigio-int"
+      ).textContent = state.prestigioInterno + "%";
+      document.getElementById(
+        "stats-prestigio-pub"
+      ).textContent = state.prestigioPublico + "%";
+      document.getElementById("stats-agency").textContent = state.agency;
+    }
+
+    // ---------- SAVE / LOAD ----------
+    function saveGame(showAlert) {
+      const data = JSON.stringify(state);
+      localStorage.setItem("valleyCitySave", data);
+      if (showAlert) alert("Jogo salvo localmente com sucesso.");
+    }
+
+    function loadFromLocalStorage() {
+      const raw = localStorage.getItem("valleyCitySave");
+      if (!raw) {
+        alert("Nenhum save local encontrado.");
         return;
       }
-      goTo("screen-briefing");
-    }
-
-    function updateOfficeHUD() {
-      if (!gameState) return;
-      const rankEl = document.getElementById("hudRank");
-      const casesEl = document.getElementById("hudCases");
-      const barPrestige = document.getElementById("barPrestige");
-      const barReputation = document.getElementById("barReputation");
-      const hudSkillsMain = document.getElementById("hudSkillsMain");
-      const hudXP = document.getElementById("hudXP");
-      const avatarImg = document.getElementById("officeAvatar");
-
-      rankEl.textContent = getFullRankName();
-      const solved = (gameState.history || []).filter(h => h.success).length;
-      const total = (gameState.history || []).length;
-      casesEl.textContent = solved + " / " + total;
-
-      const prestigePct = clamp(gameState.prestige || 0, 0, 100);
-      barPrestige.style.width = prestigePct + "%";
-
-      const repPct = clamp(gameState.publicReputation || 0, 0, 100);
-      barReputation.style.width = repPct + "%";
-
-      const sk = gameState.skills || DEFAULT_SKILLS;
-      hudSkillsMain.textContent = "Intuição " + sk.intuicao + " • Forense " + sk.forense;
-      hudXP.textContent = (gameState.xp || 0) + " pts";
-
-      if (avatarImg && gameState.selectedAvatar) {
-        avatarImg.src = "assets/" + gameState.selectedAvatar + ".png";
+      try {
+        state = JSON.parse(raw);
+        goTo("office");
+      } catch (e) {
+        alert("Erro ao carregar save.");
       }
     }
 
-    function getCurrentCase() {
-      if (!gameState || !gameState.currentCaseId) return null;
-      return CASES.find(c => c.id === gameState.currentCaseId) || null;
+    function startNewGame() {
+      state = JSON.parse(JSON.stringify(INITIAL_STATE));
+      state.casesTotal = CASES.length;
+      initAvatarScreen();
+      goTo("avatar");
     }
 
-    function startNextCase() {
-      if (!gameState) {
-        alert("Abra um arquivo de caso primeiro.");
-        return;
-      }
-      const playedIds = new Set((gameState.history || []).map(h => h.id));
-      let next = CASES.find(c => !playedIds.has(c.id));
-      if (!next) {
-        next = CASES[CASES.length - 1];
-        alert("Você já investigou todos os casos disponíveis. Reabrindo o último caso para revisão.");
-      }
-      gameState.currentCaseId = next.id;
-      goTo("screen-case");
-    }
-
-    function updateCaseUI() {
-      const c = getCurrentCase();
-      const titleEl = document.getElementById("caseTitle");
-      const descEl = document.getElementById("caseDesc");
-      const levelEl = document.getElementById("caseLevelTag");
-      if (!c) {
-        titleEl.textContent = "Nenhum caso ativo";
-        descEl.textContent = "Use 'Próximo Caso' no escritório para iniciar uma nova investigação.";
-        levelEl.textContent = "";
-        return;
-      }
-      const idx = CASES.findIndex(cs => cs.id === c.id);
-      const prefix = idx >= 0 ? "Caso " + (idx + 1) + " • " : "";
-      titleEl.textContent = prefix + c.title;
-      descEl.textContent = c.description;
-      levelEl.textContent = c.levelLabel;
-      buildWitnessList(c);
-      buildEvidenceList(c);
-      buildSuspectList(c);
-      buildConcludeList(c);
-      updateMorgueUI();
-    }
-
-    function buildWitnessList(c) {
-      const container = document.getElementById("witnessList");
-      const detail = document.getElementById("witnessDetail");
-      container.innerHTML = "";
-      detail.style.display = "none";
-      if (!c) return;
-      (c.witnesses || []).forEach(w => {
-        const card = document.createElement("div");
-        card.className = "card";
-        const row = document.createElement("div");
-        row.className = "row";
-        const img = document.createElement("img");
-        img.className = "portrait";
-        img.src = "assets/" + w.portrait + ".jpg";
-        img.alt = w.name;
-        const info = document.createElement("div");
-        const name = document.createElement("div");
-        name.style.fontWeight = "600";
-        name.textContent = w.name;
-        const rel = document.createElement("div");
-        rel.className = "small";
-        rel.textContent = w.relation;
-        const btn = document.createElement("button");
-        btn.className = "btn btn-ghost mt-1";
-        btn.textContent = "Ouvir depoimento";
-        btn.onclick = () => showWitnessDetail(w);
-        info.appendChild(name);
-        info.appendChild(rel);
-        info.appendChild(btn);
-        row.appendChild(img);
-        row.appendChild(info);
-        card.appendChild(row);
-        container.appendChild(card);
-      });
-    }
-
-    function showWitnessDetail(w) {
-      currentWitnessId = w.id;
-      const detail = document.getElementById("witnessDetail");
-      detail.style.display = "block";
-      detail.innerHTML = "";
-      const header = document.createElement("div");
-      header.className = "card-header";
-      header.innerHTML = "<span>" + w.name + "</span><span class='tag'>Testemunha</span>";
-      const body = document.createElement("div");
-      const pRel = document.createElement("div");
-      pRel.className = "small";
-      pRel.textContent = w.relation;
-      const pStmt = document.createElement("p");
-      pStmt.className = "dialog-text";
-      pStmt.textContent = w.statement;
-
-      const chips = document.createElement("div");
-      chips.className = "chip-group";
-      (w.qa || []).forEach((qa, idx) => {
-        const chip = document.createElement("div");
-        chip.className = "pill";
-        chip.textContent = "Pergunta #" + (idx + 1);
-        chip.onclick = () => askWitnessQuestionAuto(w, qa);
-        chips.appendChild(chip);
-      });
-
-      const label = document.createElement("div");
-      label.className = "stat-label mt-2";
-      label.textContent = "Escreva sua pergunta";
-      const input = document.createElement("input");
-      input.type = "text";
-      input.id = "witnessQuestionInput";
-      input.placeholder = "Ex.: Onde você estava no momento do crime?";
-
-      const btnAsk = document.createElement("button");
-      btnAsk.className = "btn btn-primary mt-2";
-      btnAsk.textContent = "Perguntar";
-      btnAsk.onclick = () => askWitnessQuestionTyped(w);
-
-      const log = document.createElement("div");
-      log.id = "witnessLog";
-      log.className = "dialog-text mt-2";
-      log.style.maxHeight = "220px";
-      log.style.overflowY = "auto";
-
-      body.appendChild(pRel);
-      body.appendChild(pStmt);
-      body.appendChild(chips);
-      body.appendChild(label);
-      body.appendChild(input);
-      body.appendChild(btnAsk);
-      body.appendChild(log);
-
-      detail.appendChild(header);
-      detail.appendChild(body);
-    }
-
-    function removeAccents(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-
-    function answerFromQA(question, qaList, context) {
-      const q = removeAccents(question.toLowerCase().trim());
-      let best = null;
-      let bestScore = 0;
-      for (const item of qaList) {
-        let score = 0;
-        for (const kw of item.keywords) {
-          const normKw = removeAccents(kw.toLowerCase());
-          if (q.includes(normKw)) {
-            score += 1;
-          }
+    function handleImportFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          state = data;
+          alert("Save importado com sucesso.");
+          goTo("office");
+        } catch (err) {
+          alert("Arquivo JSON inválido.");
         }
-        if (score > bestScore) {
-          bestScore = score;
-          best = item;
-        }
-      }
-      if (!best || bestScore === 0) {
-        return "Não sei dizer com certeza sobre isso.";
-      }
-      const intuicao = (gameState && gameState.skills && gameState.skills.intuicao) || 1;
-      if (intuicao >= 3 && best.extraDetail) {
-        return best.answer + " " + best.extraDetail;
-      }
-      return best.answer;
+      };
+      reader.readAsText(file);
     }
 
-    function appendWitnessLog(question, answer) {
-      const log = document.getElementById("witnessLog");
-      if (!log) return;
-      log.textContent += "\n\nVocê: " + question + "\n" + "Testemunha: " + answer;
-      log.scrollTop = log.scrollHeight;
-    }
-
-    function askWitnessQuestionAuto(w, qa) {
-      const fakeQ = qa.keywords.join(" ");
-      const answer = qa.answer;
-      appendWitnessLog(fakeQ, answer);
-    }
-
-    function askWitnessQuestionTyped(w) {
-      const input = document.getElementById("witnessQuestionInput");
-      if (!input || !input.value.trim()) return;
-      const question = input.value.trim();
-      input.value = "";
-      const answer = answerFromQA(question, w.qa || [], { type: "witness" });
-      appendWitnessLog(question, answer);
-    }
-
-    function buildEvidenceList(c) {
-      const container = document.getElementById("evidenceList");
-      container.innerHTML = "";
-      if (!c) return;
-      (c.evidence || []).forEach(ev => {
-        const card = document.createElement("div");
-        card.className = "card";
-        const header = document.createElement("div");
-        header.className = "card-header";
-        header.innerHTML = "<span>" + ev.title + "</span><span class='tag'>" + ev.type.toUpperCase() + "</span>";
-        const body = document.createElement("p");
-        body.className = "small";
-        body.textContent = ev.description;
-        const btn = document.createElement("button");
-        btn.className = "btn btn-ghost mt-1";
-        btn.textContent = "Ver detalhes";
-        btn.onclick = () => {
-          if (ev.type === "morgue") {
-            goTo("screen-morgue");
-          } else {
-            alert(ev.description);
-          }
-        };
-        card.appendChild(header);
-        card.appendChild(body);
-        card.appendChild(btn);
-        container.appendChild(card);
-      });
-    }
-
-    function updateMorgueUI() {
-      const c = getCurrentCase();
-      const p = document.getElementById("morgueText");
-      if (!c) {
-        p.textContent = "Nenhum laudo disponível.";
-        return;
-      }
-      p.textContent = c.morgue || "Nenhum laudo detalhado foi anexado a este caso.";
-    }
-
-    function buildSuspectList(c) {
-      const container = document.getElementById("suspectList");
-      const detail = document.getElementById("suspectDetail");
-      container.innerHTML = "";
-      detail.style.display = "none";
-      if (!c) return;
-      (c.suspects || []).forEach(s => {
-        const card = document.createElement("div");
-        card.className = "card";
-        const row = document.createElement("div");
-        row.className = "row";
-        const img = document.createElement("img");
-        img.className = "portrait";
-        img.src = "assets/" + s.portrait + ".jpg";
-        img.alt = s.name;
-        const info = document.createElement("div");
-        const name = document.createElement("div");
-        name.style.fontWeight = "600";
-        name.textContent = s.name;
-        const rel = document.createElement("div");
-        rel.className = "small";
-        rel.textContent = s.relation;
-        const btn = document.createElement("button");
-        btn.className = "btn btn-ghost mt-1";
-        btn.textContent = "Abrir dossiê";
-        btn.onclick = () => showSuspectDetail(s);
-        info.appendChild(name);
-        info.appendChild(rel);
-        info.appendChild(btn);
-        row.appendChild(img);
-        row.appendChild(info);
-        card.appendChild(row);
-        container.appendChild(card);
-      });
-    }
-
-    function showSuspectDetail(s) {
-      currentSuspectId = s.id;
-      const detail = document.getElementById("suspectDetail");
-      detail.style.display = "block";
-      detail.innerHTML = "";
-      const header = document.createElement("div");
-      header.className = "card-header";
-      header.innerHTML = "<span>" + s.name + "</span><span class='tag'>Suspeito</span>";
-      const body = document.createElement("div");
-      const info = document.createElement("p");
-      info.className = "small";
-      info.innerHTML =
-        "<strong>Idade:</strong> " + s.age +
-        "<br><strong>Endereço:</strong> " + s.address +
-        "<br><strong>Relação com a vítima:</strong> " + s.relation;
-      const record = document.createElement("p");
-      record.className = "small";
-      record.innerHTML = "<strong>Registro / antecedentes:</strong> " + s.record;
-      const alibi = document.createElement("p");
-      alibi.className = "small";
-      alibi.innerHTML = "<strong>Álibi para o horário do crime:</strong> " + s.alibi;
-
-      const btnInterrogate = document.createElement("button");
-      btnInterrogate.className = "btn btn-primary mt-2";
-      btnInterrogate.textContent = "Iniciar interrogatório";
-      btnInterrogate.onclick = () => openInterrogation(s);
-
-      body.appendChild(info);
-      body.appendChild(record);
-      body.appendChild(alibi);
-      body.appendChild(btnInterrogate);
-
-      detail.appendChild(header);
-      detail.appendChild(body);
-    }
-
-    function openInterrogation(s) {
-      interrogationTarget = s;
-      lastInterrogationScreen = "screen-suspects";
-      goTo("screen-interrogation");
-      const header = document.getElementById("interrogationHeader");
-      const title = document.getElementById("interrogationTitle");
-      const quick = document.getElementById("interrogationQuick");
-      const log = document.getElementById("interrogationLog");
-      const input = document.getElementById("interrogationInput");
-
-      title.textContent = "Interrogatório • " + s.name;
-      header.innerHTML = "";
-      quick.innerHTML = "";
-      log.textContent = "";
-      input.value = "";
-
-      const row = document.createElement("div");
-      row.className = "row";
-      const img = document.createElement("img");
-      img.className = "portrait";
-      img.src = "assets/" + s.portrait + ".jpg";
-      img.alt = s.name;
-      const info = document.createElement("div");
-      const nm = document.createElement("div");
-      nm.style.fontWeight = "600";
-      nm.textContent = s.name;
-      const rel = document.createElement("div");
-      rel.className = "small";
-      rel.textContent = s.relation;
-      info.appendChild(nm);
-      info.appendChild(rel);
-      row.appendChild(img);
-      row.appendChild(info);
-      header.appendChild(row);
-
-      (s.qa || []).forEach((qa, idx) => {
-        const chip = document.createElement("div");
-        chip.className = "pill";
-        chip.textContent = "Pergunta #" + (idx + 1);
-        chip.onclick = () => {
-          const q = qa.keywords.join(" ");
-          const a = qa.answer;
-          appendInterrogationLog(q, a);
-        };
-        quick.appendChild(chip);
-      });
-    }
-
-    function appendInterrogationLog(question, answer) {
-      const log = document.getElementById("interrogationLog");
-      if (!log) return;
-      log.textContent += "\n\nVocê: " + question + "\n" + interrogationTarget.name + ": " + answer;
-      log.scrollTop = log.scrollHeight;
-    }
-
-    function sendInterrogationQuestion() {
-      if (!interrogationTarget) return;
-      const input = document.getElementById("interrogationInput");
-      if (!input || !input.value.trim()) return;
-      const q = input.value.trim();
-      input.value = "";
-      const a = answerFromQA(q, interrogationTarget.qa || [], { type: "suspect" });
-      appendInterrogationLog(q, a);
-    }
-
-    function backFromInterrogation() {
-      goTo(lastInterrogationScreen || "screen-suspects");
-    }
-
-    function buildConcludeList(c) {
-      const form = document.getElementById("concludeForm");
-      form.innerHTML = "";
-      if (!c) {
-        form.innerHTML = "<p class='small'>Nenhum caso ativo.</p>";
-        return;
-      }
-      (c.suspects || []).forEach((s, idx) => {
-        const div = document.createElement("div");
-        div.className = "card";
-        const label = document.createElement("label");
-        label.style.display = "flex";
-        label.style.alignItems = "center";
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = "suspectChoice";
-        radio.value = s.id;
-        radio.style.marginRight = "8px";
-        const span = document.createElement("span");
-        span.textContent = s.name + " — " + s.relation;
-        label.appendChild(radio);
-        label.appendChild(span);
-        div.appendChild(label);
-        form.appendChild(div);
-      });
-    }
-
-    function submitConclusion() {
-      const c = getCurrentCase();
-      if (!c) {
-        alert("Nenhum caso ativo.");
-        return;
-      }
-      const radios = document.querySelectorAll("input[name='suspectChoice']");
-      let chosen = null;
-      radios.forEach(r => {
-        if (r.checked) chosen = r.value;
-      });
-      if (!chosen) {
-        alert("Selecione um suspeito antes de concluir o caso.");
-        return;
-      }
-      finishCase(chosen);
-    }
-
-    function addXP(amount) {
-      if (!gameState) return;
-      gameState.xp = (gameState.xp || 0) + amount;
-      while (gameState.xp >= 20) {
-        gameState.xp -= 20;
-        levelUpRandomSkill();
-      }
-      updateOfficeHUD();
-    }
-
-    function levelUpRandomSkill() {
-      if (!gameState.skills) gameState.skills = { ...DEFAULT_SKILLS };
-      const keys = ["intuicao", "forense", "persuasao", "carisma"];
-      const chosenKey = keys[Math.floor(Math.random() * keys.length)];
-      gameState.skills[chosenKey] += 1;
-      alert("Sua habilidade de " + chosenKey.toUpperCase() + " aumentou para nível " + gameState.skills[chosenKey] + "!");
-    }
-
-    function finishCase(chosenSuspectId) {
-      const c = getCurrentCase();
-      if (!c) return;
-      const acerto = chosenSuspectId === c.culpritId;
-
-      if (!gameState.history) gameState.history = [];
-      gameState.history.push({
-        id: c.id,
-        title: c.title,
-        success: acerto,
-        timestamp: Date.now()
-      });
-
-      if (acerto) {
-        gameState.casesSolved = (gameState.casesSolved || 0) + 1;
-        gameState.prestige = clamp((gameState.prestige || 0) + 8, 0, 100);
-        gameState.publicReputation = clamp((gameState.publicReputation || 0) + 4, 0, 100);
-        addXP(10);
-        alert("Caso concluído com sucesso! A cidade confia mais em você.");
-      } else {
-        gameState.errors = (gameState.errors || 0) + 1;
-        if (gameState.errors >= 3) {
-          gameState.warnings = (gameState.warnings || 0) + 1;
-        }
-        gameState.prestige = clamp((gameState.prestige || 0) - 10, 0, 100);
-        gameState.publicReputation = clamp((gameState.publicReputation || 0) - 6, 0, 100);
-        alert("Você acusou a pessoa errada. Isso afetou sua carreira e imagem pública.");
-        if ((gameState.warnings || 0) >= 6) {
-          saveGame();
-          goTo("screen-fired");
-          return;
-        }
-      }
-
-      gameState.currentCaseId = null;
-      saveGame();
-      updateOfficeHUD();
-      goTo("screen-office");
-    }
-
-    function showStats() {
-      if (!gameState) return;
-      const solved = (gameState.history || []).filter(h => h.success).length;
-      const total = (gameState.history || []).length;
-      const msg =
-        "Cargo: " + getFullRankName() +
-        "\nPrestígio interno: " + (gameState.prestige || 0) +
-        "\nReputação pública: " + (gameState.publicReputation || 0) +
-        "\nCasos resolvidos: " + solved + " de " + total +
-        "\nErros: " + (gameState.errors || 0) +
-        "\nAdvertências: " + (gameState.warnings || 0);
-      alert(msg);
+    // ---------- PHONE ----------
+    function openPhone() {
+      goTo("phone");
     }
 
     function callChief() {
-      if (!gameState) {
-        alert("Nenhum jogo carregado.");
-        return;
-      }
       const choice = prompt(
-        "Ligando para o Capitão Harrison...\n\n1 - Pedir desculpas por erros recentes\n2 - Elogiar a equipe / o próprio chefe\n3 - Pedir demissão\n\nDigite o número da opção:"
+        "Chefe de Polícia na linha:\n\n1 - Pedir demissão\n2 - Pedir desculpas\n3 - Elogiar equipe\n4 - Elogiar o chefe\n\nDigite o número da opção:"
       );
       if (!choice) return;
-      if (choice === "1") {
-        gameState.prestige = clamp((gameState.prestige || 0) + 3, 0, 100);
-        alert("Você admite falhas e se compromete a melhorar. O capitão respeita sua honestidade.");
-      } else if (choice === "2") {
-        gameState.prestige = clamp((gameState.prestige || 0) + 2, 0, 100);
-        gameState.publicReputation = clamp((gameState.publicReputation || 0) + 1, 0, 100);
-        alert("Você reconhece o trabalho da equipe. O clima no distrito melhora um pouco.");
-      } else if (choice === "3") {
-        const conf = confirm("Tem certeza que deseja pedir demissão deste distrito?");
-        if (conf) {
-          goTo("screen-fired");
-          return;
-        }
-      } else {
-        alert("Opção inválida.");
+      switch (choice.trim()) {
+        case "1":
+          if (confirm("Tem certeza que deseja se demitir?")) {
+            state = JSON.parse(JSON.stringify(INITIAL_STATE));
+            alert("Você deixou o cargo. Inicie uma nova carreira.");
+            goTo("start");
+          }
+          break;
+        case "2":
+          state.prestigioInterno = Math.min(100, state.prestigioInterno + 4);
+          alert("Você reconheceu seus erros. Prestígio interno aumentado.");
+          break;
+        case "3":
+          state.prestigioInterno = Math.min(100, state.prestigioInterno + 3);
+          state.prestigioPublico = Math.min(100, state.prestigioPublico + 1);
+          alert("A equipe se sente valorizada. Prestígio melhorou.");
+          break;
+        case "4":
+          state.prestigioInterno = Math.min(100, state.prestigioInterno + 2);
+          alert("O chefe aprecia o reconhecimento, mas lembra que resultados contam mais.");
+          break;
+        default:
+          alert("Opção inválida.");
       }
-      updateOfficeHUD();
       saveGame();
     }
 
-    function callCoroner() {
-      const c = getCurrentCase();
-      if (!c) {
-        alert("Nenhum caso ativo. Não há laudo para discutir.");
-        return;
-      }
-      alert("Perito: " + (c.morgue || "Nenhuma informação adicional no momento."));
-    }
-
-    function callStreetTeam() {
-      const c = getCurrentCase();
-      if (!c) {
-        alert("Nenhum caso ativo. A equipe de rua aguarda próximas ordens.");
-        return;
-      }
+    function callForensics() {
       alert(
-        "Equipe de Rua: Ordem recebida. Vamos checar endereços críticos e cumprir mandados de busca se autorizados.\n\n(Use as provas e dossiês para decidir o melhor alvo.)"
+        "O perito responde:\n\n“Posso complementar o laudo se você encontrar novas provas ou inconsistências. Confira o relatório no setor de Provas.”"
       );
     }
 
-    function updatePromotionUI() {
-      if (!gameState) return;
-      const info = document.getElementById("promotionInfo");
-      const btn = document.getElementById("btnStartExam");
-      const solved = (gameState.history || []).filter(h => h.success).length;
-      const prestige = gameState.prestige || 0;
-      const warnings = gameState.warnings || 0;
-
-      let html = "<p class='small'><strong>Cargo atual:</strong> " + getFullRankName() + "</p>";
-      html += "<p class='small'><strong>Requisitos mínimos:</strong><br>- Prestígio ≥ 80<br>- Pelo menos 3 casos resolvidos com sucesso<br>- Menos de 4 advertências</p>";
-      html += "<p class='small'><strong>Seu status:</strong><br>- Prestígio: " + prestige + "<br>- Casos resolvidos com sucesso: " + solved + "<br>- Advertências: " + warnings + "</p>";
-
-      const eligible = prestige >= 80 && solved >= 3 && warnings < 4;
-      if (eligible) {
-        html += "<p class='small badge badge-success'>Você atende aos requisitos para tentar a promoção.</p>";
-        btn.disabled = false;
-      } else {
-        html += "<p class='small badge badge-warning'>Você ainda não atende aos requisitos para promoção.</p>";
-        btn.disabled = true;
-      }
-      info.innerHTML = html;
+    function callStreetUnit() {
+      alert(
+        "Equipe de rua acionada.\n\nEles executarão mandados de busca e podem retornar com novos elementos em futuros casos."
+      );
     }
 
-    function buildExamForm() {
-      const form = document.getElementById("examForm");
-      form.innerHTML = "";
-      EXAM_QUESTIONS.forEach((q, idx) => {
-        const div = document.createElement("div");
-        div.className = "exam-question";
-        const title = document.createElement("div");
-        title.className = "small";
-        title.textContent = q.text;
-        div.appendChild(title);
-        q.options.forEach((opt, oi) => {
-          const lbl = document.createElement("label");
-          const radio = document.createElement("input");
-          radio.type = "radio";
-          radio.name = q.id;
-          radio.value = oi;
-          lbl.appendChild(radio);
-          lbl.appendChild(document.createTextNode(" " + opt));
-          div.appendChild(lbl);
-        });
-        form.appendChild(div);
-      });
+    // ---------- PROMOTION ----------
+    function openPromotion() {
+      goTo("promotion");
+      const text = document.getElementById("promotion-text");
+      text.textContent =
+        "Para se candidatar à próxima patente, você precisa de prestígio interno mínimo de 80% e pelo menos 70% de acertos nos casos. Se estiver pronto, pode iniciar a prova de 10 questões.";
     }
 
-    function startExam() {
-      const eligible =
-        (gameState.prestige || 0) >= 80 &&
-        ((gameState.history || []).filter(h => h.success).length) >= 3 &&
-        (gameState.warnings || 0) < 4;
-      if (!eligible) {
-        alert("Você ainda não atende aos requisitos para fazer a prova.");
+    function startPromotionExam() {
+      if (state.prestigioInterno < 80) {
+        alert("Prestígio interno insuficiente. Mínimo de 80% necessário.");
         return;
       }
-      goTo("screen-exam");
-    }
-
-    function finishExam() {
-      let score = 0;
-      EXAM_QUESTIONS.forEach(q => {
-        const radios = document.querySelectorAll("input[name='" + q.id + "']");
-        radios.forEach(r => {
-          if (r.checked && parseInt(r.value, 10) === q.correct) {
-            score += 1;
-          }
-        });
-      });
-      if (score >= 7) {
-        alert("Parabéns! Você acertou " + score + " de 10 e foi aprovado na prova.");
-        promoteAgent();
-      } else {
-        alert("Você acertou " + score + " de 10. É necessário pelo menos 7 para ser promovido.");
+      const totalAcc = state.correctAccusations + state.wrongAccusations;
+      const rate = totalAcc === 0 ? 0 : (state.correctAccusations / totalAcc) * 100;
+      if (rate < 70) {
+        alert(
+          "Taxa de acertos insuficiente. Você precisa de pelo menos 70% de acertos para tentar promoção."
+        );
+        return;
       }
-      goTo("screen-office");
+      let score = 0;
+      for (let i = 1; i <= 10; i++) {
+        const ans = prompt(
+          "Questão " +
+            i +
+            " de 10:\n\nEm uma investigação, o que deve vir primeiro?\n\nA) Encontrar um culpado rapidamente\nB) Proteger a cena e preservar provas\nC) Pressionar qualquer suspeito\n\nDigite A, B ou C:"
+        );
+        if (!ans) continue;
+        if (ans.trim().toUpperCase() === "B") score++;
+      }
+      if (score >= 7) {
+        alert(
+          "Parabéns! Você acertou " +
+            score +
+            " de 10. Seu cargo será promovido."
+        );
+        if (state.agency === "VCPD") {
+          if (state.rank === "Detetive Júnior") {
+            state.rank = "Detetive Titular";
+          } else if (state.rank === "Detetive Titular") {
+            state.rank = "Detetive • Casos Especiais";
+          } else {
+            state.agency = "FBI";
+            state.rank = "Agente de Investigação Júnior";
+          }
+        } else if (state.agency === "FBI") {
+          if (state.rank === "Agente de Investigação Júnior") {
+            state.rank = "Agente de Investigação Federal";
+          } else if (state.rank === "Agente de Investigação Federal") {
+            state.rank = "Agente Federal • Casos Especiais";
+          } else {
+            state.agency = "CIA";
+            state.rank = "Analista de Dados Júnior";
+          }
+        } else if (state.agency === "CIA") {
+          if (state.rank === "Analista de Dados Júnior") {
+            state.rank = "Agente Nível 1";
+          } else if (state.rank === "Agente Nível 1") {
+            state.rank = "Agente Nível 2";
+          } else if (state.rank === "Agente Nível 2") {
+            state.rank = "Agente Nível 3";
+          } else if (state.rank === "Agente Nível 3") {
+            state.rank = "Agente Nível 4";
+          } else {
+            state.rank = "Agente Especial";
+          }
+        }
+        saveGame();
+        goTo("office");
+      } else {
+        alert(
+          "Você acertou " +
+            score +
+            " de 10. Ainda não foi desta vez. Continue investigando e tente novamente."
+        );
+      }
     }
 
-    function promoteAgent() {
-      if (!gameState) return;
-      const corp = gameState.corp || "VCPD";
-      const idx = gameState.rankIndex || 0;
-      const list = RANKS[corp] || [];
-      if (idx < list.length - 1) {
-        gameState.rankIndex = idx + 1;
-        gameState.prestige = clamp((gameState.prestige || 0) + 10, 0, 100);
-        gameState.publicReputation = clamp((gameState.publicReputation || 0) + 5, 0, 100);
-        alert("Você foi promovido para " + getFullRankName() + "!");
+    // ---------- CASE MANAGEMENT ----------
+    function openNextCase() {
+      if (state.fired) {
+        goTo("fired");
+        return;
+      }
+      if (state.currentCaseIndex === null) {
+        state.currentCaseIndex = 0;
+      } else if (state.currentCaseIndex < CASES.length - 1) {
+        state.currentCaseIndex++;
       } else {
-        const corpIdx = CORPS.indexOf(corp);
-        if (corpIdx >= 0 && corpIdx < CORPS.length - 1) {
-          gameState.corp = CORPS[corpIdx + 1];
-          gameState.rankIndex = 0;
-          gameState.prestige = 40;
-          gameState.publicReputation = clamp((gameState.publicReputation || 0) + 8, 0, 100);
-          alert("Você foi transferido para " + gameState.corp + " como " + getFullRankName() + "!");
-        } else {
-          alert("Você já atingiu o topo da carreira na CIA. Nenhuma promoção adicional disponível.");
+        alert("Nenhum novo caso disponível por enquanto.");
+      }
+      renderCase();
+      goTo("case");
+    }
+
+    function getCurrentCase() {
+      if (state.currentCaseIndex === null) return null;
+      return CASES[state.currentCaseIndex];
+    }
+
+    function renderCase() {
+      const c = getCurrentCase();
+      if (!c) return;
+      document.getElementById("case-title").textContent = "Caso #" + (state.currentCaseIndex + 1);
+      document.getElementById("case-name").textContent = c.name;
+      document.getElementById("case-description").textContent = c.description;
+      document.getElementById("case-badge").textContent =
+        "Nível " + c.level + " • " + c.type;
+      document.getElementById("chip-dificuldade").textContent =
+        "Dificuldade: " + c.difficulty;
+      document.getElementById("chip-tipo").textContent = "Tipo: " + c.type;
+    }
+
+    function openWitnesses() {
+      const c = getCurrentCase();
+      if (!c) return;
+      goTo("witnesses");
+      document.getElementById("witness-case-name").textContent = c.name;
+      const list = document.getElementById("witness-list");
+      list.innerHTML = "";
+      c.witnesses.forEach((w) => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.onclick = () => selectWitness(w);
+        item.innerHTML =
+          "<h4>" +
+          w.name +
+          "</h4><p>" +
+          w.relation +
+          "</p>";
+        list.appendChild(item);
+      });
+
+      const qWrap = document.getElementById("witness-quick-questions");
+      qWrap.innerHTML = "";
+      QUICK_QUESTIONS_WITNESS.forEach((q) => {
+        const btn = document.createElement("div");
+        btn.className = "q-btn";
+        btn.textContent = q;
+        btn.onclick = () => askWitnessQuestion(q);
+        qWrap.appendChild(btn);
+      });
+
+      document.getElementById("witness-statement").textContent =
+        "Selecione uma testemunha para ouvir o depoimento.";
+    }
+
+    let currentWitness = null;
+
+    function selectWitness(w) {
+      currentWitness = w;
+      const text = w.statement;
+      typewriterEffect("witness-statement", text);
+    }
+
+    function askWitnessQuestion(question) {
+      if (!currentWitness) {
+        alert("Selecione uma testemunha primeiro.");
+        return;
+      }
+      let answer =
+        "A testemunha pensa por um momento e diz que não tem certeza sobre isso.";
+      if (currentWitness.qa && currentWitness.qa.length) {
+        const qLower = question.toLowerCase();
+        for (const qa of currentWitness.qa) {
+          if (qa.keywords.some((k) => qLower.includes(k))) {
+            answer = qa.answer;
+            break;
+          }
         }
       }
-      saveGame();
-      updateOfficeHUD();
+      typewriterEffect(
+        "witness-statement",
+        currentWitness.statement + "\n\nPergunta: " + question + "\nResposta: " + answer
+      );
     }
 
+    function openEvidence() {
+      const c = getCurrentCase();
+      if (!c) return;
+      goTo("evidence");
+      document.getElementById("evidence-case-name").textContent = c.name;
+      const list = document.getElementById("evidence-list");
+      list.innerHTML = "";
+      c.evidence.forEach((e) => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML =
+          "<h4>" +
+          e.name +
+          "</h4><p>" +
+          e.description +
+          "</p>";
+        list.appendChild(item);
+      });
+    }
+
+    function openIMLIfAvailable() {
+      const c = getCurrentCase();
+      if (!c || !c.needsIML) {
+        alert("Não há laudo de IML disponível para este caso.");
+        return;
+      }
+      document.getElementById("iml-report-text").textContent = c.imlReport;
+      goTo("iml");
+    }
+
+    function openSuspects() {
+      const c = getCurrentCase();
+      if (!c) return;
+      goTo("suspects");
+      document.getElementById("suspects-case-name").textContent = c.name;
+      const list = document.getElementById("suspects-list");
+      list.innerHTML = "";
+      c.suspects.forEach((s) => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML =
+          "<h4>" +
+          s.name +
+          "</h4><p>" +
+          s.relation +
+          " • " +
+          s.occupation +
+          "</p>";
+        item.onclick = () => openSuspectDetail(s);
+        list.appendChild(item);
+      });
+    }
+
+    function openSuspectDetail(s) {
+      const msg =
+        "Nome: " +
+        s.name +
+        "\nIdade: " +
+        s.age +
+        "\nProfissão: " +
+        s.occupation +
+        "\nRelação: " +
+        s.relation +
+        "\nEndereço: " +
+        s.address +
+        "\n\nFicha Criminal: " +
+        s.criminalRecord +
+        "\n\nÁlibi: " +
+        s.alibi +
+        "\n\nObservações: " +
+        s.profileNotes +
+        "\n\nDeseja interrogá-lo agora?";
+      if (confirm(msg)) {
+        startInterrogation(s);
+      }
+    }
+
+    function openConcludeCase() {
+      const c = getCurrentCase();
+      if (!c) return;
+      goTo("conclude");
+      const list = document.getElementById("conclude-suspects-list");
+      list.innerHTML = "";
+      c.suspects.forEach((s) => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.innerHTML =
+          "<h4>" +
+          s.name +
+          "</h4><p>" +
+          s.relation +
+          " • " +
+          s.occupation +
+          "</p>";
+        item.onclick = () => concludeCaseWithSuspect(s);
+        list.appendChild(item);
+      });
+    }
+
+    function concludeCaseWithSuspect(s) {
+      const c = getCurrentCase();
+      if (!c) return;
+      if (
+        !confirm(
+          "Confirmar acusação formal contra " +
+            s.name +
+            "?\nVocê não poderá voltar atrás neste caso."
+        )
+      ) {
+        return;
+      }
+
+      state.casesSolved++;
+      state.xp += 10;
+
+      if (s.isGuilty) {
+        state.correctAccusations++;
+        state.prestigioInterno = Math.min(100, state.prestigioInterno + 6);
+        state.prestigioPublico = Math.min(100, state.prestigioPublico + 5);
+        alert(
+          "Acusação correta.\n\nAs provas se alinham e o culpado é responsabilizado."
+        );
+      } else {
+        state.wrongAccusations++;
+        if (state.wrongAccusations >= 3) state.warnings++;
+        state.prestigioInterno = Math.max(0, state.prestigioInterno - 8);
+        state.prestigioPublico = Math.max(0, state.prestigioPublico - 6);
+        alert(
+          "Acusação incorreta.\n\nA promotoria recusa o caso e sua reputação sofre."
+        );
+      }
+
+      saveGame();
+      state.currentCaseIndex = null;
+      goTo("office");
+    }
+
+    // ---------- INTERROGATION ----------
+    function startInterrogation(s) {
+      currentInterrogationSuspect = s;
+      goTo("interrogation");
+      document.getElementById("interrogation-title").textContent =
+        "Interrogando " + s.name;
+      const c = getCurrentCase();
+      document.getElementById("interrogation-case-label").textContent =
+        c ? c.name : "Caso Atual";
+      document.getElementById("interrogation-suspect-label").textContent =
+        "Suspeito: " + s.name;
+
+      document.getElementById("interrogation-log").textContent =
+        "Você entra na sala de interrogatório. " +
+        s.name +
+        " observa em silêncio, aguardando sua primeira pergunta.";
+      document.getElementById("interrogation-input").value = "";
+
+      const sug = document.getElementById("interrogation-suggestions");
+      sug.innerHTML = "";
+      INTERROGATION_QUESTIONS.slice(0, 8).forEach((q) => {
+        const btn = document.createElement("div");
+        btn.className = "q-btn";
+        btn.textContent = q;
+        btn.onclick = () => {
+          document.getElementById("interrogation-input").value = q;
+          sendInterrogationQuestion();
+        };
+        sug.appendChild(btn);
+      });
+    }
+
+    function sendInterrogationQuestion() {
+      if (!currentInterrogationSuspect) return;
+      const input = document.getElementById("interrogation-input");
+      const question = input.value.trim();
+      if (!question) return;
+
+      const answer = getInterrogationAnswer(currentInterrogationSuspect, question);
+      const log = document.getElementById("interrogation-log");
+      log.textContent +=
+        "\n\nVocê: " + question + "\n" + currentInterrogationSuspect.name + ": " + answer;
+      input.value = "";
+    }
+
+    function getInterrogationAnswer(s, question) {
+      const qLower = question.toLowerCase();
+      if (s.keywordsAnswers) {
+        for (const ka of s.keywordsAnswers) {
+          if (ka.keywords.some((k) => qLower.includes(k))) {
+            return ka.answer;
+          }
+        }
+      }
+
+      if (qLower.includes("onde") && qLower.includes("estava")) {
+        return s.alibi;
+      }
+      if (qLower.includes("vítima") || qLower.includes("vitima")) {
+        return (
+          "Minha relação com a vítima é a que você já tem no dossiê: " +
+          s.relation +
+          "."
+        );
+      }
+      if (qLower.includes("motivo") || qLower.includes("por que") || qLower.includes("porque")) {
+        return "Você está tentando forçar um motivo onde não existe. Eu não ganharia nada com esse crime.";
+      }
+      if (qLower.includes("arma")) {
+        return "Eu não tinha nenhuma arma comigo naquela noite.";
+      }
+      if (qLower.includes("confessar") || qLower.includes("culpado")) {
+        return "Não tenho nada para confessar. Eu não cometi esse crime.";
+      }
+
+      return "Já respondi tudo que sei sobre isso. Qualquer coisa além será só especulação.";
+    }
+
+    // ---------- UTILS ----------
+    function typewriterEffect(elementId, text) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      if (currentWitnessTypingTimeout) {
+        clearTimeout(currentWitnessTypingTimeout);
+      }
+      el.textContent = "";
+      let i = 0;
+
+      function step() {
+        if (i <= text.length) {
+          el.textContent = text.slice(0, i);
+          i++;
+          currentWitnessTypingTimeout = setTimeout(step, 15);
+        }
+      }
+      step();
+    }
+
+    // ---------- BOOT ----------
     document.addEventListener("DOMContentLoaded", () => {
-      buildSaveSlots();
-      goTo("screen-menu");
+      const raw = localStorage.getItem("valleyCitySave");
+      if (raw) {
+        try {
+          state = JSON.parse(raw);
+        } catch (e) {
+          state = JSON.parse(JSON.stringify(INITIAL_STATE));
+        }
+      } else {
+        state.casesTotal = CASES.length;
+      }
+      updateOfficeAvatar();
     });
   </script>
 </body>
