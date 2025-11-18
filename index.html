@@ -63,74 +63,27 @@
 
     .screen.active {
       display: block;
-      /* removido o fadeIn para não dar efeito de "piscar" */
+      /* sem animação para evitar “piscar” */
     }
 
-    /* FUNDOS DAS TELAS - USANDO ASSETS DIRETO */
+    /* FUNDOS DAS TELAS - ASSETS */
 
-    #screen-start {
-      background-image: url("assets/capa_principal.png");
-    }
-
-    #screen-login {
-      background-image: url("assets/bg_login.png");
-    }
-
-    #screen-avatar {
-      background-image: url("assets/police_station_front.png");
-    }
-
-    #screen-briefing {
-      background-image: url("assets/captain_room_cinematic.png");
-    }
-
-    #screen-office {
-      background-image: url("assets/escritorio_detective.png");
-    }
-
-    #screen-phone {
-      background-image: url("assets/phone_interface.png");
-    }
-
-    #screen-promotion {
-      background-image: url("assets/promotion_bg.png");
-    }
-
-    #screen-stats {
-      background-image: url("assets/valley_city_night.png");
-    }
-
-    #screen-case {
-      background-image: url("assets/case_scene_bg.png");
-    }
-
-    #screen-witnesses {
-      background-image: url("assets/witness_room.png");
-    }
-
-    #screen-evidence {
-      background-image: url("assets/evidence_room.png");
-    }
-
-    #screen-suspects {
-      background-image: url("assets/suspect_file_bg.png");
-    }
-
-    #screen-interrogation {
-      background-image: url("assets/interrogation_room.png");
-    }
-
-    #screen-iml {
-      background-image: url("assets/morgue_room.png");
-    }
-
-    #screen-conclude {
-      background-image: url("assets/crime_scene_01.png");
-    }
-
-    #screen-fired {
-      background-image: url("assets/fired_screen.png");
-    }
+    #screen-start { background-image: url("assets/capa_principal.png"); }
+    #screen-login { background-image: url("assets/bg_login.png"); }
+    #screen-avatar { background-image: url("assets/police_station_front.png"); }
+    #screen-briefing { background-image: url("assets/captain_room_cinematic.png"); }
+    #screen-office { background-image: url("assets/escritorio_detective.png"); }
+    #screen-phone { background-image: url("assets/phone_interface.png"); }
+    #screen-promotion { background-image: url("assets/promotion_bg.png"); }
+    #screen-stats { background-image: url("assets/valley_city_night.png"); }
+    #screen-case { background-image: url("assets/case_scene_bg.png"); }
+    #screen-witnesses { background-image: url("assets/witness_room.png"); }
+    #screen-evidence { background-image: url("assets/evidence_room.png"); }
+    #screen-suspects { background-image: url("assets/suspect_file_bg.png"); }
+    #screen-interrogation { background-image: url("assets/interrogation_room.png"); }
+    #screen-iml { background-image: url("assets/morgue_room.png"); }
+    #screen-conclude { background-image: url("assets/crime_scene_01.png"); }
+    #screen-fired { background-image: url("assets/fired_screen.png"); }
 
     header.topline {
       font-size: 11px;
@@ -1114,7 +1067,9 @@
       "Você gostaria de acrescentar mais algum detalhe?"
     ];
 
+    /* ====== 10 CASOS COMPLETOS ====== */
     const CASES = [
+      /* ---------- CASE 1: MOTEL ---------- */
       {
         id: "case1",
         name: "Homicídio no Motel da Rodovia",
@@ -1123,7 +1078,7 @@
         type: "Homicídio",
         needsIML: true,
         description:
-          "Um empresário foi encontrado morto em um quarto de motel na saída leste de Valley City. A cena indica possível crime passional, mas há sinais de algo mais planejado.",
+          "Um empresário foi encontrado morto em um quarto de motel na saída leste de Valley City. Cena aparentemente passional, mas com vários indícios de premeditação e participação de terceiros.",
         witnesses: [
           {
             id: "w1",
@@ -1131,17 +1086,22 @@
             relation: "Funcionária do turno",
             portrait: "witness_01",
             statement:
-              "O casal entrou por volta das 21h30. Pareciam discutindo baixo, mas nada muito agressivo. Depois disso, não vi mais ninguém entrar ou sair pelo corredor.",
+              "O casal entrou por volta das 21h30. Ela parecia irritada, ele tentando acalmar. Uns minutos depois, percebi que um homem de terno chegou sozinho e pediu um quarto no mesmo corredor.",
             qa: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu estava na recepção conferindo reservas e câmeras do saguão."
+                  "Eu estava na recepção, vendo as câmeras do saguão e do corredor principal."
               },
               {
                 keywords: ["conhecia", "vítima", "vitima"],
                 answer:
-                  "Não, nunca tinha visto ele antes. Mas ela já veio outras vezes."
+                  "Não conhecia o empresário, mas a mulher já se hospedou algumas vezes com ele."
+              },
+              {
+                keywords: ["homem", "terno"],
+                answer:
+                  "O homem de terno que chegou depois não subiu pela escada comum, usou a saída lateral que dá acesso ao corredor dos quartos."
               }
             ]
           },
@@ -1151,12 +1111,17 @@
             relation: "Equipe de limpeza",
             portrait: "witness_03",
             statement:
-              "Eu ia começar a limpar o corredor daquele andar quando vi a porta entreaberta. Chamei, ninguém respondeu. Quando empurrei, ele já estava caído.",
+              "Eu ia limpar o corredor daquele andar quando vi a porta do quarto deles entreaberta. Chamei, ninguém respondeu. Quando empurrei, ele já estava caído, muito sangue na parte de trás da cabeça.",
             qa: [
               {
                 keywords: ["hora", "que horas", "horário"],
                 answer:
-                  "Isso foi perto das 23h10. Eu sigo sempre o mesmo cronograma de limpeza."
+                  "Isso foi perto das 23h10. Eu sigo sempre o mesmo cronograma de limpeza, registrado na ficha de serviço."
+              },
+              {
+                keywords: ["porta", "fechada", "aberta"],
+                answer:
+                  "A porta não estava totalmente aberta, mas a tranca não tinha sido forçada. Parecia que alguém saiu com pressa e não fechou direito."
               }
             ]
           },
@@ -1166,37 +1131,32 @@
             relation: "Hóspede",
             portrait: "witness_05",
             statement:
-              "Ouvi uma discussão aumentando de tom, uns 20 minutos depois de eles entrarem. Parecia que alguém bateu na mesa ou jogou algo no chão.",
+              "Ouvi uma discussão mais forte, uns 20 minutos após eles entrarem. Depois ouvi uma batida seca, como algo pesado batendo na cabeça de alguém, e silêncio em seguida.",
             qa: [
               {
                 keywords: ["barulho", "ruído", "som"],
                 answer:
-                  "Ouvi algo como um objeto pesado caindo, talvez uma cadeira ou mala."
+                  "Foi um som único, forte, igual a um objeto pesado acertando uma superfície."
               },
               {
-                keywords: ["viu", "porta"],
+                keywords: ["viu", "porta", "corredor"],
                 answer:
-                  "Não abri a porta. Só aumentei o volume da TV para tentar ignorar."
+                  "Pouco depois ouvi passos apressados. Abri a porta um pouco e vi um homem de terno escuro andando rápido para a saída lateral."
               }
             ]
           },
           {
             id: "w4",
-            name: "Vizinho de Loja",
-            relation: "Dono de posto próximo",
+            name: "Dono do Posto ao Lado",
+            relation: "Comerciante local",
             portrait: "witness_06",
             statement:
-              "Eu vi um carro prata parado perto da entrada lateral do motel. Parecia alguém esperando dentro, com o farol apagado.",
+              "Eu vi um sedã prata estacionado perto da entrada lateral do motel. Placa começando com VCX. Esse carro costuma abastecer no meu posto, pertence a um dos sócios da empresa do morto.",
             qa: [
               {
                 keywords: ["placa"],
                 answer:
-                  "Não consegui ver a placa, estava distante e com pouca luz."
-              },
-              {
-                keywords: ["horário"],
-                answer:
-                  "Isso foi um pouco depois das 22h. Eu estava fechando o caixa do posto."
+                  "Não lembro tudo, mas era VCX-3*21. No cadastro aparece como carro do Marcos."
               }
             ]
           },
@@ -1206,12 +1166,12 @@
             relation: "Segurança",
             portrait: "witness_11",
             statement:
-              "Ninguém registrou saída pelo saguão principal naquele horário. Se alguém saiu, pode ter usado a saída de serviço.",
+              "Ninguém registrou saída pelo saguão principal naquele horário. Se alguém saiu, foi pela lateral ou saída de serviço.",
             qa: [
               {
                 keywords: ["câmera", "camera"],
                 answer:
-                  "As câmeras da saída de serviço estavam com interferência de sinal naquela noite."
+                  "As câmeras da saída de serviço ficaram com sinal instável por cerca de 15 minutos, das 22h50 às 23h05."
               }
             ]
           }
@@ -1222,7 +1182,7 @@
             type: "Documento",
             name: "Registro de Check-in",
             description:
-              "Ficha de entrada com nome falso usado pelo empresário, horário de 21h28 e pagamento em dinheiro.",
+              "Ficha de entrada do casal com nome falso, mas cartão de crédito vinculado ao empresário. Horário de 21h28 e pagamento registrado.",
             image: "evidence_doc_01"
           },
           {
@@ -1230,20 +1190,28 @@
             type: "Objeto",
             name: "Copo de Whisky Quebrado",
             description:
-              "Copo estilhaçado próximo ao corpo, com impressões parciais da vítima e de uma segunda pessoa.",
+              "Copo estilhaçado próximo ao corpo, com impressões digitais completas da vítima e impressões parciais vinculadas a Marcos A.",
             image: "evidence_obj_01"
           },
           {
             id: "e3",
-            type: "Arma",
-            name: "Objeto Contundente Não Encontrado",
+            type: "Digital",
+            name: "Imagens do Posto Vizinho",
             description:
-              "Marca de impacto na região occipital indica uso de objeto pesado e alongado, possivelmente um abajur ou barra de ferro.",
-            image: "evidence_weapon_01"
+              "Câmeras do posto mostram sedã prata placa VCX-3*21, carro de Marcos A., parado na lateral do motel entre 22h05 e 22h41.",
+            image: "crime_scene_03"
+          },
+          {
+            id: "e4",
+            type: "Digital",
+            name: "Registro de Antena de Celular",
+            description:
+              "Dados da operadora indicam o celular de Marcos na antena da saída leste entre 22h20 e 23h00, contrariando o álibi de bar no centro.",
+            image: "evidence_text_01"
           }
         ],
         imlReport:
-          "Homem, 46 anos. Tempo estimado de morte: entre 22h30 e 23h. Causa provável: traumatismo craniano por objeto contundente. Há marcas de defesa nos antebraços, indicando reação à agressão. Vestígios de álcool no sangue, porém em nível moderado.",
+          "Homem, 46 anos. Tempo estimado de morte: entre 22h30 e 23h. Causa: traumatismo craniano por objeto contundente aplicado na região occipital. Marcas de defesa nos antebraços indicam reação. Teor alcoólico moderado.",
         suspects: [
           {
             id: "s1",
@@ -1252,27 +1220,17 @@
             age: 32,
             occupation: "Advogada",
             relation: "Acompanhante no motel",
-            criminalRecord: "Sem antecedentes criminais registrados.",
-            address: "Bairro central, apartamento de médio padrão.",
+            criminalRecord: "Sem antecedentes.",
+            address: "Bairro central.",
             alibi:
-              "Afirma ter deixado o quarto após uma discussão, por volta das 22h15, e voltado de táxi para casa.",
+              "Saiu do motel por volta das 22h15. Corrida de aplicativo confirma deslocamento até seu endereço.",
             profileNotes:
-              "Histórico de relacionamento conturbado com a vítima. Troca de mensagens mostra ciúme e ameaças veladas.",
+              "Relacionamento conturbado, mas álibi sólido na janela provável da morte.",
             keywordsAnswers: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu já estava em casa quando isso aconteceu. Saí do motel bem antes, ele ainda estava vivo."
-              },
-              {
-                keywords: ["táxi", "taxi"],
-                answer:
-                  "Peguei um táxi na porta do motel. O motorista deve lembrar, eu estava chorando."
-              },
-              {
-                keywords: ["motivo", "briga", "discussão"],
-                answer:
-                  "A discussão foi por causa de uma mentira que ele me contou. Mas eu nunca faria isso."
+                  "Eu já estava em casa quando ele morreu. O aplicativo e o motorista podem confirmar."
               }
             ],
             isGuilty: false
@@ -1283,29 +1241,24 @@
             portrait: "suspect_02",
             age: 41,
             occupation: "Sócio de Negócios",
-            relation: "Sócio em empresa de logística",
+            relation: "Sócio da vítima",
             criminalRecord:
               "Envolvimento anterior em fraude tributária, processo arquivado.",
-            address: "Condomínio fechado na zona norte.",
+            address: "Condomínio zona norte.",
             alibi:
-              "Diz que estava em uma reunião informal com clientes em um bar do centro, até depois das 23h.",
+              "Afirma estar em um bar no centro com clientes até depois das 23h.",
             profileNotes:
-              "Tinha divergências financeiras com a vítima. E-mails revelam ameaças indiretas sobre 'acertar contas'.",
+              "Divergências financeiras graves, veículo filmado no local, digitais parciais no copo e celular na antena da região.",
             keywordsAnswers: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu estava no bar com dois clientes. Eles podem confirmar cada minuto daquela noite."
+                  "Eu estava no bar com clientes, o tempo todo. Se não lembram de mim, é problema de memória deles."
               },
               {
-                keywords: ["dinheiro", "dívida", "divida"],
+                keywords: ["copo", "impressão", "digital"],
                 answer:
-                  "Tínhamos desentendimentos, sim, mas isso é normal em negócios. Não sou assassino."
-              },
-              {
-                keywords: ["motet", "motel", "rodovia"],
-                answer:
-                  "Eu nem sabia que ele ia para esse motel. Isso não tem nada a ver comigo."
+                  "Devo ter usado esse copo em outra ocasião. Isso não prova que eu estava lá naquela noite."
               }
             ],
             isGuilty: true
@@ -1317,24 +1270,1108 @@
             age: 29,
             occupation: "Recepcionista de Hotel",
             relation: "Ex-namorada",
-            criminalRecord: "Nenhum registro criminal.",
-            address: "Bairro residencial de classe média.",
+            criminalRecord: "Nenhum registro.",
+            address: "Bairro de classe média.",
             alibi:
-              "Afirma estar trabalhando em turno da noite em outro hotel da cidade.",
+              "Trabalhando em turno noturno. Câmeras internas e ponto confirmam presença no hotel.",
             profileNotes:
-              "Término recente e mensagens carregadas de mágoa. Mas não há evidência direta ligando-a ao motel.",
+              "Motivo emocional existe, mas álibi sólido e sem conexão técnica com cena do crime.",
             keywordsAnswers: [
               {
                 keywords: ["onde", "estava", "momento"],
                 answer:
-                  "Eu estava no balcão do hotel onde trabalho. Tem câmeras, colegas, tudo."
-              },
-              {
-                keywords: ["motel"],
-                answer:
-                  "Se eu soubesse que ele estava num motel naquela noite, teria ficado ainda mais decepcionada, mas não fui atrás."
+                  "Eu estava no balcão do hotel. Tem câmera em cima de mim a noite toda."
               }
             ],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 2: BANCO ---------- */
+      {
+        id: "case2",
+        name: "Roubo ao Cofre da Agência Central",
+        level: "Júnior",
+        difficulty: "Média",
+        type: "Roubo Qualificado",
+        needsIML: false,
+        description:
+          "A agência central do Banco de Valley City teve o cofre principal violado de madrugada. Sem vítimas, mas grande quantia desapareceu. Alarme foi desligado por acesso interno.",
+        witnesses: [
+          {
+            id: "w1c2",
+            name: "Gerente da Agência",
+            relation: "Responsável",
+            portrait: "witness_12",
+            statement:
+              "Cheguei às 07h e encontrei a porta do cofre semiaberta. O sistema não registrou disparo de alarme.",
+            qa: [
+              {
+                keywords: ["senha", "acesso"],
+                answer:
+                  "Somente eu e dois supervisores temos as credenciais completas do cofre."
+              }
+            ]
+          },
+          {
+            id: "w2c2",
+            name: "Segurança Noturno",
+            relation: "Vigilante",
+            portrait: "witness_13",
+            statement:
+              "As câmeras deram um 'apagão' por alguns minutos. Nesse intervalo, não consegui ver nada do interior.",
+            qa: [
+              {
+                keywords: ["apagão", "camera", "câmera"],
+                answer:
+                  "O sistema saiu do ar por cerca de oito minutos. Foi exatamente na faixa das 02h."
+              }
+            ]
+          },
+          {
+            id: "w3c2",
+            name: "Analista de TI",
+            relation: "TI do banco",
+            portrait: "witness_14",
+            statement:
+              "A desativação do alarme foi feita de um terminal interno, com login de um dos supervisores.",
+            qa: [
+              {
+                keywords: ["terminal", "login", "usuario"],
+                answer:
+                  "O acesso foi feito do computador da sala de supervisão, com o usuário do Carlos."
+              }
+            ]
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c2",
+            type: "Digital",
+            name: "Log de Acesso ao Sistema",
+            description:
+              "Desativação do alarme às 02h17, terminal da sala de supervisão, com login de Carlos F.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e2c2",
+            type: "Objeto",
+            name: "Luvas de Látex no Depósito",
+            description:
+              "Luvas com impressões parciais compatíveis com Carlos F., encontradas na rota de acesso ao cofre.",
+            image: "evidence_obj_02"
+          },
+          {
+            id: "e3c2",
+            type: "Documento",
+            name: "Escala de Funcionários",
+            description:
+              "Mostra que apenas Carlos ficou sozinho na sala de supervisão na tarde anterior, com tempo para observar e preparar o sistema.",
+            image: "evidence_doc_02"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c2",
+            name: "Carlos F.",
+            portrait: "suspect_04",
+            age: 38,
+            occupation: "Supervisor de Caixa",
+            relation: "Funcionário de confiança",
+            criminalRecord: "Sem antecedentes.",
+            address: "Centro de Valley City.",
+            alibi:
+              "Alega estar em casa dormindo, sem testemunhas que confirmem.",
+            profileNotes:
+              "Login usado no crime, impressões em luvas encontradas e situação financeira delicada.",
+            keywordsAnswers: [
+              {
+                keywords: ["onde", "estava", "momento"],
+                answer:
+                  "Eu estava no meu apartamento, sozinho. Não tenho como provar, mas não saí de lá."
+              }
+            ],
+            isGuilty: true
+          },
+          {
+            id: "s2c2",
+            name: "Rogério L.",
+            portrait: "suspect_05",
+            age: 44,
+            occupation: "Segurança Noturno",
+            relation: "Vigilante em serviço",
+            criminalRecord:
+              "Um registro de briga antiga em bar, sem condenação.",
+            address: "Zona oeste.",
+            alibi:
+              "Câmeras externas mostram sua posição em grande parte do turno.",
+            profileNotes:
+              "Sem acesso a terminais internos, mas poderia facilitar entrada física. Não há prova direta de participação.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c2",
+            name: "Patrícia S.",
+            portrait: "suspect_06",
+            age: 36,
+            occupation: "Supervisora de Operações",
+            relation: "Usuária sênior",
+            criminalRecord: "Sem histórico.",
+            address: "Zona leste.",
+            alibi:
+              "Estava viajando a trabalho; documentos e câmeras confirmam.",
+            profileNotes:
+              "Tem credenciais, mas não esteve fisicamente na agência no momento da invasão.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 3: DESAPARECIMENTO CAMINHÃO ---------- */
+      {
+        id: "case3",
+        name: "Desaparecimento no Distrito Industrial",
+        level: "Júnior",
+        difficulty: "Alta",
+        type: "Desaparecimento / Sequestro",
+        needsIML: false,
+        description:
+          "Motorista de caminhão que transportava equipamentos eletrônicos desapareceu. Caminhão foi encontrado vazio, com sinais de abordagem planejada.",
+        witnesses: [
+          {
+            id: "w1c3",
+            name: "Vigia do Galpão 12",
+            relation: "Segurança privado",
+            portrait: "witness_15",
+            statement:
+              "Vi o caminhão passando perto das 02h. Mais tarde, ouvi porta batendo e barulho metálico, como rampa de carga.",
+            qa: []
+          },
+          {
+            id: "w2c3",
+            name: "Moradora da Vila Operária",
+            relation: "Residente",
+            portrait: "witness_16",
+            statement:
+              "Ouvi pneus derrapando e um veículo menor acelerando forte logo depois.",
+            qa: []
+          },
+          {
+            id: "w3c3",
+            name: "Colega de Rota",
+            relation: "Outro motorista",
+            portrait: "witness_17",
+            statement:
+              "Recebi mensagem dele dizendo que um carro escuro o seguia há alguns quilômetros.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c3",
+            type: "Cena",
+            name: "Caminhão Abandonado",
+            description:
+              "Porta do motorista entreaberta, chave na ignição, marcas de arrasto no chão.",
+            image: "crime_scene_02"
+          },
+          {
+            id: "e2c3",
+            type: "Biológico",
+            name: "Gotas de Sangue na Escada",
+            description:
+              "Manchas de sangue compatíveis com ferimento leve, provavelmente da vítima.",
+            image: "evidence_obj_03"
+          },
+          {
+            id: "e3c3",
+            type: "Digital",
+            name: "Última Localização do Celular",
+            description:
+              "Sinal do celular da vítima some exatamente no ponto onde o caminhão foi encontrado.",
+            image: "evidence_text_01"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c3",
+            name: "Leandro 'Gordo'",
+            portrait: "suspect_08",
+            age: 37,
+            occupation: "Autônomo",
+            relation: "Conhecido por receptação",
+            criminalRecord:
+              "Dois registros por receptação de cargas.",
+            address: "Vila Operária.",
+            alibi:
+              "Diz estar em casa vendo TV. Câmeras de rua mostram SUV dele saindo às 01h40.",
+            profileNotes:
+              "Mensagens interceptadas sobre 'carga de eletrônicos da madrugada'. Suspeito principal.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c3",
+            name: "Supervisor de Logística",
+            portrait: "suspect_09",
+            age: 43,
+            occupation: "Chefe da rota",
+            relation: "Define trajetos",
+            criminalRecord: "Sem registros.",
+            address: "Bairro de classe média.",
+            alibi:
+              "Família confirma que estava em casa.",
+            profileNotes:
+              "Alterou rota, mas comunicou oficialmente por e-mail. Sem ganho direto comprovado.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c3",
+            name: "Empresa Fantasma de Transporte",
+            portrait: "suspect_07",
+            age: 0,
+            occupation: "CNPJ de fachada",
+            relation: "Possível receptadora",
+            criminalRecord: "Investigações em aberto.",
+            address: "Endereço inexistente.",
+            alibi: "",
+            profileNotes:
+              "Conectada a outras rotas suspeitas, mas sem ligações diretas com a vítima.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 4: TIROTEIO RIVERSIDE ---------- */
+      {
+        id: "case4",
+        name: "Tiroteio no Beco de Riverside",
+        level: "Júnior",
+        difficulty: "Média",
+        type: "Homicídio / Gangue",
+        needsIML: true,
+        description:
+          "Um jovem foi morto a tiros em um beco em Riverside. Moradores relatam discussão e possível acerto de contas entre gangues.",
+        witnesses: [
+          {
+            id: "w1c4",
+            name: "Morador do Prédio 3",
+            relation: "Testemunha parcial",
+            portrait: "witness_18",
+            statement:
+              "Ouvi gritos e três tiros. Vi um rapaz de boné vermelho correndo para uma moto.",
+            qa: []
+          },
+          {
+            id: "w2c4",
+            name: "Dona de Mercearia",
+            relation: "Comerciante",
+            portrait: "witness_19",
+            statement:
+              "Antes dos tiros, a vítima discutiu com dois rapazes tatuados. Falavam em dívida.",
+            qa: []
+          },
+          {
+            id: "w3c4",
+            name: "Mototaxista",
+            relation: "Passava pela rua",
+            portrait: "witness_20",
+            statement:
+              "Vi uma moto preta sem placa entrar no beco com um garupa de boné vermelho.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c4",
+            type: "Balística",
+            name: "Cápsulas 9mm",
+            description:
+              "Cápsulas compatíveis com lote de munição apreendido dias antes com a gangue de Léo S.",
+            image: "evidence_weapon_02"
+          },
+          {
+            id: "e2c4",
+            type: "Cena",
+            name: "Marcas de Pneus",
+            description:
+              "Marcas de pneu de moto esportiva, mesmo modelo da moto de Léo.",
+            image: "crime_scene_01"
+          },
+          {
+            id: "e3c4",
+            type: "Digital",
+            name: "Mensagens no Celular da Vítima",
+            description:
+              "Ameaças de Léo S. cobrando dívida e marcando 'acerto' na noite do crime.",
+            image: "evidence_text_01"
+          }
+        ],
+        imlReport:
+          "Homem, 22 anos. Três disparos calibre 9mm, morte por choque hipovolêmico.",
+        suspects: [
+          {
+            id: "s1c4",
+            name: "Léo S.",
+            portrait: "suspect_10",
+            age: 24,
+            occupation: "Desempregado",
+            relation: "Líder de gangue",
+            criminalRecord:
+              "Tráfico e porte ilegal de arma em investigação.",
+            address: "Riverside.",
+            alibi:
+              "Diz estar em churrasco; amigos não confirmam horário preciso.",
+            profileNotes:
+              "Dono da moto, munição ligada à sua gangue, mensagens de ameaça.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c4",
+            name: "Rafa 'Cobrador'",
+            portrait: "suspect_11",
+            age: 23,
+            occupation: "Informal",
+            relation: "Membro da gangue",
+            criminalRecord: "Cobrança violenta de dívidas.",
+            address: "Barraco em Riverside.",
+            alibi:
+              "Afirma estar em outra região, sem prova.",
+            profileNotes:
+              "Violento, mas sem vínculo direto com arma ou moto usados.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c4",
+            name: "Desconhecido de Boné Vermelho",
+            portrait: "suspect_12",
+            age: 0,
+            occupation: "Não identificado",
+            relation: "Visto fugindo",
+            criminalRecord: "",
+            address: "",
+            alibi: "",
+            profileNotes:
+              "Pode ser membro da gangue, mas sem identificação formal.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 5: INCÊNDIO LOJA ---------- */
+      {
+        id: "case5",
+        name: "Incêndio na Loja de Eletrônicos do Centro",
+        level: "Júnior",
+        difficulty: "Média",
+        type: "Incêndio Criminoso / Fraude",
+        needsIML: false,
+        description:
+          "Incêndio atinge loja de eletrônicos fechada durante a madrugada. Forte suspeita de incêndio proposital para fraude de seguro.",
+        witnesses: [
+          {
+            id: "w1c5",
+            name: "Vizinho de Porta",
+            relation: "Dono de papelaria",
+            portrait: "witness_21",
+            statement:
+              "Vi o dono saindo mais tarde que o normal, carregando uma caixa pesada para o carro.",
+            qa: []
+          },
+          {
+            id: "w2c5",
+            name: "Moradora do Prédio",
+            relation: "Residente",
+            portrait: "witness_22",
+            statement:
+              "Senti cheiro forte de gasolina pouco antes da fumaça.",
+            qa: []
+          },
+          {
+            id: "w3c5",
+            name: "Perito dos Bombeiros",
+            relation: "Perito em incêndio",
+            portrait: "witness_23",
+            statement:
+              "O fogo começou em mais de um ponto, típico de uso de acelerante.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c5",
+            type: "Químico",
+            name: "Resíduo de Combustível",
+            description:
+              "Análise indica gasolina espalhada em zonas específicas da loja.",
+            image: "evidence_obj_01"
+          },
+          {
+            id: "e2c5",
+            type: "Documento",
+            name: "Apólice de Seguro Recente",
+            description:
+              "Seguro ampliado há menos de um mês, com valor acima do estoque real.",
+            image: "evidence_doc_01"
+          },
+          {
+            id: "e3c5",
+            type: "Digital",
+            name: "Câmeras da Rua",
+            description:
+              "Imagens mostram o dono retornando à loja 40 minutos após o fechamento e saindo pouco antes do início do fogo.",
+            image: "crime_scene_01"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c5",
+            name: "Eduardo N.",
+            portrait: "suspect_13",
+            age: 45,
+            occupation: "Proprietário",
+            relation: "Dono da loja",
+            criminalRecord:
+              "Sem crimes, mas endividado.",
+            address: "Bairro de classe média.",
+            alibi:
+              "Diz que voltou apenas para pegar documentos e que o incêndio foi curto-circuito.",
+            profileNotes:
+              "Motivo financeiro forte, seguro ampliado e rastros de combustível.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c5",
+            name: "Funcionário Descontente",
+            portrait: "suspect_14",
+            age: 29,
+            occupation: "Vendedor",
+            relation: "Empregado",
+            criminalRecord: "Sem antecedentes.",
+            address: "Centro.",
+            alibi:
+              "Estava em bar com colegas; câmeras confirmam.",
+            profileNotes:
+              "Reclamava de atrasos, mas sem conexão com seguro.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c5",
+            name: "Corretor de Seguros",
+            portrait: "suspect_15",
+            age: 50,
+            occupation: "Corretor",
+            relation: "Responsável pela apólice",
+            criminalRecord: "Sem registros.",
+            address: "Bairro comercial.",
+            alibi:
+              "Em plantão no escritório; acessos digitais confirmam.",
+            profileNotes:
+              "Lucro apenas com comissão, sem ganho direto no incêndio.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 6: FRAUDE EM LICITAÇÃO (FBI) ---------- */
+      {
+        id: "case6",
+        name: "Contrato Viciado da Prefeitura",
+        level: "FBI Júnior",
+        difficulty: "Alta",
+        type: "Corrupção / Fraude em Licitação",
+        needsIML: false,
+        description:
+          "Ao ser cedido ao FBI, você investiga um contrato milionário de tecnologia da prefeitura de Valley City, com suspeita de direcionamento e superfaturamento.",
+        witnesses: [
+          {
+            id: "w1c6",
+            name: "Analista de Compras",
+            relation: "Servidor público",
+            portrait: "witness_24",
+            statement:
+              "O edital foi alterado em cima da hora, favorecendo especificações que só uma empresa atendia.",
+            qa: []
+          },
+          {
+            id: "w2c6",
+            name: "Concorrente Excluído",
+            relation: "Empresário",
+            portrait: "witness_25",
+            statement:
+              "Nossa proposta era mais barata, mas fomos desclassificados por um detalhe que sempre foi aceito antes.",
+            qa: []
+          },
+          {
+            id: "w3c6",
+            name: "Assessor Político",
+            relation: "Ligado ao gabinete",
+            portrait: "witness_26",
+            statement:
+              "Ouvi conversas sobre 'ajustar o edital' para um parceiro específico, mas ninguém falava abertamente.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c6",
+            type: "Documento",
+            name: "Minutas do Edital",
+            description:
+              "Versionamento mostra inclusão tardia de exigência técnica específica de um único fornecedor.",
+            image: "evidence_doc_02"
+          },
+          {
+            id: "e2c6",
+            type: "Digital",
+            name: "Planilha de Preços",
+            description:
+              "Comparação indica que a empresa vencedora cobra 35% acima da média das demais.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e3c6",
+            type: "Digital",
+            name: "Troca de E-mails",
+            description:
+              "E-mails entre secretário e diretor da empresa sugerem acerto prévio de 'retorno' após o contrato.",
+            image: "evidence_doc_01"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c6",
+            name: "Secretário de Tecnologia",
+            portrait: "suspect_16",
+            age: 52,
+            occupation: "Agente público",
+            relation: "Responsável pelo contrato",
+            criminalRecord: "",
+            address: "Bairro nobre.",
+            alibi:
+              "Alega que alterações foram técnicas e legais.",
+            profileNotes:
+              "Troca e-mails com diretor favorecido e pressiona equipe por celeridade.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c6",
+            name: "Diretor da Empresa Vencedora",
+            portrait: "suspect_17",
+            age: 49,
+            occupation: "Empresário",
+            relation: "Fornecedor vencedor",
+            criminalRecord: "",
+            address: "Condomínio fechado.",
+            alibi:
+              "Diz que apenas participou do processo comum.",
+            profileNotes:
+              "Beneficiário direto da fraude, porém o agente público é o núcleo da decisão.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c6",
+            name: "Chefe da Comissão de Licitação",
+            portrait: "suspect_18",
+            age: 46,
+            occupation: "Servidor",
+            relation: "Assinou parecer técnico",
+            criminalRecord: "",
+            address: "Subúrbio.",
+            alibi:
+              "Afirma ter seguido recomendações superiores.",
+            profileNotes:
+              "Participa, mas não é o mentor; ficou sob pressão do secretário.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 7: AMEAÇA CIBERNÉTICA (FBI) ---------- */
+      {
+        id: "case7",
+        name: "Ataque Hacker à Rede Hospitalar",
+        level: "FBI Federal",
+        difficulty: "Alta",
+        type: "Crime Cibernético / Extorsão",
+        needsIML: false,
+        description:
+          "Vários hospitais da região têm sistemas sequestrados por ransomware, com exigência de pagamento em criptomoedas para liberação.",
+        witnesses: [
+          {
+            id: "w1c7",
+            name: "Diretor de TI do Hospital",
+            relation: "Responsável pelo sistema",
+            portrait: "witness_27",
+            statement:
+              "O ataque começou pela conta de um médico que clicou em anexo malicioso.",
+            qa: []
+          },
+          {
+            id: "w2c7",
+            name: "Enfermeira-Chefe",
+            relation: "Usuária impactada",
+            portrait: "witness_28",
+            statement:
+              "Os computadores exibiam só uma tela exigindo pagamento; tivemos que voltar a tudo em papel.",
+            qa: []
+          },
+          {
+            id: "w3c7",
+            name: "Analista do FBI em Cibercrimes",
+            relation: "Perito",
+            portrait: "witness_29",
+            statement:
+              "O servidor de comando e controle aponta para VPS usada anteriormente em ataques de um grupo identificado.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c7",
+            type: "Digital",
+            name: "Código do Ransomware",
+            description:
+              "Assinatura digital compatível com grupo 'DarkPulse', já investigado pelo FBI.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e2c7",
+            type: "Digital",
+            name: "Carteira de Criptomoeda",
+            description:
+              "Endereço público de carteira já usado em outros ataques, ligado a um ex-funcionário de empresa de TI.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e3c7",
+            type: "Digital",
+            name: "Logs de Acesso VPN",
+            description:
+              "Acesso remoto à rede hospitalar feito a partir de IP residencial de ex-administrador de sistemas.",
+            image: "evidence_text_01"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c7",
+            name: "Ex-Admin de Sistemas",
+            portrait: "suspect_19",
+            age: 33,
+            occupation: "Desempregado",
+            relation: "Trabalhou na rede hospitalar",
+            criminalRecord: "",
+            address: "Apartamento com conexão de alta velocidade.",
+            alibi:
+              "Alega estar jogando online na noite do ataque.",
+            profileNotes:
+              "Possui conhecimento, acesso prévio e IP conectado ao ataque.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c7",
+            name: "Médico da Conta Invadida",
+            portrait: "suspect_20",
+            age: 45,
+            occupation: "Médico",
+            relation: "Conta inicial do phishing",
+            criminalRecord: "",
+            address: "Bairro residencial.",
+            alibi:
+              "Foi vítima de phishing; sem ganhos com o ataque.",
+            profileNotes:
+              "Ponto de entrada, mas não o autor.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c7",
+            name: "Funcionário da Empresa de TI",
+            portrait: "suspect_21",
+            age: 29,
+            occupation: "Técnico",
+            relation: "Prestador de serviço",
+            criminalRecord: "",
+            address: "Subúrbio.",
+            alibi:
+              "Trabalhava em outra rede no horário.",
+            profileNotes:
+              "Sem ligação direta com carteira de cripto ou IP.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 8: INFILTRAÇÃO CIA (DADOS) ---------- */
+      {
+        id: "case8",
+        name: "Vazamento em Base de Dados de Inteligência",
+        level: "CIA Analista",
+        difficulty: "Alta",
+        type: "Espionagem / Vazamento de Dados",
+        needsIML: false,
+        description:
+          "Relatórios confidenciais da CIA aparecem em fórum estrangeiro. Suspeita de agente interno vazando informações.",
+        witnesses: [
+          {
+            id: "w1c8",
+            name: "Chefe de Segurança da Informação",
+            relation: "Responsável pelo SIG",
+            portrait: "witness_30",
+            statement:
+              "O vazamento veio de credenciais internas usadas fora do horário de expediente.",
+            qa: []
+          },
+          {
+            id: "w2c8",
+            name: "Analista Colega",
+            relation: "Trabalha no mesmo setor",
+            portrait: "witness_31",
+            statement:
+              "Um dos analistas andava insatisfeito com cortes de verba e falava em 'expor a verdade'.",
+            qa: []
+          },
+          {
+            id: "w3c8",
+            name: "Contato do Departamento de Contrainteligência",
+            relation: "Ligação interna",
+            portrait: "witness_32",
+            statement:
+              "Há indícios de comunicação criptografada entre um analista e endereço IP vinculado a serviço de proxy em país adversário.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c8",
+            type: "Digital",
+            name: "Logs de Acesso ao Sistema",
+            description:
+              "Downloads feitos na madrugada, com login de um analista específico.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e2c8",
+            type: "Digital",
+            name: "Registo de Proxy",
+            description:
+              "Conexões frequentes do computador desse analista a serviço de proxy conhecido.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e3c8",
+            type: "Digital",
+            name: "Mensagens Criptografadas",
+            description:
+              "Metadados indicam troca de mensagens com IP de país adversário.",
+            image: "evidence_text_01"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c8",
+            name: "Analista Insatisfeito",
+            portrait: "suspect_05",
+            age: 36,
+            occupation: "Analista de Inteligência",
+            relation: "Acesso direto aos relatórios",
+            criminalRecord: "",
+            address: "Condomínio próximo à base.",
+            alibi:
+              "Alega que alguém usou seu terminal enquanto estava fora.",
+            profileNotes:
+              "Login usado nos downloads, conexões suspeitas a proxy e motivação ideológica.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c8",
+            name: "Técnico de Suporte",
+            portrait: "suspect_06",
+            age: 29,
+            occupation: "Suporte de TI",
+            relation: "Administra contas",
+            criminalRecord: "",
+            address: "Área urbana.",
+            alibi:
+              "Registros mostram que ele estava em outra instalação no momento dos acessos.",
+            profileNotes:
+              "Tem meios, mas não aparece em logs e não tem histórico de insatisfação.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c8",
+            name: "Consultor Externo",
+            portrait: "suspect_04",
+            age: 48,
+            occupation: "Consultor",
+            relation: "Contrato temporário",
+            criminalRecord: "",
+            address: "Outros estados.",
+            alibi:
+              "Acesso ao sistema era limitado; não incluía os documentos vazados.",
+            profileNotes:
+              "Sem permissão para a base específica onde ocorreu o vazamento.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 9: AGENTE DUPLO (CIA) ---------- */
+      {
+        id: "case9",
+        name: "Contato Suspeito de Agente de Campo",
+        level: "CIA Agente Nível 3",
+        difficulty: "Alta",
+        type: "Contrainteligência",
+        needsIML: false,
+        description:
+          "Um agente de campo da CIA em Valley City apresenta padrão de deslocamento fora de rota e encontros não reportados.",
+        witnesses: [
+          {
+            id: "w1c9",
+            name: "Supervisor Operacional",
+            relation: "Chefe direto",
+            portrait: "witness_33",
+            statement:
+              "Ele tem sido evasivo sobre alguns deslocamentos e atrasos em relatórios.",
+            qa: []
+          },
+          {
+            id: "w2c9",
+            name: "Parceiro de Missões",
+            relation: "Agente colega",
+            portrait: "witness_34",
+            statement:
+              "Em algumas operações, ele se afastou do ponto combinado sem explicar direito.",
+            qa: []
+          },
+          {
+            id: "w3c9",
+            name: "Analista de Sinais",
+            relation: "SIGINT",
+            portrait: "witness_35",
+            statement:
+              "Telefone dele se conectou repetidas vezes a antena próxima a café usado por contatos de organização estrangeira.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c9",
+            type: "Digital",
+            name: "Registros de GPS do Veículo",
+            description:
+              "Rotas repetidas para uma área sem justificativa operacional.",
+            image: "evidence_text_01"
+          },
+          {
+            id: "e2c9",
+            type: "Digital",
+            name: "Câmeras de Segurança",
+            description:
+              "Imagens mostram o agente encontrando a mesma pessoa em diferentes dias, sem registro no relatório.",
+            image: "crime_scene_03"
+          },
+          {
+            id: "e3c9",
+            type: "Digital",
+            name: "Extratos Bancários",
+            description:
+              "Depósitos em espécie compatíveis com pagamentos de informação.",
+            image: "evidence_doc_02"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c9",
+            name: "Agente de Campo Investigado",
+            portrait: "suspect_09",
+            age: 39,
+            occupation: "Agente de Campo",
+            relation: "Sob suspeita",
+            criminalRecord: "",
+            address: "Local sigiloso.",
+            alibi:
+              "Alega encontros para fins de fonte não oficial.",
+            profileNotes:
+              "Não reportou fonte, rotas ou valores recebidos. Padrão típico de agente duplo.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s2c9",
+            name: "Contato Civil",
+            portrait: "suspect_02",
+            age: 42,
+            occupation: "Empresário local",
+            relation: "Pessoa dos encontros",
+            criminalRecord: "",
+            address: "Centro de Valley City.",
+            alibi:
+              "Diz que encontros eram casuais, sem ligação com espionagem.",
+            profileNotes:
+              "Sem histórico prévio, mas usado como canal de repasse pelo agente.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s3c9",
+            name: "Agente de Outra Agência",
+            portrait: "suspect_03",
+            age: 38,
+            occupation: "Oficial de outra agência",
+            relation: "Integra força-tarefa",
+            criminalRecord: "",
+            address: "",
+            alibi:
+              "Registros oficiais de reuniões formais e comunicadas.",
+            profileNotes:
+              "Sem benefício direto com vazamentos.",
+            keywordsAnswers: [],
+            isGuilty: false
+          }
+        ]
+      },
+
+      /* ---------- CASE 10: ATENTADO FRUSTRADO (CIA ESPECIAL) ---------- */
+      {
+        id: "case10",
+        name: "Plano de Ataque ao Metrô de Valley City",
+        level: "CIA Agente Especial",
+        difficulty: "Muito Alta",
+        type: "Terrorismo / Prevenção",
+        needsIML: false,
+        description:
+          "Informações indicam planejamento de atentado coordenado em estação de metrô. Sua missão é identificar o verdadeiro articulador antes do ataque.",
+        witnesses: [
+          {
+            id: "w1c10",
+            name: "Informante Infiltrado",
+            relation: "Fonte humana",
+            portrait: "witness_01",
+            statement:
+              "Ouvi falar de 'teste' na estação central, com malas largadas em horários de pico.",
+            qa: []
+          },
+          {
+            id: "w2c10",
+            name: "Analista de Tráfego",
+            relation: "Controle do metrô",
+            portrait: "witness_02",
+            statement:
+              "Há registros de mesma pessoa circulando em horários incomuns, sem pegar trem.",
+            qa: []
+          },
+          {
+            id: "w3c10",
+            name: "Policial do K9",
+            relation: "Equipe com cães farejadores",
+            portrait: "witness_03",
+            statement:
+              "Cão marcou positivo para traços de explosivos em um dos bancos da plataforma.",
+            qa: []
+          }
+        ],
+        evidence: [
+          {
+            id: "e1c10",
+            type: "Digital",
+            name: "Câmeras da Estação",
+            description:
+              "Mostram suspeito deixando mochila e saindo sem embarcar, em três dias diferentes.",
+            image: "crime_scene_01"
+          },
+          {
+            id: "e2c10",
+            type: "Químico",
+            name: "Resíduo de Explosivo",
+            description:
+              "Análise indica vestígios de composto usado em dispositivos improvisados.",
+            image: "evidence_obj_02"
+          },
+          {
+            id: "e3c10",
+            type: "Digital",
+            name: "Chats Criptografados",
+            description:
+              "Conversas mostram um usuário coordenando testes e pedindo relatos de 'reação da segurança'.",
+            image: "evidence_text_01"
+          }
+        ],
+        imlReport: "",
+        suspects: [
+          {
+            id: "s1c10",
+            name: "Operador Logístico",
+            portrait: "suspect_01",
+            age: 30,
+            occupation: "Trabalha nos túneis do metrô",
+            relation: "Acesso a áreas restritas",
+            criminalRecord: "",
+            address: "Periferia.",
+            alibi:
+              "Diz que apenas cumpre cronogramas de manutenção.",
+            profileNotes:
+              "Tem acesso, mas não aparece nas câmeras como o homem da mochila.",
+            keywordsAnswers: [],
+            isGuilty: false
+          },
+          {
+            id: "s2c10",
+            name: "Estudante Radicado",
+            portrait: "suspect_02",
+            age: 24,
+            occupation: "Estudante de engenharia",
+            relation: "Frequenta a estação",
+            criminalRecord: "",
+            address: "Próximo à universidade.",
+            alibi:
+              "Alega estudar fluxo de pessoas para projeto acadêmico.",
+            profileNotes:
+              "Aparece nas câmeras com mochila, coincide com IP dos chats criptografados.",
+            keywordsAnswers: [],
+            isGuilty: true
+          },
+          {
+            id: "s3c10",
+            name: "Vendedor Ambulante",
+            portrait: "suspect_03",
+            age: 50,
+            occupation: "Ambulante",
+            relation: "Trabalha na estação",
+            criminalRecord: "",
+            address: "Comunidade próxima.",
+            alibi:
+              "É visto todos os dias, horário fixo, sem movimentação fora do padrão.",
+            profileNotes:
+              "Perfil de sobrevivência, sem indicativo ideológico.",
+            keywordsAnswers: [],
             isGuilty: false
           }
         ]
@@ -1350,7 +2387,7 @@
       xp: 0,
       skills: { intuicao: 1, forense: 1 },
       casesSolved: 0,
-      casesTotal: 0,
+      casesTotal: CASES.length,
       correctAccusations: 0,
       wrongAccusations: 0,
       warnings: 0,
@@ -1375,8 +2412,6 @@
     function goTo(id) {
       const current = document.querySelector(".screen.active");
       const next = document.getElementById("screen-" + id);
-
-      // Primeiro ativa a próxima tela, depois desativa a atual
       if (next && !next.classList.contains("active")) {
         next.classList.add("active");
       }
@@ -1765,12 +2800,24 @@
       c.evidence.forEach((e) => {
         const item = document.createElement("div");
         item.className = "list-item";
+
+        let imgHtml = "";
+        if (e.image) {
+          imgHtml =
+            '<img src="assets/' +
+            e.image +
+            '.png" alt="" style="width:52px;height:52px;border-radius:12px;object-fit:cover;margin-right:8px;" />';
+        }
+
         item.innerHTML =
-          "<h4>" +
+          '<div style="display:flex;align-items:flex-start;gap:8px;">' +
+          imgHtml +
+          '<div><h4>' +
           e.name +
           "</h4><p>" +
           e.description +
-          "</p>";
+          "</p></div></div>";
+
         list.appendChild(item);
       });
     }
@@ -1795,14 +2842,23 @@
       c.suspects.forEach((s) => {
         const item = document.createElement("div");
         item.className = "list-item";
+
+        let imgHtml =
+          '<img src="assets/' +
+          s.portrait +
+          '.png" alt="" style="width:48px;height:48px;border-radius:14px;object-fit:cover;margin-right:8px;" />';
+
         item.innerHTML =
-          "<h4>" +
+          '<div style="display:flex;align-items:center;gap:8px;">' +
+          imgHtml +
+          '<div><h4>' +
           s.name +
           "</h4><p>" +
           s.relation +
           " • " +
           s.occupation +
-          "</p>";
+          "</p></div></div>";
+
         item.onclick = () => openSuspectDetail(s);
         list.appendChild(item);
       });
@@ -1821,11 +2877,11 @@
         "\nEndereço: " +
         s.address +
         "\n\nFicha Criminal: " +
-        s.criminalRecord +
+        (s.criminalRecord || "Sem informações") +
         "\n\nÁlibi: " +
-        s.alibi +
+        (s.alibi || "Nenhum álibi declarado.") +
         "\n\nObservações: " +
-        s.profileNotes +
+        (s.profileNotes || "Nenhuma.") +
         "\n\nDeseja interrogá-lo agora?";
       if (confirm(msg)) {
         startInterrogation(s);
@@ -1841,14 +2897,23 @@
       c.suspects.forEach((s) => {
         const item = document.createElement("div");
         item.className = "list-item";
+
+        let imgHtml =
+          '<img src="assets/' +
+          s.portrait +
+          '.png" alt="" style="width:48px;height:48px;border-radius:14px;object-fit:cover;margin-right:8px;" />';
+
         item.innerHTML =
-          "<h4>" +
+          '<div style="display:flex;align-items:center;gap:8px;">' +
+          imgHtml +
+          '<div><h4>' +
           s.name +
           "</h4><p>" +
           s.relation +
           " • " +
           s.occupation +
-          "</p>";
+          "</p></div></div>";
+
         item.onclick = () => concludeCaseWithSuspect(s);
         list.appendChild(item);
       });
@@ -1948,12 +3013,12 @@
       }
 
       if (qLower.includes("onde") && qLower.includes("estava")) {
-        return s.alibi;
+        return s.alibi || "Já disse: eu não estava na cena do crime.";
       }
       if (qLower.includes("vítima") || qLower.includes("vitima")) {
         return (
           "Minha relação com a vítima é a que você já tem no dossiê: " +
-          s.relation +
+          (s.relation || "nenhuma informação adicional.") +
           "."
         );
       }
