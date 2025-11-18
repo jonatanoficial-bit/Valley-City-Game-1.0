@@ -71,9 +71,10 @@
       content: "";
       position: absolute;
       inset: 0;
-      opacity: 0.25;
+      opacity: 0.55; /* mais visível */
       background-size: cover;
       background-position: center;
+      background-color: #05070d; /* fallback se a imagem atrasar */
       pointer-events: none;
       z-index: -1;
       filter: saturate(1.1) contrast(1.05);
@@ -161,7 +162,9 @@
     }
 
     .card {
-      background: radial-gradient(circle at top left, #1f2640 0, #101423 55%);
+      background: radial-gradient(circle at top left,
+                  rgba(31, 38, 64, 0.90) 0,
+                  rgba(16, 20, 35, 0.90) 55%);
       border-radius: var(--radius-lg);
       padding: 14px 16px;
       margin-bottom: 14px;
@@ -170,7 +173,7 @@
     }
 
     .card-soft {
-      background: rgba(12, 16, 30, 0.95);
+      background: rgba(12, 16, 30, 0.92);
       border-radius: var(--radius-md);
       padding: 12px 14px;
       margin-bottom: 10px;
@@ -781,7 +784,7 @@
       </div>
     </section>
 
-    <!-- PROMOTION / STATS PLACEHOLDER -->
+    <!-- PROMOTION -->
     <section id="screen-promotion" class="screen">
       <header class="topline">Valley City • Comissão de Carreira</header>
       <h1 class="title">Pedido de Promoção</h1>
@@ -799,6 +802,7 @@
       </div>
     </section>
 
+    <!-- STATS -->
     <section id="screen-stats" class="screen">
       <header class="topline">Valley City • Dossiê do Agente</header>
       <h1 class="title">Histórico & Estatísticas</h1>
@@ -979,7 +983,7 @@
       </div>
     </section>
 
-    <!-- CONCLUDE CASE (SIMPLE MODAL SCREEN) -->
+    <!-- CONCLUDE CASE -->
     <section id="screen-conclude" class="screen">
       <header class="topline">Valley City • Encerramento de Caso</header>
       <h1 class="title">Indicar Culpado</h1>
@@ -1020,7 +1024,7 @@
   </div>
 
   <script>
-    // ---------- STATE ----------
+    // ---------- CONSTANTES / ESTADO ----------
     const AVATARS = [
       "avatar_01",
       "avatar_02",
@@ -1032,6 +1036,22 @@
       "avatar_08",
       "avatar_09",
       "avatar_10"
+    ];
+
+    const BG_IMAGES = [
+      "assets/valley_city_night.png",
+      "assets/bg_login.png",
+      "assets/police_station_front.png",
+      "assets/captain_room_cinematic.png",
+      "assets/escritorio_detective.png",
+      "assets/case_scene_bg.png",
+      "assets/witness_room.png",
+      "assets/evidence_room.png",
+      "assets/suspect_file_bg.png",
+      "assets/interrogation_room.png",
+      "assets/morgue_room.png",
+      "assets/promotion_bg.png",
+      "assets/fired_screen.png"
     ];
 
     const QUICK_QUESTIONS_WITNESS = [
@@ -1078,7 +1098,6 @@
       "Você gostaria de acrescentar mais algum detalhe?"
     ];
 
-    // Casos simplificados de exemplo
     const CASES = [
       {
         id: "case1",
@@ -1268,7 +1287,7 @@
                   "Tínhamos desentendimentos, sim, mas isso é normal em negócios. Não sou assassino."
               },
               {
-                keywords: ["motel", "rodovia"],
+                keywords: ["motet", "motel", "rodovia"],
                 answer:
                   "Eu nem sabia que ele ia para esse motel. Isso não tem nada a ver comigo."
               }
@@ -1304,7 +1323,6 @@
           }
         ]
       }
-      // Casos adicionais podem ser adicionados aqui
     ];
 
     const INITIAL_STATE = {
@@ -1326,20 +1344,34 @@
 
     let state = JSON.parse(JSON.stringify(INITIAL_STATE));
     let currentWitnessTypingTimeout = null;
+    let currentWitness = null;
     let currentInterrogationSuspect = null;
 
-    // ---------- NAVIGATION ----------
+    // ---------- PRELOAD ----------
+    function preloadImages(paths) {
+      paths.forEach((p) => {
+        const img = new Image();
+        img.src = p;
+      });
+    }
+
+    // ---------- NAVEGAÇÃO ----------
     function goTo(id) {
-      const screens = document.querySelectorAll(".screen");
-      screens.forEach((s) => s.classList.remove("active"));
-      const el = document.getElementById("screen-" + id);
-      if (el) el.classList.add("active");
+      const current = document.querySelector(".screen.active");
+      const next = document.getElementById("screen-" + id);
+
+      if (current && current !== next) {
+        current.classList.remove("active");
+      }
+      if (next) {
+        next.classList.add("active");
+      }
 
       if (id === "office") renderOffice();
       if (id === "stats") renderStats();
     }
 
-    // ---------- INIT ----------
+    // ---------- AVATAR ----------
     function initAvatarScreen() {
       const container = document.getElementById("avatar-list");
       container.innerHTML = "";
@@ -1380,6 +1412,7 @@
       img.src = "assets/" + AVATARS[state.avatarIndex] + ".png";
     }
 
+    // ---------- ESCRITÓRIO / STATS ----------
     function renderOffice() {
       updateOfficeAvatar();
       document.getElementById("office-rank").textContent =
@@ -1597,7 +1630,11 @@
       }
     }
 
-    // ---------- CASE MANAGEMENT ----------
+    function openStats() {
+      goTo("stats");
+    }
+
+    // ---------- CASOS ----------
     function openNextCase() {
       if (state.fired) {
         goTo("fired");
@@ -1622,7 +1659,8 @@
     function renderCase() {
       const c = getCurrentCase();
       if (!c) return;
-      document.getElementById("case-title").textContent = "Caso #" + (state.currentCaseIndex + 1);
+      document.getElementById("case-title").textContent =
+        "Caso #" + (state.currentCaseIndex + 1);
       document.getElementById("case-name").textContent = c.name;
       document.getElementById("case-description").textContent = c.description;
       document.getElementById("case-badge").textContent =
@@ -1666,8 +1704,6 @@
         "Selecione uma testemunha para ouvir o depoimento.";
     }
 
-    let currentWitness = null;
-
     function selectWitness(w) {
       currentWitness = w;
       const text = w.statement;
@@ -1692,7 +1728,11 @@
       }
       typewriterEffect(
         "witness-statement",
-        currentWitness.statement + "\n\nPergunta: " + question + "\nResposta: " + answer
+        currentWitness.statement +
+          "\n\nPergunta: " +
+          question +
+          "\nResposta: " +
+          answer
       );
     }
 
@@ -1833,7 +1873,7 @@
       goTo("office");
     }
 
-    // ---------- INTERROGATION ----------
+    // ---------- INTERROGATÓRIO ----------
     function startInterrogation(s) {
       currentInterrogationSuspect = s;
       goTo("interrogation");
@@ -1911,7 +1951,7 @@
       return "Já respondi tudo que sei sobre isso. Qualquer coisa além será só especulação.";
     }
 
-    // ---------- UTILS ----------
+    // ---------- UTILIDADES ----------
     function typewriterEffect(elementId, text) {
       const el = document.getElementById(elementId);
       if (!el) return;
@@ -1933,6 +1973,8 @@
 
     // ---------- BOOT ----------
     document.addEventListener("DOMContentLoaded", () => {
+      preloadImages(BG_IMAGES);
+
       const raw = localStorage.getItem("valleyCitySave");
       if (raw) {
         try {
