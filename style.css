@@ -1,0 +1,315 @@
+/* ============================================================
+   VALLEY CITY - POLICE INVESTIGATIONS
+   BLACK OPS TACTICAL TABLET UI • MOBILE 390x844
+   CSS PREMIUM AAA
+============================================================ */
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* BODY */
+body {
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* ===================== BACKGROUND ===================== */
+
+#bg-layer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.45) contrast(1.1);
+  transition: opacity 0.4s ease-in-out;
+  z-index: 1;
+  opacity: 1;
+}
+
+/* ===================== APP CONTAINER ===================== */
+
+#app {
+  position: relative;
+  z-index: 5;
+  width: 390px;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 100vh;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Scroll suave */
+#app::-webkit-scrollbar {
+  width: 0;
+}
+
+/* ===================== TACTICAL TABLET PANELS ===================== */
+
+.section-card {
+  width: 100%;
+  background: rgba(15, 20, 30, 0.65);
+  border: 1px solid rgba(0, 110, 255, 0.35);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 22px;
+  backdrop-filter: blur(12px) saturate(140%);
+  box-shadow: 0 0 12px rgba(0, 120, 255, 0.25);
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+
+/* ===================== BUTTONS ===================== */
+
+.btn,
+.btn-secondary,
+.btn-danger,
+.btn-ghost {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  margin-bottom: 12px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: 0.2s;
+}
+
+.btn {
+  background: linear-gradient(135deg, #007aff, #0048ff);
+  color: #fff;
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #198cff, #0060ff);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ff003c, #a00000);
+  color: #fff;
+}
+
+/* ===================== AVATAR GRID ===================== */
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 14px 0;
+}
+
+.avatar-option {
+  width: 100%;
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.2s;
+  background: rgba(0,0,0,0.45);
+}
+
+.avatar-option img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-option:hover {
+  transform: scale(1.05);
+  border-color: #00aaff;
+}
+
+.avatar-option.selected {
+  border-color: #00aaff;
+  box-shadow: 0 0 12px #00aaff;
+}
+
+/* ===================== INPUT ===================== */
+
+.input {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  margin-bottom: 14px;
+}
+
+/* ===================== PORTRAITS ===================== */
+
+.portrait img {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid rgba(0,110,255,0.5);
+}
+
+/* ===================== LIST ITEMS ===================== */
+
+.list-item {
+  padding: 14px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.list-item:hover {
+  background: rgba(255,255,255,0.12);
+}
+
+.list-item-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.list-item-sub {
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+
+/* ===================== CHAT LOG ===================== */
+
+.log-box {
+  height: 180px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 12px;
+  padding: 10px;
+  overflow-y: auto;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.log-line-q {
+  color: #2ea8ff;
+  margin-bottom: 6px;
+}
+
+.log-line-a {
+  color: #fff;
+  opacity: 0.85;
+  margin-bottom: 8px;
+}
+
+/* ===================== STATS BARS ===================== */
+
+.stat-bars {
+  margin: 14px 0;
+}
+
+.stat-row {
+  margin-bottom: 10px;
+}
+
+.stat-bar {
+  background: rgba(255,255,255,0.15);
+  height: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #00aaff, #0060ff);
+  transition: width 0.2s;
+}
+
+/* ===================== TYPEWRITER ===================== */
+
+.typewriter {
+  min-height: 140px;
+  white-space: pre-line;
+  font-size: 1rem;
+  line-height: 1.4rem;
+}
+
+/* ===================== THUMB IMAGES ===================== */
+
+.thumb {
+  width: 100%;
+  border-radius: 12px;
+  margin: 10px 0;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* ===================== UTILITY CLASSES ===================== */
+
+.small { font-size: 0.85rem; opacity: 0.8; }
+.label { font-weight: 600; margin: 6px 0; }
+
+.flex {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ===================== CHIP ===================== */
+
+.chip {
+  background: rgba(255,255,255,0.12);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 4px;
+  display: inline-block;
+  border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+.chip:hover {
+  background: rgba(0,122,255,0.4);
+  border-color: #007aff;
+  color: #fff;
+}
+
+/* ===================== TRANSITIONS ===================== */
+
+.fade-in {
+  animation: fadeIn 0.35s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
