@@ -313,3 +313,318 @@ body {
   from { opacity: 0 }
   to { opacity: 1 }
 }
+<script>
+/* ======================================================
+   VALLEY CITY • POLICE INVESTIGATIONS
+   BLACK OPS • TACTICAL TABLET UI — ENGINE PRINCIPAL
+   PARTE 3A
+======================================================*/
+
+/* ============= VARIÁVEIS GLOBAIS ============= */
+
+let currentScreen = "";
+let currentWitness = null;
+let currentSuspect = null;
+
+let player = {
+    name: "",
+    avatar: "",
+    gender: "",
+    rank: "Detetive Júnior",
+    prestige: 0,
+    moral: 50,
+    solved: 0,
+    failed: 0,
+    currentCaseIndex: 0,
+    currentCase: null
+};
+
+let cases = []; // Será preenchido na PARTE 3C
+
+/* ============= TROCA DE TELAS ============= */
+
+function goTo(screenId) {
+    currentScreen = screenId;
+
+    const container = document.querySelector("#app");
+    container.innerHTML = SCREENS[screenId] || "<p>Erro: Tela não encontrada.</p>";
+    container.classList.add("fade-in");
+
+    if (SCREEN_HOOKS[screenId]) {
+        SCREEN_HOOKS[screenId]();
+    }
+}
+
+/* ============= FUNDO TÁTICO COM TROCA SUAVE ============= */
+
+function setBackground(imageName) {
+    const bg = document.querySelector("#bg-layer");
+    bg.style.opacity = 0;
+
+    setTimeout(() => {
+        bg.style.backgroundImage = `url('assets/${imageName}.png')`;
+        bg.style.opacity = 1;
+    }, 300);
+}
+
+/* ============= TYPEWRITER (CAPITÃO E OUTROS) ============= */
+
+let typewriterTimer = null;
+
+function typeWriter(text, elementId, speed = 38) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    let index = 0;
+    el.innerHTML = "";
+
+    clearInterval(typewriterTimer);
+
+    typewriterTimer = setInterval(() => {
+        el.innerHTML = text.substring(0, index);
+        index++;
+
+        if (index > text.length) {
+            clearInterval(typewriterTimer);
+        }
+    }, speed);
+}
+
+/* ============= SALVAR E CARREGAR ============= */
+
+function saveGame() {
+    localStorage.setItem("VCPI_SAVE", JSON.stringify(player));
+    alert("✔ Progresso salvo!");
+}
+
+function loadGame() {
+    const data = localStorage.getItem("VCPI_SAVE");
+    if (!data) {
+        alert("Nenhum jogo salvo encontrado.");
+        return;
+    }
+
+    player = JSON.parse(data);
+    goTo("office");
+}
+
+/* ============= ATUALIZAR HUD TÁTICO ============= */
+
+function updateHUD() {
+    const el = document.getElementById("hud");
+    if (!el) return;
+
+    el.innerHTML = `
+        <div class="section-card">
+            <h3>${player.name} <span class="pill-inline">${player.rank}</span></h3>
+            <p class="small">Prestígio: ${player.prestige}% • Moral: ${player.moral}%</p>
+            <p class="small">Casos resolvidos: ${player.solved} • Falhas: ${player.failed}</p>
+        </div>
+    `;
+}
+
+/* ============= SELEÇÃO DE AVATAR ============= */
+
+function selectAvatar(id) {
+    player.avatar = id;
+    player.gender = id.endsWith("f") ? "F" : "M";
+
+    document.querySelectorAll(".avatar-option").forEach(a =>
+        a.classList.remove("selected")
+    );
+
+    document.getElementById("av_" + id).classList.add("selected");
+}
+
+function confirmAvatar() {
+    const name = document.getElementById("playerName").value.trim();
+
+    if (name.length < 2) {
+        alert("Digite um nome válido.");
+        return;
+    }
+
+    if (!player.avatar) {
+        alert("Escolha um avatar.");
+        return;
+    }
+
+    player.name = name;
+    goTo("captain");
+}
+
+/* ============= AVANÇAR PARA O PRÓXIMO CASO ============= */
+
+function nextCase() {
+    if (player.currentCaseIndex >= cases.length) {
+        goTo("theEnd");
+        return;
+    }
+
+    player.currentCase = cases[player.currentCaseIndex];
+    goTo("caseIntro");
+}
+
+/* ============= TELA / DESIGN DAS TELAS ============= */
+
+const SCREENS = {
+
+    /* TELA INICIAL */
+    start: `
+        <div class="section-card">
+            <h1 class="title">Valley City</h1>
+            <p class="subtitle">Police Investigations • BLACK OPS</p>
+            <button class="btn" onclick="goTo('avatar')">Iniciar</button>
+            <button class="btn-secondary" onclick="loadGame()">Carregar Jogo</button>
+        </div>
+    `,
+
+    /* ESCOLHA DO AVATAR */
+    avatar: `
+        <div class="section-card">
+            <h2 class="title">Identificação</h2>
+            <input class="input" id="playerName" placeholder="Seu nome">
+
+            <p class="label">Escolha seu avatar:</p>
+            <div class="avatar-grid">
+                ${(() => {
+                    let html = "";
+                    for (let i = 1; i <= 10; i++) {
+                        html += `
+                            <div class="avatar-option" id="av_avatar_0${i}" onclick="selectAvatar('avatar_0${i}')">
+                                <img src="assets/avatar_0${i}.png">
+                            </div>
+                            <div class="avatar-option" id="av_avatar_0${i}f" onclick="selectAvatar('avatar_0${i}f')">
+                                <img src="assets/avatar_0${i}f.png">
+                            </div>`;
+                    }
+                    return html;
+                })()}
+            </div>
+            <button class="btn" onclick="confirmAvatar()">Confirmar</button>
+        </div>
+    `,
+
+    /* CUTSCENE DO CAPITÃO */
+    captain: `
+        <div class="section-card">
+            <h2 class="title">Distrito Policial</h2>
+            <div class="flex">
+                <div class="portrait"><img src="assets/capitao_brief.png"></div>
+                <p class="small">Capitão Rodriguez</p>
+            </div>
+
+            <div id="captainTXT" class="typewriter"></div>
+
+            <button class="btn" onclick="goTo('office')">Continuar</button>
+        </div>
+    `,
+
+    /* ESCRITÓRIO DO DETETIVE */
+    office: `
+        <div id="hud"></div>
+
+        <div class="section-card">
+            <h2 class="title">Escritório • Dispositivo Policial</h2>
+            <button class="btn" onclick="nextCase()">Próximo Caso</button>
+            <button class="btn-secondary" onclick="saveGame()">Salvar</button>
+            <button class="btn-ghost" onclick="goTo('stats')">Status</button>
+        </div>
+    `,
+
+    /* STATUS */
+    stats: `
+        <div class="section-card">
+            <h2 class="title">Status do Agente</h2>
+            <p class="small">Nome: ${player.name}</p>
+            <p class="small">Rank: ${player.rank}</p>
+            <p class="small">Prestígio: ${player.prestige}%</p>
+            <p class="small">Moral: ${player.moral}%</p>
+            <p class="small">Casos resolvidos: ${player.solved}</p>
+            <p class="small">Casos falhados: ${player.failed}</p>
+
+            <button class="btn-ghost" onclick="goTo('office')">Voltar</button>
+        </div>
+    `,
+
+    /* INTRO DO CASO */
+    caseIntro: `
+        <div class="section-card">
+            <h2 class="title" id="caseName"></h2>
+            <p class="subtitle" id="caseDesc"></p>
+            <img id="caseImg" class="thumb">
+            <button class="btn" onclick="goTo('investigate')">Iniciar Investigação</button>
+        </div>
+    `,
+
+    /* TELA DE INVESTIGAÇÃO */
+    investigate: `
+        <div class="section-card">
+            <h2 class="title">Investigação</h2>
+
+            <button class="btn" onclick="goTo('witnesses')">Testemunhas</button>
+            <button class="btn" onclick="goTo('evidence')">Provas</button>
+            <button class="btn" onclick="goTo('suspects')">Suspeitos</button>
+            <button class="btn-danger" onclick="goTo('conclusion')">Concluir Caso</button>
+
+            <button class="btn-ghost" onclick="goTo('office')">Voltar</button>
+        </div>
+    `,
+
+    /* PLACEHOLDER DAS PRÓXIMAS TELAS (3B e 3C preenchem) */
+    witnesses: `<div class="section-card"><h2>Testemunhas</h2><div id="wList"></div></div>`,
+    witnessView: `<div class="section-card" id="wv"></div>`,
+    suspects: `<div class="section-card"><h2>Suspeitos</h2><div id="sList"></div></div>`,
+    suspectView: `<div class="section-card" id="sv"></div>`,
+    evidence: `<div class="section-card"><h2>Provas</h2><div id="eList"></div></div>`,
+    conclusion: `<div class="section-card"><h2>Conclusão</h2><div id="cList"></div></div>`,
+    theEnd: `
+        <div class="section-card">
+            <h2 class="title">Todos os casos concluídos</h2>
+            <button class="btn" onclick="goTo('office')">Voltar ao Escritório</button>
+        </div>
+    `
+};
+
+/* ============= HOOKS (executados ao abrir telas) ============= */
+
+const SCREEN_HOOKS = {
+    start() {
+        setBackground("capa_principal");
+    },
+
+    avatar() {
+        setBackground("bg_login");
+    },
+
+    captain() {
+        setBackground("capitao_office");
+        typeWriter(
+            "Bem-vindo(a) a Valley City.\nSou o Capitão Rodriguez.\n\n" +
+            "Esta cidade está no limite.\nViolência, corrupção, gangues, crimes impunes.\n\n" +
+            "Precisamos de agentes preparados.\nE espero que você esteja à altura.\n\n" +
+            "Não me decepcione.",
+            "captainTXT",
+            26
+        );
+    },
+
+    office() {
+        setBackground("escritorio_detective");
+        updateHUD();
+    },
+
+    caseIntro() {
+        const c = player.currentCase;
+        document.getElementById("caseName").innerText = c.name;
+        document.getElementById("caseDesc").innerText = c.description;
+        document.getElementById("caseImg").src = "assets/" + c.introImage + ".png";
+
+        setBackground(c.introImage);
+    }
+};
+
+/* ============= INICIAR O JOGO ============= */
+
+goTo("start");
+</script>
