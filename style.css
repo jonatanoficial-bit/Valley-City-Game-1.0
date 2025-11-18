@@ -628,3 +628,356 @@ const SCREEN_HOOKS = {
 
 goTo("start");
 </script>
+<script>
+/* ======================================================
+   VALLEY CITY • POLICE INVESTIGATIONS
+   BLACK OPS • TACTICAL TABLET UI
+   PARTE 3B — SISTEMA DE INVESTIGAÇÃO COMPLETO
+======================================================*/
+
+/* ======================================================
+   PERGUNTAS POSSÍVEIS
+======================================================*/
+
+const WITNESS_QUESTIONS = [
+    { id: "where", label: "Onde você estava no momento do crime?" },
+    { id: "knowVictim", label: "Você conhecia a vítima?" },
+    { id: "seeSomeone", label: "Você viu alguém suspeito?" },
+    { id: "hear", label: "Você ouviu algo?" },
+    { id: "details", label: "Tem mais algum detalhe importante?" }
+];
+
+const SUSPECT_QUESTIONS = [
+    { id: "alibi", label: "Onde você estava no horário do crime?" },
+    { id: "relation", label: "Qual era sua relação com a vítima?" },
+    { id: "motive", label: "Você teria algum motivo para atacá-la?" },
+    { id: "witness", label: "Alguém pode confirmar seu álibi?" },
+    { id: "stress", label: "Por que você está nervoso?" },
+    { id: "weapon", label: "Você possui armas?" }
+];
+
+/* ======================================================
+   TESTEMUNHAS — LISTAGEM
+======================================================*/
+
+function loadWitnesses() {
+    const c = player.currentCase;
+    const area = document.getElementById("wList");
+
+    area.innerHTML = "";
+
+    if (!c.witnesses || c.witnesses.length === 0) {
+        area.innerHTML = `<p class="small">Nenhuma testemunha neste caso.</p>`;
+        return;
+    }
+
+    c.witnesses.forEach(w => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.onclick = () => viewWitness(w.id);
+
+        item.innerHTML = `
+            <div class="flex">
+                <div class="portrait"><img src="assets/${w.image}.png"></div>
+                <div>
+                    <div class="list-item-title">${w.name}</div>
+                    <div class="list-item-sub">${w.role}</div>
+                </div>
+            </div>
+        `;
+
+        area.appendChild(item);
+    });
+}
+
+function viewWitness(id) {
+    const c = player.currentCase;
+    currentWitness = c.witnesses.find(w => w.id === id);
+
+    goTo("witnessView");
+
+    document.getElementById("wv").innerHTML = `
+        <div class="flex">
+            <div class="portrait"><img src="assets/${currentWitness.image}.png"></div>
+            <div>
+                <h3>${currentWitness.name}</h3>
+                <p class="small">${currentWitness.role}</p>
+            </div>
+        </div>
+
+        <p class="label">Depoimento Inicial:</p>
+        <p class="small">${currentWitness.initial}</p>
+
+        <p class="label">Perguntas:</p>
+        <div id="wQuestions"></div>
+
+        <div class="label">Registro:</div>
+        <div id="wLog" class="log-box"></div>
+
+        <button class="btn-ghost" onclick="goTo('witnesses')">Voltar</button>
+    `;
+
+    const qDiv = document.getElementById("wQuestions");
+
+    WITNESS_QUESTIONS.forEach(q => {
+        const btn = document.createElement("button");
+        btn.className = "chip";
+        btn.innerText = q.label;
+        btn.onclick = () => askWitness(q.id);
+        qDiv.appendChild(btn);
+    });
+}
+
+/* ======================================================
+   TESTEMUNHAS — PERGUNTAS
+======================================================*/
+
+function askWitness(qid) {
+    if (!currentWitness) return;
+
+    const question = WITNESS_QUESTIONS.find(q => q.id === qid);
+
+    const answer =
+        currentWitness.answers[qid] ??
+        "Não sei dizer com certeza.";
+
+    const log = document.getElementById("wLog");
+
+    const qEl = document.createElement("div");
+    qEl.className = "log-line-q";
+    qEl.innerText = "Você: " + question.label;
+
+    const aEl = document.createElement("div");
+    aEl.className = "log-line-a";
+    aEl.innerText = currentWitness.name + ": " + answer;
+
+    log.appendChild(qEl);
+    log.appendChild(aEl);
+
+    log.scrollTop = log.scrollHeight;
+}
+
+/* ======================================================
+   SUSPEITOS — LISTAGEM
+======================================================*/
+
+function loadSuspects() {
+    const c = player.currentCase;
+    const area = document.getElementById("sList");
+
+    area.innerHTML = "";
+
+    if (!c.suspects || c.suspects.length === 0) {
+        area.innerHTML = `<p class="small">Nenhum suspeito disponível.</p>`;
+        return;
+    }
+
+    c.suspects.forEach(s => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.onclick = () => viewSuspect(s.id);
+
+        item.innerHTML = `
+            <div class="flex">
+                <div class="portrait"><img src="assets/${s.image}.png"></div>
+                <div>
+                    <div class="list-item-title">${s.name}</div>
+                    <div class="list-item-sub">${s.occupation} • ${s.age} anos</div>
+                </div>
+            </div>
+        `;
+
+        area.appendChild(item);
+    });
+}
+
+function viewSuspect(id) {
+    const c = player.currentCase;
+    currentSuspect = c.suspects.find(s => s.id === id);
+
+    goTo("suspectView");
+
+    document.getElementById("sv").innerHTML = `
+        <div class="flex">
+            <div class="portrait"><img src="assets/${currentSuspect.image}.png"></div>
+            <div>
+                <h3>${currentSuspect.name}</h3>
+                <p class="small">${currentSuspect.occupation} • ${currentSuspect.age} anos</p>
+                <p class="small">Endereço: ${currentSuspect.address}</p>
+                <p class="small">Histórico: ${currentSuspect.record}</p>
+            </div>
+        </div>
+
+        <div class="stat-bars">
+            <div class="stat-row">Stress <div class="stat-bar"><div id="sb_stress"></div></div></div>
+            <div class="stat-row">Confiança <div class="stat-bar"><div id="sb_conf"></div></div></div>
+            <div class="stat-row">Raiva <div class="stat-bar"><div id="sb_ang"></div></div></div>
+        </div>
+
+        <p class="label">Perguntas:</p>
+        <div id="sQuestions"></div>
+
+        <p class="label">Registro:</p>
+        <div id="sLog" class="log-box"></div>
+
+        <button class="btn-ghost" onclick="goTo('suspects')">Voltar</button>
+    `;
+
+    loadSuspectBars();
+    loadSuspectQuestions();
+}
+
+/* ======================================================
+   SUSPEITOS — PERGUNTAS
+======================================================*/
+
+function loadSuspectBars() {
+    if (!currentSuspect) return;
+
+    document.getElementById("sb_stress").style.width =
+        currentSuspect.stats.stress + "%";
+
+    document.getElementById("sb_conf").style.width =
+        currentSuspect.stats.confidence + "%";
+
+    document.getElementById("sb_ang").style.width =
+        currentSuspect.stats.anger + "%";
+}
+
+function loadSuspectQuestions() {
+    const area = document.getElementById("sQuestions");
+
+    SUSPECT_QUESTIONS.forEach(q => {
+        const btn = document.createElement("button");
+        btn.className = "chip";
+        btn.innerText = q.label;
+        btn.onclick = () => askSuspect(q.id);
+        area.appendChild(btn);
+    });
+}
+
+function askSuspect(qid) {
+    if (!currentSuspect) return;
+
+    const q = SUSPECT_QUESTIONS.find(x => x.id === qid);
+
+    const answer =
+        currentSuspect.answers[qid] ??
+        "Prefiro não responder isso.";
+
+    const log = document.getElementById("sLog");
+
+    const qEl = document.createElement("div");
+    qEl.className = "log-line-q";
+    qEl.innerText = "Você: " + q.label;
+
+    const aEl = document.createElement("div");
+    aEl.className = "log-line-a";
+    aEl.innerText = currentSuspect.name + ": " + answer;
+
+    log.appendChild(qEl);
+    log.appendChild(aEl);
+
+    currentSuspect.stats.stress = Math.min(currentSuspect.stats.stress + 4, 100);
+    currentSuspect.stats.anger = Math.min(currentSuspect.stats.anger + 3, 100);
+    currentSuspect.stats.confidence = Math.max(currentSuspect.stats.confidence - 2, 0);
+
+    loadSuspectBars();
+
+    log.scrollTop = log.scrollHeight;
+}
+
+/* ======================================================
+   PROVAS
+======================================================*/
+
+function loadEvidence() {
+    const c = player.currentCase;
+    const area = document.getElementById("eList");
+
+    area.innerHTML = "";
+
+    if (!c.evidence || c.evidence.length === 0) {
+        area.innerHTML = `<p class="small">Nenhuma prova disponível.</p>`;
+        return;
+    }
+
+    c.evidence.forEach(e => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+
+        item.innerHTML = `
+            <div class="list-item-title">${e.title} <span class="pill-inline">${e.type}</span></div>
+            <p class="small">${e.description}</p>
+            <img class="thumb" src="assets/${e.image}.png">
+            <p class="small"><b>Relevância:</b> ${e.relevance}</p>
+        `;
+
+        area.appendChild(item);
+    });
+}
+
+/* ======================================================
+   CONCLUSÃO DO CASO
+======================================================*/
+
+function loadConclusion() {
+    const c = player.currentCase;
+    const area = document.getElementById("cList");
+
+    area.innerHTML = "";
+
+    if (!c.suspects || c.suspects.length === 0) {
+        area.innerHTML = `<p class="small">Sem suspeitos neste caso.</p>`;
+        return;
+    }
+
+    c.suspects.forEach(s => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+
+        item.onclick = () => {
+            if (confirm(`Confirmar ${s.name} como culpado?`)) {
+                finalizeCase(s.id);
+            }
+        };
+
+        item.innerHTML = `
+            <div class="flex">
+                <div class="portrait"><img src="assets/${s.image}.png"></div>
+                <div>
+                    <div class="list-item-title">${s.name}</div>
+                    <div class="list-item-sub">${s.occupation}</div>
+                </div>
+            </div>
+        `;
+
+        area.appendChild(item);
+    });
+}
+
+/* ======================================================
+   FINALIZAR CASO
+======================================================*/
+
+function finalizeCase(sid) {
+    const c = player.currentCase;
+    const chosen = c.suspects.find(s => s.id === sid);
+
+    if (chosen.isGuilty) {
+        player.solved++;
+        player.prestige += 10;
+        player.moral += 8;
+        alert("✔ Caso resolvido corretamente!");
+    } else {
+        player.failed++;
+        player.prestige -= 8;
+        player.moral -= 10;
+        alert("❌ Suspeito errado!");
+    }
+
+    player.currentCaseIndex++;
+    goTo("office");
+}
+
+</script>
