@@ -63,12 +63,7 @@
 
     .screen.active {
       display: block;
-      animation: fadeIn 0.28s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+      /* removido o fadeIn para não dar efeito de "piscar" */
     }
 
     /* FUNDOS DAS TELAS - USANDO ASSETS DIRETO */
@@ -1381,11 +1376,12 @@
       const current = document.querySelector(".screen.active");
       const next = document.getElementById("screen-" + id);
 
+      // Primeiro ativa a próxima tela, depois desativa a atual
+      if (next && !next.classList.contains("active")) {
+        next.classList.add("active");
+      }
       if (current && current !== next) {
         current.classList.remove("active");
-      }
-      if (next) {
-        next.classList.add("active");
       }
 
       if (id === "office") renderOffice();
@@ -1430,7 +1426,9 @@
 
     function updateOfficeAvatar() {
       const img = document.getElementById("office-avatar-img");
-      img.src = "assets/" + AVATARS[state.avatarIndex] + ".png";
+      if (img) {
+        img.src = "assets/" + AVATARS[state.avatarIndex] + ".png";
+      }
     }
 
     // ---------- ESCRITÓRIO / STATS ----------
