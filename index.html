@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Valley City: Crime Unit</title>
+  <title>VALLEY CITY: POLICE INVESTIGATIONS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <style>
     * {
@@ -11,7 +11,6 @@
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-
     html, body {
       width: 100%;
       height: 100%;
@@ -19,7 +18,6 @@
       color: #fff;
       overflow: hidden;
     }
-
     #bg-layer {
       position: fixed;
       inset: 0;
@@ -29,7 +27,6 @@
       z-index: -1;
       transition: background-image 0.4s ease-in-out;
     }
-
     #game-container {
       position: relative;
       width: 100%;
@@ -40,32 +37,27 @@
       align-items: stretch;
       justify-content: center;
     }
-
     #app {
       width: 100%;
       padding: 12px;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.65);
       backdrop-filter: blur(4px);
       overflow-y: auto;
     }
-
     h1, h2, h3 {
       text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     }
-
     .title {
       font-size: 1.7rem;
       margin-bottom: 8px;
       text-align: center;
     }
-
     .subtitle {
       font-size: 0.9rem;
       margin-bottom: 12px;
       opacity: 0.9;
       text-align: center;
     }
-
     .btn {
       width: 100%;
       padding: 10px 12px;
@@ -82,44 +74,37 @@
       box-shadow: 0 3px 10px rgba(0,0,0,0.6);
       transition: transform 0.08s ease, box-shadow 0.12s ease, opacity 0.12s ease;
     }
-
     .btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 5px 14px rgba(0,0,0,0.85);
     }
-
     .btn:active {
       transform: translateY(1px);
       box-shadow: 0 2px 6px rgba(0,0,0,0.7);
       opacity: 0.85;
     }
-
     .btn-secondary {
       background: rgba(0,0,0,0.7);
       color: #fff;
       border: 1px solid rgba(255,255,255,0.18);
     }
-
     .btn-danger {
       background: linear-gradient(135deg, #ff5858, #f857a6);
       color: #fff;
     }
-
     .btn-ghost {
       background: transparent;
       border: 1px solid rgba(255,255,255,0.3);
       color: #fff;
     }
-
     .section-card {
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.75);
       border-radius: 16px;
       padding: 12px;
       margin-bottom: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
       box-shadow: 0 3px 12px rgba(0,0,0,0.8);
     }
-
     .section-title {
       font-size: 1.05rem;
       font-weight: 600;
@@ -128,54 +113,46 @@
       justify-content: space-between;
       align-items: center;
     }
-
     .section-subtitle {
       font-size: 0.8rem;
-      opacity: 0.8;
+      opacity: 0.9;
       margin-bottom: 8px;
     }
-
     .row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       margin-bottom: 8px;
     }
-
     .col-half {
       flex: 1 1 calc(50% - 4px);
     }
-
-    .input, textarea {
+    .input, textarea, select {
       width: 100%;
       padding: 8px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       color: #fff;
       font-size: 0.9rem;
       margin-bottom: 8px;
     }
-
     textarea {
       border-radius: 10px;
       min-height: 80px;
       resize: vertical;
     }
-
     .label {
       font-size: 0.8rem;
       opacity: 0.85;
       margin: 4px 0;
     }
-
     .avatar-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: 6px;
       margin-top: 6px;
     }
-
     .avatar-option {
       border-radius: 999px;
       overflow: hidden;
@@ -183,74 +160,33 @@
       cursor: pointer;
       background: rgba(0,0,0,0.7);
     }
-
     .avatar-option img {
       width: 100%;
       height: auto;
       display: block;
     }
-
     .avatar-option.selected {
       border-color: #ffcc33;
       box-shadow: 0 0 0 2px rgba(0,0,0,0.8);
     }
-
     .badge {
       display: inline-block;
       padding: 3px 7px;
       border-radius: 999px;
       font-size: 0.75rem;
-      margin-right: 4px;
+      margin-left: 4px;
       background: rgba(0,0,0,0.7);
       border: 1px solid rgba(255,255,255,0.2);
     }
-
-    .badge.good {
-      background: rgba(0, 200, 120, 0.2);
-      border-color: rgba(0, 200, 120, 0.8);
+    .small {
+      font-size: 0.75rem;
+      opacity: 0.8;
     }
-
-    .badge.bad {
-      background: rgba(255, 72, 72, 0.2);
-      border-color: rgba(255, 72, 72, 0.8);
-    }
-
-    .stat-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      margin-top: 4px;
-    }
-
-    .stat-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-    }
-
-    .stat-bar {
-      flex: 1;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.16);
-      overflow: hidden;
-    }
-
-    .stat-bar-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #ffb347, #ffcc33);
-      width: 0%;
-      transition: width 0.2s ease;
-    }
-
     .flex {
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
     .portrait {
       width: 60px;
       height: 60px;
@@ -260,58 +196,12 @@
       flex-shrink: 0;
       background: rgba(0,0,0,0.6);
     }
-
     .portrait img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-
-    .chip-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 4px;
-    }
-
-    .chip {
-      font-size: 0.75rem;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(255,255,255,0.18);
-      cursor: pointer;
-    }
-
-    .chip:hover {
-      background: rgba(255,255,255,0.08);
-    }
-
-    .list-item {
-      padding: 8px 8px;
-      border-radius: 10px;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(255,255,255,0.12);
-      margin-bottom: 6px;
-      cursor: pointer;
-    }
-
-    .list-item:hover {
-      background: rgba(255,255,255,0.05);
-    }
-
-    .list-item-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .list-item-sub {
-      font-size: 0.75rem;
-      opacity: 0.8;
-    }
-
     .thumb {
       width: 100%;
       max-height: 160px;
@@ -320,14 +210,45 @@
       margin-top: 6px;
       border: 1px solid rgba(255,255,255,0.24);
     }
-
-    .small {
-      font-size: 0.75rem;
-      opacity: 0.75;
+    .chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
     }
-
-    .log-box {
+    .chip {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(255,255,255,0.18);
+      cursor: pointer;
+    }
+    .chip:hover {
+      background: rgba(255,255,255,0.06);
+    }
+    .list-item {
+      padding: 8px 8px;
+      border-radius: 10px;
       background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+    .list-item:hover {
+      background: rgba(255,255,255,0.04);
+    }
+    .list-item-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .list-item-sub {
+      font-size: 0.75rem;
+      opacity: 0.8;
+    }
+    .log-box {
+      background: rgba(0,0,0,0.7);
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.2);
       padding: 8px;
@@ -335,45 +256,52 @@
       overflow-y: auto;
       font-size: 0.78rem;
     }
-
     .log-line-q {
       color: #ffcc33;
       margin-bottom: 2px;
     }
-
     .log-line-a {
       color: #fff;
       margin-bottom: 6px;
     }
-
+    .stat-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+    .stat-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+    }
+    .stat-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      overflow: hidden;
+    }
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ffb347, #ffcc33);
+      width: 0%;
+      transition: width 0.2s ease;
+    }
     .typewriter {
       min-height: 90px;
       font-size: 0.9rem;
       line-height: 1.35rem;
       white-space: pre-wrap;
     }
-
     .footer-note {
       font-size: 0.7rem;
       text-align: center;
       opacity: 0.7;
       margin-top: 6px;
-    }
-
-    .pill-inline {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(255,255,255,0.2);
-      font-size: 0.68rem;
-      margin-left: 4px;
-    }
-
-    @media (max-height: 640px) {
-      #app {
-        padding-bottom: 60px;
-      }
     }
   </style>
 </head>
@@ -384,2121 +312,1826 @@
   </div>
 
   <script>
-    (function () {
-      const bgLayer = document.getElementById('bg-layer');
-      const app = document.getElementById('app');
+    // ---------- REFERÊNCIAS BÁSICAS ----------
+    const bgLayer = document.getElementById("bg-layer");
+    const app = document.getElementById("app");
 
-      // ---------- CONSTANTES BÁSICAS ----------
-      const AVATARS = [
-        "avatar_01.png",
-        "avatar_02.png",
-        "avatar_03.png",
-        "avatar_04.png",
-        "avatar_05.png",
-        "avatar_06.png",
-        "avatar_07.png",
-        "avatar_08.png",
-        "avatar_09.png",
-        "avatar_10.png"
-      ];
+    // ---------- AVATARES (MASC/FEM PADRÃO) ----------
+    const AVATARS = [
+      "avatar_01.png",
+      "avatar_02.png",
+      "avatar_03.png",
+      "avatar_04.png",
+      "avatar_05.png",
+      "avatar_06.png",
+      "avatar_07.png",
+      "avatar_08.png",
+      "avatar_09.png",
+      "avatar_10.png"
+    ];
 
-      // Perguntas sugeridas para interrogatório (genéricas)
-      const INTERROGATION_TEMPLATES = [
-        "Onde você estava no momento do crime?",
-        "Qual é sua relação com a vítima?",
-        "Alguém pode confirmar seu álibi?",
-        "Você tinha algum motivo para machucar a vítima?",
-        "Você já discutiu com a vítima antes?",
-        "Por que o seu nome apareceu na cena do crime?",
-        "Você reconhece este objeto encontrado na cena?",
-        "Quando foi a última vez que viu a vítima com vida?",
-        "Você conhecia algum inimigo da vítima?",
-        "Você estava sob efeito de álcool ou drogas nesse dia?",
-        "Você já esteve neste local antes do crime?",
-        "Você quer acrescentar algo ao seu depoimento?",
-        "Você está dizendo a verdade em tudo o que respondeu?",
-        "Por que seu álibi não bate com o de outra testemunha?",
-        "Você tem alguma prova que comprove o que está dizendo?",
-        "Você já foi preso antes?",
-        "Você tem consciência da gravidade desta investigação?",
-        "Você se sente ameaçado por alguém envolvido no caso?",
-        "Você viu alguém estranho próximo ao local do crime?",
-        "Você se ofereceria para um exame pericial se necessário?"
-      ];
+    // ---------- ESTADO GLOBAL ----------
+    let gameState = null;
+    let currentCaseId = null;
+    let interrogationState = {
+      suspectId: null,
+      stress: 20,
+      trust: 50,
+      anger: 10,
+      log: []
+    };
+    let typewriterTimer = null;
 
-      // ---------- CASOS (10 casos, VCPD / FBI / CIA) ----------
-      const CASES = [
-        // VCPD 1
-        {
-          id: "vcpd_01",
-          agency: "VCPD",
-          title: "Homicídio no Motel Skyline",
-          difficulty: 2,
-          sceneImage: "crime_scene_01.png",
-          intro: "Um corpo foi encontrado em um quarto do Motel Skyline, periferia de Valley City. Vizinhos relataram gritos por volta das 23h45. Não há sinais de arrombamento.",
-          hasAutopsy: true,
-          autopsy: "Homem adulto, 34 anos. Causa da morte: perfuração única no tórax por arma branca, ângulo descendente, provável agressor em pé diante da vítima. Tempo estimado de morte: entre 23h20 e 23h50. Há marcas de defesa nos antebraços e escoriações na mão direita, sugerindo luta.",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Recepcionista do Motel",
-              portrait: "witness_01.png",
-              reliability: "alta",
-              initialStatement: "Eu estava na recepção, como sempre. Vi a vítima subir com uma mulher loira de casaco vermelho por volta das 22h50. Ela usava óculos escuros mesmo à noite. Cerca de uma hora depois, ouvi barulho de discussão, mas logo parou.",
-              qa: {
-                where: "Eu fiquei na recepção o tempo todo. Quando ouvi o barulho, já era tarde demais. Ninguém desceu pela entrada principal entre 23h20 e 23h50.",
-                relation: "Não conhecia a vítima. Mas ele já tinha se hospedado aqui algumas vezes com pessoas diferentes.",
-                saw: "Além da mulher loira de casaco vermelho, notei um carro preto parado do outro lado da rua, motor ligado por um bom tempo.",
-                suspect: "A única pessoa que subiu com ele foi a mulher loira. Mas eu não vi ela saindo pela frente.",
-                more: "As câmeras da recepção e do corredor do terceiro andar podem ter registrado algo, se ainda estiverem funcionando direito."
-              }
-            },
-            {
-              id: "w2",
-              name: "Hóspede do Quarto ao Lado",
-              portrait: "witness_02.png",
-              reliability: "média",
-              initialStatement: "Eu estava tentando dormir, mas ouvi uma briga no quarto ao lado. Parecia discussão de casal, com xingamentos. Depois veio um som forte, como se algo caísse no chão. Uns dez minutos depois, silêncio total.",
-              qa: {
-                where: "Eu estava no meu quarto, deitado. Não saí para o corredor.",
-                relation: "Não conhecia ninguém ali. Só vim a trabalho, precisava dormir cedo.",
-                saw: "Não vi ninguém saindo. Só ouvi passos apressados no corredor, mas não sei dizer se foi homem ou mulher.",
-                suspect: "Parecia uma briga bem pessoal, tipo ciúme. Eu chutaria que foi alguém íntimo da vítima.",
-                more: "Ouvi algo metálico batendo no chão, como faca ou objeto pesado, mas não posso afirmar."
-              }
-            },
-            {
-              id: "w3",
-              name: "Vizinhança - Motorista de Aplicativo",
-              portrait: "witness_03.png",
-              reliability: "baixa",
-              initialStatement: "Eu estava esperando corrida perto do motel. Vi um carro preto parado com o farol apagado. Uma mulher entrou rápido nele, por volta de 23h40, e eles saíram cantando pneu.",
-              qa: {
-                where: "Eu estava dentro do meu carro, na rua lateral.",
-                relation: "Não conhecia a vítima, nem a mulher.",
-                saw: "Ela parecia nervosa, mexendo na bolsa como se escondesse algo.",
-                suspect: "Eu só achei estranho. Carro desligado, farol apagado, do lado de um motel...",
-                more: "Lembro da placa: começava com 'HZF' e terminava com '18'. Não lembro os números do meio."
-              }
+    // ---------- CASOS (10) ----------
+    const CASES = [
+      // 1 - VCPD: Homicídio Motel
+      {
+        id: "vcpd_01",
+        agency: "VCPD",
+        title: "Homicídio no Motel Skyline",
+        difficulty: 2,
+        sceneImage: "crime_scene_01.png",
+        intro: "Um homem foi encontrado morto em um quarto do Motel Skyline. Gritos foram ouvidos por volta das 23h45. Não há sinais de arrombamento.",
+        hasAutopsy: true,
+        autopsy: "Vítima masculina, 34 anos. Perfuração única no tórax por arma branca, ângulo descendente. Marcas de defesa nos antebraços indicam luta corpo a corpo. Estimativa de morte entre 23h20 e 23h50.",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Recepcionista do Motel",
+            portrait: "witness_01.png",
+            reliability: "alta",
+            initialStatement: "Vi a vítima subir com uma mulher loira de casaco vermelho por volta das 22h50. Cerca de uma hora depois ouvi discussão vinda do quarto.",
+            qa: {
+              where: "Eu estava na recepção o tempo todo, monitorando entradas e saídas.",
+              relation: "Não conhecia a vítima, mas ele já tinha se hospedado algumas vezes com pessoas diferentes.",
+              saw: "Além da mulher de casaco vermelho, notei um carro preto parado do outro lado da rua, motor ligado por muito tempo.",
+              suspect: "A única pessoa que subiu com ele foi a mulher loira. Não a vi descer pela frente.",
+              more: "As câmeras da recepção e do corredor do terceiro andar devem ter registrado a movimentação."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Clara Mendes",
-              portrait: "suspect_01.png",
-              age: 29,
-              address: "Bairro Riverside, Valley City",
-              record: "Sem antecedentes criminais. Histórico de relacionamento conturbado com a vítima.",
-              alibi: "Afirma que saiu do motel às 23h10 e foi direto para casa, sozinha. Diz que a discussão foi apenas verbal.",
-              guilty: true,
-              motive: "Ciúmes e discussão sobre fim do relacionamento. A vítima ameaçou expor mensagens comprometedoras.",
-              links: ["ev1", "ev2"]
-            },
-            {
-              id: "s2",
-              name: "Marcos Faria",
-              portrait: "suspect_02.png",
-              age: 37,
-              address: "Centro de Valley City",
-              record: "Responde por estelionato em outro estado. Era sócio da vítima em um negócio de fachada.",
-              alibi: "Diz que estava em uma viagem a trabalho em outra cidade. Não apresentou comprovantes sólidos.",
-              guilty: false,
-              motive: "Motivação financeira existia, mas nenhuma evidência coloca Marcos no motel.",
-              links: []
+          },
+          {
+            id: "w2",
+            name: "Hóspede do Quarto ao Lado",
+            portrait: "witness_02.png",
+            reliability: "média",
+            initialStatement: "Ouvi uma briga séria, parecia discussão de casal. Depois um barulho forte e silêncio.",
+            qa: {
+              where: "Eu estava deitado no meu quarto, não abri a porta.",
+              relation: "Não conheço a vítima nem a acompanhante.",
+              saw: "Só ouvi passos apressados no corredor após a discussão.",
+              suspect: "Parecia algo bem pessoal, como ciúmes ou traição.",
+              more: "Ouvi um som metálico batendo no chão, como uma faca ou objeto pesado."
             }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Câmeras do Corredor",
-              type: "vídeo",
-              description: "Gravação mostra Clara saindo sozinha do quarto às 23h38, olhando para os lados, escondendo algo no casaco.",
-              image: "evidence_doc_01.png",
-              linkedSuspects: ["s1"]
-            },
-            {
-              id: "ev2",
-              name: "Laudo de Impressões na Faca",
-              type: "perícia",
-              description: "Faca encontrada no banheiro, com impressões digitais compatíveis com Clara e a vítima.",
-              image: "evidence_weapon_01.png",
-              linkedSuspects: ["s1"]
-            },
-            {
-              id: "ev3",
-              name: "Registros da Placa HZF-718?",
-              type: "inteligência",
-              description: "Consulta ao sistema indica carro registrado no nome da irmã de Clara, usado por ela com frequência.",
-              image: "evidence_doc_02.png",
-              linkedSuspects: ["s1"]
+          },
+          {
+            id: "w3",
+            name: "Motorista de Aplicativo",
+            portrait: "witness_03.png",
+            reliability: "baixa",
+            initialStatement: "Eu estava estacionado perto do motel. Vi uma mulher entrar corrida em um carro preto por volta de 23h40.",
+            qa: {
+              where: "Eu estava dentro do meu carro, na rua lateral.",
+              relation: "Não conheço ninguém envolvido.",
+              saw: "Ela parecia nervosa, mexendo na bolsa como se escondesse algo.",
+              suspect: "Achei estranho o carro ficar tanto tempo com farol apagado.",
+              more: "Lembro que a placa começava com HZF e terminava com 18."
             }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Clara Mendes",
+            portrait: "suspect_01.png",
+            age: 29,
+            address: "Bairro Riverside, Valley City",
+            record: "Sem antecedentes. Histórico de relacionamento conturbado com a vítima.",
+            alibi: "Afirma que saiu do motel às 23h10 e foi direto para casa, sozinha.",
+            guilty: true,
+            motive: "Ciúmes e ameaça de exposição de mensagens íntimas por parte da vítima.",
+            evidenceLinks: ["ev1", "ev2", "ev3"]
+          },
+          {
+            id: "s2",
+            name: "Marcos Faria",
+            portrait: "suspect_02.png",
+            age: 37,
+            address: "Centro de Valley City",
+            record: "Responde por estelionato em outro estado.",
+            alibi: "Diz que estava viajando a trabalho. Não apresenta provas sólidas.",
+            guilty: false,
+            motive: "Interesse financeiro, mas sem ligação direta à cena do crime.",
+            evidenceLinks: []
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Câmeras do Corredor",
+            type: "vídeo",
+            description: "Mostram Clara saindo sozinha às 23h38, escondendo algo no casaco.",
+            image: "evidence_doc_01.png",
+            linkedSuspects: ["s1"]
+          },
+          {
+            id: "ev2",
+            name: "Faca com Impressões",
+            type: "perícia",
+            description: "Faca encontrada no banheiro com digitais de Clara e da vítima.",
+            image: "evidence_weapon_01.png",
+            linkedSuspects: ["s1"]
+          },
+          {
+            id: "ev3",
+            name: "Registro de Placa HZF-718?",
+            type: "inteligência",
+            description: "Carro registrado em nome da irmã de Clara, usado por ela com frequência.",
+            image: "evidence_doc_02.png",
+            linkedSuspects: ["s1"]
+          }
+        ]
+      },
 
-        // VCPD 2
-        {
-          id: "vcpd_02",
-          agency: "VCPD",
-          title: "Assalto à Loja 24h em Valley City",
-          difficulty: 2,
-          sceneImage: "crime_scene_02.png",
-          intro: "Uma loja de conveniência 24h foi assaltada durante a madrugada. O criminoso levou dinheiro do caixa e feriu o frentista com coronhadas.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Atendente da Loja",
-              portrait: "witness_05.png",
-              reliability: "alta",
-              initialStatement: "Eu estava no caixa quando um homem de capuz entrou apontando uma arma. Ele gaguejava um pouco ao falar, parecia nervoso. Mandou eu abrir o caixa e pegar todo o dinheiro.",
-              qa: {
-                where: "Eu estava atrás do balcão o tempo todo.",
-                relation: "Nunca o vi antes, mas ele parecia conhecer a loja, foi direto ao caixa certo.",
-                saw: "Notei uma tatuagem de asa no pescoço, do lado esquerdo, mesmo com o capuz.",
-                suspect: "Pelo jeito de falar, acho que ele é daqui da região.",
-                more: "Quando ele fugiu, ouvi motor de moto acelerando logo em seguida."
-              }
-            },
-            {
-              id: "w2",
-              name: "Cliente que Entrava na Loja",
-              portrait: "witness_06.png",
-              reliability: "média",
-              initialStatement: "Eu ia entrar na loja e vi um cara sair correndo com uma sacola. Ele subiu na garupa de uma moto vermelha, sem placa visível.",
-              qa: {
-                where: "Eu já estava quase na porta.",
-                relation: "Não conheço o suspeito.",
-                saw: "Ele era alto, usava moletom escuro e tênis branco, parecia saber exatamente para onde ir.",
-                suspect: "Ele olhou rápido na minha direção, mas não consigo lembrar o rosto.",
-                more: "A moto parecia uma 250cc antiga, barulho alto do escapamento."
-              }
+      // 2 - VCPD: Assalto loja 24h
+      {
+        id: "vcpd_02",
+        agency: "VCPD",
+        title: "Assalto à Loja 24h",
+        difficulty: 2,
+        sceneImage: "crime_scene_02.png",
+        intro: "Uma loja de conveniência 24h foi assaltada. O atendente foi agredido. O suspeito fugiu em uma moto vermelha.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Atendente da Loja",
+            portrait: "witness_05.png",
+            reliability: "alta",
+            initialStatement: "O assaltante usava capuz e gaguejava. Tinha uma tatuagem de asa no pescoço.",
+            qa: {
+              where: "Eu estava no caixa quando ele apontou a arma.",
+              relation: "Nunca o vi antes.",
+              saw: "Vi claramente a tatuagem de asa no pescoço esquerdo.",
+              suspect: "Pelo jeito de falar, parece alguém da região.",
+              more: "Ouvi barulho de moto acelerando logo depois da fuga."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Lucas 'Asa' Ferreira",
-              portrait: "suspect_03.png",
-              age: 24,
-              address: "Bairro Industrial, Valley City",
-              record: "Passagens por furto qualificado e receptação. Conhecido por pilotar moto vermelha.",
-              alibi: "Diz que estava jogando videogame em casa com um amigo, mas o amigo não confirma o horário exato.",
-              guilty: true,
-              motive: "Dívidas com traficantes locais e necessidade de dinheiro rápido.",
-              links: ["ev1", "ev2"]
-            },
-            {
-              id: "s2",
-              name: "Rogério Silva",
-              portrait: "suspect_04.png",
-              age: 31,
-              address: "Cidade vizinha",
-              record: "Envolvimento com quadrilhas de roubo a lojas.",
-              alibi: "Relata que estava em outra cidade, trabalhando como segurança em um evento. Há registro parcial, mas sem prova visual.",
-              guilty: false,
-              motive: "Poderia ter interesse, mas não há indício direto ligando ao crime desta loja.",
-              links: []
+          },
+          {
+            id: "w2",
+            name: "Cliente",
+            portrait: "witness_06.png",
+            reliability: "média",
+            initialStatement: "Eu chegava na loja e vi o cara correr com sacola cheia de dinheiro e subir numa moto vermelha.",
+            qa: {
+              where: "Eu estava na porta da loja.",
+              relation: "Não conheço o suspeito.",
+              saw: "Moto vermelha, escapamento barulhento, sem placa visível.",
+              suspect: "Ele parecia saber exatamente o que queria.",
+              more: "Era alto, moletom escuro e tênis branco."
             }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Filmagens de Segurança Interna",
-              type: "vídeo",
-              description: "Mostram claramente a tatuagem de asa no pescoço do assaltante e o tênis branco.",
-              image: "evidence_text_01.png",
-              linkedSuspects: ["s1"]
-            },
-            {
-              id: "ev2",
-              name: "Moto Vermelha Sem Placa",
-              type: "apreensão",
-              description: "Moto vermelha encontrada na casa de Lucas, com marcas recentes de troca de placa.",
-              image: "evidence_obj_01.png",
-              linkedSuspects: ["s1"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Lucas 'Asa' Ferreira",
+            portrait: "suspect_03.png",
+            age: 24,
+            address: "Bairro Industrial",
+            record: "Furto e receptação. Conhecido por pilotar moto vermelha.",
+            alibi: "Afirma que estava em casa jogando videogame, mas o amigo não confirma o horário.",
+            guilty: true,
+            motive: "Dívidas com traficantes locais.",
+            evidenceLinks: ["ev1", "ev2"]
+          },
+          {
+            id: "s2",
+            name: "Rogério Silva",
+            portrait: "suspect_04.png",
+            age: 31,
+            address: "Cidade vizinha",
+            record: "Ligado a quadrilhas de roubo a lojas.",
+            alibi: "Diz que estava fazendo segurança em evento, sem prova visual.",
+            guilty: false,
+            motive: "Poderia ter interesse, mas nada liga ao local.",
+            evidenceLinks: []
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Filmagens Internas",
+            type: "vídeo",
+            description: "Mostram tatuagem de asa e tênis branco do assaltante.",
+            image: "evidence_text_01.png",
+            linkedSuspects: ["s1"]
+          },
+          {
+            id: "ev2",
+            name: "Moto Vermelha",
+            type: "apreensão",
+            description: "Moto vermelha sem placa encontrada na casa de Lucas.",
+            image: "evidence_obj_01.png",
+            linkedSuspects: ["s1"]
+          }
+        ]
+      },
 
-        // VCPD 3
-        {
-          id: "vcpd_03",
-          agency: "VCPD",
-          title: "Incêndio Suspeito em Apartamento",
-          difficulty: 3,
-          sceneImage: "crime_scene_03.png",
-          intro: "Um incêndio atingiu um apartamento em Valley City. A perícia encontrou indícios de acelerante químico na sala.",
-          hasAutopsy: true,
-          autopsy: "Vítima feminina, 41 anos. Inalação intensa de fumaça e queimaduras extensas. Sinais de inconsciência antes da propagação total do fogo, possivelmente devido a pancada na cabeça.",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Vizinha do Andar",
-              portrait: "witness_11.png",
-              reliability: "alta",
-              initialStatement: "Eu ouvi uma discussão no apartamento da vítima por volta das 20h. Voz masculina alterada. Depois silêncio, e uma hora mais tarde senti cheiro forte de fumaça.",
-              qa: {
-                where: "Eu estava em casa o tempo todo.",
-                relation: "Conhecia a vítima de vista, ela morava aqui há alguns anos.",
-                saw: "Não vi quem entrou ou saiu, só escutei passos apressados no corredor depois da discussão.",
-                suspect: "Acho que era alguém próximo, pela forma como discutiam.",
-                more: "A vítima havia comentado que estava com problemas com o ex-marido."
-              }
-            },
-            {
-              id: "w2",
-              name: "Porteiro do Prédio",
-              portrait: "witness_12.png",
-              reliability: "média",
-              initialStatement: "Vi o ex-marido dela entrar no prédio por volta das 19h40, bastante alterado. Ele saiu às 20h20, aparentando nervosismo.",
-              qa: {
-                where: "Eu estava na portaria.",
-                relation: "Conheço o ex-marido de vista, já o vi discutindo aqui outras vezes.",
-                saw: "Ele saiu rápido, sem falar com ninguém, suando e olhando para os lados.",
-                suspect: "Pelo histórico deles, não me surpreenderia se tivesse feito algo.",
-                more: "Temos registro de entrada e saída no livro da portaria."
-              }
+      // 3 - VCPD: Incêndio suspeito
+      {
+        id: "vcpd_03",
+        agency: "VCPD",
+        title: "Incêndio em Apartamento",
+        difficulty: 3,
+        sceneImage: "crime_scene_03.png",
+        intro: "Um incêndio atingiu um apartamento. Perícia encontrou acelerante químico na sala.",
+        hasAutopsy: true,
+        autopsy: "Vítima feminina, 41 anos. Inalação de fumaça e pancada na região occipital sugerem agressão antes do fogo.",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Vizinha",
+            portrait: "witness_11.png",
+            reliability: "alta",
+            initialStatement: "Ouvi uma discussão com voz masculina à noite e, depois de um tempo, cheiro de fumaça.",
+            qa: {
+              where: "Eu estava no meu apartamento.",
+              relation: "Conhecia a vítima de vista.",
+              saw: "Não vi quem entrou ou saiu, só ouvi passos apressados.",
+              suspect: "Ela comentou ter problemas com o ex-marido.",
+              more: "Já vi o ex-marido sair daqui alterado outras vezes."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Eduardo Lins",
-              portrait: "suspect_05.png",
-              age: 43,
-              address: "Bairro Central, Valley City",
-              record: "Medida protetiva anterior por violência doméstica, posteriormente arquivada.",
-              alibi: "Afirma que saiu do prédio e foi direto para um bar assistir jogo, mas ninguém lembra de tê-lo visto no horário alegado.",
-              guilty: true,
-              motive: "Ciúmes e disputa por bens após separação. Mensagens recentes mostram ameaças veladas.",
-              links: ["ev1", "ev2"]
-            },
-            {
-              id: "s2",
-              name: "Síndico do Prédio",
-              portrait: "suspect_06.png",
-              age: 50,
-              address: "Mesmo prédio da vítima",
-              record: "Sem antecedentes.",
-              alibi: "Relata estar em uma reunião de condomínio em outra torre no momento do incêndio.",
-              guilty: false,
-              motive: "Conflitos menores sobre taxas de condomínio, sem indício de motivação para homicídio.",
-              links: []
+          },
+          {
+            id: "w2",
+            name: "Porteiro",
+            portrait: "witness_12.png",
+            reliability: "média",
+            initialStatement: "Vi o ex-marido entrar às 19h40 e sair nervoso cerca de 40 minutos depois.",
+            qa: {
+              where: "Na portaria, fazendo registros.",
+              relation: "Conheço de vista, sempre discutindo com ela.",
+              saw: "Ele saiu suando, olhando para os lados.",
+              suspect: "Pelo histórico de brigas, é meu principal suspeito.",
+              more: "O nome dele está no livro de visitas."
             }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Resquícios de Acelerante",
-              type: "perícia",
-              description: "Laboratório encontrou vestígios de combustível semelhante ao usado em oficina mecânica, local onde Eduardo trabalha.",
-              image: "evidence_obj_02.png",
-              linkedSuspects: ["s1"]
-            },
-            {
-              id: "ev2",
-              name: "Mensagens de Ameaça",
-              type: "digital",
-              description: "Histórico de mensagens do ex-marido para a vítima, com ameaças veladas nos dias anteriores ao incêndio.",
-              image: "evidence_doc_02.png",
-              linkedSuspects: ["s1"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Eduardo Lins",
+            portrait: "suspect_05.png",
+            age: 43,
+            address: "Valley City",
+            record: "Medida protetiva anterior por violência doméstica.",
+            alibi: "Diz que foi para um bar assistir jogo. Ninguém confirma o horário exato.",
+            guilty: true,
+            motive: "Ciúmes e disputa por bens após separação.",
+            evidenceLinks: ["ev1", "ev2"]
+          },
+          {
+            id: "s2",
+            name: "Síndico",
+            portrait: "suspect_06.png",
+            age: 50,
+            address: "Mesmo prédio",
+            record: "Sem antecedentes.",
+            alibi: "Relata estar em reunião em outra torre.",
+            guilty: false,
+            motive: "Conflitos menores de condomínio, sem peso para homicídio.",
+            evidenceLinks: []
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Resquícios de Acelerante",
+            type: "perícia",
+            description: "Acelerante compatível com combustível usado na oficina onde Eduardo trabalha.",
+            image: "evidence_obj_02.png",
+            linkedSuspects: ["s1"]
+          },
+          {
+            id: "ev2",
+            name: "Mensagens de Ameaça",
+            type: "digital",
+            description: "Mensagens recentes de Eduardo com ameaças veladas.",
+            image: "evidence_doc_02.png",
+            linkedSuspects: ["s1"]
+          }
+        ]
+      },
 
-        // VCPD 4
-        {
-          id: "vcpd_04",
-          agency: "VCPD",
-          title: "Sequestro Relâmpago em Valley City",
-          difficulty: 3,
-          sceneImage: "valley_city_night.png",
-          intro: "Um empresário foi vítima de sequestro relâmpago ao sair de um restaurante. Foi obrigado a sacar dinheiro em vários caixas eletrônicos.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Vítima do Sequestro",
-              portrait: "witness_13.png",
-              reliability: "alta",
-              initialStatement: "Eu saí do restaurante e fui abordado por dois homens armados. Um deles parecia conhecer meu nome e minha rotina.",
-              qa: {
-                where: "Eu fui levado no banco de trás do meu próprio carro.",
-                relation: "Não reconheci os rostos, mas um deles falava de coisas internas da empresa.",
-                saw: "Um tinha cheiro forte de cigarro e usava boné preto. O outro ficou mais calado, mas falava ao telefone o tempo todo.",
-                suspect: "Suspeito de alguém de dentro, porque sabiam que eu receberia um pagamento alto naquele dia.",
-                more: "Eles mencionaram dados da minha família, o que me fez cooperar sem reagir."
-              }
-            },
-            {
-              id: "w2",
-              name: "Garçom do Restaurante",
-              portrait: "witness_14.png",
-              reliability: "média",
-              initialStatement: "Vi dois homens observando o empresário dentro do restaurante. Pareciam prestar atenção em quem entrava e saía.",
-              qa: {
-                where: "Eu estava no salão, atendendo mesas.",
-                relation: "Não conheço nem a vítima nem os homens.",
-                saw: "Um deles pagou a conta em dinheiro e anotou algo no celular, olhando para a mesa do empresário.",
-                suspect: "Pareciam estar planejando algo, não era um jantar comum.",
-                more: "Podemos verificar a reserva e o pagamento deles no sistema do restaurante."
-              }
+      // 4 - VCPD: Sequestro relâmpago
+      {
+        id: "vcpd_04",
+        agency: "VCPD",
+        title: "Sequestro Relâmpago",
+        difficulty: 3,
+        sceneImage: "valley_city_night.png",
+        intro: "Um empresário foi sequestrado ao sair de um restaurante e forçado a sacar dinheiro em vários caixas.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Vítima",
+            portrait: "witness_13.png",
+            reliability: "alta",
+            initialStatement: "Dois homens armados me abordaram. Um deles parecia saber detalhes da minha rotina.",
+            qa: {
+              where: "Fui colocado no banco de trás do meu próprio carro.",
+              relation: "Não reconheci pela voz ou rosto.",
+              saw: "Um fumava muito, o outro falava ao telefone o tempo todo.",
+              suspect: "Suspeito de alguém de dentro da empresa.",
+              more: "Eles conheciam informações da minha família."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Bruno Carvalho",
-              portrait: "suspect_07.png",
-              age: 33,
-              address: "Bairro Financeiro, Valley City",
-              record: "Sem antecedentes, mas com histórico de dívidas altas.",
-              alibi: "Afirma estar em home office na noite do crime, sozinho.",
-              guilty: false,
-              motive: "Poderia ter interesse financeiro, mas não há ligação direta.",
-              links: []
-            },
-            {
-              id: "s2",
-              name: "Rafael Duarte",
-              portrait: "suspect_08.png",
-              age: 29,
-              address: "Bairro Operário, Valley City",
-              record: "Ex-funcionário da empresa da vítima, demitido recentemente por mau desempenho.",
-              alibi: "Diz que estava em um bar com amigos. Nenhum deles confirma o horário exato.",
-              guilty: true,
-              motive: "Vingança pela demissão e chance de lucro rápido usando informações internas.",
-              links: ["ev1", "ev2"]
+          },
+          {
+            id: "w2",
+            name: "Garçom",
+            portrait: "witness_14.png",
+            reliability: "média",
+            initialStatement: "Vi dois homens observando o empresário dentro do restaurante.",
+            qa: {
+              where: "Eu servia mesas no salão.",
+              relation: "Não conheço nenhum deles.",
+              saw: "Um anotava algo no celular enquanto fitava a mesa do empresário.",
+              suspect: "Pareciam planejar algo, não era encontro casual.",
+              more: "Podem ter feito reserva, está no sistema."
             }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Registros de Ligações",
-              type: "inteligência",
-              description: "Rafael fez várias ligações para um cúmplice minutos antes do sequestro, nas proximidades do restaurante.",
-              image: "evidence_text_01.png",
-              linkedSuspects: ["s2"]
-            },
-            {
-              id: "ev2",
-              name: "Câmeras de Caixa Eletrônico",
-              type: "vídeo",
-              description: "Imagens mostram Rafael parcialmente encapuzado ao lado da vítima durante um dos saques.",
-              image: "evidence_doc_01.png",
-              linkedSuspects: ["s2"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Bruno Carvalho",
+            portrait: "suspect_07.png",
+            age: 33,
+            address: "Bairro Financeiro",
+            record: "Sem antecedentes, mas com dívidas altas.",
+            alibi: "Afirma estar em home office.",
+            guilty: false,
+            motive: "Financeiro, mas sem prova de participação.",
+            evidenceLinks: []
+          },
+          {
+            id: "s2",
+            name: "Rafael Duarte",
+            portrait: "suspect_08.png",
+            age: 29,
+            address: "Bairro Operário",
+            record: "Ex-funcionário demitido da empresa da vítima.",
+            alibi: "Diz que estava em bar com amigos, sem comprovação.",
+            guilty: true,
+            motive: "Vingança + uso de informações internas.",
+            evidenceLinks: ["ev1", "ev2"]
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Registros de Ligações",
+            type: "inteligência",
+            description: "Rafael ligou para cúmplice perto do restaurante minutos antes do crime.",
+            image: "evidence_text_01.png",
+            linkedSuspects: ["s2"]
+          },
+          {
+            id: "ev2",
+            name: "Câmeras do Caixa Eletrônico",
+            type: "vídeo",
+            description: "Imagens mostram Rafael parcialmente encapuzado ao lado da vítima.",
+            image: "evidence_doc_01.png",
+            linkedSuspects: ["s2"]
+          }
+        ]
+      },
 
-        // FBI 1
-        {
-          id: "fbi_01",
-          agency: "FBI",
-          title: "Rede de Tráfico Interestadual",
-          difficulty: 4,
-          sceneImage: "valley_city_day.png",
-          intro: "O FBI está investigando uma rota de tráfico que passa por Valley City. Você foi designado para identificar o coordenador local da rede.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Informante Anônimo",
-              portrait: "witness_15.png",
-              reliability: "média",
-              initialStatement: "Ouvi dizer que o 'chefe' não participa do transporte, só coordena contatos e pagamentos via aplicativos.",
-              qa: {
-                where: "Costumo ficar na região do porto, é onde ouço as conversas.",
-                relation: "Não conheço o chefe pessoalmente.",
-                saw: "Vi o mensageiro encontrar sempre a mesma pessoa em um café perto da rodoviária.",
-                suspect: "Essa pessoa do café parece mandar mais do que fala.",
-                more: "As negociações grandes acontecem quando chegam caminhões à noite."
-              }
+      // 5 - FBI: Rede de tráfico
+      {
+        id: "fbi_01",
+        agency: "FBI",
+        title: "Rede de Tráfico Interestadual",
+        difficulty: 4,
+        sceneImage: "valley_city_day.png",
+        intro: "O FBI investiga uma rota de tráfico que usa Valley City como ponto de passagem.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Informante",
+            portrait: "witness_15.png",
+            reliability: "média",
+            initialStatement: "O chefe local nunca encosta na carga. Só manda recado e paga por fora.",
+            qa: {
+              where: "Fico perto do porto, ouvindo conversas.",
+              relation: "Não conheço o chefe pessoalmente.",
+              saw: "Vejo sempre o mesmo contato se encontrando em um café perto da rodoviária.",
+              suspect: "Esse contato é mais perigoso do que parece.",
+              more: "As cargas grandes chegam sempre à noite."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Henrique Costa",
-              portrait: "suspect_09.png",
-              age: 40,
-              address: "Cidade vizinha",
-              record: "Empresário de transporte com processos fiscais em aberto.",
-              alibi: "Alega que todas as viagens são legais e documentadas.",
-              guilty: true,
-              motive: "Lucro alto com uso da frota em rotas clandestinas.",
-              links: ["ev1", "ev2"]
-            },
-            {
-              id: "s2",
-              name: "Carlos Menezes",
-              portrait: "suspect_10.png",
-              age: 35,
-              address: "Valley City",
-              record: "Pequenos delitos no passado, atualmente dono de café.",
-              alibi: "Afirma que só aluga mesas para reuniões, sem saber do conteúdo.",
-              guilty: false,
-              motive: "Lucro indireto, mas sem prova de envolvimento direto.",
-              links: []
-            }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Rastreamento de Caminhões",
-              type: "inteligência",
-              description: "Dados de GPS mostram rotas desviando para galpões não cadastrados em documentos oficiais.",
-              image: "evidence_obj_03.png",
-              linkedSuspects: ["s1"]
-            },
-            {
-              id: "ev2",
-              name: "Mensagens Criptografadas",
-              type: "digital",
-              description: "Conversas codificadas em aplicativo apontam Henrique como 'H.C.' coordenando entregas.",
-              image: "evidence_doc_02.png",
-              linkedSuspects: ["s1"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Henrique Costa",
+            portrait: "suspect_09.png",
+            age: 40,
+            address: "Cidade vizinha",
+            record: "Empresário de transporte com processos fiscais.",
+            alibi: "Diz que faz apenas transporte legal.",
+            guilty: true,
+            motive: "Uso da frota para lucro clandestino.",
+            evidenceLinks: ["ev1", "ev2"]
+          },
+          {
+            id: "s2",
+            name: "Carlos Menezes",
+            portrait: "suspect_10.png",
+            age: 35,
+            address: "Valley City",
+            record: "Dono do café.",
+            alibi: "Afirma que só aluga mesas para reuniões.",
+            guilty: false,
+            motive: "Lucro indireto, sem prova de envolvimento.",
+            evidenceLinks: []
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Rastreamento de Caminhões",
+            type: "inteligência",
+            description: "Rotas desviam para galpões não cadastrados oficialmente.",
+            image: "evidence_obj_03.png",
+            linkedSuspects: ["s1"]
+          },
+          {
+            id: "ev2",
+            name: "Mensagens Criptografadas",
+            type: "digital",
+            description: "Conversas citam 'H.C.' coordenando entregas em Valley City.",
+            image: "evidence_doc_02.png",
+            linkedSuspects: ["s1"]
+          }
+        ]
+      },
 
-        // FBI 2
-        {
-          id: "fbi_02",
-          agency: "FBI",
-          title: "Ataque Cibernético em Valley City Bank",
-          difficulty: 4,
-          sceneImage: "case_scene_bg.png",
-          intro: "Um ataque cibernético derrubou sistemas do Valley City Bank. O invasor desviou pequenas quantias de várias contas.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Analista de TI do Banco",
-              portrait: "witness_16.png",
-              reliability: "alta",
-              initialStatement: "O ataque veio de múltiplos IPs, mas há indícios de acesso interno antes da invasão principal.",
-              qa: {
-                where: "Eu estava monitorando o servidor quando notei acessos estranhos.",
-                relation: "Trabalho no banco há anos.",
-                saw: "Um usuário interno logou em horário incomum, pouco antes do ataque.",
-                suspect: "Provavelmente alguém com conhecimento interno das rotinas.",
-                more: "Os logs foram parcialmente apagados, o que indica alto nível de habilidade."
-              }
+      // 6 - FBI: Ataque cibernético
+      {
+        id: "fbi_02",
+        agency: "FBI",
+        title: "Ataque ao Valley City Bank",
+        difficulty: 4,
+        sceneImage: "case_scene_bg.png",
+        intro: "Um ataque cibernético derrubou sistemas do Valley City Bank e desviou pequenas quantias de várias contas.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Analista de TI",
+            portrait: "witness_16.png",
+            reliability: "alta",
+            initialStatement: "O ataque usou acesso interno antes da invasão principal, manipulando nossos logs.",
+            qa: {
+              where: "Eu monitorava o servidor remotamente.",
+              relation: "Trabalho no banco há anos.",
+              saw: "Um usuário interno logou em horário incomum antes do ataque.",
+              suspect: "Alguém com conhecimento interno ajudou o invasor.",
+              more: "Parte dos logs foi apagada de forma profissional."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Ana Ribeiro",
-              portrait: "suspect_11.png",
-              age: 28,
-              address: "Valley City",
-              record: "Sem antecedentes, analista de TI do banco.",
-              alibi: "Afirma que seu usuário foi usado sem autorização.",
-              guilty: false,
-              motive: "Nenhum indicado até o momento.",
-              links: []
-            },
-            {
-              id: "s2",
-              name: "Gabriel Torres",
-              portrait: "suspect_12.png",
-              age: 32,
-              address: "Cidade vizinha",
-              record: "Hacker investigado em outro estado.",
-              alibi: "Declara que estava em evento de tecnologia, mas não apresenta provas sólidas.",
-              guilty: true,
-              motive: "Lucro financeiro e desafio técnico.",
-              links: ["ev1", "ev2"]
-            }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Rastro de Carteiras Digitais",
-              type: "digital",
-              description: "Valores desviados foram reunidos em carteiras ligadas a e-mails usados por Gabriel no passado.",
-              image: "evidence_doc_01.png",
-              linkedSuspects: ["s2"]
-            },
-            {
-              id: "ev2",
-              name: "Ferramentas de Exploit",
-              type: "apreensão",
-              description: "Na casa de Gabriel foram encontrados scripts e ferramentas usadas exatamente no ataque.",
-              image: "evidence_text_01.png",
-              linkedSuspects: ["s2"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Ana Ribeiro",
+            portrait: "suspect_11.png",
+            age: 28,
+            address: "Valley City",
+            record: "Analista do banco, sem antecedentes.",
+            alibi: "Diz que seu usuário foi usado sem permissão.",
+            guilty: false,
+            motive: "Nenhum indício forte.",
+            evidenceLinks: []
+          },
+          {
+            id: "s2",
+            name: "Gabriel Torres",
+            portrait: "suspect_12.png",
+            age: 32,
+            address: "Cidade vizinha",
+            record: "Hacker investigado em outro estado.",
+            alibi: "Afirma estar em evento de tecnologia, sem provas.",
+            guilty: true,
+            motive: "Lucro financeiro e desafio técnico.",
+            evidenceLinks: ["ev1", "ev2"]
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Carteiras Digitais",
+            type: "digital",
+            description: "Valores desviados convergem para carteiras vinculadas a e-mails usados por Gabriel.",
+            image: "evidence_doc_01.png",
+            linkedSuspects: ["s2"]
+          },
+          {
+            id: "ev2",
+            name: "Ferramentas de Exploit",
+            type: "apreensão",
+            description: "Scripts iguais aos usados no ataque encontrados em equipamentos de Gabriel.",
+            image: "evidence_text_01.png",
+            linkedSuspects: ["s2"]
+          }
+        ]
+      },
 
-        // FBI 3
-        {
-          id: "fbi_03",
-          agency: "FBI",
-          title: "Ameaça de Bomba Falsa",
-          difficulty: 3,
-          sceneImage: "police_station_front.png",
-          intro: "Uma escola recebeu ameaça de bomba. O artefato era falso, mas causou pânico. O FBI quer identificar o responsável.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Diretora da Escola",
-              portrait: "witness_17.png",
-              reliability: "alta",
-              initialStatement: "Recebemos um e-mail anônimo com a ameaça. Minutos depois, um pacote foi encontrado no pátio.",
-              qa: {
-                where: "Eu estava na sala da direção quando o e-mail chegou.",
-                relation: "Não faço ideia de quem iria tão longe com uma brincadeira dessas.",
-                saw: "As câmeras mostram um jovem deixando o pacote no pátio pela manhã.",
-                suspect: "Pode ser alguém interno, talvez um aluno revoltado.",
-                more: "Já tivemos problemas com trotes telefônicos no passado."
-              }
+      // 7 - FBI: Ameaça de bomba falsa
+      {
+        id: "fbi_03",
+        agency: "FBI",
+        title: "Ameaça de Bomba em Escola",
+        difficulty: 3,
+        sceneImage: "police_station_front.png",
+        intro: "Uma escola recebeu e-mail com ameaça de bomba. Um artefato falso foi deixado no pátio, causando pânico.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Diretora",
+            portrait: "witness_17.png",
+            reliability: "alta",
+            initialStatement: "O e-mail anônimo chegou minutos antes de encontrarem o pacote.",
+            qa: {
+              where: "Eu estava na sala da direção.",
+              relation: "Não sei quem faria isso.",
+              saw: "Câmeras mostram um jovem deixando o pacote no pátio cedo.",
+              suspect: "Pode ser ex-aluno ou aluno revoltado.",
+              more: "Já tivemos trotes menores antes."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Aluno Reincidente em Trotes",
-              portrait: "suspect_13.png",
-              age: 16,
-              address: "Valley City",
-              record: "Histórico de trotes telefônicos, advertido pela escola.",
-              alibi: "Afirma que estava em aula o tempo todo.",
-              guilty: false,
-              motive: "Brincadeiras de mau gosto, mas sem provas do ataque atual.",
-              links: []
-            },
-            {
-              id: "s2",
-              name: "Ex-Aluno Expulso",
-              portrait: "suspect_14.png",
-              age: 19,
-              address: "Bairro periférico, Valley City",
-              record: "Expulso há dois anos por agressão.",
-              alibi: "Relata que estava trabalhando em um depósito na hora do ocorrido, mas não tem registro de ponto.",
-              guilty: true,
-              motive: "Revanche contra a escola e tentativa de causar caos.",
-              links: ["ev1"]
-            }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Metadados do E-mail",
-              type: "digital",
-              description: "Metadados do e-mail apontam envio de um IP residencial vinculado ao ex-aluno.",
-              image: "evidence_doc_02.png",
-              linkedSuspects: ["s2"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Aluno de Trotes",
+            portrait: "suspect_13.png",
+            age: 16,
+            address: "Valley City",
+            record: "Histórico de trotes, advertido.",
+            alibi: "Diz que estava em aula o tempo todo.",
+            guilty: false,
+            motive: "Brincadeira de mau gosto, mas sem prova deste caso.",
+            evidenceLinks: []
+          },
+          {
+            id: "s2",
+            name: "Ex-Aluno Expulso",
+            portrait: "suspect_14.png",
+            age: 19,
+            address: "Bairro periférico",
+            record: "Expulso por agressão.",
+            alibi: "Afirma estar trabalhando em depósito, sem registro de ponto.",
+            guilty: true,
+            motive: "Revanche contra a escola.",
+            evidenceLinks: ["ev1"]
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Metadados do E-mail",
+            type: "digital",
+            description: "Metadados ligam o IP residencial do ex-aluno ao envio da ameaça.",
+            image: "evidence_doc_02.png",
+            linkedSuspects: ["s2"]
+          }
+        ]
+      },
 
-        // CIA 1
-        {
-          id: "cia_01",
-          agency: "CIA",
-          title: "Vazamento de Dados Sensíveis",
-          difficulty: 4,
-          sceneImage: "exam_room.png",
-          intro: "Arquivos confidenciais sobre operações no exterior vazaram para a imprensa. Você precisa identificar a fonte do vazamento.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Analista de Segurança",
-              portrait: "witness_18.png",
-              reliability: "alta",
-              initialStatement: "Apenas um pequeno grupo tinha acesso a esses arquivos. O vazamento foi feito em lote, em uma única madrugada.",
-              qa: {
-                where: "Eu estava em plantão remoto, monitorando os acessos.",
-                relation: "Conheço todos do time de análise.",
-                saw: "Um dos acessos partiu de um terminal interno que deveria estar desligado.",
-                suspect: "Provavelmente alguém com acesso físico ao prédio e credenciais válidas.",
-                more: "Os logs mostram uso de pen drive criptografado."
-              }
+      // 8 - CIA: Vazamento de dados
+      {
+        id: "cia_01",
+        agency: "CIA",
+        title: "Vazamento de Arquivos Sigilosos",
+        difficulty: 4,
+        sceneImage: "exam_room.png",
+        intro: "Arquivos confidenciais sobre operações externas vazaram para a imprensa. Apenas poucas pessoas tinham acesso.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Analista de Segurança",
+            portrait: "witness_18.png",
+            reliability: "alta",
+            initialStatement: "Os arquivos foram copiados em lote, em uma única madrugada, usando credenciais internas.",
+            qa: {
+              where: "Eu monitorava os acessos em regime de plantão.",
+              relation: "Conheço todo o time de análise.",
+              saw: "Um terminal que deveria estar desligado foi ativado na madrugada.",
+              suspect: "Alguém fisicamente dentro do prédio participou.",
+              more: "Foi usado pen drive criptografado para extração."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Agente Sênior",
-              portrait: "suspect_15.png",
-              age: 45,
-              address: "Residência oficial",
-              record: "Carreira longa, sem registros negativos.",
-              alibi: "Diz que estava em missão no exterior, comprovada parcialmente.",
-              guilty: false,
-              motive: "Nenhum aparente.",
-              links: []
-            },
-            {
-              id: "s2",
-              name: "Contratado Temporário de TI",
-              portrait: "suspect_16.png",
-              age: 30,
-              address: "Cidade vizinha",
-              record: "Sem antecedentes, mas com histórico de participação em fóruns de vazamento de dados.",
-              alibi: "Afirma estar em casa, mas não apresenta provas.",
-              guilty: true,
-              motive: "Ideológico e financeiro, ligado a grupos que pagam por informações.",
-              links: ["ev1", "ev2"]
-            }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Acesso Noturno ao Terminal Interno",
-              type: "digital",
-              description: "Logs indicam login com credenciais do contratado temporário em horário não autorizado.",
-              image: "evidence_doc_01.png",
-              linkedSuspects: ["s2"]
-            },
-            {
-              id: "ev2",
-              name: "Pagamentos Criptografados",
-              type: "inteligência",
-              description: "Transferências em criptomoedas ligadas à carteira usada por grupos de vazamento.",
-              image: "evidence_text_01.png",
-              linkedSuspects: ["s2"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Agente Sênior",
+            portrait: "suspect_15.png",
+            age: 45,
+            address: "Residência oficial",
+            record: "Carreira longa, sem registros negativos.",
+            alibi: "Afirma estar em missão externa.",
+            guilty: false,
+            motive: "Nenhum aparente.",
+            evidenceLinks: []
+          },
+          {
+            id: "s2",
+            name: "Contratado de TI",
+            portrait: "suspect_16.png",
+            age: 30,
+            address: "Cidade vizinha",
+            record: "Sem antecedentes, mas presença em fóruns de vazamento.",
+            alibi: "Diz que estava em casa.",
+            guilty: true,
+            motive: "Motivos ideológicos e financeiros.",
+            evidenceLinks: ["ev1", "ev2"]
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Acesso Noturno",
+            type: "digital",
+            description: "Credenciais do contratado usadas em horário proibido.",
+            image: "evidence_doc_01.png",
+            linkedSuspects: ["s2"]
+          },
+          {
+            id: "ev2",
+            name: "Pagamentos Criptografados",
+            type: "inteligência",
+            description: "Transferências em criptomoedas ligadas a grupos de vazamento.",
+            image: "evidence_text_01.png",
+            linkedSuspects: ["s2"]
+          }
+        ]
+      },
 
-        // CIA 2
-        {
-          id: "cia_02",
-          agency: "CIA",
-          title: "Contato Duplo em Valley City",
-          difficulty: 5,
-          sceneImage: "valley_city_night.png",
-          intro: "Há indícios de que um contato da CIA em Valley City está atuando também para uma potência estrangeira.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Agente de Campo",
-              portrait: "witness_19.png",
-              reliability: "média",
-              initialStatement: "Nos últimos meses, nosso contato passou a evitar encontros presenciais e insistir em canais menos seguros.",
-              qa: {
-                where: "Eu atuo principalmente em Valley City e arredores.",
-                relation: "Trabalho direto com o contato há mais de dois anos.",
-                saw: "Ele foi visto se encontrando com um diplomata estrangeiro fora da agenda oficial.",
-                suspect: "Ou ele está sendo pressionado, ou mudou de lado.",
-                more: "Os relatórios dele ficaram mais vagos, com menos detalhes úteis."
-              }
+      // 9 - CIA: Contato duplo
+      {
+        id: "cia_02",
+        agency: "CIA",
+        title: "Contato Duplo em Valley City",
+        difficulty: 5,
+        sceneImage: "valley_city_night.png",
+        intro: "Um contato da agência em Valley City pode estar atuando também para uma potência estrangeira.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Agente de Campo",
+            portrait: "witness_19.png",
+            reliability: "média",
+            initialStatement: "Nos últimos meses, nosso contato mudou o comportamento e passou a evitar encontros oficiais.",
+            qa: {
+              where: "Atuo em operações de campo na região.",
+              relation: "Trabalho com ele há mais de dois anos.",
+              saw: "Ele foi visto com um diplomata estrangeiro fora da agenda.",
+              suspect: "Pode ter mudado de lado ou estar sendo chantageado.",
+              more: "Seus relatórios ficaram vagos e menos úteis."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Contato Local A",
-              portrait: "suspect_17.png",
-              age: 38,
-              address: "Valley City",
-              record: "Cooperador de longa data.",
-              alibi: "Alega que os encontros com o diplomata foram apenas coincidência.",
-              guilty: true,
-              motive: "Pressão financeira e chantagem.",
-              links: ["ev1", "ev2"]
-            },
-            {
-              id: "s2",
-              name: "Analista Interno",
-              portrait: "suspect_18.png",
-              age: 34,
-              address: "Sede regional",
-              record: "Analista exemplar.",
-              alibi: "Trabalhava internamente, sem contato direto com o campo.",
-              guilty: false,
-              motive: "Nenhum claro.",
-              links: []
-            }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Relatórios Cruzados",
-              type: "inteligência",
-              description: "Informações fornecidas pelo contato batem com dados vazados para o país estrangeiro.",
-              image: "evidence_doc_02.png",
-              linkedSuspects: ["s1"]
-            },
-            {
-              id: "ev2",
-              name: "Monitoramento de Encontros",
-              type: "vigilância",
-              description: "Fotos mostram o contato recebendo envelopes do diplomata em locais isolados.",
-              image: "evidence_obj_03.png",
-              linkedSuspects: ["s1"]
-            }
-          ]
-        },
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Contato Local A",
+            portrait: "suspect_17.png",
+            age: 38,
+            address: "Valley City",
+            record: "Cooperador antigo.",
+            alibi: "Diz que encontros com o diplomata foram coincidência.",
+            guilty: true,
+            motive: "Pressão financeira e chantagem.",
+            evidenceLinks: ["ev1", "ev2"]
+          },
+          {
+            id: "s2",
+            name: "Analista Interno",
+            portrait: "suspect_18.png",
+            age: 34,
+            address: "Sede regional",
+            record: "Profissional exemplar.",
+            alibi: "Sem contato direto com o campo.",
+            guilty: false,
+            motive: "Nenhum claro.",
+            evidenceLinks: []
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Relatórios Cruzados",
+            type: "inteligência",
+            description: "Dados passados pelo contato batem com vazamentos ao país estrangeiro.",
+            image: "evidence_doc_02.png",
+            linkedSuspects: ["s1"]
+          },
+          {
+            id: "ev2",
+            name: "Fotos de Encontros",
+            type: "vigilância",
+            description: "Fotos mostram o contato recebendo envelopes de um diplomata.",
+            image: "evidence_obj_03.png",
+            linkedSuspects: ["s1"]
+          }
+        ]
+      },
 
-        // CIA 3
-        {
-          id: "cia_03",
-          agency: "CIA",
-          title: "Operação Fantasma",
-          difficulty: 5,
-          sceneImage: "case_scene_bg.png",
-          intro: "Uma operação de campo em país estrangeiro foi comprometida antes mesmo de ser iniciada. Planejamento era ultra restrito.",
-          hasAutopsy: false,
-          autopsy: "",
-          witnesses: [
-            {
-              id: "w1",
-              name: "Coordenador da Missão",
-              portrait: "witness_20.png",
-              reliability: "alta",
-              initialStatement: "Apenas três pessoas, além de mim, conheciam a totalidade do plano. Ainda assim, o alvo parecia nos esperar.",
-              qa: {
-                where: "Eu estava na central, acompanhando remoto.",
-                relation: "Coordeno operações desse tipo rotineiramente.",
-                saw: "Nossos agentes encontraram o local vazio e com sinais claros de preparação do outro lado.",
-                suspect: "Houve vazamento em nível estratégico.",
-                more: "Os documentos físicos ficaram trancados em cofre o tempo todo."
-              }
+      // 10 - CIA: Operação fantasma
+      {
+        id: "cia_03",
+        agency: "CIA",
+        title: "Operação Fantasma",
+        difficulty: 5,
+        sceneImage: "case_scene_bg.png",
+        intro: "Uma operação secreta foi comprometida antes de começar. O alvo parecia preparado para a chegada da equipe.",
+        hasAutopsy: false,
+        autopsy: "",
+        witnesses: [
+          {
+            id: "w1",
+            name: "Coordenador da Missão",
+            portrait: "witness_20.png",
+            reliability: "alta",
+            initialStatement: "Apenas quatro pessoas sabiam de todos os detalhes do plano.",
+            qa: {
+              where: "Eu estava na central de operações.",
+              relation: "Coordeno missões desse tipo com frequência.",
+              saw: "Os agentes relataram que o local estava vazio, com sinais de contra-vigilância.",
+              suspect: "Houve vazamento em nível estratégico.",
+              more: "Documentos físicos ficaram em cofre todo o tempo."
             }
-          ],
-          suspects: [
-            {
-              id: "s1",
-              name: "Analista de Planejamento",
-              portrait: "suspect_19.png",
-              age: 36,
-              address: "Sede principal",
-              record: "Histórico impecável.",
-              alibi: "Afirma ter seguido todos os protocolos.",
-              guilty: false,
-              motive: "Nenhum aparente.",
-              links: []
-            },
-            {
-              id: "s2",
-              name: "Consultor Externo",
-              portrait: "suspect_20.png",
-              age: 42,
-              address: "País estrangeiro",
-              record: "Contratado para suporte logístico.",
-              alibi: "Disse ter atuado apenas remotamente, mas não prova.",
-              guilty: true,
-              motive: "Conexão secreta com o governo-alvo da operação.",
-              links: ["ev1"]
-            }
-          ],
-          evidence: [
-            {
-              id: "ev1",
-              name: "Trilhas de Comunicação Criptografada",
-              type: "inteligência",
-              description: "Comunicações entre o consultor e agentes do país alvo aumentaram exatamente nos dias do planejamento.",
-              image: "evidence_doc_01.png",
-              linkedSuspects: ["s2"]
-            }
-          ]
-        }
-      ];
-
-      // ---------- ESTADO DO JOGO ----------
-      let gameState = null;
-      let currentCaseId = null;
-      let interrogationState = {
-        suspectId: null,
-        stress: 20,
-        trust: 50,
-        anger: 10,
-        log: []
-      };
-      let typewriterTimer = null;
-
-      // ---------- FUNÇÕES UTILITÁRIAS ----------
-      function setBackground(imgName) {
-        if (!imgName) return;
-        bgLayer.style.backgroundImage = "url('assets/" + imgName + "')";
+          }
+        ],
+        suspects: [
+          {
+            id: "s1",
+            name: "Analista de Planejamento",
+            portrait: "suspect_19.png",
+            age: 36,
+            address: "Sede principal",
+            record: "Histórico impecável.",
+            alibi: "Seguiu todos os protocolos oficiais.",
+            guilty: false,
+            motive: "Nenhum aparente.",
+            evidenceLinks: []
+          },
+          {
+            id: "s2",
+            name: "Consultor Externo",
+            portrait: "suspect_20.png",
+            age: 42,
+            address: "País estrangeiro",
+            record: "Contratado para suporte logístico.",
+            alibi: "Diz ter atuado apenas remotamente.",
+            guilty: true,
+            motive: "Ligação secreta com governo-alvo.",
+            evidenceLinks: ["ev1"]
+          }
+        ],
+        evidence: [
+          {
+            id: "ev1",
+            name: "Comunicações Criptografadas",
+            type: "inteligência",
+            description: "Comunicações entre o consultor e agentes do país-alvo aumentaram nos dias do planejamento.",
+            image: "evidence_doc_01.png",
+            linkedSuspects: ["s2"]
+          }
+        ]
       }
+    ];
 
-      function setHTML(html) {
-        if (typewriterTimer) {
+    // Perguntas genéricas de interrogatório
+    const INTERROGATION_QUESTIONS = [
+      "Onde você estava no momento do crime?",
+      "Qual é sua relação com a vítima?",
+      "Alguém pode confirmar seu álibi?",
+      "Você tinha motivo para machucar a vítima?",
+      "Quando foi a última vez que viu a vítima?",
+      "Você reconhece as provas apresentadas?"
+    ];
+
+    // ---------- FUNÇÕES AUXILIARES ----------
+    function setBackground(img) {
+      if (!img) return;
+      bgLayer.style.backgroundImage = "url('assets/" + img + "')";
+    }
+
+    function setHTML(html) {
+      if (typewriterTimer) {
+        clearInterval(typewriterTimer);
+        typewriterTimer = null;
+      }
+      app.innerHTML = html;
+    }
+
+    function ensureGameState() {
+      if (!gameState) {
+        gameState = {
+          version: 1,
+          playerName: "Detetive",
+          avatar: AVATARS[0],
+          agency: "VCPD",
+          rank: "Detetive Júnior",
+          prestige: 0,
+          moral: 70,
+          warnings: 0,
+          errors: 0,
+          solvedCases: [],
+          failedCases: [],
+          totalInterrogations: 0,
+          totalCalls: 0,
+          history: []
+        };
+      }
+    }
+
+    function rankDescription() {
+      if (!gameState) return "";
+      return gameState.rank + " - " + gameState.agency;
+    }
+
+    function updatePrestige(delta) {
+      gameState.prestige = Math.max(0, Math.min(100, (gameState.prestige || 0) + delta));
+    }
+
+    function updateMoral(delta) {
+      gameState.moral = Math.max(0, Math.min(100, (gameState.moral || 0) + delta));
+    }
+
+    function addHistory(text) {
+      if (!gameState.history) gameState.history = [];
+      gameState.history.unshift({ text, date: new Date().toISOString() });
+      if (gameState.history.length > 30) gameState.history.pop();
+    }
+
+    function saveGameToFile() {
+      if (!gameState) return;
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gameState));
+      const a = document.createElement("a");
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", "valley_city_save.json");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function loadGameFromObject(obj) {
+      gameState = obj;
+      if (!gameState.version) gameState.version = 1;
+      goTo("office");
+    }
+
+    function handleFileLoad(ev) {
+      const file = ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          loadGameFromObject(data);
+        } catch (err) {
+          alert("Erro ao carregar save.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function getCurrentCase() {
+      if (!currentCaseId) return null;
+      return CASES.find(c => c.id === currentCaseId) || null;
+    }
+
+    function getNextCaseForAgency(agency) {
+      const solved = gameState.solvedCases || [];
+      return CASES.find(c => c.agency === agency && !solved.includes(c.id)) || null;
+    }
+
+    function canRequestPromotion() {
+      const solved = (gameState.solvedCases || []).length;
+      return (gameState.prestige || 0) >= 80 && solved >= 3;
+    }
+
+    function promotePlayer() {
+      if (gameState.agency === "VCPD") {
+        gameState.agency = "FBI";
+        gameState.rank = "Agente de Investigação Júnior";
+        addHistory("Promovido para o FBI.");
+      } else if (gameState.agency === "FBI") {
+        gameState.agency = "CIA";
+        gameState.rank = "Analista de Dados Júnior";
+        addHistory("Transferido para a CIA.");
+      } else {
+        // dentro da CIA só melhora o rank
+        const r = gameState.rank;
+        if (r === "Analista de Dados Júnior") gameState.rank = "Agente Nível 1";
+        else if (r === "Agente Nível 1") gameState.rank = "Agente Nível 2";
+        else if (r === "Agente Nível 2") gameState.rank = "Agente Nível 3";
+        else if (r === "Agente Nível 3") gameState.rank = "Agente Nível 4";
+        else if (r === "Agente Nível 4") gameState.rank = "Agente Especial";
+        addHistory("Rank interno promovido em " + gameState.agency + ".");
+      }
+    }
+
+    // ---------- TYPEWRITER ----------
+    function startTypewriter(text, elementId, speed) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      if (typewriterTimer) clearInterval(typewriterTimer);
+      el.textContent = "";
+      let i = 0;
+      typewriterTimer = setInterval(() => {
+        if (i >= text.length) {
           clearInterval(typewriterTimer);
           typewriterTimer = null;
+          return;
         }
-        app.innerHTML = html;
-      }
+        el.textContent += text.charAt(i);
+        i++;
+      }, speed || 25);
+    }
 
-      function saveGameToFile() {
-        if (!gameState) return;
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(gameState));
-        const a = document.createElement("a");
-        a.setAttribute("href", dataStr);
-        a.setAttribute("download", "valley_city_save.json");
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-      }
+    // ---------- TELAS ----------
+    function renderStart() {
+      setBackground("capa_principal.png");
+      const html =
+        '<div class="section-card" style="margin-top:12px;">' +
+          '<h1 class="title">VALLEY CITY: POLICE INVESTIGATIONS</h1>' +
+          '<p class="subtitle">Comece como detetive do VCPD e avance até o FBI e a CIA. Cada caso conta.</p>' +
+          '<button class="btn" onclick="goTo(\\'login\\')">Novo Jogo</button>' +
+          '<input type="file" id="load-file" accept=".json" style="display:none" />' +
+          '<button class="btn btn-secondary" onclick="document.getElementById(\\'load-file\\').click()">Carregar Jogo</button>' +
+          '<button class="btn btn-ghost" onclick="goTo(\\'tutorial\\')">Regras & Tutorial</button>' +
+          '<p class="footer-note">Seu progresso pode ser salvo em arquivo JSON.</p>' +
+        '</div>' +
+        '<script>(function(){var i=document.getElementById("load-file");if(i&&!i._vbound){i._vbound=true;i.addEventListener("change",function(e){window.handleFileLoad && window.handleFileLoad(e);});}})();<\/script>';
+      setHTML(html);
+    }
 
-      function loadGameFromObject(obj) {
-        gameState = obj;
-        if (!gameState.version) {
-          gameState.version = 1;
-        }
-        goTo("office");
-      }
+    function renderTutorial() {
+      setBackground("case_scene_bg.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Tutorial & Regras</span></div>' +
+          '<p class="section-subtitle">Use testemunhas, provas, laudos e interrogatórios para encontrar o verdadeiro culpado.</p>' +
+          '<ul style="font-size:0.8rem;line-height:1.3rem;padding-left:16px;margin-bottom:8px;">' +
+            '<li>Você começa como <b>Detetive Júnior</b> no VCPD.</li>' +
+            '<li>Cada caso resolvido corretamente aumenta <b>prestígio</b> e pode melhorar sua <b>moral</b>.</li>' +
+            '<li>Erros geram advertências. Muitos erros resultam em demissão.</li>' +
+            '<li>Com alto prestígio e boa taxa de acertos, você pode ser promovido ao <b>FBI</b> e depois à <b>CIA</b>.</li>' +
+            '<li>Salve o jogo em um arquivo JSON e recarregue quando quiser.</li>' +
+          '</ul>' +
+          '<p class="small">Dica: não conclua o caso sem, pelo menos, uma prova direta ligando o suspeito à ação + álibi suspeito.</p>' +
+          '<button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo(\\'start\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
 
-      function handleFileLoad(ev) {
-        const file = ev.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            const data = JSON.parse(e.target.result);
-            loadGameFromObject(data);
-          } catch (err) {
-            alert("Erro ao carregar arquivo de save.");
-          }
-        };
-        reader.readAsText(file);
-      }
+    function renderLogin() {
+      setBackground("bg_login.png");
+      ensureGameState();
+      const name = gameState.playerName || "";
+      let avatarHtml = "";
+      AVATARS.forEach(function(av) {
+        const sel = gameState.avatar === av ? " selected" : "";
+        avatarHtml +=
+          '<div class="avatar-option' + sel + '" data-avatar="' + av + '">' +
+            '<img src="assets/' + av + '" alt="Avatar" />' +
+          '</div>';
+      });
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Identificação do Detetive</span></div>' +
+          '<p class="section-subtitle">Defina seu nome e avatar. Eles serão usados em todas as telas.</p>' +
+          '<label class="label" for="player-name">Nome do detetive</label>' +
+          '<input id="player-name" class="input" placeholder="Digite seu nome..." value="' + name + '"/>' +
+          '<label class="label">Escolha seu avatar</label>' +
+          '<div class="avatar-grid">' + avatarHtml + '</div>' +
+          '<button class="btn" style="margin-top:10px;" onclick="startNewGame()">Continuar</button>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'start\\')">Voltar</button>' +
+        '</div>' +
+        '<script>(function(){var items=document.querySelectorAll(".avatar-option");items.forEach(function(el){el.onclick=function(){items.forEach(function(i){i.classList.remove("selected");});el.classList.add("selected");window.setAvatar && window.setAvatar(el.getAttribute("data-avatar"));};});})();<\/script>';
+      setHTML(html);
+    }
 
-      function getCurrentCase() {
-        if (!currentCaseId) return null;
-        return CASES.find(c => c.id === currentCaseId) || null;
-      }
+    function renderCutscene() {
+      setBackground("valley_city_night.png");
+      const text =
+"Valley City.\n\nQuando o sol se põe, as luzes dos prédios acendem...\nmas a escuridão verdadeira continua nas ruas.\n\nAssaltos, homicídios, corrupção, tráfico.\nA cidade sangra devagar enquanto os poucos policiais que restam lutam para manter a linha.\n\nHoje, " + (gameState.playerName || "detetive") + ", você começa aqui.\nUm novo detetive em uma guerra que já dura décadas.\n\nSe fizer o seu trabalho, talvez chegue ao FBI.\nSe for excepcional, talvez à CIA.\n\nMas se falhar... Valley City não perdoa.";
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Valley City</span><span class="badge">Cutscene</span></div>' +
+          '<div id="cutscene-text" class="typewriter"></div>' +
+          '<button class="btn" style="margin-top:10px;" onclick="goTo(\\'captainBrief\\')">Ir para o Distrito Policial</button>' +
+        '</div>';
+      setHTML(html);
+      startTypewriter(text, "cutscene-text", 25);
+    }
 
-      function getNextCaseForAgency(agency) {
-        const solved = gameState.solvedCases || [];
-        return CASES.find(c => c.agency === agency && !solved.includes(c.id)) || null;
-      }
+    function renderCaptainBrief() {
+      setBackground("capitao_office.png");
+      const name = gameState.playerName || "detetive";
+      const text =
+"Valley City não é um lugar fácil, " + name + ".\n\nPoucos policiais, muitos crimes e quase ninguém disposto a falar a verdade.\n\nVocê começa hoje como Detetive Júnior neste distrito. O trabalho, no papel, é simples:\nouvir testemunhas, analisar provas e apontar o culpado certo.\n\nAqui não existe ‘quase certo’.\nCada erro te dá uma advertência e puxa seu prestígio para baixo.\n\nResolva os casos com precisão e ética.\nTalvez eu recomende seu nome ao FBI... quem sabe, um dia, à CIA.\n\nBoa sorte, " + name + ".\nE não pise na bola.\nSe você falhar, eu não vou hesitar em te demitir.";
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Bem-vindo ao Distrito</span><span class="badge">Capitão</span></div>' +
+          '<div class="flex" style="margin-bottom:8px;">' +
+            '<div class="portrait"><img src="assets/capitao_brief.png" alt="Capitão"/></div>' +
+            '<div class="small">Leia com atenção. Essas serão as regras não escritas da sua carreira em Valley City.</div>' +
+          '</div>' +
+          '<div id="brief-text" class="typewriter"></div>' +
+          '<button class="btn" style="margin-top:10px;" onclick="goTo(\\'office\\')">Ir para o Escritório</button>' +
+        '</div>';
+      setHTML(html);
+      startTypewriter(text, "brief-text", 23);
+    }
 
-      function ensureGameState() {
-        if (!gameState) {
-          gameState = {
-            version: 1,
-            playerName: "Detetive",
-            avatar: AVATARS[0],
-            agency: "VCPD",
-            rank: "Detetive Júnior",
-            prestige: 0,
-            moral: 70,
-            warnings: 0,
-            errors: 0,
-            solvedCases: [],
-            failedCases: [],
-            totalInterrogations: 0,
-            totalCalls: 0,
-            history: []
-          };
-        }
-      }
+    function renderOffice() {
+      ensureGameState();
+      setBackground("escritorio_detective.png");
+      const solved = (gameState.solvedCases || []).length;
+      const failed = (gameState.failedCases || []).length;
+      const canPromo = canRequestPromotion();
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Escritório do Detetive</span><span class="badge">' + rankDescription() + '</span></div>' +
+          '<div class="flex" style="margin-bottom:8px;">' +
+            '<div class="portrait"><img src="assets/' + gameState.avatar + '" alt="Avatar"/></div>' +
+            '<div style="font-size:0.8rem;">' +
+              '<div><b>' + gameState.playerName + '</b></div>' +
+              '<div class="small">Prestígio: ' + gameState.prestige + '% • Moral: ' + gameState.moral + '%</div>' +
+              '<div class="small">Casos corretos: ' + solved + ' • Casos errados: ' + failed + '</div>' +
+              '<div class="small">Advertências: ' + gameState.warnings + ' | Erros graves: ' + gameState.errors + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="row">' +
+            '<div class="col-half"><button class="btn" onclick="goTo(\\'nextCase\\')">Próximo Caso</button></div>' +
+            '<div class="col-half"><button class="btn btn-secondary" onclick="goTo(\\'phone\\')">Telefone</button></div>' +
+          '</div>' +
+          '<div class="row">' +
+            '<div class="col-half"><button class="btn btn-secondary" onclick="goTo(\\'stats\\')">Estatísticas</button></div>' +
+            '<div class="col-half"><button class="btn btn-secondary" onclick="goTo(\\'tutorial\\')">Regras</button></div>' +
+          '</div>' +
+          '<button class="btn btn-secondary" onclick="saveGameToFile()">Salvar Jogo (JSON)</button>' +
+          '<button class="btn btn-danger" onclick="goTo(\\'resign\\')">Pedir Demissão</button>' +
+          '<button class="btn ' + (canPromo ? '' : 'btn-secondary') + '" style="margin-top:6px;" onclick="goTo(\\'promotion\\')">' +
+            (canPromo ? 'Candidatar-se à Promoção' : 'Promoção (80% prestígio + 3 casos corretos)') +
+          '</button>' +
+        '</div>';
+      setHTML(html);
+    }
 
-      function rankDescription() {
-        if (!gameState) return "";
-        return gameState.rank + " - " + gameState.agency;
+    function renderNextCase() {
+      ensureGameState();
+      const next = getNextCaseForAgency(gameState.agency);
+      if (!next) {
+        setBackground("police_station_front.png");
+        const html =
+          '<div class="section-card">' +
+            '<div class="section-title"><span>Sem novos casos</span></div>' +
+            '<p class="section-subtitle">Nenhum caso disponível para sua agência no momento.</p>' +
+            '<button class="btn" onclick="goTo(\\'office\\')">Voltar ao Escritório</button>' +
+          '</div>';
+        setHTML(html);
+        return;
       }
+      currentCaseId = next.id;
+      setBackground(next.sceneImage || "case_scene_bg.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Novo Caso</span><span class="badge">' + next.agency + '</span></div>' +
+          '<p class="section-subtitle"><b>' + next.title + '</b></p>' +
+          '<p class="small">' + next.intro + '</p>' +
+          '<img class="thumb" src="assets/' + next.sceneImage + '" alt="Cena do crime"/>' +
+          '<button class="btn" style="margin-top:10px;" onclick="goTo(\\'case\\')">Entrar na Investigação</button>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'office\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
 
-      function updatePrestige(amount) {
-        gameState.prestige = Math.max(0, Math.min(100, gameState.prestige + amount));
+    function renderCase() {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      setBackground(c.sceneImage || "case_scene_bg.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>' + c.title + '</span><span class="badge">' + c.agency + '</span></div>' +
+          '<p class="section-subtitle">' + c.intro + '</p>' +
+          '<div class="row" style="margin-top:6px;">' +
+            '<div class="col-half"><button class="btn" onclick="goTo(\\'witnesses\\')">Testemunhas</button></div>' +
+            '<div class="col-half"><button class="btn" onclick="goTo(\\'evidence\\')">Provas & Perícia</button></div>' +
+          '</div>' +
+          '<div class="row">' +
+            '<div class="col-half"><button class="btn btn-secondary" onclick="goTo(\\'suspects\\')">Suspeitos</button></div>' +
+            '<div class="col-half"><button class="btn btn-danger" onclick="goTo(\\'conclude\\')">Concluir Caso</button></div>' +
+          '</div>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'office\\')">Voltar ao Escritório</button>' +
+          '<p class="footer-note">Compare depoimentos com álibis e provas que ligam diretamente o suspeito ao crime.</p>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderWitnesses() {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      setBackground("witness_room.png");
+      let html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Testemunhas</span><span class="badge">Caso atual</span></div>' +
+          '<p class="section-subtitle">Ouça os relatos e faça perguntas específicas.</p>';
+      c.witnesses.forEach(function(w) {
+        html +=
+          '<div class="list-item" onclick="openWitness(\\'' + w.id + '\\')">' +
+            '<div class="flex">' +
+              '<div class="portrait"><img src="assets/' + w.portrait + '" alt="' + w.name + '"/></div>' +
+              '<div>' +
+                '<div class="list-item-title">' + w.name + '</div>' +
+                '<div class="list-item-sub">Confiabilidade: ' + w.reliability + '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      });
+      html +=
+          '<button class="btn btn-secondary" onclick="goTo(\\'case\\')">Voltar ao Caso</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderWitnessDetail(wid) {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      const w = c.witnesses.find(function(x){return x.id === wid;});
+      if (!w) { goTo("witnesses"); return; }
+      setBackground("witness_room.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>' + w.name + '</span><span class="badge">Depoimento</span></div>' +
+          '<div class="flex" style="margin-bottom:6px;">' +
+            '<div class="portrait"><img src="assets/' + w.portrait + '" alt="' + w.name + '"/></div>' +
+            '<div class="small"><b>Relato inicial</b><br/>' + w.initialStatement + '</div>' +
+          '</div>' +
+          '<div class="label">Perguntas rápidas</div>' +
+          '<div class="chip-list">' +
+            '<div class="chip" onclick="askWitness(\\'' + w.id + '\\',\\'where\\')">Onde você estava?</div>' +
+            '<div class="chip" onclick="askWitness(\\'' + w.id + '\\',\\'relation\\')">Você conhecia a vítima?</div>' +
+            '<div class="chip" onclick="askWitness(\\'' + w.id + '\\',\\'saw\\')">O que você viu?</div>' +
+            '<div class="chip" onclick="askWitness(\\'' + w.id + '\\',\\'suspect\\')">Quem você suspeita?</div>' +
+            '<div class="chip" onclick="askWitness(\\'' + w.id + '\\',\\'more\\')">Algo mais?</div>' +
+          '</div>' +
+          '<div class="label" style="margin-top:8px;">Pergunta livre</div>' +
+          '<input id="witness-question" class="input" placeholder="Digite uma pergunta..." />' +
+          '<button class="btn btn-secondary" onclick="askWitnessFree(\\'' + w.id + '\\')">Perguntar</button>' +
+          '<div class="label" style="margin-top:8px;">Resumo das respostas</div>' +
+          '<div id="witness-log" class="log-box"><p class="small">Use as perguntas acima. O relato inicial não se repete.</p></div>' +
+          '<button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo(\\'witnesses\\')">Voltar à lista</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderEvidence() {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      setBackground("evidence_room.png");
+      let html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Provas & Perícia</span><span class="badge">' + c.agency + '</span></div>' +
+          '<p class="section-subtitle">Analise documentos, objetos e laudos que ligam suspeitos ao crime.</p>';
+      c.evidence.forEach(function(ev){
+        html +=
+          '<div class="list-item">' +
+            '<div class="list-item-title">' + ev.name + '</div>' +
+            '<div class="list-item-sub">' + ev.type + '</div>' +
+            '<p class="small" style="margin-top:4px;">' + ev.description + '</p>' +
+            (ev.image ? '<img class="thumb" src="assets/' + ev.image + '" alt="' + ev.name + '"/>' : '') +
+          '</div>';
+      });
+      if (c.hasAutopsy) {
+        html += '<button class="btn" style="margin-top:8px;" onclick="goTo(\\'autopsy\\')">Laudo do Legista</button>';
       }
+      html += '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'case\\')">Voltar ao Caso</button></div>';
+      setHTML(html);
+    }
 
-      function updateMoral(amount) {
-        gameState.moral = Math.max(0, Math.min(100, gameState.moral + amount));
-      }
+    function renderAutopsy() {
+      const c = getCurrentCase();
+      if (!c || !c.hasAutopsy) { goTo("evidence"); return; }
+      setBackground("morgue_room.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>IML - Laudo do Legista</span><span class="badge">Perícia</span></div>' +
+          '<div class="flex" style="margin-bottom:6px;">' +
+            '<div class="portrait"><img src="assets/perito_legista.png" alt="Perito"/></div>' +
+            '<div class="small">' + c.autopsy + '</div>' +
+          '</div>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'evidence\\')">Voltar às Provas</button>' +
+        '</div>';
+      setHTML(html);
+    }
 
-      function addHistoryEntry(text) {
-        if (!gameState.history) gameState.history = [];
-        gameState.history.unshift({
-          text: text,
-          date: new Date().toISOString()
+    function renderSuspects() {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      setBackground("suspect_file_bg.png");
+      let html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Suspeitos</span><span class="badge">' + c.agency + '</span></div>' +
+          '<p class="section-subtitle">Confira histórico, álibi e possíveis ligações com as provas.</p>';
+      c.suspects.forEach(function(s) {
+        html +=
+          '<div class="list-item" onclick="openSuspect(\\'' + s.id + '\\')">' +
+            '<div class="flex">' +
+              '<div class="portrait"><img src="assets/' + s.portrait + '" alt="' + s.name + '"/></div>' +
+              '<div>' +
+                '<div class="list-item-title">' + s.name + '</div>' +
+                '<div class="list-item-sub">Idade: ' + s.age + ' • Endereço: ' + s.address + '</div>' +
+                '<div class="small">Registro: ' + s.record + '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      });
+      html += '<button class="btn btn-secondary" onclick="goTo(\\'case\\')">Voltar ao Caso</button></div>';
+      setHTML(html);
+    }
+
+    function renderSuspectDetail(sid) {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      const s = c.suspects.find(function(x){return x.id === sid;});
+      if (!s) { goTo("suspects"); return; }
+      setBackground("suspect_file_bg.png");
+      const related = c.evidence.filter(function(ev){return (ev.linkedSuspects || []).indexOf(s.id) !== -1;});
+      let html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>' + s.name + '</span><span class="badge">Suspeito</span></div>' +
+          '<div class="flex" style="margin-bottom:6px;">' +
+            '<div class="portrait"><img src="assets/' + s.portrait + '" alt="' + s.name + '"/></div>' +
+            '<div class="small">' +
+              '<b>Idade:</b> ' + s.age + '<br/>' +
+              '<b>Endereço:</b> ' + s.address + '<br/>' +
+              '<b>Registro:</b> ' + s.record + '<br/>' +
+              '<b>Álibi:</b> ' + s.alibi + '<br/>' +
+              (s.motive ? '<b>Motivo possível:</b> ' + s.motive : '') +
+            '</div>' +
+          '</div>' +
+          '<div class="label">Provas ligadas a este suspeito</div>';
+      if (!related.length) {
+        html += '<p class="small">Nenhuma evidência direta registrada até o momento.</p>';
+      } else {
+        related.forEach(function(ev){
+          html +=
+            '<div class="list-item">' +
+              '<div class="list-item-title">' + ev.name + '</div>' +
+              '<div class="list-item-sub">' + ev.type + '</div>' +
+              '<p class="small" style="margin-top:4px;">' + ev.description + '</p>' +
+            '</div>';
         });
-        if (gameState.history.length > 30) {
-          gameState.history.pop();
+      }
+      html +=
+          '<button class="btn" style="margin-top:6px;" onclick="goTo(\\'interrogation_' + s.id + '\\')">Interrogar Suspeito</button>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'suspects\\')">Voltar à lista</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderInterrogation(sid) {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      const s = c.suspects.find(function(x){return x.id === sid;});
+      if (!s) { goTo("suspects"); return; }
+      interrogationState.suspectId = sid;
+      if (!interrogationState.log) interrogationState.log = [];
+      setBackground("interrogation_room.png");
+      let qchips = "";
+      INTERROGATION_QUESTIONS.forEach(function(q, idx){
+        qchips += '<div class="chip" onclick="askSuspectTemplate(\\'' + sid + '\\',' + idx + ')">' + (idx+1) + '. ' + q + '</div>';
+      });
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Interrogatório: ' + s.name + '</span><span class="badge">Sala de Interrogatório</span></div>' +
+          '<div class="flex" style="margin-bottom:6px;">' +
+            '<div class="portrait"><img src="assets/' + s.portrait + '" alt="' + s.name + '"/></div>' +
+            '<div class="small"><b>Álibi:</b> ' + s.alibi + '</div>' +
+          '</div>' +
+          '<div class="stat-bars">' +
+            '<div class="stat-row"><span>Stress</span><div class="stat-bar"><div id="bar-stress" class="stat-bar-fill"></div></div></div>' +
+            '<div class="stat-row"><span>Confiança</span><div class="stat-bar"><div id="bar-trust" class="stat-bar-fill"></div></div></div>' +
+            '<div class="stat-row"><span>Raiva</span><div class="stat-bar"><div id="bar-anger" class="stat-bar-fill"></div></div></div>' +
+          '</div>' +
+          '<div class="label" style="margin-top:4px;">Perguntas sugeridas</div>' +
+          '<div class="chip-list">' + qchips + '</div>' +
+          '<div class="label" style="margin-top:8px;">Pergunta livre</div>' +
+          '<textarea id="suspect-question" placeholder="Digite sua pergunta..."></textarea>' +
+          '<button class="btn btn-secondary" onclick="askSuspect(\\'' + sid + '\\')">Perguntar</button>' +
+          '<div class="label" style="margin-top:8px;">Registro do interrogatório</div>' +
+          '<div id="interrogation-log" class="log-box"><p class="small">As respostas mudam conforme stress, confiança e raiva.</p></div>' +
+          '<button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo(\\'suspects\\')">Encerrar interrogatório</button>' +
+        '</div>';
+      setHTML(html);
+      updateInterrogationBars();
+      renderInterrogationLog();
+    }
+
+    function renderConclude() {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      setBackground(c.sceneImage || "case_scene_bg.png");
+      let options = '<option value="">-- Selecione --</option>';
+      c.suspects.forEach(function(s){
+        options += '<option value="' + s.id + '">' + s.name + '</option>';
+      });
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Concluir Caso</span><span class="badge">' + c.title + '</span></div>' +
+          '<p class="section-subtitle">Escolha o suspeito que você considera culpado com base em todas as informações.</p>' +
+          '<label class="label" for="suspect-select">Suspeito culpado</label>' +
+          '<select id="suspect-select" class="input">' + options + '</select>' +
+          '<button class="btn btn-danger" onclick="finalizeCase()">Confirmar Conclusão</button>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'case\\')">Voltar ao Caso</button>' +
+          '<p class="footer-note">Escolhas erradas geram advertências e podem levar à demissão.</p>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderStats() {
+      ensureGameState();
+      setBackground("promotion_bg.png");
+      const solved = (gameState.solvedCases || []).length;
+      const failed = (gameState.failedCases || []).length;
+      let hist = "";
+      if (!gameState.history || !gameState.history.length) {
+        hist = "<p class='small'>Sem registros ainda.</p>";
+      } else {
+        gameState.history.forEach(function(h){
+          hist += "<div class='log-line-a'>• " + h.text + "</div>";
+        });
+      }
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Estatísticas de Carreira</span></div>' +
+          '<p class="small"><b>' + gameState.playerName + '</b> • ' + rankDescription() + '<br/>Prestígio: ' + gameState.prestige + '% • Moral: ' + gameState.moral + '%</p>' +
+          '<p class="small" style="margin-top:6px;">Casos corretos: ' + solved + '<br/>Casos errados: ' + failed + '<br/>Interrogatórios: ' + (gameState.totalInterrogations || 0) + '<br/>Ligações: ' + (gameState.totalCalls || 0) + '</p>' +
+          '<div class="label" style="margin-top:8px;">Histórico recente</div>' +
+          '<div class="log-box">' + hist + '</div>' +
+          '<button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo(\\'office\\')">Voltar ao Escritório</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderPhone() {
+      setBackground("phone_interface.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Telefone do Distrito</span></div>' +
+          '<p class="section-subtitle">Use ligações estratégicas para melhorar sua carreira e aprofundar investigações.</p>' +
+          '<button class="btn" onclick="goTo(\\'phone_chief\\')">Ligar para o Capitão</button>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'phone_forensics\\')">Ligar para o Perito</button>' +
+          '<button class="btn btn-secondary" onclick="goTo(\\'phone_street\\')">Acionar Equipe de Rua</button>' +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'office\\')">Voltar ao Escritório</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderPhoneChief() {
+      setBackground("capitao_office.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Ligação ao Capitão</span></div>' +
+          '<p class="section-subtitle">Como você vai conduzir essa conversa?</p>' +
+          '<button class="btn" onclick="callChief(\\'apologize\\')">Pedir desculpas por erros</button>' +
+          '<button class="btn" onclick="callChief(\\'praise_team\\')">Elogiar a equipe</button>' +
+          '<button class="btn" onclick="callChief(\\'praise_chief\\')">Elogiar o capitão</button>' +
+          '<button class="btn btn-danger" onclick="goTo(\\'resign\\')">Pedir demissão</button>' +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'phone\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderPhoneForensics() {
+      setBackground("exam_room.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Perito Legista</span></div>' +
+          '<p class="small">Você discute detalhes técnicos de laudos, tempos de morte e compatibilidade de provas.</p>' +
+          '<p class="small" style="margin-top:4px;"><b>Efeito:</b> leve aumento de moral e prestígio por zelo técnico.</p>' +
+          '<button class="btn" onclick="callForensics()">Registrar conversa</button>' +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'phone\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderPhoneStreet() {
+      setBackground("valley_city_day.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Equipe de Rua</span></div>' +
+          '<p class="small">A equipe de rua verifica endereços, câmeras e cumpre mandados narrativamente.</p>' +
+          '<button class="btn" onclick="callStreet()">Acionar equipe</button>' +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'phone\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderPromotion() {
+      ensureGameState();
+      setBackground("promotion_bg.png");
+      const canPromo = canRequestPromotion();
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Promoção de Carreira</span></div>' +
+          '<p class="section-subtitle">Para ser promovido, você precisa de 80% de prestígio e, pelo menos, 3 casos resolvidos corretamente.</p>' +
+          '<p class="small">Prestígio atual: ' + gameState.prestige + '% • Casos corretos: ' + (gameState.solvedCases || []).length + '</p>' +
+          (canPromo
+            ? '<button class="btn" style="margin-top:8px;" onclick="goTo(\\'promotion_exam\\')">Iniciar Prova</button>'
+            : '<p class="small" style="margin-top:8px;">Continue resolvendo casos com precisão para se qualificar.</p>') +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'office\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderPromotionExam() {
+      setBackground("promotion_bg.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Prova de Promoção</span></div>' +
+          '<p class="section-subtitle">Esta versão assume que você foi aprovado caso já cumpra os requisitos.</p>' +
+          '<button class="btn" style="margin-top:8px;" onclick="finishPromotionExam()">Concluir Prova</button>' +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'promotion\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderResign() {
+      setBackground("fired_screen.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Pedir Demissão</span></div>' +
+          '<p class="section-subtitle">Tem certeza de que deseja encerrar sua carreira em Valley City?</p>' +
+          '<button class="btn btn-danger" onclick="confirmResign()">Confirmar Demissão</button>' +
+          '<button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo(\\'office\\')">Voltar</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    function renderFired(summary) {
+      setBackground("fired_screen.png");
+      const html =
+        '<div class="section-card">' +
+          '<div class="section-title"><span>Você foi desligado</span></div>' +
+          '<p class="section-subtitle">' + summary + '</p>' +
+          '<button class="btn" style="margin-top:10px;" onclick="goTo(\\'start\\')">Voltar ao Início</button>' +
+        '</div>';
+      setHTML(html);
+    }
+
+    // ---------- INTERROGATÓRIO ----------
+    function updateInterrogationBars() {
+      const s = interrogationState;
+      function set(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.style.width = Math.max(0, Math.min(100, val)) + "%";
+      }
+      set("bar-stress", s.stress);
+      set("bar-trust", s.trust);
+      set("bar-anger", s.anger);
+    }
+
+    function renderInterrogationLog() {
+      const logBox = document.getElementById("interrogation-log");
+      if (!logBox) return;
+      const log = interrogationState.log || [];
+      if (!log.length) {
+        logBox.innerHTML = "<p class='small'>Nenhuma pergunta registrada ainda.</p>";
+        return;
+      }
+      let html = "";
+      log.forEach(function(item){
+        html += "<div class='log-line-q'><b>Pergunta:</b> " + item.q + "</div>";
+        html += "<div class='log-line-a'><b>Resposta:</b> " + item.a + "</div>";
+      });
+      logBox.innerHTML = html;
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function generateSuspectAnswer(c, s, question) {
+      const q = question.toLowerCase();
+      if (q.indexOf("onde") !== -1 || q.indexOf("where") !== -1) {
+        return "Eu já disse: meu álibi é \"" + s.alibi + "\".";
+      }
+      if (q.indexOf("vítima") !== -1 || q.indexOf("vitima") !== -1) {
+        return "Minha relação com a vítima é essa: " + (s.motive || "nenhuma desavença direta conhecida.");
+      }
+      if (q.indexOf("motivo") !== -1 || q.indexOf("por que") !== -1 || q.indexOf("porque") !== -1) {
+        if (s.motive) return "Motivo? Você já tem aí: " + s.motive;
+        return "Eu não tinha qualquer motivo real para fazer isso.";
+      }
+      if (q.indexOf("prova") !== -1 || q.indexOf("evidência") !== -1) {
+        const ev = c.evidence.filter(function(ev){return (ev.linkedSuspects||[]).indexOf(s.id)!==-1;});
+        if (!ev.length) return "Até onde sei, não há nenhuma prova direta contra mim.";
+        return "Vocês estão se apoiando em " + ev.map(function(e){return e.name;}).join(", ") + ", mas isso não conta a história inteira.";
+      }
+      if (q.indexOf("confesse") !== -1 || q.indexOf("confissão") !== -1) {
+        if (s.guilty) return "Mesmo que eu tivesse algo a confessar, não faria isso sem um advogado presente.";
+        return "Não tenho o que confessar, porque não fiz nada.";
+      }
+      if (q.indexOf("última vez") !== -1 || q.indexOf("ultima vez") !== -1) {
+        return "A última vez que vi a vítima foi " + (s.guilty ? "pouco antes de tudo acontecer." : "dias antes desse caos começar.");
+      }
+      if (s.guilty) {
+        return "Você está insistindo demais. Eu já respondi o suficiente.";
+      } else {
+        return "Eu já falei tudo que sei. Repetir não vai mudar os fatos.";
+      }
+    }
+
+    // ---------- LÓGICA DO CASO ----------
+    function finalizeCase() {
+      const c = getCurrentCase();
+      if (!c) { goTo("office"); return; }
+      const sel = document.getElementById("suspect-select");
+      if (!sel || !sel.value) {
+        alert("Selecione um suspeito antes de concluir o caso.");
+        return;
+      }
+      const sid = sel.value;
+      const chosen = c.suspects.find(function(x){return x.id === sid;});
+      if (!chosen) {
+        alert("Seleção inválida.");
+        return;
+      }
+      const correct = !!chosen.guilty;
+      if (correct) {
+        if (gameState.solvedCases.indexOf(c.id) === -1) {
+          gameState.solvedCases.push(c.id);
         }
-      }
-
-      function canRequestPromotion() {
-        if (!gameState) return false;
-        const solved = (gameState.solvedCases || []).length;
-        return gameState.prestige >= 80 && solved >= 3;
-      }
-
-      function promotePlayerIfPossible() {
-        if (!gameState) return;
-        // Simples: VCPD -> FBI -> CIA
-        if (gameState.agency === "VCPD") {
-          gameState.agency = "FBI";
-          gameState.rank = "Agente de Investigação Júnior";
-          addHistoryEntry("Promovido para FBI.");
-        } else if (gameState.agency === "FBI") {
-          gameState.agency = "CIA";
-          gameState.rank = "Analista de Dados Júnior";
-          addHistoryEntry("Transferido para CIA.");
+        updatePrestige(10);
+        updateMoral(3);
+        addHistory("Caso resolvido corretamente: " + c.title + ". Culpado: " + chosen.name + ".");
+        alert("Você acertou o culpado. Boa investigação.");
+      } else {
+        if (gameState.failedCases.indexOf(c.id) === -1) {
+          gameState.failedCases.push(c.id);
+        }
+        gameState.errors = (gameState.errors || 0) + 1;
+        gameState.warnings = (gameState.warnings || 0) + 1;
+        updatePrestige(-12);
+        updateMoral(-8);
+        addHistory("Conclusão equivocada no caso: " + c.title + ". Você acusou " + chosen.name + " injustamente.");
+        if (gameState.errors >= 6) {
+          renderFired("Seus erros graves acumularam e o capitão decidiu encerrar sua carreira em Valley City.");
+          return;
         } else {
-          // Dentro da CIA, apenas sobe rank
-          if (gameState.rank === "Analista de Dados Júnior") {
-            gameState.rank = "Agente Nível 1";
-          } else if (gameState.rank === "Agente Nível 1") {
-            gameState.rank = "Agente Nível 2";
-          } else if (gameState.rank === "Agente Nível 2") {
-            gameState.rank = "Agente Nível 3";
-          } else if (gameState.rank === "Agente Nível 3") {
-            gameState.rank = "Agente Nível 4";
-          } else if (gameState.rank === "Agente Nível 4") {
-            gameState.rank = "Agente Especial";
-          }
-          addHistoryEntry("Rank interno promovido na " + gameState.agency + ".");
+          alert("Você errou o culpado. Advertência registrada e prestígio reduzido.");
         }
       }
+      currentCaseId = null;
+      goTo("office");
+    }
 
-      // ---------- TYPEWRITER ----------
-      function startTypewriter(text, elementId, speed) {
-        const el = document.getElementById(elementId);
-        if (!el) return;
-        let idx = 0;
-        el.textContent = "";
-        if (typewriterTimer) clearInterval(typewriterTimer);
-        typewriterTimer = setInterval(() => {
-          if (idx >= text.length) {
-            clearInterval(typewriterTimer);
-            typewriterTimer = null;
-            return;
-          }
-          el.textContent += text.charAt(idx);
-          idx++;
-        }, speed || 22);
-      }
-
-      // ---------- TELAS ----------
-      function renderStart() {
-        setBackground("capa_principal.png");
-        const html = `
-          <div class="section-card" style="margin-top:12px;">
-            <h1 class="title">Valley City: Crime Unit</h1>
-            <p class="subtitle">Comece como detetive da polícia local e avance até o FBI e a CIA. Cada caso conta.</p>
-            <button class="btn" onclick="goTo('login')">Novo Jogo</button>
-            <input type="file" id="load-file" accept=".json" style="display:none" />
-            <button class="btn btn-secondary" onclick="document.getElementById('load-file').click()">Carregar Jogo</button>
-            <button class="btn btn-ghost" onclick="goTo('tutorial')">Ver Regras</button>
-            <p class="footer-note">Seu progresso pode ser salvo em arquivo JSON e recarregado depois.</p>
-          </div>
-          <script>
-            (function() {
-              const input = document.getElementById('load-file');
-              if (input && !input._valleyBound) {
-                input._valleyBound = true;
-                input.addEventListener('change', function(e) {
-                  window.__handleLoadFile && window.__handleLoadFile(e);
-                });
-              }
-            })();
-          </script>
-        `;
-        setHTML(html);
-      }
-
-      function renderLogin() {
-        setBackground("bg_login.png");
-        ensureGameState();
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Identificação do Detetive</span>
-            </div>
-            <p class="section-subtitle">Escolha seu avatar e informe seu nome. Este será o nome usado pelo capitão e em todos os relatórios.</p>
-            <label class="label" for="player-name">Nome do detetive</label>
-            <input id="player-name" class="input" placeholder="Digite seu nome..." value="${gameState.playerName || ""}" />
-            <label class="label">Escolha seu avatar</label>
-            <div class="avatar-grid">
-              ${AVATARS.map((av, idx) => `
-                <div class="avatar-option ${gameState.avatar === av ? "selected" : ""}" data-avatar="${av}">
-                  <img src="assets/${av}" alt="Avatar ${idx+1}" />
-                </div>
-              `).join("")}
-            </div>
-            <button class="btn" style="margin-top:10px;" onclick="goTo('captainBriefInit')">Continuar</button>
-            <button class="btn btn-secondary" onclick="goTo('start')">Voltar</button>
-          </div>
-          <script>
-            (function() {
-              const items = document.querySelectorAll('.avatar-option');
-              items.forEach(el => {
-                el.onclick = function() {
-                  items.forEach(i => i.classList.remove('selected'));
-                  this.classList.add('selected');
-                  const av = this.getAttribute('data-avatar');
-                  window.__setAvatar && window.__setAvatar(av);
-                };
-              });
-            })();
-          </script>
-        `;
-        setHTML(html);
-      }
-
-      function renderCaptainBrief() {
-        setBackground("capitao_office.png");
-        const playerName = gameState.playerName || "detetive";
-        const text = 
-`Valley City não é um lugar fácil, ${playerName}.
- 
-Poucos policiais, muitos crimes e quase ninguém disposto a falar a verdade.
-
-Você começa hoje como detetive júnior nesse distrito.
-Seu trabalho é simples no papel: ouvir testemunhas, analisar provas e apontar o culpado certo.
-
-Mas aqui não existe 'quase certo'.
-Cada erro gera advertência, mancha seu histórico e derruba seu prestígio.
-
-Resolva casos com precisão, aja com ética e talvez...
-talvez eu considere te recomendar para o FBI ou até para a CIA.
-
-Boa sorte, ${playerName}. E não pise na bola.
-Se você falhar, eu não vou hesitar em te demitir.`;
-
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Bem-vindo a Valley City</span>
-              <span class="badge">Capitão do Distrito</span>
-            </div>
-            <div class="flex" style="margin-bottom:8px;">
-              <div class="portrait">
-                <img src="assets/capitao_brief.png" alt="Capitão" />
-              </div>
-              <div style="font-size:0.8rem; opacity:0.85;">
-                Leia com atenção. Essas palavras vão acompanhar sua carreira inteira nesta cidade.
-              </div>
-            </div>
-            <div id="brief-text" class="typewriter"></div>
-            <button class="btn" style="margin-top:10px;" onclick="goTo('office')">Continuar para o Escritório</button>
-          </div>
-        `;
-        setHTML(html);
-        startTypewriter(text, "brief-text", 22);
-      }
-
-      function renderTutorial() {
-        setBackground("case_scene_bg.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Tutorial & Regras</span>
-            </div>
-            <p class="section-subtitle">
-              Em Valley City: Crime Unit, cada caso é único. Use testemunhas, provas, laudos e interrogatórios
-              para apontar o verdadeiro culpado.
-            </p>
-            <ul style="font-size:0.8rem; line-height:1.3rem; padding-left:16px; margin-bottom:8px;">
-              <li>Você começa como <b>Detetive Júnior</b> no VCPD.</li>
-              <li>Cada caso resolvido corretamente aumenta seu <b>prestígio</b> e pode melhorar sua <b>moral</b>.</li>
-              <li>Ao concluir um caso, escolha o suspeito que você considera culpado.</li>
-              <li>Acertou: ganha pontos, prestígio e histórico positivo.</li>
-              <li>Errou: recebe advertência. Muitos erros levam à demissão.</li>
-              <li>Prestígio alto e casos bem resolvidos permitem promoção para <b>FBI</b> e depois <b>CIA</b>.</li>
-              <li>Você pode salvar o jogo em um arquivo JSON e recarregar depois.</li>
-              <li>Use testemunhas, provas, laudo do legista e interrogatórios para identificar contradições lógicas.</li>
-            </ul>
-            <p class="small">
-              Dica: não conclua o caso antes de ter pelo menos uma prova que ligue diretamente o suspeito à ação,
-              além de um álibi inconsistente ou motivo forte.
-            </p>
-            <button class="btn" style="margin-top:8px;" onclick="goTo('start')">Voltar ao Início</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderOffice() {
-        ensureGameState();
-        setBackground("escritorio_detective.png");
-        const solved = (gameState.solvedCases || []).length;
-        const failed = (gameState.failedCases || []).length;
-        const canPromo = canRequestPromotion();
-
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Escritório do Detetive</span>
-              <span class="badge">${rankDescription()}</span>
-            </div>
-            <div class="flex" style="margin-bottom:8px;">
-              <div class="portrait">
-                <img src="assets/${gameState.avatar}" alt="Avatar do jogador" />
-              </div>
-              <div style="font-size:0.8rem;">
-                <div><b>${gameState.playerName}</b></div>
-                <div class="small">Prestígio: ${gameState.prestige}% • Moral: ${gameState.moral}%</div>
-                <div class="small">Casos corretos: ${solved} • Casos errados: ${failed}</div>
-                <div class="small">Advertências: ${gameState.warnings} | Erros graves: ${gameState.errors}</div>
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col-half">
-                <button class="btn" onclick="goTo('nextCaseScreen')">Próximo Caso</button>
-              </div>
-              <div class="col-half">
-                <button class="btn btn-secondary" onclick="goTo('phone')">Telefone</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-half">
-                <button class="btn btn-secondary" onclick="goTo('stats')">Estatísticas</button>
-              </div>
-              <div class="col-half">
-                <button class="btn btn-secondary" onclick="goTo('tutorial')">Regras</button>
-              </div>
-            </div>
-            <button class="btn btn-secondary" onclick="window.__saveGameNow()">Salvar Jogo (JSON)</button>
-            <button class="btn btn-danger" onclick="goTo('resign')">Pedir Demissão</button>
-            <button class="btn ${canPromo ? "" : "btn-secondary"}" style="margin-top:6px;" onclick="goTo('promotion')">
-              ${canPromo ? "Candidatar-se à Promoção" : "Promoção (requer 80% de prestígio e 3 casos corretos)"}
-            </button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderNextCaseScreen() {
-        ensureGameState();
-        const nextCase = getNextCaseForAgency(gameState.agency);
-        if (!nextCase) {
-          setBackground("police_station_front.png");
-          const html = `
-            <div class="section-card">
-              <div class="section-title">
-                <span>Sem novos casos por enquanto</span>
-              </div>
-              <p class="section-subtitle">
-                Nenhum caso disponível para sua agência no momento. Talvez seja hora de buscar uma promoção ou revisar casos antigos.
-              </p>
-              <button class="btn" onclick="goTo('office')">Voltar ao Escritório</button>
-            </div>
-          `;
-          setHTML(html);
-          return;
-        }
-
-        currentCaseId = nextCase.id;
-        setBackground(nextCase.sceneImage || "case_scene_bg.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Novo Caso: ${nextCase.title}</span>
-              <span class="badge">Dificuldade: ${nextCase.difficulty}</span>
-            </div>
-            <p class="section-subtitle">${nextCase.intro}</p>
-            <img class="thumb" src="assets/${nextCase.sceneImage || "case_scene_bg.png"}" alt="Cena do crime" />
-            <button class="btn" style="margin-top:10px;" onclick="goTo('case')">Entrar na Investigação</button>
-            <button class="btn btn-secondary" onclick="goTo('office')">Voltar ao Escritório</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderCaseScreen() {
-        const c = getCurrentCase();
-        if (!c) {
-          goTo("office");
-          return;
-        }
-        setBackground(c.sceneImage || "case_scene_bg.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>${c.title}</span>
-              <span class="badge">${c.agency}</span>
-            </div>
-            <p class="section-subtitle">${c.intro}</p>
-            <div class="row" style="margin-top:6px;">
-              <div class="col-half">
-                <button class="btn" onclick="goTo('witnesses')">Testemunhas</button>
-              </div>
-              <div class="col-half">
-                <button class="btn" onclick="goTo('evidence')">Provas & Perícia</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-half">
-                <button class="btn btn-secondary" onclick="goTo('suspects')">Suspeitos</button>
-              </div>
-              <div class="col-half">
-                <button class="btn btn-danger" onclick="goTo('conclude')">Concluir Caso</button>
-              </div>
-            </div>
-            <button class="btn btn-secondary" onclick="goTo('office')">Voltar ao Escritório</button>
-            <p class="footer-note">Dica: Compare álibis com depoimentos e provas que ligam diretamente o suspeito à ação.</p>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderWitnessList() {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        setBackground("witness_room.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Testemunhas</span>
-              <span class="badge">Caso Atual</span>
-            </div>
-            <p class="section-subtitle">Escolha uma testemunha para ouvir o depoimento. Você pode ouvir quantas vezes quiser.</p>
-            ${c.witnesses.map(w => `
-              <div class="list-item" onclick="window.__openWitness('${w.id}')">
-                <div class="flex">
-                  <div class="portrait">
-                    <img src="assets/${w.portrait || "witness_01.png"}" alt="${w.name}" />
-                  </div>
-                  <div>
-                    <div class="list-item-title">${w.name}</div>
-                    <div class="list-item-sub">Confiabilidade: ${w.reliability}</div>
-                  </div>
-                </div>
-              </div>
-            `).join("")}
-            <button class="btn btn-secondary" onclick="goTo('case')">Voltar ao Caso</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderWitnessDetail(witnessId) {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        const w = c.witnesses.find(x => x.id === witnessId);
-        if (!w) { goTo("witnesses"); return; }
-        setBackground("witness_room.png");
-
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>${w.name}</span>
-              <span class="badge">Depoimento</span>
-            </div>
-            <div class="flex" style="margin-bottom:6px;">
-              <div class="portrait">
-                <img src="assets/${w.portrait || "witness_01.png"}" alt="${w.name}" />
-              </div>
-              <div style="font-size:0.8rem;">
-                <b>Relato inicial</b>
-                <p style="margin-top:4px; font-size:0.8rem;">${w.initialStatement}</p>
-              </div>
-            </div>
-
-            <div class="section-subtitle">Perguntas rápidas</div>
-            <div class="chip-list">
-              <div class="chip" onclick="window.__askWitness('${w.id}','where')">Onde você estava?</div>
-              <div class="chip" onclick="window.__askWitness('${w.id}','relation')">Você conhecia a vítima?</div>
-              <div class="chip" onclick="window.__askWitness('${w.id}','saw')">O que você viu?</div>
-              <div class="chip" onclick="window.__askWitness('${w.id}','suspect')">Quem você suspeita?</div>
-              <div class="chip" onclick="window.__askWitness('${w.id}','more')">Algo mais importante?</div>
-            </div>
-
-            <div class="label" style="margin-top:8px;">Pergunta livre</div>
-            <input id="witness-question" class="input" placeholder="Digite uma pergunta..." />
-            <button class="btn btn-secondary" onclick="window.__askWitnessFree('${w.id}')">Perguntar</button>
-
-            <div class="label" style="margin-top:8px;">Resumo das respostas</div>
-            <div id="witness-log" class="log-box"></div>
-
-            <button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo('witnesses')">Voltar à lista de testemunhas</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderEvidenceScreen() {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        setBackground("evidence_room.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Provas & Perícia</span>
-              <span class="badge">${c.agency}</span>
-            </div>
-            <p class="section-subtitle">Analise as evidências coletadas. Algumas ligam diretamente suspeitos ao crime.</p>
-            ${c.evidence.map(ev => `
-              <div class="list-item">
-                <div class="list-item-title">${ev.name}</div>
-                <div class="list-item-sub">${ev.type}</div>
-                <p class="small" style="margin-top:4px;">${ev.description}</p>
-                ${ev.image ? `<img class="thumb" src="assets/${ev.image}" alt="${ev.name}" />` : ""}
-              </div>
-            `).join("")}
-            ${c.hasAutopsy ? `
-              <button class="btn" style="margin-top:8px;" onclick="goTo('autopsy')">Laudo do Legista</button>
-            ` : ""}
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('case')">Voltar ao Caso</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderAutopsy() {
-        const c = getCurrentCase();
-        if (!c || !c.hasAutopsy) { goTo("evidence"); return; }
-        setBackground("morgue_room.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>IML - Laudo do Legista</span>
-              <span class="badge">Perito</span>
-            </div>
-            <div class="flex" style="margin-bottom:6px;">
-              <div class="portrait">
-                <img src="assets/perito_legista.png" alt="Perito legista" />
-              </div>
-              <div style="font-size:0.8rem;">
-                <b>Descrição técnica</b>
-                <p style="margin-top:4px; font-size:0.8rem;">${c.autopsy}</p>
-              </div>
-            </div>
-            <button class="btn btn-secondary" onclick="goTo('evidence')">Voltar às Provas</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderSuspectsScreen() {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        setBackground("suspect_file_bg.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Suspeitos</span>
-              <span class="badge">${c.agency}</span>
-            </div>
-            <p class="section-subtitle">Analise o dossiê de cada suspeito. Verifique histórico, álibi e possíveis ligações com as provas.</p>
-            ${c.suspects.map(s => `
-              <div class="list-item" onclick="window.__openSuspect('${s.id}')">
-                <div class="flex">
-                  <div class="portrait">
-                    <img src="assets/${s.portrait || "suspect_01.png"}" alt="${s.name}" />
-                  </div>
-                  <div>
-                    <div class="list-item-title">${s.name}</div>
-                    <div class="list-item-sub">Idade: ${s.age} • Endereço: ${s.address}</div>
-                    <div class="small">Registro: ${s.record}</div>
-                  </div>
-                </div>
-              </div>
-            `).join("")}
-            <button class="btn btn-secondary" onclick="goTo('case')">Voltar ao Caso</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderSuspectDetail(suspectId) {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        const s = c.suspects.find(x => x.id === suspectId);
-        if (!s) { goTo("suspects"); return; }
-        setBackground("suspect_file_bg.png");
-
-        const relatedEvidence = c.evidence.filter(ev => (ev.linkedSuspects || []).includes(s.id));
-
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>${s.name}</span>
-              <span class="badge">Suspeito</span>
-            </div>
-            <div class="flex" style="margin-bottom:6px;">
-              <div class="portrait">
-                <img src="assets/${s.portrait || "suspect_01.png"}" alt="${s.name}" />
-              </div>
-              <div style="font-size:0.8rem;">
-                <div><b>Idade:</b> ${s.age}</div>
-                <div><b>Endereço:</b> ${s.address}</div>
-                <div class="small"><b>Registro:</b> ${s.record}</div>
-                <div class="small"><b>Álibi declarado:</b> ${s.alibi}</div>
-              </div>
-            </div>
-            <div class="label">Provas que se ligam a este suspeito</div>
-            ${relatedEvidence.length === 0
-              ? `<p class="small">Nenhuma evidência direta registrada até o momento.</p>`
-              : relatedEvidence.map(ev => `
-                  <div class="list-item">
-                    <div class="list-item-title">${ev.name}</div>
-                    <div class="list-item-sub">${ev.type}</div>
-                    <p class="small" style="margin-top:4px;">${ev.description}</p>
-                  </div>
-                `).join("")}
-            <button class="btn" style="margin-top:6px;" onclick="goTo('interrogation_${s.id}')">Interrogar Suspeito</button>
-            <button class="btn btn-secondary" onclick="goTo('suspects')">Voltar à lista de suspeitos</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderInterrogation(suspectId) {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        const s = c.suspects.find(x => x.id === suspectId);
-        if (!s) { goTo("suspects"); return; }
-
-        interrogationState.suspectId = suspectId;
-        interrogationState.totalAsked = interrogationState.totalAsked || 0;
-        interrogationState.stress = interrogationState.stress || 20;
-        interrogationState.trust = interrogationState.trust || 50;
-        interrogationState.anger = interrogationState.anger || 10;
-        interrogationState.log = interrogationState.log || [];
-
-        setBackground("interrogation_room.png");
-
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Interrogatório: ${s.name}</span>
-              <span class="badge">Sala de Interrogatório</span>
-            </div>
-            <div class="flex" style="margin-bottom:6px;">
-              <div class="portrait">
-                <img src="assets/${s.portrait || "suspect_01.png"}" alt="${s.name}" />
-              </div>
-              <div style="font-size:0.8rem;">
-                <div><b>Álibi:</b> ${s.alibi}</div>
-                <div class="small">Motive possível: ${s.motive}</div>
-              </div>
-            </div>
-
-            <div class="stat-bars">
-              <div class="stat-row">
-                <span>Stress</span>
-                <div class="stat-bar"><div id="bar-stress" class="stat-bar-fill"></div></div>
-              </div>
-              <div class="stat-row">
-                <span>Confiança</span>
-                <div class="stat-bar"><div id="bar-trust" class="stat-bar-fill"></div></div>
-              </div>
-              <div class="stat-row">
-                <span>Raiva</span>
-                <div class="stat-bar"><div id="bar-anger" class="stat-bar-fill"></div></div>
-              </div>
-            </div>
-
-            <div class="label" style="margin-top:8px;">Perguntas sugeridas</div>
-            <div class="chip-list">
-              ${INTERROGATION_TEMPLATES.slice(0, 6).map((q, idx) => `
-                <div class="chip" onclick="window.__askSuspect('${s.id}', '${q.replace(/'/g, "\\'")}')">${idx+1}. ${q}</div>
-              `).join("")}
-            </div>
-
-            <div class="label" style="margin-top:8px;">Pergunta livre</div>
-            <textarea id="suspect-question" placeholder="Digite sua pergunta ao suspeito..."></textarea>
-            <button class="btn btn-secondary" onclick="window.__askSuspect('${s.id}', null)">Perguntar</button>
-
-            <div class="label" style="margin-top:8px;">Registro do interrogatório</div>
-            <div id="interrogation-log" class="log-box"></div>
-
-            <button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo('suspects')">Encerrar interrogatório</button>
-            <p class="footer-note">Dica: perguntas agressivas aumentam stress e raiva; perguntas técnicas e objetivas podem gerar contradições úteis.</p>
-          </div>
-        `;
-        setHTML(html);
-        updateInterrogationBars();
-        renderInterrogationLog();
-      }
-
-      function renderConcludeCase() {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        setBackground(c.sceneImage || "case_scene_bg.png");
-
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Concluir Caso</span>
-              <span class="badge">${c.title}</span>
-            </div>
-            <p class="section-subtitle">
-              Escolha o suspeito que você considera culpado com base nas testemunhas, provas, laudo e interrogatórios.
-            </p>
-            <label class="label" for="suspect-select">Selecione o culpado</label>
-            <select id="suspect-select" class="input">
-              <option value="">-- Selecione um suspeito --</option>
-              ${c.suspects.map(s => `
-                <option value="${s.id}">${s.name}</option>
-              `).join("")}
-            </select>
-            <button class="btn btn-danger" onclick="window.__finalizeCase()">Confirmar Conclusão</button>
-            <button class="btn btn-secondary" onclick="goTo('case')">Voltar ao Caso</button>
-            <p class="footer-note">
-              Atenção: escolhas erradas acumulam advertências e podem levar à demissão.
-            </p>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderStats() {
-        ensureGameState();
-        setBackground("promotion_bg.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Estatísticas de Carreira</span>
-            </div>
-            <p class="small">
-              <b>${gameState.playerName}</b> • ${rankDescription()}<br>
-              Prestígio: ${gameState.prestige}% • Moral: ${gameState.moral}%<br>
-              Advertências: ${gameState.warnings} • Erros graves: ${gameState.errors}
-            </p>
-            <p class="small" style="margin-top:6px;">
-              Casos corretos: ${(gameState.solvedCases || []).length}<br>
-              Casos errados: ${(gameState.failedCases || []).length}<br>
-              Interrogatórios realizados: ${gameState.totalInterrogations || 0}<br>
-              Ligações realizadas: ${gameState.totalCalls || 0}
-            </p>
-            <div class="label" style="margin-top:8px;">Histórico recente</div>
-            <div class="log-box">
-              ${(gameState.history || []).length === 0
-                ? "<p class='small'>Sem registros ainda.</p>"
-                : (gameState.history || []).map(h => `
-                    <div class="log-line-a">• ${h.text}</div>
-                  `).join("")}
-            </div>
-            <button class="btn btn-secondary" style="margin-top:8px;" onclick="goTo('office')">Voltar ao Escritório</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderPhone() {
-        ensureGameState();
-        setBackground("phone_interface.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Telefone do Distrito</span>
-            </div>
-            <p class="section-subtitle">Escolha quem deseja contatar. Algumas ações podem aumentar seu prestígio e moral.</p>
-            <button class="btn" onclick="goTo('phone_chief')">Ligar para o Capitão</button>
-            <button class="btn btn-secondary" onclick="goTo('phone_forensics')">Ligar para o Perito Legista</button>
-            <button class="btn btn-secondary" onclick="goTo('phone_street')">Acionar Equipe de Rua</button>
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('office')">Voltar ao Escritório</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderPhoneChief() {
-        setBackground("capitao_office.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Ligação para o Capitão</span>
-            </div>
-            <p class="section-subtitle">Escolha como você quer conduzir essa conversa.</p>
-            <button class="btn" onclick="window.__callChief('apologize')">Pedir desculpas por erros anteriores</button>
-            <button class="btn" onclick="window.__callChief('praise_team')">Elogiar a equipe de investigação</button>
-            <button class="btn" onclick="window.__callChief('praise_chief')">Elogiar o próprio capitão</button>
-            <button class="btn btn-danger" onclick="goTo('resign')">Pedir demissão</button>
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('phone')">Voltar</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderPhoneForensics() {
-        setBackground("exam_room.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Ligação para o Perito</span>
-            </div>
-            <p class="small">
-              Você discute detalhes técnicos de laudos, tempo de morte, compatibilidade de impressões digitais e rastros
-              de sangue. Isso ajuda a interpretar melhor provas futuras.
-            </p>
-            <p class="small" style="margin-top:6px;">
-              <b>Efeito:</b> Pequeno aumento de moral e prestígio ao longo da carreira, por demonstração de zelo técnico.
-            </p>
-            <button class="btn" onclick="window.__callForensics()">Registrar conversa</button>
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('phone')">Voltar</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderPhoneStreet() {
-        setBackground("valley_city_day.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Equipe de Rua</span>
-            </div>
-            <p class="small">
-              Você aciona a equipe de patrulha para verificar endereços de suspeitos, coletar novas imagens de câmeras
-              ou cumprir mandados de busca.
-            </p>
-            <p class="small" style="margin-top:6px;">
-              <b>Efeito:</b> Possibilidade de destravar evidências adicionais em alguns casos (conceito narrativo).
-            </p>
-            <button class="btn" onclick="window.__callStreet()">Registrar acionamento</button>
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('phone')">Voltar</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderPromotion() {
-        ensureGameState();
-        setBackground("promotion_bg.png");
-        const canPromo = canRequestPromotion();
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Promoção de Carreira</span>
-            </div>
-            <p class="section-subtitle">
-              Para ser promovido, você precisa de pelo menos <b>80% de prestígio</b> e <b>3 casos resolvidos corretamente</b>.
-              A promoção exige passar em uma prova com 10 questões.
-            </p>
-            <p class="small">
-              Situação atual: Prestígio ${gameState.prestige}% • Casos corretos ${(gameState.solvedCases || []).length}
-            </p>
-            ${canPromo
-              ? `<button class="btn" style="margin-top:6px;" onclick="goTo('promotion_exam')">Iniciar Prova de Promoção</button>`
-              : `<p class="small" style="margin-top:6px;">Você ainda não cumpre os requisitos. Continue resolvendo casos com precisão e zelando pela ética.</p>`}
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('office')">Voltar ao Escritório</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderPromotionExam() {
-        setBackground("promotion_bg.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Prova de Promoção</span>
-            </div>
-            <p class="section-subtitle">
-              A prova terá 10 questões de múltipla escolha sobre lógica investigativa e ética profissional.
-              Para ser aprovado, você precisa de pelo menos 7 acertos.
-            </p>
-            <p class="small">
-              Nesta versão, a prova é simulada: assumiremos que você atingiu o desempenho mínimo, se chegar até aqui com prestígio adequado.
-            </p>
-            <button class="btn" style="margin-top:8px;" onclick="window.__finishPromotionExam()">Concluir Prova</button>
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('promotion')">Voltar</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderResign() {
-        setBackground("fired_screen.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Pedir Demissão</span>
-            </div>
-            <p class="section-subtitle">
-              Tem certeza de que deseja encerrar sua carreira em Valley City? Esta ação não pode ser desfeita.
-            </p>
-            <button class="btn btn-danger" onclick="window.__confirmResign()">Confirmar Demissão</button>
-            <button class="btn btn-secondary" style="margin-top:6px;" onclick="goTo('office')">Voltar</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      function renderFired(summary) {
-        setBackground("fired_screen.png");
-        const html = `
-          <div class="section-card">
-            <div class="section-title">
-              <span>Você foi demitido</span>
-            </div>
-            <p class="section-subtitle">
-              O capitão decidiu encerrar sua carreira em Valley City com base no histórico de erros e advertências.
-            </p>
-            <p class="small" style="margin-top:6px;">
-              ${summary}
-            </p>
-            <button class="btn" style="margin-top:10px;" onclick="goTo('start')">Voltar ao Início</button>
-          </div>
-        `;
-        setHTML(html);
-      }
-
-      // ---------- LÓGICA DE INTERROGATÓRIO ----------
-      function updateInterrogationBars() {
-        const s = interrogationState;
-        const st = document.getElementById("bar-stress");
-        const tr = document.getElementById("bar-trust");
-        const an = document.getElementById("bar-anger");
-        if (st) st.style.width = Math.max(0, Math.min(100, s.stress)) + "%";
-        if (tr) tr.style.width = Math.max(0, Math.min(100, s.trust)) + "%";
-        if (an) an.style.width = Math.max(0, Math.min(100, s.anger)) + "%";
-      }
-
-      function renderInterrogationLog() {
-        const box = document.getElementById("interrogation-log");
-        if (!box) return;
-        const log = interrogationState.log || [];
-        if (log.length === 0) {
-          box.innerHTML = "<p class='small'>Nenhuma pergunta registrada ainda.</p>";
-          return;
-        }
-        box.innerHTML = log.map(item => `
-          <div class="log-line-q"><b>Pergunta:</b> ${item.q}</div>
-          <div class="log-line-a"><b>Resposta:</b> ${item.a}</div>
-        `).join("");
-      }
-
-      function generateSuspectAnswer(caseObj, suspectObj, questionText) {
-        const lower = questionText.toLowerCase();
-
-        if (lower.includes("onde") || lower.includes("where")) {
-          return "Eu já disse onde estava: " + suspectObj.alibi;
-        }
-        if (lower.includes("vítima") || lower.includes("vitima") || lower.includes("relation") || lower.includes("relação")) {
-          return "Minha relação com a vítima é clara nos registros: " + (suspectObj.motive || "não há motivos pessoais registrados.");
-        }
-        if (lower.includes("motivo") || lower.includes("por que") || lower.includes("porque")) {
-          return "Motivo? " + (suspectObj.motive || "Eu não tinha qualquer motivo real para fazer isso.");
-        }
-        if (lower.includes("prova") || lower.includes("evidência")) {
-          const evs = caseObj.evidence.filter(ev => (ev.linkedSuspects || []).includes(suspectObj.id));
-          if (evs.length === 0) {
-            return "Até onde sei, não há nenhuma prova direta contra mim.";
-          }
-          return "Vocês estão se baseando em " + evs.map(e => e.name).join(", ") + ". Mas isso não prova tudo, apenas parte da história.";
-        }
-        if (lower.includes("confesse") || lower.includes("confissão")) {
-          if (suspectObj.guilty) {
-            return "Eu não vou admitir nada sem meu advogado aqui. Vocês já têm suas teorias.";
+    // ---------- FUNÇÕES GLOBAIS PARA ONCLICK ----------
+    function goTo(screenId) {
+      switch (screenId) {
+        case "start": renderStart(); break;
+        case "tutorial": renderTutorial(); break;
+        case "login": renderLogin(); break;
+        case "cutscene": renderCutscene(); break;
+        case "captainBrief": renderCaptainBrief(); break;
+        case "office": renderOffice(); break;
+        case "nextCase": renderNextCase(); break;
+        case "case": renderCase(); break;
+        case "witnesses": renderWitnesses(); break;
+        case "evidence": renderEvidence(); break;
+        case "autopsy": renderAutopsy(); break;
+        case "suspects": renderSuspects(); break;
+        case "conclude": renderConclude(); break;
+        case "stats": renderStats(); break;
+        case "phone": renderPhone(); break;
+        case "phone_chief": renderPhoneChief(); break;
+        case "phone_forensics": renderPhoneForensics(); break;
+        case "phone_street": renderPhoneStreet(); break;
+        case "promotion": renderPromotion(); break;
+        case "promotion_exam": renderPromotionExam(); break;
+        case "resign": renderResign(); break;
+        default:
+          if (screenId.indexOf("witness_") === 0) {
+            renderWitnessDetail(screenId.replace("witness_",""));
+          } else if (screenId.indexOf("suspect_") === 0) {
+            renderSuspectDetail(screenId.replace("suspect_",""));
+          } else if (screenId.indexOf("interrogation_") === 0) {
+            renderInterrogation(screenId.replace("interrogation_",""));
           } else {
-            return "Não tenho o que confessar, porque não fiz nada.";
-          }
-        }
-        if (lower.includes("última vez") || lower.includes("ultima vez") || lower.includes("last time")) {
-          return "A última vez que vi a vítima foi " + (suspectObj.guilty ? "pouco antes desse incidente." : "dias antes de tudo isso acontecer.");
-        }
-        // resposta padrão
-        if (suspectObj.guilty) {
-          return "Você está fazendo muitas perguntas. Eu não sou obrigado a responder todas assim. Já falei o que tinha pra falar.";
-        } else {
-          return "Eu disse tudo o que sei. Ficar repetindo não vai mudar os fatos.";
-        }
-      }
-
-      // ---------- LÓGICA DE CASO ----------
-      function finalizeCase() {
-        const c = getCurrentCase();
-        if (!c) { goTo("office"); return; }
-        const select = document.getElementById("suspect-select");
-        const selectedId = select ? select.value : "";
-        if (!selectedId) {
-          alert("Selecione um suspeito antes de concluir o caso.");
-          return;
-        }
-        const chosen = c.suspects.find(s => s.id === selectedId);
-        if (!chosen) {
-          alert("Seleção inválida.");
-          return;
-        }
-
-        const wasRight = !!chosen.guilty;
-        if (wasRight) {
-          if (!gameState.solvedCases.includes(c.id)) {
-            gameState.solvedCases.push(c.id);
-          }
-          updatePrestige(10);
-          updateMoral(3);
-          addHistoryEntry(`Caso resolvido corretamente: ${c.title}. Culpado: ${chosen.name}.`);
-          alert("Parabéns. Você apontou o culpado correto.");
-        } else {
-          if (!gameState.failedCases.includes(c.id)) {
-            gameState.failedCases.push(c.id);
-          }
-          gameState.errors = (gameState.errors || 0) + 1;
-          gameState.warnings = (gameState.warnings || 0) + 1;
-          updatePrestige(-12);
-          updateMoral(-8);
-          addHistoryEntry(`Conclusão equivocada no caso: ${c.title}. Você acusou ${chosen.name} erroneamente.`);
-
-          if (gameState.errors >= 6) {
-            renderFired("Você acumulou erros graves demais para permanecer na força policial. O capitão considerou que sua atuação compromete a credibilidade do distrito.");
-            return;
-          } else {
-            alert("Você errou o culpado. Isso gerou advertência e queda de prestígio.");
-          }
-        }
-
-        currentCaseId = null;
-        goTo("office");
-      }
-
-      // ---------- HANDLERS GLOBAIS ----------
-      function goTo(screenId) {
-        switch (screenId) {
-          case "start":
             renderStart();
-            break;
-          case "login":
-            renderLogin();
-            break;
-          case "captainBriefInit": {
-            const nameInput = document.getElementById("player-name");
-            const nameValue = nameInput ? nameInput.value.trim() : "";
-            if (nameValue) {
-              gameState.playerName = nameValue;
-            }
-            renderCaptainBrief();
-            break;
           }
-          case "office":
-            renderOffice();
-            break;
-          case "tutorial":
-            renderTutorial();
-            break;
-          case "nextCaseScreen":
-            renderNextCaseScreen();
-            break;
-          case "case":
-            renderCaseScreen();
-            break;
-          case "witnesses":
-            renderWitnessList();
-            break;
-          case "evidence":
-            renderEvidenceScreen();
-            break;
-          case "autopsy":
-            renderAutopsy();
-            break;
-          case "suspects":
-            renderSuspectsScreen();
-            break;
-          case "conclude":
-            renderConcludeCase();
-            break;
-          case "stats":
-            renderStats();
-            break;
-          case "phone":
-            renderPhone();
-            break;
-          case "phone_chief":
-            renderPhoneChief();
-            break;
-          case "phone_forensics":
-            renderPhoneForensics();
-            break;
-          case "phone_street":
-            renderPhoneStreet();
-            break;
-          case "promotion":
-            renderPromotion();
-            break;
-          case "promotion_exam":
-            renderPromotionExam();
-            break;
-          case "resign":
-            renderResign();
-            break;
-          default:
-            // telas dinâmicas: interrogatório e detalhes
-            if (screenId.startsWith("interrogation_")) {
-              const sid = screenId.replace("interrogation_", "");
-              renderInterrogation(sid);
-            } else if (screenId.startsWith("witness_")) {
-              const wid = screenId.replace("witness_", "");
-              renderWitnessDetail(wid);
-            } else if (screenId.startsWith("suspect_")) {
-              const sid = screenId.replace("suspect_", "");
-              renderSuspectDetail(sid);
-            } else {
-              renderStart();
-            }
-        }
       }
+    }
 
-      // Expor funções globais usadas por onclick
-      window.goTo = goTo;
-      window.__handleLoadFile = handleFileLoad;
-      window.__setAvatar = function(av) {
-        ensureGameState();
-        gameState.avatar = av;
+    function startNewGame() {
+      ensureGameState();
+      const input = document.getElementById("player-name");
+      if (input && input.value.trim()) {
+        gameState.playerName = input.value.trim();
+      }
+      goTo("cutscene");
+    }
+
+    function setAvatar(av) {
+      ensureGameState();
+      gameState.avatar = av;
+    }
+
+    function openWitness(wid) {
+      goTo("witness_" + wid);
+    }
+
+    function askWitness(wid, key) {
+      const c = getCurrentCase();
+      if (!c) return;
+      const w = c.witnesses.find(function(x){return x.id === wid;});
+      if (!w) return;
+      const box = document.getElementById("witness-log");
+      if (!box) return;
+      const map = {
+        where:"Onde você estava no momento do crime?",
+        relation:"Você conhecia a vítima?",
+        saw:"O que você viu exatamente?",
+        suspect:"Quem você suspeita?",
+        more:"Você tem mais alguma informação importante?"
       };
-      window.__saveGameNow = saveGameToFile;
+      const pergunta = map[key] || "Pergunta";
+      const resposta = (w.qa && w.qa[key]) ? w.qa[key] : "Sobre isso, eu realmente não sei informar.";
+      box.innerHTML += "<div class='log-line-q'><b>" + pergunta + "</b></div><div class='log-line-a'>" + resposta + "</div>";
+      box.scrollTop = box.scrollHeight;
+    }
 
-      window.__openWitness = function(wid) {
-        goTo("witness_" + wid);
-      };
+    function askWitnessFree(wid) {
+      const input = document.getElementById("witness-question");
+      if (!input) return;
+      const q = input.value.trim();
+      if (!q) return;
+      input.value = "";
+      const c = getCurrentCase();
+      if (!c) return;
+      const w = c.witnesses.find(function(x){return x.id === wid;});
+      if (!w) return;
+      const box = document.getElementById("witness-log");
+      if (!box) return;
+      const lower = q.toLowerCase();
+      let key = "more";
+      if (lower.indexOf("onde") !== -1 || lower.indexOf("where") !== -1) key = "where";
+      else if (lower.indexOf("vítima") !== -1 || lower.indexOf("vitima") !== -1) key = "relation";
+      else if (lower.indexOf("viu") !== -1) key = "saw";
+      else if (lower.indexOf("suspeita") !== -1 || lower.indexOf("culpado") !== -1) key = "suspect";
+      const resposta = (w.qa && w.qa[key]) ? w.qa[key] : "Sobre isso, eu realmente não sei informar.";
+      box.innerHTML += "<div class='log-line-q'><b>Pergunta livre:</b> " + q + "</div><div class='log-line-a'>" + resposta + "</div>";
+      box.scrollTop = box.scrollHeight;
+    }
 
-      window.__askWitness = function(wid, key) {
-        const c = getCurrentCase();
-        if (!c) return;
-        const w = c.witnesses.find(x => x.id === wid);
-        if (!w) return;
-        const logBox = document.getElementById("witness-log");
-        if (!logBox) return;
-        const answer = (w.qa && w.qa[key]) ? w.qa[key] : "Não tenho nada a acrescentar sobre isso.";
-        const label = {
-          where: "Onde você estava?",
-          relation: "Você conhecia a vítima?",
-          saw: "O que você viu?",
-          suspect: "Quem você suspeita?",
-          more: "Você tem mais alguma informação importante?"
-        }[key] || "Pergunta";
+    function openSuspect(sid) {
+      goTo("suspect_" + sid);
+    }
 
-        const html = `
-          <div class="log-line-q"><b>${label}</b></div>
-          <div class="log-line-a">${answer}</div>
-        `;
-        logBox.innerHTML += html;
-        logBox.scrollTop = logBox.scrollHeight;
-      };
+    function askSuspectTemplate(sid, idx) {
+      const q = INTERROGATION_QUESTIONS[idx] || "";
+      if (!q) return;
+      askSuspectInternal(sid, q);
+    }
 
-      window.__askWitnessFree = function(wid) {
-        const input = document.getElementById("witness-question");
-        if (!input) return;
-        const q = input.value.trim();
-        if (!q) return;
-        input.value = "";
-        const c = getCurrentCase();
-        if (!c) return;
-        const w = c.witnesses.find(x => x.id === wid);
-        if (!w) return;
-        const logBox = document.getElementById("witness-log");
-        if (!logBox) return;
+    function askSuspect(sid) {
+      const ta = document.getElementById("suspect-question");
+      if (!ta) return;
+      const q = ta.value.trim();
+      if (!q) return;
+      ta.value = "";
+      askSuspectInternal(sid, q);
+    }
 
-        let key = "more";
-        const lower = q.toLowerCase();
-        if (lower.includes("onde") || lower.includes("where")) key = "where";
-        else if (lower.includes("vítima") || lower.includes("vitima") || lower.includes("conhecia") || lower.includes("relação")) key = "relation";
-        else if (lower.includes("viu") || lower.includes("visualizou")) key = "saw";
-        else if (lower.includes("suspeita") || lower.includes("culpado")) key = "suspect";
+    function askSuspectInternal(sid, q) {
+      const c = getCurrentCase();
+      if (!c) return;
+      const s = c.suspects.find(function(x){return x.id === sid;});
+      if (!s) return;
+      const st = interrogationState;
+      const lower = q.toLowerCase();
+      if (lower.indexOf("motivo") !== -1 || lower.indexOf("por que") !== -1 || lower.indexOf("porque") !== -1) {
+        st.stress += 8; st.anger += 8; st.trust -= 5;
+      } else if (lower.indexOf("confesse") !== -1 || lower.indexOf("confissão") !== -1) {
+        st.stress += 10; st.anger += 10; st.trust -= 12;
+      } else if (lower.indexOf("por favor") !== -1 || lower.indexOf("seja sincero") !== -1) {
+        st.trust += 6; st.stress -= 3;
+      } else {
+        st.stress += 3;
+      }
+      st.stress = Math.max(0, Math.min(100, st.stress));
+      st.trust = Math.max(0, Math.min(100, st.trust));
+      st.anger = Math.max(0, Math.min(100, st.anger + 1));
+      const answer = generateSuspectAnswer(c, s, q);
+      if (!st.log) st.log = [];
+      st.log.push({ q: q, a: answer });
+      updateInterrogationBars();
+      renderInterrogationLog();
+      gameState.totalInterrogations = (gameState.totalInterrogations || 0) + 1;
+    }
 
-        const answer = (w.qa && w.qa[key]) ? w.qa[key] : "Sobre isso, eu realmente não sei informar.";
+    function callChief(mode) {
+      gameState.totalCalls = (gameState.totalCalls || 0) + 1;
+      if (mode === "apologize") {
+        updateMoral(6); updatePrestige(3);
+        addHistory("Você ligou para o capitão e assumiu erros anteriores com maturidade.");
+        alert("O capitão aprecia a honestidade. Moral e prestígio aumentaram levemente.");
+      } else if (mode === "praise_team") {
+        updateMoral(4); updatePrestige(4);
+        addHistory("Você reconheceu o trabalho da equipe. O clima no distrito melhorou.");
+        alert("Elogiar a equipe gera respeito mútuo. Moral e prestígio subiram.");
+      } else if (mode === "praise_chief") {
+        updatePrestige(2);
+        addHistory("Você elogiou o capitão diretamente. Ele registrou.");
+        alert("O capitão registra seu elogio com um meio sorriso.");
+      }
+      goTo("phone");
+    }
 
-        const html = `
-          <div class="log-line-q"><b>Pergunta livre:</b> ${q}</div>
-          <div class="log-line-a">${answer}</div>
-        `;
-        logBox.innerHTML += html;
-        logBox.scrollTop = logBox.scrollHeight;
-      };
+    function callForensics() {
+      gameState.totalCalls = (gameState.totalCalls || 0) + 1;
+      updateMoral(2); updatePrestige(1);
+      addHistory("Você consultou o perito sobre detalhes técnicos de laudos.");
+      alert("A conversa técnica com o perito ajuda a interpretar melhor as provas.");
+      goTo("phone");
+    }
 
-      window.__openSuspect = function(sid) {
-        goTo("suspect_" + sid);
-      };
+    function callStreet() {
+      gameState.totalCalls = (gameState.totalCalls || 0) + 1;
+      addHistory("Você acionou a equipe de rua para verificações de campo.");
+      alert("A equipe de rua está em movimento. Novas pistas podem surgir narrativamente em alguns casos.");
+      goTo("phone");
+    }
 
-      window.__askSuspect = function(sid, predefinedQuestion) {
-        const textArea = document.getElementById("suspect-question");
-        let q = predefinedQuestion;
-        if (!q) {
-          if (!textArea) return;
-          q = textArea.value.trim();
-          if (!q) return;
-          textArea.value = "";
-        }
-        const c = getCurrentCase();
-        if (!c) return;
-        const s = c.suspects.find(x => x.id === sid);
-        if (!s) return;
+    function finishPromotionExam() {
+      if (!canRequestPromotion()) {
+        alert("Você ainda não cumpre os requisitos formais.");
+        goTo("promotion");
+        return;
+      }
+      promotePlayer();
+      updatePrestige(5);
+      updateMoral(5);
+      alert("Você foi aprovado na prova de promoção. Nova fase da carreira liberada.");
+      goTo("office");
+    }
 
-        interrogationState.totalAsked = (interrogationState.totalAsked || 0) + 1;
+    function confirmResign() {
+      renderFired("Você decidiu deixar Valley City por vontade própria. Seus registros permanecem arquivados, mas sua jornada aqui terminou.");
+    }
 
-        const lower = q.toLowerCase();
-        if (lower.includes("por que") || lower.includes("porque") || lower.includes("motivo")) {
-          interrogationState.stress += 8;
-          interrogationState.anger += 8;
-          interrogationState.trust -= 5;
-        } else if (lower.includes("confesse") || lower.includes("confissão")) {
-          interrogationState.stress += 10;
-          interrogationState.anger += 10;
-          interrogationState.trust -= 12;
-        } else if (lower.includes("por favor") || lower.includes("seja sincero") || lower.includes("me ajuda")) {
-          interrogationState.trust += 6;
-          interrogationState.stress -= 3;
-        } else {
-          interrogationState.stress += 3;
-        }
+    // ---------- EXPOR FUNÇÕES ----------
+    window.goTo = goTo;
+    window.saveGameToFile = saveGameToFile;
+    window.handleFileLoad = handleFileLoad;
+    window.setAvatar = setAvatar;
+    window.startNewGame = startNewGame;
+    window.openWitness = openWitness;
+    window.askWitness = askWitness;
+    window.askWitnessFree = askWitnessFree;
+    window.openSuspect = openSuspect;
+    window.askSuspectTemplate = askSuspectTemplate;
+    window.askSuspect = askSuspect;
+    window.finalizeCase = finalizeCase;
+    window.callChief = callChief;
+    window.callForensics = callForensics;
+    window.callStreet = callStreet;
+    window.finishPromotionExam = finishPromotionExam;
+    window.confirmResign = confirmResign;
 
-        const answer = generateSuspectAnswer(c, s, q);
-        interrogationState.log.push({ q, a: answer });
-        updateInterrogationBars();
-        renderInterrogationLog();
-
-        gameState.totalInterrogations = (gameState.totalInterrogations || 0) + 1;
-      };
-
-      window.__finalizeCase = finalizeCase;
-
-      window.__callChief = function(mode) {
-        gameState.totalCalls = (gameState.totalCalls || 0) + 1;
-        if (mode === "apologize") {
-          updateMoral(6);
-          updatePrestige(3);
-          addHistoryEntry("Você ligou para o capitão e assumiu erros anteriores com maturidade.");
-          alert("O capitão aprecia a honestidade. Sua moral e prestígio aumentaram levemente.");
-        } else if (mode === "praise_team") {
-          updateMoral(4);
-          updatePrestige(4);
-          addHistoryEntry("Você reconheceu o trabalho da equipe. Isso melhorou o clima no distrito.");
-          alert("Valorizar a equipe sempre conta pontos. Moral e prestígio subiram.");
-        } else if (mode === "praise_chief") {
-          updatePrestige(2);
-          addHistoryEntry("Você elogiou o capitão. Ele não disse nada, mas anotou.");
-          alert("O capitão registra seu elogio com um meio sorriso.");
-        }
-        goTo("phone");
-      };
-
-      window.__callForensics = function() {
-        gameState.totalCalls = (gameState.totalCalls || 0) + 1;
-        updateMoral(2);
-        updatePrestige(1);
-        addHistoryEntry("Você consultou o perito para detalhes técnicos de laudos.");
-        alert("A conversa técnica com o perito ajuda você a interpretar melhor futuras provas.");
-        goTo("phone");
-      };
-
-      window.__callStreet = function() {
-        gameState.totalCalls = (gameState.totalCalls || 0) + 1;
-        addHistoryEntry("Você acionou a equipe de rua para apoio operacional.");
-        alert("A equipe de rua foi acionada. Novas evidências podem ser consideradas narrativamente em alguns casos.");
-        goTo("phone");
-      };
-
-      window.__finishPromotionExam = function() {
-        promotePlayerIfPossible();
-        updatePrestige(5);
-        updateMoral(5);
-        alert("Parabéns! Você foi aprovado na prova de promoção. Sua carreira deu um passo importante.");
-        goTo("office");
-      };
-
-      window.__confirmResign = function() {
-        const summary = "Você decidiu deixar Valley City por vontade própria. Seus registros permanecem, mas sua jornada aqui chega ao fim.";
-        renderFired(summary);
-      };
-
-      // ---------- INICIALIZAÇÃO ----------
+    // ---------- INICIALIZAÇÃO ----------
+    window.addEventListener("load", function() {
       ensureGameState();
       goTo("start");
-    })();
+    });
   </script>
 </body>
 </html>
