@@ -31,7 +31,7 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #151a2d 0, #03040a 55%);
+      background: #000;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
@@ -45,7 +45,7 @@
       min-height: 100vh;
       margin: 0 auto;
       position: relative;
-      background: rgba(3, 5, 12, 0.96);
+      background: transparent;
       overflow: hidden;
       box-shadow: var(--shadow-soft);
     }
@@ -55,6 +55,10 @@
       padding: 20px 18px 26px;
       min-height: 100vh;
       position: relative;
+      background-color: #05070d;       /* fallback */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .screen.active {
@@ -67,68 +71,69 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .screen::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: 0.55; /* mais visível */
-      background-size: cover;
-      background-position: center;
-      background-color: #05070d; /* fallback se a imagem atrasar */
-      pointer-events: none;
-      z-index: -1;
-      filter: saturate(1.1) contrast(1.05);
+    /* FUNDOS DAS TELAS - USANDO ASSETS DIRETO */
+
+    #screen-start {
+      background-image: url("assets/capa_principal.png");
     }
 
-    #screen-start::before {
-      background-image: url("assets/valley_city_night.png");
-    }
-
-    #screen-login::before {
+    #screen-login {
       background-image: url("assets/bg_login.png");
     }
 
-    #screen-avatar::before {
+    #screen-avatar {
       background-image: url("assets/police_station_front.png");
     }
 
-    #screen-briefing::before {
+    #screen-briefing {
       background-image: url("assets/captain_room_cinematic.png");
     }
 
-    #screen-office::before {
+    #screen-office {
       background-image: url("assets/escritorio_detective.png");
     }
 
-    #screen-case::before {
-      background-image: url("assets/case_scene_bg.png");
+    #screen-phone {
+      background-image: url("assets/phone_interface.png");
     }
 
-    #screen-witnesses::before {
-      background-image: url("assets/witness_room.png");
-    }
-
-    #screen-evidence::before {
-      background-image: url("assets/evidence_room.png");
-    }
-
-    #screen-suspects::before {
-      background-image: url("assets/suspect_file_bg.png");
-    }
-
-    #screen-interrogation::before {
-      background-image: url("assets/interrogation_room.png");
-    }
-
-    #screen-iml::before {
-      background-image: url("assets/morgue_room.png");
-    }
-
-    #screen-promotion::before {
+    #screen-promotion {
       background-image: url("assets/promotion_bg.png");
     }
 
-    #screen-fired::before {
+    #screen-stats {
+      background-image: url("assets/valley_city_night.png");
+    }
+
+    #screen-case {
+      background-image: url("assets/case_scene_bg.png");
+    }
+
+    #screen-witnesses {
+      background-image: url("assets/witness_room.png");
+    }
+
+    #screen-evidence {
+      background-image: url("assets/evidence_room.png");
+    }
+
+    #screen-suspects {
+      background-image: url("assets/suspect_file_bg.png");
+    }
+
+    #screen-interrogation {
+      background-image: url("assets/interrogation_room.png");
+    }
+
+    #screen-iml {
+      background-image: url("assets/morgue_room.png");
+    }
+
+    #screen-conclude {
+      background-image: url("assets/crime_scene_01.png");
+    }
+
+    #screen-fired {
       background-image: url("assets/fired_screen.png");
     }
 
@@ -138,6 +143,7 @@
       letter-spacing: 0.18em;
       color: var(--text-soft);
       margin-bottom: 6px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.75);
     }
 
     h1.title {
@@ -145,6 +151,7 @@
       text-transform: uppercase;
       margin-bottom: 16px;
       letter-spacing: 0.12em;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
     }
 
     h2.subtitle {
@@ -163,21 +170,23 @@
 
     .card {
       background: radial-gradient(circle at top left,
-                  rgba(31, 38, 64, 0.90) 0,
-                  rgba(16, 20, 35, 0.90) 55%);
+                  rgba(20, 26, 54, 0.92) 0,
+                  rgba(6, 8, 18, 0.92) 60%);
       border-radius: var(--radius-lg);
       padding: 14px 16px;
       margin-bottom: 14px;
-      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(6px);
     }
 
     .card-soft {
-      background: rgba(12, 16, 30, 0.92);
+      background: rgba(6, 8, 18, 0.88);
       border-radius: var(--radius-md);
       padding: 12px 14px;
       margin-bottom: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(4px);
     }
 
     .btn {
@@ -198,18 +207,18 @@
     .btn-primary {
       background: linear-gradient(135deg, #ffb321, #ffdf7a);
       color: #22130a;
-      box-shadow: 0 12px 26px rgba(255, 179, 33, 0.4);
+      box-shadow: 0 12px 26px rgba(255, 179, 33, 0.45);
     }
 
     .btn-primary:active {
       transform: translateY(1px) scale(0.99);
-      box-shadow: 0 8px 20px rgba(255, 179, 33, 0.3);
+      box-shadow: 0 8px 20px rgba(255, 179, 33, 0.35);
     }
 
     .btn-outline {
       background: rgba(7, 10, 22, 0.9);
       color: var(--text-main);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .btn-outline:active {
@@ -218,9 +227,9 @@
     }
 
     .btn-danger {
-      background: rgba(198, 59, 59, 0.15);
+      background: rgba(198, 59, 59, 0.18);
       color: var(--danger);
-      border: 1px solid rgba(255, 77, 77, 0.4);
+      border: 1px solid rgba(255, 77, 77, 0.55);
     }
 
     small {
@@ -243,11 +252,12 @@
       align-items: center;
       padding: 10px 12px;
       border-radius: var(--radius-md);
-      background: rgba(9, 12, 24, 0.94);
+      background: rgba(9, 12, 24, 0.96);
       margin-bottom: 8px;
       border: 1px solid transparent;
       cursor: pointer;
       transition: border var(--transition-fast), background var(--transition-fast);
+      backdrop-filter: blur(4px);
     }
 
     .avatar-item img {
@@ -274,7 +284,7 @@
 
     .avatar-item.selected {
       border-color: var(--accent-soft);
-      background: radial-gradient(circle at top left, #2a3250 0, #101423 65%);
+      background: radial-gradient(circle at top left, #2a3250 0, #050712 75%);
     }
 
     .office-layout {
@@ -297,8 +307,8 @@
       height: 72px;
       border-radius: 22px;
       overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.75);
+      border: 2px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.85);
     }
 
     .office-avatar img {
@@ -313,8 +323,9 @@
       letter-spacing: 0.16em;
       padding: 4px 9px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.09);
       color: var(--text-soft);
+      backdrop-filter: blur(4px);
     }
 
     .office-right {
@@ -341,7 +352,7 @@
       width: 100%;
       height: 6px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.09);
       overflow: hidden;
       margin-top: 4px;
     }
@@ -378,9 +389,10 @@
       margin-top: 14px;
       border-radius: 14px;
       padding: 10px 12px;
-      background: rgba(8, 10, 20, 0.96);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(5, 7, 16, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       font-size: 12px;
+      backdrop-filter: blur(6px);
     }
 
     .rules-title {
@@ -410,8 +422,9 @@
       font-size: 11px;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.12);
       color: var(--text-soft);
+      backdrop-filter: blur(3px);
     }
 
     .case-title {
@@ -428,8 +441,9 @@
       text-transform: uppercase;
       letter-spacing: 0.14em;
       color: var(--text-soft);
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.15);
       margin-bottom: 8px;
+      backdrop-filter: blur(4px);
     }
 
     .list {
@@ -444,14 +458,15 @@
       padding: 10px 11px;
       background: rgba(7, 10, 20, 0.94);
       margin-bottom: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       cursor: pointer;
       transition: background var(--transition-fast), border var(--transition-fast);
+      backdrop-filter: blur(3px);
     }
 
     .list-item:hover {
       background: rgba(17, 21, 35, 0.98);
-      border-color: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
     }
 
     .list-item.selected {
@@ -473,10 +488,11 @@
       border-radius: 14px;
       padding: 10px 12px;
       background: rgba(2, 4, 10, 0.94);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       font-size: 13px;
       min-height: 70px;
       white-space: pre-wrap;
+      backdrop-filter: blur(3px);
     }
 
     .pill-label {
@@ -496,13 +512,14 @@
 
     .q-btn {
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       background: rgba(8, 10, 20, 0.96);
       padding: 5px 8px;
       font-size: 11px;
       text-align: center;
       color: var(--text-soft);
       cursor: pointer;
+      backdrop-filter: blur(3px);
     }
 
     .q-btn:active {
@@ -512,7 +529,7 @@
     .input-text {
       width: 100%;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       padding: 10px 12px;
       background: rgba(4, 6, 14, 0.96);
       color: var(--text-main);
@@ -566,7 +583,7 @@
       height: 64px;
       border-radius: 18px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
 
     .iml-photo img {
@@ -579,7 +596,7 @@
       font-size: 11px;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.16);
       color: var(--text-soft);
     }
 
@@ -592,8 +609,9 @@
       font-size: 11px;
       padding: 3px 8px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       color: var(--accent-soft);
+      backdrop-filter: blur(3px);
     }
   </style>
 </head>
@@ -1039,18 +1057,21 @@
     ];
 
     const BG_IMAGES = [
-      "assets/valley_city_night.png",
+      "assets/capa_principal.png",
       "assets/bg_login.png",
       "assets/police_station_front.png",
       "assets/captain_room_cinematic.png",
       "assets/escritorio_detective.png",
+      "assets/phone_interface.png",
+      "assets/promotion_bg.png",
+      "assets/valley_city_night.png",
       "assets/case_scene_bg.png",
       "assets/witness_room.png",
       "assets/evidence_room.png",
       "assets/suspect_file_bg.png",
       "assets/interrogation_room.png",
       "assets/morgue_room.png",
-      "assets/promotion_bg.png",
+      "assets/crime_scene_01.png",
       "assets/fired_screen.png"
     ];
 
