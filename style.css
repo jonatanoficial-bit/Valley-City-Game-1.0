@@ -1,319 +1,401 @@
-/* ========================= */
-/* RESET & BASE STYLES */
-/* ========================= */
+/* ==========================================
+   Valley City: Police Investigations
+   style.css
+   Foco em mobile, visual cinematográfico
+========================================== */
 
+/* RESET BÁSICO */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
-    background: #0a0f1a;
-    color: #fff;
-    overflow-x: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+  color: #e5e7eb;
 }
 
-.screen {
-    display: none;
-    padding: 20px;
+button {
+  font-family: inherit;
 }
 
-.screen.active {
-    display: block;
+/* LAYER DE FUNDO CINEMATOGRÁFICO */
+#bg-layer {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  pointer-events: none;       /* NÃO captura clique */
+  z-index: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* ========================= */
-/* TITULOS */
-/* ========================= */
+/* CONTAINER DO JOGO */
+#app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+/* CARD PRINCIPAL DAS TELAS */
+.section-card {
+  width: 100%;
+  max-width: 520px;
+  background: linear-gradient(145deg, rgba(15,23,42,0.96), rgba(15,23,42,0.90));
+  border-radius: 18px;
+  border: 1px solid rgba(31,41,55,0.9);
+  padding: 16px 14px 18px;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.7),
+    0 0 0 1px rgba(15,23,42,0.8);
+}
+
+/* TÍTULOS / TEXTOS */
 .title {
-    font-size: 30px;
-    font-weight: 800;
-    text-align: center;
-    color: #fff;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
 
 .subtitle {
-    font-size: 22px;
-    text-align: center;
-    margin-bottom: 15px;
-    font-weight: 600;
-    color: #f5f5f5;
+  font-size: 0.9rem;
+  color: #9ca3af;
+  margin-bottom: 12px;
 }
 
-.section-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 15px;
+.small {
+  font-size: 0.78rem;
+  color: #9ca3af;
 }
 
-.center {
-    text-align: center;
+/* LABELS / INPUTS */
+.label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin: 8px 0 4px;
 }
 
-/* ========================= */
+.input {
+  width: 100%;
+  border-radius: 999px;
+  border: 1px solid rgba(55,65,81,0.9);
+  background: rgba(15,23,42,0.95);
+  padding: 7px 11px;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #6b7280;
+}
+
 /* BOTÕES */
-/* ========================= */
+.btn,
+.btn-secondary,
+.btn-danger,
+.btn-ghost,
+.btn-full {
+  width: 100%;
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  gap: 6px;
+  transition: transform 0.06s ease, box-shadow 0.06s ease, filter 0.12s ease;
+}
 
-.btn-primary {
-    width: 100%;
-    padding: 15px;
-    margin-top: 15px;
-    background: linear-gradient(90deg, #0066ff, #00aaff);
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
+.btn {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #f9fafb;
+  box-shadow: 0 8px 20px rgba(37,99,235,0.45);
 }
 
 .btn-secondary {
-    width: 100%;
-    padding: 15px;
-    margin-top: 15px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 10px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
+  background: rgba(31,41,55,0.98);
+  color: #e5e7eb;
+  border: 1px solid rgba(55,65,81,0.9);
 }
 
 .btn-danger {
-    width: 100%;
-    padding: 15px;
-    margin-top: 15px;
-    background: #cc0000;
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #f9fafb;
+  box-shadow: 0 8px 20px rgba(248,113,113,0.4);
 }
 
-.mt20 {
-    margin-top: 20px;
+.btn-ghost {
+  background: transparent;
+  color: #9ca3af;
+  border: 1px dashed rgba(148,163,184,0.8);
 }
 
-/* ========================= */
-/* TELA INICIAL */
-/* ========================= */
-
-.start-container {
-    position: relative;
+.btn-full {
+  background: rgba(31,41,55,0.98);
+  color: #e5e7eb;
+  border-radius: 12px;
+  border: 1px solid rgba(55,65,81,0.9);
+  padding: 9px 10px;
+  font-size: 0.85rem;
 }
 
-.start-bg {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    opacity: 0.25;
+.btn:hover,
+.btn-secondary:hover,
+.btn-danger:hover,
+.btn-ghost:hover,
+.btn-full:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.45);
 }
 
-.start-panel {
-    position: absolute;
-    top: 15%;
-    width: 100%;
-    padding: 20px;
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
 }
 
-/* ========================= */
-/* AVATAR SELECTION */
-/* ========================= */
-
+/* AVATARES */
 .avatar-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 15px;
-    padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .avatar-option {
-    background: rgba(255,255,255,0.06);
-    padding: 6px;
-    border-radius: 12px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: 0.2s;
+  border-radius: 14px;
+  border: 1px solid rgba(55,65,81,0.9);
+  background: radial-gradient(circle at top, rgba(59,130,246,0.16), rgba(15,23,42,0.95));
+  padding: 4px;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, border-color 0.1s ease;
 }
 
-.avatar-option:hover {
-    border-color: #00aaff;
+.avatar-option img {
+  width: 100%;
+  border-radius: 11px;
+  display: block;
 }
 
-.selected-avatar {
-    border-color: #00aaff;
-    background: rgba(0,170,255,0.15);
+.avatar-option.selected {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 1px rgba(59,130,246,0.9), 0 8px 18px rgba(37,99,235,0.45);
+  transform: translateY(-1px);
 }
 
-.avatar-img {
-    width: 100%;
-    height: 110px;
-    border-radius: 10px;
-    object-fit: cover;
+/* FLEX GENÉRICO */
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* ========================= */
-/* BRIEFING */
-/* ========================= */
-
-.briefing-container {
-    position: relative;
+/* RETRATO (CAPITÃO, SUSPEITO, TESTEMUNHA) */
+.portrait {
+  width: 60px;
+  min-width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  border: 1px solid rgba(55,65,81,0.9);
+  overflow: hidden;
+  background: #020617;
 }
 
-.briefing-bg {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    opacity: 0.25;
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.briefing-text {
-    position: absolute;
-    top: 10%;
-    padding: 20px;
-    width: 100%;
+/* IMAGENS DE PROVA / CENA */
+.thumb {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 8px 0;
 }
 
-.typewriter p {
-    overflow: hidden;
-    border-right: .15em solid #fff;
-    white-space: nowrap;
-    animation:
-        typing 2s steps(30, end),
-        blink .75s step-end infinite;
-}
-
-@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}
-
-@keyframes blink {
-    from, to { border-color: transparent }
-    50% { border-color: white; }
-}
-
-/* ========================= */
-/* ESCRITÓRIO */
-/* ========================= */
-
-.office-bg {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    opacity: 0.18;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.office-content {
-    position: relative;
-    padding-top: 30px;
-}
-
+/* HUD DO ESCRITÓRIO */
 .office-header {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    background: rgba(0,0,0,0.4);
-    padding: 15px;
-    border-radius: 15px;
+  margin-bottom: 10px;
 }
 
-.agent-photo {
-    width: 128px;
-    height: 128px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 4px solid rgba(255,255,255,0.25);
-    box-shadow: 0 0 10px rgba(0,0,0,0.6);
+.office-avatar img {
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+  border: 2px solid rgba(59,130,246,0.9);
+  object-fit: cover;
 }
 
-@media (max-width: 600px) {
-    .agent-photo {
-        width: 110px;
-        height: 110px;
-    }
+.office-info h3 {
+  font-size: 1rem;
+  margin-bottom: 2px;
 }
 
-.agent-info h3 {
-    font-size: 24px;
-    font-weight: 700;
+.pill-inline {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  background: rgba(59,130,246,0.15);
+  color: #bfdbfe;
 }
 
-.rank-badge {
-    background: #0066ff;
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    display: inline-block;
-    margin: 5px 0;
+/* BARRAS DE STATUS DO SUSPEITO */
+.stat-bars {
+  margin: 8px 0;
 }
 
-.office-title {
-    margin-top: 20px;
-    font-size: 24px;
-    font-weight: 700;
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin-bottom: 4px;
 }
 
-.office-buttons {
-    margin-top: 20px;
+.stat-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(31,41,55,0.9);
+  overflow: hidden;
 }
 
-.rules-box {
-    margin-top: 20px;
-    background: rgba(255,255,255,0.05);
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 14px;
+.stat-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e, #ef4444);
+  transition: width 0.15s ease;
 }
 
-/* ========================= */
-/* CASE PANEL */
-/* ========================= */
-
-.case-bg {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    opacity: 0.25;
-    position: absolute;
-    top: 0;
-    left: 0;
+/* LOG DE DIÁLOGO (INTERROGATÓRIO / TESTEMUNHA) */
+.log-box {
+  border-radius: 12px;
+  border: 1px solid rgba(55,65,81,0.9);
+  background: rgba(15,23,42,0.95);
+  padding: 6px;
+  max-height: 160px;
+  overflow-y: auto;
+  font-size: 0.78rem;
 }
 
-.case-panel {
-    position: relative;
-    margin-top: 20px;
-    padding: 20px;
-    background: rgba(0,0,0,0.55);
-    border-radius: 15px;
+.log-line-q {
+  color: #93c5fd;
+  margin-bottom: 2px;
 }
 
-/* ========================= */
-/* LISTA DE TESTEMUNHAS, PROVAS, SUSPEITOS */
-/* ========================= */
-
-.list-container {
-    background: rgba(255,255,255,0.08);
-    padding: 15px;
-    border-radius: 15px;
-    margin-top: 15px;
+.log-line-a {
+  color: #e5e7eb;
+  margin-bottom: 6px;
 }
 
+/* LISTAGENS (TESTEMUNHAS, SUSPEITOS, PROVAS) */
 .list-item {
-    padding: 12px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 10px;
-    margin-bottom: 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(55,65,81,0.9);
+  background: radial-gradient(circle at top left, rgba(59,130,246,0.14), rgba(15,23,42,0.98));
+  padding: 8px 9px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: transform 0.06s ease, box-shadow 0.06s ease, border-color 0.1s ease;
 }
 
 .list-item:hover {
-    background: rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.55);
+  border-color: #60a5fa;
+}
+
+.list-item-title {
+  font-size: 0.9rem;
+  margin-bottom: 2px;
+}
+
+.list-item-sub {
+  font-size: 0.78rem;
+  color: #9ca3af;
+}
+
+/* CHIPS (PERGUNTAS DE INTERROGATÓRIO) */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 5px 9px;
+  margin: 3px 3px 0 0;
+  border: 1px solid rgba(75,85,99,0.9);
+  background: rgba(15,23,42,0.98);
+  font-size: 0.75rem;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.08s ease, transform 0.06s ease, box-shadow 0.06s ease;
+}
+
+.chip:hover {
+  background: rgba(37,99,235,0.2);
+  box-shadow: 0 6px 15px rgba(15,23,42,0.7);
+  transform: translateY(-1px);
+}
+
+/* EFEITO MÁQUINA DE ESCREVER (CAPITÃO) */
+.typewriter {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #e5e7eb;
+  white-space: pre-line;
+  margin: 10px 0 14px;
+  min-height: 90px;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 480px) {
+  #app {
+    padding: 10px;
+  }
+  .section-card {
+    border-radius: 16px;
+    padding: 12px 11px 14px;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .avatar-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+  }
+}
+
+@media (min-width: 768px) {
+  #app {
+    padding: 24px;
+  }
+  .section-card {
+    padding: 18px 16px 22px;
+  }
 }
