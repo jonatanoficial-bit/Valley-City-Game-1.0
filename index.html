@@ -1,30 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
-  <title>Valley City: Police Investigations</title>
-
-  <!-- Fonte -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- CSS principal -->
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valley City • Unidade de Investigação</title>
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Fundo cinematográfico controlado pelo game.js (setBackground) -->
-  <div id="bg-layer"></div>
 
-  <!-- Container principal do jogo. O game.js injeta as telas aqui (goTo/SCREENS) -->
-  <div id="app"></div>
+<div id="app">
+    <!-- TELA INICIAL -->
+    <section id="startScreen" class="screen active">
+        <div class="centerBox">
+            <h1>INÍCIO</h1>
+            <p>Bem-vindo a Valley City. Uma cidade violenta, poucos policiais e crimes demais.</p>
+            <button onclick="startGame()">INICIAR / CARREGAR JOGO</button>
+        </div>
+    </section>
 
-  <!-- Lógica do jogo -->
-  <script src="game.js"></script>
+    <!-- TELA DO CASO -->
+    <section id="caseScreen" class="screen">
+        <div id="caseHeader">
+            <h2 id="caseTitle">Cena do Caso</h2>
+        </div>
+
+        <div id="caseScene" class="caseScene"></div>
+
+        <button id="startInvestigationBtn" onclick="openInvestigation()">Iniciar Investigação</button>
+    </section>
+
+    <!-- TELA DE INVESTIGAÇÃO -->
+    <section id="investigationScreen" class="screen">
+
+        <h2 id="caseTitle2"></h2>
+        <p id="caseDescription"></p>
+
+        <h3>Testemunhas</h3>
+        <div id="witnesses" class="horizontalList"></div>
+
+        <h3>Suspeitos</h3>
+        <div id="suspects" class="horizontalList"></div>
+
+        <h3>Provas</h3>
+        <div id="evidence" class="horizontalList"></div>
+
+        <button onclick="returnToCase()">Voltar</button>
+    </section>
+
+</div>
+
+<script src="game.js"></script>
 </body>
 </html>
