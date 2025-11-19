@@ -1,26 +1,253 @@
-.screen { display: none; }
-.screen.active { display: block; }
-
-.caseScene {
-    width: 100%;
-    height: 240px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
+/* ===== RESET BÁSICO ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+html, body {
+    height: 100%;
+}
+
+/* ===== TEMA GERAL ===== */
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: radial-gradient(circle at top, #1b2735 0%, #090a0f 55%, #020308 100%);
+    color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 24px 12px 48px;
+}
+
+/* Container geral do app */
+#app {
+    width: 100%;
+    max-width: 600px;
+    background: rgba(3, 7, 18, 0.96);
+    border-radius: 24px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75);
+    padding: 24px 20px 32px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+/* ===== TIPOGRAFIA ===== */
+h1, h2, h3 {
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    margin-bottom: 12px;
+}
+
+h1 {
+    font-size: 1.4rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+}
+
+h3 {
+    font-size: 0.9rem;
+    color: #9ca3af;
+}
+
+p, label, span {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #cbd5f5;
+}
+
+/* Texto de apoio */
+p.lead {
+    margin-top: 4px;
+    margin-bottom: 24px;
+    color: #9ca3af;
+}
+
+/* ===== TELAS ===== */
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Tela inicial / centrada */
+.centerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ===== BOTÕES ===== */
+button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    background: linear-gradient(135deg, #facc15, #f97316);
+    color: #111827;
+    box-shadow: 0 12px 30px rgba(250, 204, 21, 0.35);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    margin-right: 8px;
+    margin-top: 8px;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    box-shadow: 0 16px 35px rgba(250, 204, 21, 0.45);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Botão secundário (tipo Carregar Jogo, Voltar etc) */
+button.secondary {
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+button.secondary:hover {
+    filter: brightness(1.1);
+}
+
+/* ===== FORMULÁRIOS ===== */
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.6);
+    background-color: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+input[type="text"]::placeholder {
+    color: #6b7280;
+}
+
+/* ===== AVATAR ===== */
+.avatar-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.avatar-card {
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(55, 65, 81, 0.8);
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+
+.avatar-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-card span {
+    display: block;
+    padding: 8px 10px 10px;
+    font-size: 0.8rem;
+    text-align: center;
+    color: #e5e7eb;
+}
+
+.avatar-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.8);
+    border-color: #facc15;
+}
+
+.avatar-card.selected {
+    border-color: #f97316;
+    box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.7);
+}
+
+/* ===== CENA DO CASO ===== */
+.caseScene {
+    width: 100%;
+    height: 220px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 18px;
+    margin: 12px 0 16px;
+    border: 1px solid rgba(55, 65, 81, 0.8);
+}
+
+/* Cabeçalho da tela do caso */
+#caseHeader {
+    margin-bottom: 8px;
+}
+
+/* ===== LISTAS HORIZONTAIS (testemunhas, suspeitos, provas) ===== */
 .horizontalList {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     overflow-x: auto;
-    padding: 10px 0;
+    padding: 8px 0 14px;
 }
 
 .horizontalList img {
-    width: 90px;
-    height: 90px;
-    border-radius: 8px;
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
     object-fit: cover;
     cursor: pointer;
-    border: 2px solid #333;
+    border: 2px solid rgba(55, 65, 81, 0.9);
+    background-color: #020617;
+    flex-shrink: 0;
+}
+
+.horizontalList img:hover {
+    border-color: #facc15;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 480px) {
+    body {
+        padding: 12px 8px 24px;
+    }
+
+    #app {
+        border-radius: 18px;
+        padding: 18px 16px 24px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .caseScene {
+        height: 190px;
+    }
 }
