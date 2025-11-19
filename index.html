@@ -1,197 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valley City – Police Investigation</title>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Valley City: Police Investigations</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+  <!-- Fonte -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap"
+    rel="stylesheet"
+  />
 
-    <!-- Fonte -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Fundo cinematográfico controlado pelo game.js (setBackground) -->
+  <div id="bg-layer"></div>
 
-<!-- ========================= -->
-<!-- TELA INICIAL -->
-<!-- ========================= -->
-<div id="screen-start" class="screen active">
-    <div class="start-container">
+  <!-- Container principal do jogo. O game.js injeta as telas aqui (goTo/SCREENS) -->
+  <div id="app"></div>
 
-        <img src="assets/capa_principal.png" class="start-bg">
-
-        <div class="start-panel">
-            <h1 class="title">VALLEY CITY • CRIME UNIT</h1>
-            <h2 class="subtitle">INÍCIO</h2>
-
-            <p>Bem-vindo a Valley City. Uma cidade violenta, poucos policiais e crimes demais.
-               Seu progresso é salvo localmente. Você pode exportar e importar seu jogo sempre que quiser.</p>
-
-            <button class="btn-primary" onclick="startNewGame()">Iniciar</button>
-            <button class="btn-secondary" onclick="loadGame()">Carregar Jogo</button>
-        </div>
-    </div>
-</div>
-
-
-<!-- ========================= -->
-<!-- SELEÇÃO DE AVATAR -->
-<!-- ========================= -->
-<div id="screen-avatar" class="screen">
-    <h2 class="section-title center">ESCOLHA SEU AVATAR</h2>
-    <p class="center">Toque ou clique para selecionar seu agente.</p>
-
-    <div id="avatarGrid" class="avatar-grid">
-        <!-- preenchido automaticamente via JS -->
-    </div>
-
-    <div class="center mt20">
-        <button class="btn-primary" onclick="confirmAvatar()">Confirmar</button>
-        <button class="btn-secondary" onclick="goTo('start')">Voltar</button>
-    </div>
-</div>
-
-
-<!-- ========================= -->
-<!-- BRIEFING DO CAPITÃO -->
-<!-- ========================= -->
-<div id="screen-briefing" class="screen">
-    <div class="briefing-container">
-        <img src="assets/capitao_office.png" class="briefing-bg">
-
-        <div class="briefing-text typewriter">
-            <h2 class="section-title">BRIEFING DO CAPITÃO</h2>
-
-            <p>
-                “Valley City não é lugar para amadores. Aqui a violência é o idioma local.
-                Você foi designado porque alguém acha que você pode fazer a diferença.”
-            </p>
-
-            <p>
-                “Nós temos poucos policiais, muitos crimes e quase nenhuma segunda chance.
-                Use documentos, perícia, testemunhas e suspeitos. Se errar, vai para a rua.”
-            </p>
-
-            <p>
-                “Se fizer um bom trabalho, pode subir para o FBI… talvez até para a CIA.
-                Boa sorte, detetive. Você vai precisar.”
-            </p>
-
-            <button class="btn-primary mt20" onclick="goTo('office')">Entendido, chefe</button>
-        </div>
-    </div>
-</div>
-
-
-<!-- ========================= -->
-<!-- ESCRITÓRIO DO DETETIVE -->
-<!-- ========================= -->
-<div id="screen-office" class="screen">
-    <img src="assets/escritorio_detective.png" class="office-bg">
-
-    <div class="office-content">
-
-        <div class="office-header">
-            <img id="officeAvatar" class="agent-photo" src="assets/default_avatar.png">
-
-            <div class="agent-info">
-                <h3 id="officeName">Agente</h3>
-                <span id="officeRank" class="rank-badge">Detetive Júnior</span>
-
-                <p id="officeStats">
-                    Agência: PD<br>
-                    Moral: 50% • Prestígio: 0%<br>
-                    Casos Resolvidos: 0 • Falhas: 0
-                </p>
-            </div>
-        </div>
-
-        <h2 class="office-title">ESCRITÓRIO DO DETETIVE</h2>
-
-        <div class="office-buttons">
-            <button class="btn-primary" onclick="startNextCase()">Próximo Caso</button>
-            <button class="btn-secondary" onclick="openPhone()">Telefonar</button>
-            <button class="btn-secondary" onclick="openPromotion()">Pedir Promoção</button>
-            <button class="btn-secondary" onclick="openStats()">Histórico / Estatísticas</button>
-            <button class="btn-secondary" onclick="saveGame()">Salvar Agora</button>
-            <button class="btn-danger" onclick="goTo('start')">Sair para Menu</button>
-        </div>
-
-        <div class="rules-box">
-            <strong>Regras:</strong><br>
-            Três erros começam a gerar advertências. Acima de seis advertências, sua carreira termina.
-            Prestígio sobe com casos resolvidos e cai com acusações erradas.
-        </div>
-    </div>
-</div>
-
-
-<!-- ========================= -->
-<!-- TELA DE CASO (INVESTIGAÇÃO) -->
-<!-- ========================= -->
-<div id="screen-case" class="screen">
-    <img id="caseBackground" src="assets/case_scene_bg.png" class="case-bg">
-
-    <div class="case-panel">
-        <h2 id="caseTitle">Caso</h2>
-        <p id="caseDescription"></p>
-
-        <button class="btn-primary" onclick="openWitnesses()">Testemunhas</button>
-        <button class="btn-primary" onclick="openEvidence()">Provas</button>
-        <button class="btn-primary" onclick="openSuspects()">Suspeitos</button>
-        <button class="btn-danger" onclick="concludeCase()">Concluir Acusação</button>
-        <button class="btn-secondary" onclick="goTo('office')">Voltar ao Escritório</button>
-    </div>
-</div>
-
-
-<!-- ========================= -->
-<!-- TELA DE TESTEMUNHAS -->
-<!-- ========================= -->
-<div id="screen-witnesses" class="screen">
-    <h2 class="section-title center">TESTEMUNHAS</h2>
-
-    <div id="witnessList" class="list-container">
-        <!-- testemunhas geradas via JS -->
-    </div>
-
-    <button class="btn-secondary mt20" onclick="goTo('case')">Voltar</button>
-</div>
-
-
-<!-- ========================= -->
-<!-- TELA DE PROVAS -->
-<!-- ========================= -->
-<div id="screen-evidence" class="screen">
-    <h2 class="section-title center">PROVAS</h2>
-
-    <div id="evidenceList" class="list-container">
-        <!-- provas via JS -->
-    </div>
-
-    <button class="btn-secondary mt20" onclick="goTo('case')">Voltar</button>
-</div>
-
-
-<!-- ========================= -->
-<!-- TELA DE SUSPEITOS -->
-<!-- ========================= -->
-<div id="screen-suspects" class="screen">
-    <h2 class="section-title center">SUSPEITOS</h2>
-
-    <div id="suspectList" class="list-container">
-        <!-- suspeitos via JS -->
-    </div>
-
-    <button class="btn-secondary mt20" onclick="goTo('case')">Voltar</button>
-</div>
-
-
-<!-- ========================= -->
-<!-- JS PRINCIPAL -->
-<!-- ========================= -->
-<script src="game.js"></script>
-
+  <!-- Lógica do jogo -->
+  <script src="game.js"></script>
 </body>
 </html>
