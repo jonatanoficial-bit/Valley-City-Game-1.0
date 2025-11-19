@@ -1,55 +1,45 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valley City • Unidade de Investigação</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Valley City: Police Investigations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- CSS PRINCIPAL -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Segurança: caso alguém esqueça de colocar no style.css */
+    #bg-layer {
+      position: fixed;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      pointer-events: none !important;
+      z-index: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+  </style>
 </head>
 
 <body>
+  <!-- FUNDO CINEMATOGRÁFICO (não pega clique) -->
+  <div id="bg-layer"></div>
 
-<div id="app">
-    <!-- TELA INICIAL -->
-    <section id="startScreen" class="screen active">
-        <div class="centerBox">
-            <h1>INÍCIO</h1>
-            <p>Bem-vindo a Valley City. Uma cidade violenta, poucos policiais e crimes demais.</p>
-            <button onclick="startGame()">INICIAR / CARREGAR JOGO</button>
-        </div>
-    </section>
+  <!-- CONTAINER PRINCIPAL DO JOGO -->
+  <div id="app">
+    <!-- Tela carregada pelo game.js -->
+  </div>
 
-    <!-- TELA DO CASO -->
-    <section id="caseScreen" class="screen">
-        <div id="caseHeader">
-            <h2 id="caseTitle">Cena do Caso</h2>
-        </div>
-
-        <div id="caseScene" class="caseScene"></div>
-
-        <button id="startInvestigationBtn" onclick="openInvestigation()">Iniciar Investigação</button>
-    </section>
-
-    <!-- TELA DE INVESTIGAÇÃO -->
-    <section id="investigationScreen" class="screen">
-
-        <h2 id="caseTitle2"></h2>
-        <p id="caseDescription"></p>
-
-        <h3>Testemunhas</h3>
-        <div id="witnesses" class="horizontalList"></div>
-
-        <h3>Suspeitos</h3>
-        <div id="suspects" class="horizontalList"></div>
-
-        <h3>Provas</h3>
-        <div id="evidence" class="horizontalList"></div>
-
-        <button onclick="returnToCase()">Voltar</button>
-    </section>
-
-</div>
-
-<script src="game.js"></script>
+  <!-- SCRIPT DO JOGO -->
+  <script src="game.js"></script>
 </body>
 </html>
