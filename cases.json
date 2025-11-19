@@ -1,565 +1,431 @@
 [
   {
-    "id": 1,
-    "agency": "PD",
-    "difficulty": "easy",
-    "name": "Homicídio no Motel Riverside",
+    "id": "case01",
+    "name": "Homicídio no Motel Aurora",
+    "description": "Um corpo foi encontrado em um quarto do Motel Aurora, na saída leste de Valley City. Há sinais de luta, mas quase nenhuma testemunha disposta a falar.",
     "introImage": "crime_scene_01",
-    "description": "Um corpo foi encontrado em um quarto do Motel Riverside. A vítima, um empresário local, foi morta entre 22h30 e 23h15.",
+
     "witnesses": [
       {
         "id": "w1",
-        "name": "Recepcionista do Motel",
-        "role": "Funcionário",
+        "name": "Carla Mendes",
+        "role": "Recepcionista do motel",
         "image": "witness_01",
-        "initial": "Eu estava na recepção a noite toda. Vi a vítima entrar com alguém por volta das 22h10.",
+        "initial": "Eu estava no balcão quando ouvi uma discussão no quarto 207. Uns 10 minutos depois, o hóspede do quarto ao lado ligou dizendo que tinha escutado algo pesado caindo.",
         "answers": {
-          "where": "Eu estava na recepção, conferindo as reservas e câmeras. Não saí de lá.",
-          "knowVictim": "Eu não conhecia a vítima pessoalmente, mas ele já tinha se hospedado antes.",
-          "seeSomeone": "Vi um homem alto de jaqueta preta subir com ele. Pareciam discutir baixinho no corredor.",
-          "hear": "Escutei algo como uma porta batendo forte por volta das 22h40, mas achei que era só briga de casal.",
-          "moreInfo": "Depois disso, ninguém mais saiu pelo corredor da câmera. Só vi o homem de jaqueta preta descer às 23h20, apressado."
+          "where": "Eu estava na recepção, conferindo as reservas da madrugada.",
+          "knowVictim": "Eu só sabia o primeiro nome pelo cadastro: Lucas. Ele pagou em dinheiro e estava visivelmente nervoso.",
+          "seeSomeone": "Eu vi uma mulher entrando com ele, cabelo castanho, jaqueta de couro escura. Ela não quis se identificar.",
+          "hear": "Ouvi vozes altas, parecia uma briga de casal. Depois um barulho forte, como se algo caísse ou fosse empurrado.",
+          "moreInfo": "Pouco antes de subir, vi um carro preto parado na rua lateral. Achei estranho porque não era cliente do motel."
         }
       },
       {
         "id": "w2",
-        "name": "Hóspede do Quarto ao Lado",
-        "role": "Testemunha",
-        "image": "witness_03",
-        "initial": "Eu estava vendo TV, mas ouvi uma discussão e algo pesado caindo.",
+        "name": "Jeff Turner",
+        "role": "Hóspede do quarto ao lado",
+        "image": "witness_02",
+        "initial": "Eu estava tentando dormir. De repente, ouvi gritos, xingamentos e depois um baque forte. Fiquei com medo de sair.",
         "answers": {
-          "where": "Eu estava no quarto ao lado, deitado na cama tentando dormir.",
-          "knowVictim": "Nunca tinha visto a vítima antes. Só ouvi vozes de homem discutindo.",
-          "seeSomeone": "Pela fresta da porta, vi um homem alto, barba rala, descendo rápido as escadas.",
-          "hear": "Ouvi xingamentos, algo como \"você acabou com tudo\", depois um barulho seco.",
-          "moreInfo": "O barulho de algo caindo foi por volta das 22h45, eu chequei no celular logo depois."
+          "where": "Eu estava no quarto 208, deitado na cama, com a TV desligada.",
+          "knowVictim": "Não conhecia. Só ouvi alguém batendo a porta do quarto 207 mais cedo naquela noite.",
+          "seeSomeone": "Pelo olho mágico, vi apenas uma sombra saindo rápido, parecia ser uma única pessoa, usando capuz.",
+          "hear": "Ouvi algo como 'você arruinou tudo' e depois um grito curto.",
+          "moreInfo": "Acho que depois do baque alguém trancou a porta com pressa. Os passos no corredor foram bem rápidos."
+        }
+      },
+      {
+        "id": "w3",
+        "name": "Oficial Ramirez",
+        "role": "Primeiro policial na cena",
+        "image": "witness_03",
+        "initial": "Quando cheguei, a porta estava trancada por dentro. Tivemos que arrombá-la. Não havia sinais de fuga pela janela.",
+        "answers": {
+          "where": "Eu estava em patrulha nas proximidades quando a central chamou para atender à ocorrência.",
+          "knowVictim": "Ainda não, só depois no sistema soubemos que ele tinha passagem por fraude financeira.",
+          "seeSomeone": "Quando cheguei, o corredor estava vazio, só a recepcionista e o gerente na recepção.",
+          "hear": "Não ouvi nada além do barulho da porta sendo arrombada pela equipe.",
+          "moreInfo": "O corpo estava próximo à cama, e havia uma mala aberta com papéis espalhados. Não mexemos em nada até a perícia chegar."
+        }
+      },
+      {
+        "id": "w4",
+        "name": "Gerente do Motel",
+        "role": "Gerente",
+        "image": "witness_05",
+        "initial": "Eu estava no escritório cuidando das planilhas. Só desci quando a recepcionista me chamou dizendo que havia algo errado.",
+        "answers": {
+          "where": "No escritório, nos fundos do prédio, revisando o caixa.",
+          "knowVictim": "Não pessoalmente. Era mais um cliente anônimo, pagou em dinheiro e pediu discrição.",
+          "seeSomeone": "Vi na câmera do corredor uma pessoa de jaqueta escura saindo, mas o rosto não aparece.",
+          "hear": "Nada, meu escritório é isolado acusticamente.",
+          "moreInfo": "As câmeras da garagem estavam desligadas. Alguém mexeu no DVR algumas horas antes."
+        }
+      },
+      {
+        "id": "w5",
+        "name": "Vizinho da rua lateral",
+        "role": "Morador local",
+        "image": "witness_06",
+        "initial": "Eu só percebi um carro preto acelerando forte por volta das 23h30. O motel costuma ser barulhento, mas essa noite parecia pior.",
+        "answers": {
+          "where": "Eu estava na varanda, fumando, olhando a rua.",
+          "knowVictim": "Não, nunca o vi antes.",
+          "seeSomeone": "Só vi o carro, um sedã preto, com película escura. Placa começando com VCL.",
+          "hear": "Um barulho de pneu cantando, e alguém gritando ao longe, mas não deu pra entender.",
+          "moreInfo": "Esse carro preto já apareceu antes por aqui, geralmente não estaciona na entrada principal."
         }
       }
     ],
+
     "suspects": [
       {
         "id": "s1",
-        "name": "Mark Thompson",
+        "name": "Marina Costa",
+        "occupation": "Ex-namorada da vítima",
+        "age": 29,
+        "address": "Bairro Riverside, apartamento 302",
+        "record": "Sem antecedentes criminais. Boletim de ocorrência por ameaça há 2 meses, envolvendo a vítima.",
         "image": "suspect_01",
-        "age": 38,
-        "occupation": "Sócio do negócio da vítima",
-        "address": "Bairro Central, Valley City",
-        "record": "Sem antecedentes criminais, mas com dívidas recentes.",
-        "alibi": "Diz que estava em casa sozinho, revisando contratos.",
         "isGuilty": true,
-        "stats": { "stress": 60, "confidence": 45, "anger": 35 },
+        "stats": { "stress": 45, "confidence": 60, "anger": 30 },
         "answers": {
-          "alibi": "Eu estava em casa, revisando documentos. Ninguém pode comprovar, infelizmente.",
-          "relation": "Ele era meu sócio. Tínhamos divergências, mas nada que levasse a isso.",
-          "motive": "As pessoas sabem que brigamos por causa de dinheiro, mas eu nunca faria isso.",
-          "witness": "Não, eu moro sozinho. Ninguém me viu, isso é verdade.",
-          "stress": "Eu estou nervoso porque isso é um absurdo. Ninguém quer ser acusado de algo assim.",
-          "weapon": "Eu tenho uma pistola registrada, mas está guardada no cofre. Podem verificar."
+          "alibi": "Eu estava na casa da minha avó jogando videogame com meu irmão. Ele pode confirmar.",
+          "relation": "Tivemos um relacionamento complicado. Ele me traiu e me envolveu em dívidas que não eram minhas.",
+          "motive": "Talvez as pessoas achem que eu seria capaz de algo assim por causa das brigas, mas eu só queria distância.",
+          "witness": "Meu irmão estava comigo a noite toda. Pergunta pra ele.",
+          "stress": "Ninguém gosta de ser acusado de assassinato. Estou nervosa, sim.",
+          "weapon": "Eu não tenho arma. E nunca toquei em nada relacionado a isso."
         },
         "warrantEvidence": [
           {
-            "id": "wE1_case1",
-            "title": "Arma com resíduos de pólvora",
-            "type": "Físico",
-            "image": "evidence_weapon_01",
-            "description": "Pistola encontrada no cofre da casa de Mark, com resíduos de pólvora recente.",
-            "relevance": "Balística compatível com o calibre usado no homicídio."
+            "id": "w1_e1",
+            "title": "Jaqueta de couro manchada",
+            "type": "Objeto",
+            "description": "Jaqueta de couro escura com pequenas manchas de sangue compatíveis com o tipo sanguíneo da vítima.",
+            "image": "evidence_obj_01",
+            "relevance": "Aumenta a ligação física de Marina com a cena do crime."
           },
           {
-            "id": "wE2_case1",
-            "title": "Contrato rasgado",
+            "id": "w1_e2",
+            "title": "Mensagens impressas",
             "type": "Documento",
+            "description": "Impressões de mensagens onde Marina ameaça 'acertar as contas' com Lucas pela fraude.",
             "image": "evidence_doc_01",
-            "description": "Contrato rasgado encontrado no lixo do escritório de Mark, com anotações de ameaça.",
-            "relevance": "Indica forte motivação financeira e conflito direto com a vítima."
+            "relevance": "Indica forte motivação emocional e financeira."
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Bruno Sanches",
+        "occupation": "Parceiro de negócios da vítima",
+        "age": 34,
+        "address": "Centro financeiro de Valley City, loft 905",
+        "record": "Suspeito em investigação de lavagem de dinheiro, sem condenações.",
+        "image": "suspect_02",
+        "isGuilty": false,
+        "stats": { "stress": 30, "confidence": 70, "anger": 20 },
+        "answers": {
+          "alibi": "Eu estava em uma reunião com investidores, online, das 22h às 23h30. Há registros de login.",
+          "relation": "Sócios, mais nada. Ele tomava riscos que eu não tomaria.",
+          "motive": "Se alguém acha que eu o mataria por negócios, não entende como o mundo real funciona.",
+          "witness": "Qualquer pessoa na chamada de vídeo pode confirmar minha presença.",
+          "stress": "Este tipo de acusação pode arruinar uma carreira inteira, é claro que estou tenso.",
+          "weapon": "Nunca precisei de armas. Meu trabalho é com contratos, não com violência."
+        },
+        "warrantEvidence": [
+          {
+            "id": "w1_e3",
+            "title": "Agenda com anotação de reunião",
+            "type": "Documento",
+            "description": "Agenda física marcando reunião online no mesmo horário do crime.",
+            "image": "evidence_text_01",
+            "relevance": "Corrobora parcialmente o álibi, mas precisa ser cruzado com registros digitais."
+          }
+        ]
+      },
+      {
+        "id": "s3",
+        "name": "Eduardo Lima",
+        "occupation": "Motorista de aplicativo",
+        "age": 41,
+        "address": "Subúrbio norte, casa 12",
+        "record": "Uma passagem antiga por direção perigosa.",
+        "image": "suspect_03",
+        "isGuilty": false,
+        "stats": { "stress": 25, "confidence": 50, "anger": 15 },
+        "answers": {
+          "alibi": "Eu deixei um passageiro no motel por volta das 21h50 e depois continuei as corridas.",
+          "relation": "Só um cliente. Nunca tinha visto esse homem antes.",
+          "motive": "Não tenho motivo algum. Eu só dirijo.",
+          "witness": "Os registros do aplicativo mostram meu trajeto e horário.",
+          "stress": "Ser envolvido num caso de homicídio só porque você faz corridas na região é absurdo.",
+          "weapon": "Não tenho arma, e o carro foi vistoriado."
+        },
+        "warrantEvidence": []
+      }
+    ],
+
+    "evidence": [
+      {
+        "id": "e1",
+        "title": "Fotos da cena do crime",
+        "type": "Fotografia",
+        "description": "Fotos do corpo próximo à cama, mala aberta e papéis espalhados pelo quarto.",
+        "image": "crime_scene_01",
+        "relevance": "Mostra sinais de luta concentrados próximos à cama, sem tentativa de fuga pela janela."
+      },
+      {
+        "id": "e2",
+        "title": "Relatório parcial da perícia",
+        "type": "Documento",
+        "description": "Causa da morte: forte impacto na parte posterior da cabeça, possivelmente contra a quina da mesa.",
+        "image": "evidence_doc_02",
+        "relevance": "Sugere briga física levando a empurrão, e não apenas ataque com arma."
+      },
+      {
+        "id": "e3",
+        "title": "Registros de mensagens da vítima",
+        "type": "Digital",
+        "description": "Mensagens recentes mostrando discussão intensa com Marina sobre dívidas e traições.",
+        "image": "evidence_text_01",
+        "relevance": "Estabelece motivo emocional e financeiro para Marina."
+      }
+    ]
+  },
+
+  {
+    "id": "case02",
+    "name": "Assalto à Joalheria Central",
+    "description": "Uma joalheria de luxo no centro de Valley City foi assaltada minutos antes de fechar. O sistema de alarme falhou e a polícia chegou tarde demais.",
+    "introImage": "crime_scene_02",
+
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Helena Foster",
+        "role": "Caixa da joalheria",
+        "image": "witness_11",
+        "initial": "Eu estava fechando o caixa quando dois indivíduos entraram usando máscaras simples e jaquetas largas. Um deles parecia conhecer bem o sistema.",
+        "answers": {
+          "where": "Atrás do balcão, conferindo notas fiscais e o caixa.",
+          "knowVictim": "A vítima principal foi o segurança, o senhor Collins. Eu trabalhava com ele há anos.",
+          "seeSomeone": "Um dos assaltantes tinha tatuagem visível no pescoço, uma espécie de coroa.",
+          "hear": "Eles sabiam onde estavam as câmeras e pediram para eu não acionar o alerta silencioso.",
+          "moreInfo": "Um ex-funcionário, Daniel, foi demitido recentemente e sabia como o alarme funcionava."
+        }
+      },
+      {
+        "id": "w2",
+        "name": "Thomas Collins",
+        "role": "Segurança (sobreviveu com ferimentos)",
+        "image": "witness_12",
+        "initial": "Tentaram me render pelas costas, mas eu reagi. Levei uma coronhada e desmaiei. Lembro só de ouvir um deles chamando o outro de 'Dani'.",
+        "answers": {
+          "where": "Próximo à porta de entrada, fazendo a ronda final.",
+          "knowVictim": "Eu sou o segurança, não vítima mortal, mas quase virei uma.",
+          "seeSomeone": "Só tive certeza de que um deles mancava levemente da perna esquerda.",
+          "hear": "Ouvi 'Dani, rápido, pega o estojo azul'. Isso ficou martelando na minha cabeça.",
+          "moreInfo": "Um dos assaltantes parecia hesitar, como se não estivesse acostumado com violência."
+        }
+      }
+    ],
+
+    "suspects": [
+      {
+        "id": "s1",
+        "name": "Daniel Ortiz",
+        "occupation": "Ex-técnico de segurança da joalheria",
+        "age": 32,
+        "address": "Bairro Industrial, galpão adaptado",
+        "record": "Demissão recente por violar protocolos internos, sem antecedentes criminais graves.",
+        "image": "suspect_04",
+        "isGuilty": true,
+        "stats": { "stress": 60, "confidence": 40, "anger": 35 },
+        "answers": {
+          "alibi": "Eu estava em casa arrumando currículo. Desde que fui demitido, não saio muito.",
+          "relation": "Trabalhei anos lá. Fui demitido por um erro que não foi só meu.",
+          "motive": "Perdi o emprego e não recebi nada justo. Mas isso não quer dizer que eu roubaria o lugar.",
+          "witness": "Meu vizinho às vezes me vê em casa, mas naquela hora não tenho certeza.",
+          "stress": "Perder o emprego mexe com qualquer um. Não significa que eu seja um ladrão.",
+          "weapon": "Nunca tive arma. E se alguém usou meu conhecimento, não fui eu."
+        },
+        "warrantEvidence": [
+          {
+            "id": "c2_e1",
+            "title": "Estojo azul vazio",
+            "type": "Objeto",
+            "description": "Estojo idêntico ao usado na joalheria para guardar as peças mais caras, encontrado no galpão de Daniel.",
+            "image": "evidence_obj_02",
+            "relevance": "Conecta diretamente o local de Daniel aos itens roubados."
+          },
+          {
+            "id": "c2_e2",
+            "title": "Máscara de tecido",
+            "type": "Objeto",
+            "description": "Máscara simples com resquícios de partículas de vidro compatíveis com a vitrine quebrada.",
+            "image": "evidence_obj_03",
+            "relevance": "Sugere participação ou contato direto com o cenário do crime."
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "name": "Leonard Price",
+        "occupation": "Cliente frequente",
+        "age": 45,
+        "address": "Condomínio de luxo, Torre A, ap. 1501",
+        "record": "Envolvido em processos civis por dívidas, sem condenações criminais.",
+        "image": "suspect_05",
+        "isGuilty": false,
+        "stats": { "stress": 35, "confidence": 65, "anger": 20 },
+        "answers": {
+          "alibi": "Eu estava em um jantar de negócios, posso fornecer nomes.",
+          "relation": "Compro presentes lá com frequência, principalmente joias personalizadas.",
+          "motive": "Dívidas não me fariam assaltar uma loja que frequento há anos.",
+          "witness": "Os convidados do jantar podem confirmar minha presença.",
+          "stress": "Ser associado a isso é injusto. Estou cooperando.",
+          "weapon": "Jamais. Não tenho arma e não preciso disso."
+        },
+        "warrantEvidence": []
+      }
+    ],
+
+    "evidence": [
+      {
+        "id": "e1",
+        "title": "Imagens da câmera interna",
+        "type": "Digital",
+        "description": "Mostram dois assaltantes com máscaras simples, um deles usando jaqueta idêntica à de Daniel em fotos antigas.",
+        "image": "evidence_room",
+        "relevance": "Sugere que alguém com acesso prévio ao sistema sabia pontos cegos das câmeras."
+      },
+      {
+        "id": "e2",
+        "title": "Relatório do alarme",
+        "type": "Documento",
+        "description": "Falha no alarme coincidindo com horário em que credenciais antigas ainda estavam ativas.",
+        "image": "evidence_doc_01",
+        "relevance": "Indica uso indevido de credenciais internas, possivelmente de ex-funcionário."
+      }
+    ]
+  },
+
+  {
+    "id": "case03",
+    "name": "Incêndio Suspeito em Armazém",
+    "description": "Um armazém no bairro portuário pegou fogo durante a madrugada. Há indícios de incêndio criminoso para ocultar outras atividades.",
+    "introImage": "crime_scene_03",
+
+    "witnesses": [
+      {
+        "id": "w1",
+        "name": "Miguel Herrera",
+        "role": "Vigia noturno do galpão ao lado",
+        "image": "witness_13",
+        "initial": "Eu vi um furgão branco estacionar perto do armazém umas 2 horas antes do incêndio. Depois disso, só percebi as chamas.",
+        "answers": {
+          "where": "Eu estava no meu posto de vigilância, com visão parcial da rua lateral.",
+          "knowVictim": "Conheço o dono só de vista, sempre apressado e falando ao telefone.",
+          "seeSomeone": "Vi duas figuras descendo do furgão, uma delas carregando algo como um galão.",
+          "hear": "Ouvi barulho de metal batendo e algo como um estouro menor antes do incêndio maior.",
+          "moreInfo": "Esse armazém quase nunca recebe mercadoria à noite. Foi estranho ver movimento."
+        }
+      },
+      {
+        "id": "w2",
+        "name": "Tenente Harper",
+        "role": "Bombeiro responsável pelo combate",
+        "image": "witness_14",
+        "initial": "O fogo começou muito rápido, típico de combustível acelerante. As saídas de emergência estavam parcialmente bloqueadas.",
+        "answers": {
+          "where": "Liderando a equipe de combate ao fogo na fachada principal.",
+          "knowVictim": "Não, só fomos informados que era um armazém de estocagem diversa.",
+          "seeSomeone": "Quando chegamos, só curiosos na rua, ninguém fugindo.",
+          "hear": "Apenas estouros de material queimando.",
+          "moreInfo": "O padrão de queima indica que o fogo começou em pelo menos dois pontos diferentes."
+        }
+      }
+    ],
+
+    "suspects": [
+      {
+        "id": "s1",
+        "name": "Henry Doyle",
+        "occupation": "Proprietário do armazém",
+        "age": 52,
+        "address": "Bairro residencial West Hills",
+        "record": "Histórico de dívidas, seguro alto contratado recentemente.",
+        "image": "suspect_06",
+        "isGuilty": true,
+        "stats": { "stress": 55, "confidence": 50, "anger": 25 },
+        "answers": {
+          "alibi": "Eu estava em casa dormindo. Minha esposa pode confirmar.",
+          "relation": "O armazém era meu investimento principal. Perdi tudo.",
+          "motive": "Se eu estivesse desesperado, teria vendido o imóvel, não ateado fogo.",
+          "witness": "Minha esposa e minha conta de streaming mostram que eu estava vendo TV até tarde.",
+          "stress": "Você não tem ideia do que é ver seu negócio pegando fogo.",
+          "weapon": "Não tenho nada a ver com combustível. Esse tipo de coisa fica com transportadoras."
+        },
+        "warrantEvidence": [
+          {
+            "id": "c3_e1",
+            "title": "Apólice de seguro recente",
+            "type": "Documento",
+            "description": "Seguro ampliado para cobertura de incêndio assinado apenas duas semanas antes.",
+            "image": "evidence_doc_02",
+            "relevance": "Indica possível motivação financeira clara para o incêndio."
+          },
+          {
+            "id": "c3_e2",
+            "title": "Recibo de compra de combustível",
+            "type": "Documento",
+            "description": "Recibo de grande quantidade de combustível adquirido em nome de um intermediário ligado a Henry.",
+            "image": "evidence_text_01",
+            "relevance": "Conecta indiretamente Henry ao material usado para iniciar o fogo."
           }
         ]
       },
       {
         "id": "s2",
         "name": "Jason Reed",
-        "image": "suspect_02",
-        "age": 29,
-        "occupation": "Garçom",
-        "address": "Zona Leste, Valley City",
-        "record": "Uma briga de bar registrada, sem condenação.",
-        "alibi": "Diz que estava trabalhando em um restaurante até meia-noite.",
-        "isGuilty": false,
-        "stats": { "stress": 45, "confidence": 60, "anger": 20 },
-        "answers": {
-          "alibi": "Eu estava no meu turno no restaurante até meia-noite. O gerente e colegas podem confirmar.",
-          "relation": "Só conhecia a vítima como cliente. Ele ia algumas vezes lá.",
-          "motive": "Não tenho motivo nenhum, sou só um garçom tentando sobreviver.",
-          "witness": "Meu gerente, dois colegas de trabalho e até clientes podem confirmar que eu estava lá, ocupado.",
-          "stress": "Estou nervoso porque isso pode acabar com meu emprego, mas estou falando a verdade.",
-          "weapon": "Não tenho arma, nunca tive. A única coisa que eu seguro é bandeja."
-        }
-      }
-    ],
-    "evidence": [
-      {
-        "id": "e1_case1",
-        "title": "Gravação de Câmera do Corredor",
-        "type": "Vídeo",
-        "image": "evidence_doc_01",
-        "description": "Mostra a vítima entrando no quarto às 22h10, acompanhada de um homem alto com jaqueta preta. O homem sai sozinho às 23h20.",
-        "relevance": "Confirma o relato da recepcionista e do hóspede do quarto ao lado."
-      },
-      {
-        "id": "e2_case1",
-        "title": "Mensagem de Ameaça",
-        "type": "Digital",
-        "image": "evidence_text_01",
-        "description": "Mensagem no celular da vítima, enviada algumas horas antes: \"Se você fechar esse contrato sem mim, vai se arrepender\". Assinada por Mark.",
-        "relevance": "Indica motivo financeiro e ameaça prévia, ligando Mark à vítima."
-      }
-    ]
-  },
-  {
-    "id": 2,
-    "agency": "PD",
-    "difficulty": "easy",
-    "name": "Roubo à Joalheria Midtown",
-    "introImage": "crime_scene_02",
-    "description": "Uma joalheria foi assaltada à mão armada às 14h05. Os criminosos fugiram em um carro preto.",
-    "witnesses": [
-      {
-        "id": "w1",
-        "name": "Vendedor da Joalheria",
-        "role": "Vítima",
-        "image": "witness_05",
-        "initial": "Dois sujeitos entraram, um apontou a arma, o outro pegou as joias.",
-        "answers": {
-          "where": "Eu estava atrás do balcão, arrumando vitrines.",
-          "knowVictim": "Eu não conhecia os assaltantes. Mas um deles parecia reconhecer o lugar.",
-          "seeSomeone": "O que apontava a arma tinha tatuagem no pescoço, uma espécie de cobra.",
-          "hear": "Eles falaram entre si que o \"motorista\" estaria esperando do lado de fora.",
-          "moreInfo": "O carro preto tinha placa começando com VCX, mas não consegui ver o restante."
-        }
-      }
-    ],
-    "suspects": [
-      {
-        "id": "s1",
-        "name": "Derek Collins",
-        "image": "suspect_03",
-        "age": 32,
-        "occupation": "Desempregado",
-        "address": "Zona Norte, Valley City",
-        "record": "Dois registros de roubo, um de receptação.",
-        "alibi": "Diz que estava em casa assistindo TV.",
-        "isGuilty": true,
-        "stats": { "stress": 70, "confidence": 35, "anger": 50 },
-        "answers": {
-          "alibi": "Tava em casa vendo jogo, sozinho. Ninguém pode provar, mas é verdade.",
-          "relation": "Nem sei onde fica essa joalheria direito.",
-          "motive": "Todo mundo sabe que tô quebrado, mas isso não prova nada.",
-          "witness": "Ninguém, moro sozinho.",
-          "stress": "Tatuagem no pescoço? Tem um monte de gente com tatuagem, isso não quer dizer nada.",
-          "weapon": "Não tenho arma nenhuma, se tivesse a polícia já tinha achado."
-        },
-        "warrantEvidence": [
-          {
-            "id": "wE1_case2",
-            "title": "Saco com joias etiquetadas",
-            "type": "Físico",
-            "image": "evidence_obj_01",
-            "description": "Saco com joias ainda com etiquetas da joalheria, encontrado debaixo da cama de Derek.",
-            "relevance": "Liga diretamente Derek ao produto do roubo."
-          }
-        ]
-      },
-      {
-        "id": "s2",
-        "name": "Kevin Morales",
-        "image": "suspect_04",
-        "age": 27,
-        "occupation": "Motorista de aplicativo",
-        "address": "Centro, Valley City",
-        "record": "Sem antecedentes.",
-        "alibi": "Afirma que estava rodando com clientes, com registro no app.",
-        "isGuilty": false,
-        "stats": { "stress": 35, "confidence": 70, "anger": 25 },
-        "answers": {
-          "alibi": "Eu estava em corrida o dia todo, o aplicativo registra tudo.",
-          "relation": "Não conheço esses caras, nem entro em bairro suspeito.",
-          "motive": "Não faz sentido arriscar meu trabalho por isso.",
-          "witness": "Os próprios registros do app e os passageiros podem confirmar isso.",
-          "stress": "Só estou tenso porque isso mancha a reputação, mas confio que o sistema vai provar minha inocência.",
-          "weapon": "Não tenho arma, nem carteira vencida eu tenho."
-        }
-      }
-    ],
-    "evidence": [
-      {
-        "id": "e1_case2",
-        "title": "Câmera Externa",
-        "type": "Vídeo",
-        "image": "evidence_doc_02",
-        "description": "Mostra carro preto, placa VCX-2H19, com Derek no banco do passageiro.",
-        "relevance": "Contradiz o álibi de Derek, ligando-o ao veículo usado na fuga."
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "agency": "PD",
-    "difficulty": "medium",
-    "name": "Corpo Encontrado no Beco da 9ª Avenida",
-    "introImage": "crime_scene_03",
-    "description": "Um jovem foi encontrado morto em um beco escuro. Há sinais de luta.",
-    "witnesses": [
-      {
-        "id": "w1",
-        "name": "Morador de Rua",
-        "role": "Testemunha",
-        "image": "witness_06",
-        "initial": "Eu estava dormindo num canto quando ouvi gente brigando.",
-        "answers": {
-          "where": "Eu estava deitado perto das caixas, na mesma rua do beco.",
-          "knowVictim": "Já tinha visto a vítima passar algumas vezes, parecia estudante.",
-          "seeSomeone": "Vi um cara de capuz empurrando ele, e outro segurando algo brilhante.",
-          "hear": "Ouvi um deles dizer \"Passa tudo, rápido\", e depois um grito.",
-          "moreInfo": "Depois, ouvi passos correndo para a avenida principal, em direção à parada de ônibus."
-        }
-      }
-    ],
-    "suspects": [
-      {
-        "id": "s1",
-        "name": "Leo Martins",
-        "image": "suspect_05",
-        "age": 20,
-        "occupation": "Estudante",
-        "address": "Zona Leste",
-        "record": "Nenhum antecedente.",
-        "alibi": "Diz que estava em uma festa de universidade.",
-        "isGuilty": false,
-        "stats": { "stress": 40, "confidence": 60, "anger": 25 },
-        "answers": {
-          "alibi": "Eu estava na festa da faculdade, muita gente pode confirmar.",
-          "relation": "Ele era meu colega de classe, a gente se dava bem.",
-          "motive": "Não tenho motivo, isso é um choque pra mim.",
-          "witness": "Meus amigos, o segurança da faculdade, o DJ, todo mundo me viu lá.",
-          "stress": "Estou em choque, não com raiva.",
-          "weapon": "Nunca tive arma, nem faca de cozinha eu mexo direito."
-        }
-      },
-      {
-        "id": "s2",
-        "name": "Rafa dos Becos",
-        "image": "suspect_06",
-        "age": 24,
-        "occupation": "Vendedor ambulante informal",
-        "address": "Próximo à 9ª Avenida",
-        "record": "Dois registros de furto e um de agressão.",
-        "alibi": "Afirma que estava vendendo mercadorias em outra rua.",
-        "isGuilty": true,
-        "stats": { "stress": 65, "confidence": 40, "anger": 55 },
-        "answers": {
-          "alibi": "Eu tava vendendo minhas coisas umas duas quadras pra cima, longe desse beco.",
-          "relation": "Nunca vi esse garoto antes, só sei que às vezes estudantes passam por ali.",
-          "motive": "Motivo? Tô tentando ganhar dinheiro na rua, não arrumar problema.",
-          "witness": "Talvez alguém me viu vendendo na esquina, mas eu não lembro de rosto.",
-          "stress": "Tô nervoso porque vocês sempre olham pra quem já tem passagem.",
-          "weapon": "Não ando com arma. Quando muito, uma chave de fenda pra arrumar carrinho."
-        },
-        "warrantEvidence": [
-          {
-            "id": "wE1_case3",
-            "title": "Carteira da vítima com documentos",
-            "type": "Físico",
-            "image": "evidence_obj_01",
-            "description": "Carteira da vítima encontrada em uma caixa escondida na barraca de Rafa.",
-            "relevance": "Liga diretamente Rafa ao roubo com violência."
-          }
-        ]
-      }
-    ],
-    "evidence": [
-      {
-        "id": "e1_case3",
-        "title": "Carteira da Vítima Encontrada Vazia",
-        "type": "Objeto",
-        "image": "evidence_obj_01",
-        "description": "A carteira da vítima foi achada aberta, sem dinheiro.",
-        "relevance": "Indica possível roubo com violência, coerente com histórico de Rafa."
-      },
-      {
-        "id": "e2_case3",
-        "title": "Câmera da Rua Paralela",
-        "type": "Vídeo",
-        "image": "evidence_doc_01",
-        "description": "Gravação mostra Rafa correndo em direção à avenida poucos minutos após a hora estimada da morte.",
-        "relevance": "Contradiz o álibi de Rafa e reforça a acusação."
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "agency": "PD",
-    "difficulty": "medium",
-    "name": "Fraude Bancária Digital",
-    "introImage": "case_scene_bg",
-    "description": "Várias contas foram esvaziadas em Valley City usando acesso online de dentro de uma mesma residência.",
-    "witnesses": [
-      {
-        "id": "w1",
-        "name": "Analista de TI do Banco",
-        "role": "Perito Digital",
-        "image": "witness_11",
-        "initial": "Todas as tentativas de login partiram do mesmo IP residencial.",
-        "answers": {
-          "where": "Eu estava no centro de monitoramento do banco quando o alerta disparou.",
-          "knowVictim": "Conheço apenas pelos registros, são clientes antigos.",
-          "seeSomeone": "Pelos dados de rede, a conexão veio de uma casa na zona norte.",
-          "hear": "Os logs mostram tentativa de acesso em sequência, pulando de uma conta para outra.",
-          "moreInfo": "O IP está fixo em nome de um morador: o irmão de um dos investigados."
-        }
-      }
-    ],
-    "suspects": [
-      {
-        "id": "s1",
-        "name": "Andrew Blake",
+        "occupation": "Motorista de furgão",
+        "age": 38,
+        "address": "Zona portuária, quarto alugado",
+        "record": "Pequenos furtos na juventude, nada grave nos últimos anos.",
         "image": "suspect_07",
-        "age": 30,
-        "occupation": "Técnico em informática",
-        "address": "Zona Norte",
-        "record": "Sem antecedentes.",
-        "alibi": "Afirma que estava viajando e outro familiar usou o computador.",
-        "isGuilty": true,
-        "stats": { "stress": 55, "confidence": 50, "anger": 30 },
+        "isGuilty": false,
+        "stats": { "stress": 40, "confidence": 55, "anger": 20 },
         "answers": {
-          "alibi": "Eu estava viajando, meu irmão ficou em casa, qualquer coisa foi ele que mexeu.",
-          "relation": "Nenhuma relação direta com as vítimas, só vejo nomes nos registros.",
-          "motive": "Eu não ganharia nada com isso, tenho meu próprio trabalho.",
-          "witness": "Meu irmão pode confirmar que eu não estava em casa, mas ele é suspeito também, pelo visto.",
-          "stress": "Estou tenso porque isso envolve minha área, fica parecendo que eu sou culpado só por entender de TI.",
-          "weapon": "Minha 'arma' é um computador, mas não usei pra isso."
+          "alibi": "Trabalhei fazendo entregas, mas meu turno acabou antes da meia-noite.",
+          "relation": "Só transporto mercadorias. Se descarreguei ali, foi trabalho.",
+          "motive": "Nenhum. Eu só quero receber em dia.",
+          "witness": "Meu supervisor e registros de GPS do furgão.",
+          "stress": "Ser ligado a isso pode me tirar o emprego. Claro que estou tenso.",
+          "weapon": "O furgão já carregou combustível, mas sempre dentro das normas."
         },
-        "warrantEvidence": [
-          {
-            "id": "wE1_case4",
-            "title": "Planilha de acessos bancários",
-            "type": "Digital",
-            "image": "evidence_text_01",
-            "description": "Planilha com logins e senhas de várias vítimas, encontrada no computador de Andrew.",
-            "relevance": "Mostra preparo e conhecimento técnico para executar a fraude."
-          }
-        ]
+        "warrantEvidence": []
+      }
+    ],
+
+    "evidence": [
+      {
+        "id": "e1",
+        "title": "Fotos da estrutura queimada",
+        "type": "Fotografia",
+        "description": "Pontos de início do fogo em duas áreas distintas do armazém.",
+        "image": "exam_room",
+        "relevance": "Sugere que o incêndio foi iniciado em mais de um local, indicando intenção."
       },
       {
-        "id": "s2",
-        "name": "Eric Blake",
-        "image": "suspect_08",
-        "age": 26,
-        "occupation": "Desempregado",
-        "address": "Zona Norte",
-        "record": "Uma ocorrência de vandalismo.",
-        "alibi": "Diz que só usava videogame, não computador.",
-        "isGuilty": false,
-        "stats": { "stress": 40, "confidence": 55, "anger": 35 },
-        "answers": {
-          "alibi": "Eu tava jogando videogame. Nem sei mexer nesses esquemas de banco.",
-          "relation": "Nenhuma relação com as vítimas.",
-          "motive": "Não tenho acesso a conta de banco de ninguém.",
-          "witness": "Meu histórico de jogo mostra que eu estava online nesse horário.",
-          "stress": "Tô irritado porque meu irmão quer jogar a culpa em mim.",
-          "weapon": "Nem notebook eu tenho, só console."
-        }
-      }
-    ],
-    "evidence": [
-      {
-        "id": "e1_case4",
-        "title": "Log de Acesso",
-        "type": "Digital",
-        "image": "evidence_text_01",
-        "description": "Horário dos acessos combina com uma mudança de login que só alguém com conhecimento avançado faria.",
-        "relevance": "Aponta para alguém com habilidades técnicas, reforçando suspeita sobre Andrew."
+        "id": "e2",
+        "title": "Laudo preliminar dos bombeiros",
+        "type": "Documento",
+        "description": "Indícios de uso de acelerantes químicos em determinadas zonas do piso.",
+        "image": "evidence_doc_01",
+        "relevance": "Refuta a hipótese de curto-circuito acidental simples."
       }
     ]
-  },
-  {
-    "id": 5,
-    "agency": "FBI",
-    "difficulty": "medium",
-    "name": "Incêndio Suspeito em Depósito",
-    "introImage": "case_scene_bg",
-    "description": "Um depósito de móveis pegou fogo durante a madrugada. Indícios de incêndio criminoso.",
-    "witnesses": [
-      {
-        "id": "w1",
-        "name": "Vigilante Noturno",
-        "role": "Segurança",
-        "image": "witness_12",
-        "initial": "Eu vi alguém pulando o muro antes do fogo começar.",
-        "answers": {
-          "where": "Estava na guarita da esquina, olhando as câmeras.",
-          "knowVictim": "Trabalho para a empresa que aluga o depósito.",
-          "seeSomeone": "A pessoa vestia moletom com capuz, mas tropeçou e mancou ao correr.",
-          "hear": "Ouvi um barulho de vidro quebrando e depois um 'whoosh' de fogo pegando rápido.",
-          "moreInfo": "A pessoa correu em direção a uma moto estacionada na rua lateral."
-        }
-      }
-    ],
-    "suspects": [
-      {
-        "id": "s1",
-        "name": "Carl Jenkins",
-        "image": "suspect_09",
-        "age": 42,
-        "occupation": "Ex-funcionário demitido",
-        "address": "Zona Oeste",
-        "record": "Nenhum registro criminal, mas histórico de reclamações.",
-        "alibi": "Diz que estava dormindo em casa.",
-        "isGuilty": true,
-        "stats": { "stress": 65, "confidence": 40, "anger": 60 },
-        "answers": {
-          "alibi": "Eu estava dormindo, não tenho porque ir naquele depósito.",
-          "relation": "Trabalhei anos lá e me mandaram embora sem motivo justo.",
-          "motive": "Eu estava bravo, sim, mas isso não quer dizer que eu pus fogo.",
-          "witness": "Minha vizinha talvez tenha me visto em casa, mas não tenho certeza.",
-          "stress": "Perdi meu emprego e agora me acusam disso. Quem não ficaria tenso?",
-          "weapon": "Eu tenho uma moto, mas isso não prova nada."
-        },
-        "warrantEvidence": [
-          {
-            "id": "wE1_case5",
-            "title": "Galão com resquícios de combustível",
-            "type": "Físico",
-            "image": "evidence_obj_02",
-            "description": "Galão com cheiro de combustível encontrado na garagem de Carl.",
-            "relevance": "Compatível com o tipo de acelerante encontrado no local do incêndio."
-          }
-        ]
-      },
-      {
-        "id": "s2",
-        "name": "Novo Gerente do Depósito",
-        "image": "suspect_10",
-        "age": 35,
-        "occupation": "Gerente",
-        "address": "Centro",
-        "record": "Sem antecedentes.",
-        "alibi": "Afirma que estava em viagem de negócios em outra cidade.",
-        "isGuilty": false,
-        "stats": { "stress": 35, "confidence": 65, "anger": 25 },
-        "answers": {
-          "alibi": "Eu estava viajando, tem passagens e hotel para comprovar.",
-          "relation": "Sou responsável pelo estoque, perdi muito com esse incêndio.",
-          "motive": "Não teria motivo para prejudicar meu próprio trabalho.",
-          "witness": "Meu chefe, o hotel e até o táxi podem comprovar.",
-          "stress": "Apenas frustrado pelo prejuízo.",
-          "weapon": "Nenhuma arma, apenas documentos e planilhas."
-        }
-      }
-    ],
-    "evidence": [
-      {
-        "id": "e1_case5",
-        "title": "Pegadas Próximas ao Muro",
-        "type": "Físico",
-        "image": "evidence_obj_02",
-        "description": "Pegadas profundas indicando alguém mancando, com uma perna sobrecarregada.",
-        "relevance": "Bate com o relato do vigilante e com o histórico de lesão no joelho de Carl."
-      }
-    ]
-  },
-  {
-    "id": 6,
-    "agency": "FBI",
-    "difficulty": "medium",
-    "name": "Sequestro Relâmpago na Zona Leste",
-    "introImage": "case_scene_bg",
-    "description": "Um motorista foi rendido e obrigado a sacar dinheiro em vários caixas pela cidade.",
-    "witnesses": [],
-    "suspects": [
-      {
-        "id": "s1",
-        "name": "Miguel Santos",
-        "image": "suspect_11",
-        "age": 28,
-        "occupation": "Auxiliar de oficina",
-        "address": "Zona Leste",
-        "record": "Uma passagem por furto de carro.",
-        "alibi": "Diz que estava na oficina até tarde.",
-        "isGuilty": true,
-        "stats": { "stress": 60, "confidence": 45, "anger": 40 },
-        "answers": {
-          "alibi": "Eu estava fazendo hora extra na oficina, o dono pode confirmar.",
-          "relation": "Não conheço a vítima.",
-          "motive": "Tô apertado de grana, mas não chego a tanto.",
-          "witness": "Se o dono disser que eu não tava lá, é porque tá com raiva de mim.",
-          "stress": "Já sei que estão me apontando porque eu tenho passagem.",
-          "weapon": "Não tenho arma, mas na oficina tem ferramentas perigosas."
-        },
-        "warrantEvidence": [
-          {
-            "id": "wE1_case6",
-            "title": "Capuz e luvas com manchas",
-            "type": "Físico",
-            "image": "evidence_obj_03",
-            "description": "Capuz escuro e luvas com manchas suspeitas encontrados no armário de Miguel.",
-            "relevance": "Compatível com descrição do criminoso nas imagens de caixa eletrônico."
-          }
-        ]
-      }
-    ],
-    "evidence": [
-      {
-        "id": "e1_case6",
-        "title": "Imagens de Caixa Eletrônico",
-        "type": "Vídeo",
-        "image": "evidence_doc_02",
-        "description": "Mostram um homem usando capuz, mas com tatuagem visível no antebraço igual à de Miguel.",
-        "relevance": "Ligação visual clara entre o criminoso e Miguel."
-      }
-    ]
-  },
-  {
-    "id": 7,
-    "agency": "FBI",
-    "difficulty": "hard",
-    "name": "Desaparecimento em Valley City Night",
-    "introImage": "valley_city_night",
-    "description": "Uma adolescente desapareceu após sair de uma festa no centro. Este caso ainda está em desenvolvimento.",
-    "witnesses": [],
-    "suspects": [],
-    "evidence": []
-  },
-  {
-    "id": 8,
-    "agency": "FBI",
-    "difficulty": "hard",
-    "name": "Assalto à Mão Armada no Estacionamento",
-    "introImage": "case_scene_bg",
-    "description": "Um casal foi assaltado ao sair de um cinema. O ladrão levou carteira, celular e carro. Este caso será detalhado em futuras atualizações.",
-    "witnesses": [],
-    "suspects": [],
-    "evidence": []
-  },
-  {
-    "id": 9,
-    "agency": "CIA",
-    "difficulty": "hard",
-    "name": "Envenenamento em Restaurante Famoso",
-    "introImage": "case_scene_bg",
-    "description": "Um cliente faleceu após jantar em um restaurante de luxo. Há suspeita de envenenamento ligado a um esquema internacional.",
-    "witnesses": [],
-    "suspects": [],
-    "evidence": []
-  },
-  {
-    "id": 10,
-    "agency": "CIA",
-    "difficulty": "hard",
-    "name": "Atentado Frustrado ao Prefeito de Valley City",
-    "introImage": "police_station_front",
-    "description": "Informações de inteligência indicam plano de ataque contra o prefeito. O caso envolve possíveis conexões com grupos externos e será ampliado.",
-    "witnesses": [],
-    "suspects": [],
-    "evidence": []
   }
 ]
