@@ -1,0 +1,1665 @@
+{
+  "police": [
+    {
+      "id": 1,
+      "title": "A Última Chave",
+      "agency": "PD",
+      "difficulty": 1,
+      "scene": "crime_scene_01.png",
+      "description": "Homicídio em quarto de motel sem arrombamento, vítima com golpe na nuca.",
+      "witnesses": [
+        "witness_03.png",
+        "witness_17.png",
+        "witness_12.png",
+        "witness_25.png"
+      ],
+      "suspects": [
+        "suspect_04.png",
+        "suspect_08.png",
+        "suspect_16.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png",
+        "evidence_weapon_01.png",
+        "evidence_doc_01.png"
+      ],
+      "search_warrant_findings": [
+        "Documento falso na casa do suspeito 08",
+        "Camisa com respingos de sangue da vítima",
+        "Mensagens de cobrança de dívidas"
+      ],
+      "real_culprit": "suspect_08.png"
+    },
+    {
+      "id": 2,
+      "title": "Desaparecimento na Avenida 14",
+      "agency": "PD",
+      "difficulty": 1,
+      "scene": "crime_scene_02.png",
+      "description": "Adolescente desaparece ao voltar da escola, mochila achada perto de obra.",
+      "witnesses": [
+        "witness_01.png",
+        "witness_09.png",
+        "witness_32.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_11.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png",
+        "evidence_text_01.png"
+      ],
+      "search_warrant_findings": [
+        "Mochila da vítima na casa do suspeito 11",
+        "Caderno com páginas arrancadas contendo ameaças",
+        "Roupas com fibras da roupa da vítima"
+      ],
+      "real_culprit": "suspect_11.png"
+    },
+    {
+      "id": 3,
+      "title": "Roubo com Sequestro na Loja de Conveniência",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "crime_scene_03.png",
+      "description": "Dono de loja é sequestrado após assalto e abandonado horas depois.",
+      "witnesses": [
+        "witness_05.png",
+        "witness_14.png",
+        "witness_29.png"
+      ],
+      "suspects": [
+        "suspect_07.png",
+        "suspect_14.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png",
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "Máscara usada no assalto na casa do suspeito 20",
+        "Roupas com fiapos compatíveis com a cena da loja",
+        "Dinheiro em espécie sem origem declarada"
+      ],
+      "real_culprit": "suspect_20.png"
+    },
+    {
+      "id": 4,
+      "title": "Incêndio na Oficina Bronze & Steel",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "evidence_room.png",
+      "description": "Oficina pega fogo de madrugada, com fortes indícios de incêndio criminoso.",
+      "witnesses": [
+        "witness_21.png",
+        "witness_26.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_12.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Jaqueta com forte cheiro de gasolina",
+        "Recibo de compra de combustível na madrugada",
+        "Anotações sobre desentendimentos com o dono da oficina"
+      ],
+      "real_culprit": "suspect_12.png"
+    },
+    {
+      "id": 5,
+      "title": "Agressão Grave na Riverside Park",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "valley_city_day.png",
+      "description": "Homem é encontrado desacordado no parque após briga violenta.",
+      "witnesses": [
+        "witness_08.png",
+        "witness_33.png",
+        "witness_02.png"
+      ],
+      "suspects": [
+        "suspect_06.png",
+        "suspect_18.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Camisa do suspeito 06 com sangue da vítima",
+        "Mensagens de ameaça recentes no celular do suspeito 06",
+        "Calçado com pegadas compatíveis com as da cena"
+      ],
+      "real_culprit": "suspect_06.png"
+    },
+    {
+      "id": 6,
+      "title": "Atropelamento Intencional na 9th Street",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "valley_city_night.png",
+      "description": "Pedestre atropelado por carro em alta velocidade, motorista foge.",
+      "witnesses": [
+        "witness_24.png",
+        "witness_03.png",
+        "witness_30.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_09.png",
+        "suspect_13.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Carro do suspeito 13 com amassados recentes e vestígios de tecido",
+        "Recibos de conserto rápidos e emergenciais",
+        "Mensagens de ameaça à vítima relacionadas a dívidas"
+      ],
+      "real_culprit": "suspect_13.png"
+    },
+    {
+      "id": 7,
+      "title": "Furto no Condomínio de Alto Padrão",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "case_scene_bg.png",
+      "description": "Apartamento de advogado é furtado durante viagem, sem sinais de arrombamento.",
+      "witnesses": [
+        "witness_12.png",
+        "witness_07.jpg",
+        "witness_31.png"
+      ],
+      "suspects": [
+        "suspect_05.png",
+        "suspect_15.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Joias da vítima escondidas em fundo falso na casa do suspeito 15",
+        "Uniforme falsificado de funcionário do condomínio",
+        "Lista de apartamentos com anotações sobre rotina dos moradores"
+      ],
+      "real_culprit": "suspect_15.png"
+    },
+    {
+      "id": 8,
+      "title": "Vítima Baleada na Garagem Comunitária",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "crime_scene_02.png",
+      "description": "Homem baleado duas vezes no tórax em garagem subterrânea sem câmeras.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_20.png"
+      ],
+      "suspects": [
+        "suspect_10.png",
+        "suspect_19.png",
+        "suspect_03.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "Caixa de munição 9mm compatível na casa do suspeito 10",
+        "Camiseta com resíduos de pólvora",
+        "Mensagens marcando encontro com a vítima no local"
+      ],
+      "real_culprit": "suspect_10.png"
+    },
+    {
+      "id": 9,
+      "title": "Tentativa de Sequestro na Área Escolar",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "valley_city_day.png",
+      "description": "Criança quase é levada para uma van perto da escola, mas funcionários impedem.",
+      "witnesses": [
+        "witness_17.png",
+        "witness_28.png",
+        "witness_01.png"
+      ],
+      "suspects": [
+        "suspect_06.png",
+        "suspect_14.png",
+        "suspect_21.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Luvas com DNA de toque da vítima na casa do suspeito 21",
+        "Fitas adesivas industriais iguais às usadas na van",
+        "Roteiro impresso com rotas das crianças"
+      ],
+      "real_culprit": "suspect_21.png"
+    },
+    {
+      "id": 10,
+      "title": "O Músico da Ponte",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "crime_scene_03.png",
+      "description": "Músico é encontrado morto sob ponte; perícia indica estrangulamento antes da queda.",
+      "witnesses": [
+        "witness_32.png",
+        "witness_14.png",
+        "witness_05.png",
+        "witness_23.png"
+      ],
+      "suspects": [
+        "suspect_04.png",
+        "suspect_11.png",
+        "suspect_17.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png",
+        "evidence_doc_02.png"
+      ],
+      "search_warrant_findings": [
+        "Mochila com corda idêntica na casa do suspeito 17",
+        "Camisa com arranhões e fibras da roupa da vítima",
+        "Mensagens de cobrança de dívidas de shows"
+      ],
+      "real_culprit": "suspect_17.png"
+    },
+    {
+      "id": 11,
+      "title": "Assassinato no Depósito Abandonado",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "crime_scene_01.png",
+      "description": "Homem morto com ferimento na cabeça em depósito usado por usuários e moradores de rua.",
+      "witnesses": [
+        "witness_06.png",
+        "witness_18.png",
+        "witness_27.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_07.png",
+        "suspect_15.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png",
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Roupas do suspeito 07 com poeira idêntica ao depósito",
+        "Dinheiro sem origem compatível com valor roubado",
+        "Objetos da vítima encontrados em posse do suspeito"
+      ],
+      "real_culprit": "suspect_07.png"
+    },
+    {
+      "id": 12,
+      "title": "Ameaça de Bomba no Centro Comercial",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "valley_city_day.png",
+      "description": "Dispositivo falso causa pânico em shopping; ameaça é levada a sério.",
+      "witnesses": [
+        "witness_09.png",
+        "witness_11.png",
+        "witness_20.png"
+      ],
+      "suspects": [
+        "suspect_04.png",
+        "suspect_19.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Materiais idênticos ao dispositivo na casa do suspeito 19",
+        "Lista de locais vulneráveis anotada",
+        "Postagens em redes sociais com ameaças"
+      ],
+      "real_culprit": "suspect_19.png"
+    },
+    {
+      "id": 13,
+      "title": "Espancamento no Bar Old Whiskey",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "case_scene_bg.png",
+      "description": "Cliente do bar é espancado após discussão acalorada.",
+      "witnesses": [
+        "witness_21.png",
+        "witness_08.png",
+        "witness_14.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_06.png",
+        "suspect_12.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Jaqueta do suspeito 06 com sangue da vítima",
+        "Histórico de brigas anteriores entre os dois",
+        "Vidros compatíveis do bar na roupa do suspeito"
+      ],
+      "real_culprit": "suspect_06.png"
+    },
+    {
+      "id": 14,
+      "title": "Arrombamento ao Estúdio de Gravação",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "escritorio_detective.png",
+      "description": "Estúdio é invadido fisicamente e digitalmente; equipamentos são levados.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_22.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_09.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Computadores do estúdio desmontados na casa do suspeito 09",
+        "Roteiro com horários de funcionamento do estúdio",
+        "Ferramentas compatíveis com a marca de arrombamento"
+      ],
+      "real_culprit": "suspect_09.png"
+    },
+    {
+      "id": 15,
+      "title": "Agente Comunitário Assassinado",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "crime_scene_02.png",
+      "description": "Líder comunitário respeitado é morto a tiros; motivação não é clara inicialmente.",
+      "witnesses": [
+        "witness_16.png",
+        "witness_02.png",
+        "witness_29.png"
+      ],
+      "suspects": [
+        "suspect_05.png",
+        "suspect_10.png",
+        "suspect_17.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png",
+        "evidence_doc_02.png"
+      ],
+      "search_warrant_findings": [
+        "Arma compatível na casa do suspeito 17",
+        "Luvas com resíduos de tiro",
+        "Anotações de conflitos políticos com a vítima"
+      ],
+      "real_culprit": "suspect_17.png"
+    },
+    {
+      "id": 16,
+      "title": "Envenenamento no Restaurante El Pueblo",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "evidence_room.png",
+      "description": "Cliente é envenenado durante jantar, com toxina vegetal rara.",
+      "witnesses": [
+        "witness_33.png",
+        "witness_12.png",
+        "witness_05.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_06.png",
+        "suspect_14.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Planta tóxica seca na casa do suspeito 14",
+        "Luvas com resíduos da substância",
+        "Mensagens hostis da vítima para o suspeito 14"
+      ],
+      "real_culprit": "suspect_14.png"
+    },
+    {
+      "id": 17,
+      "title": "Tentativa de Feminicídio no ParkView",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "valley_city_night.png",
+      "description": "Mulher foge ferida no corredor do prédio após agressão do parceiro.",
+      "witnesses": [
+        "witness_22.png",
+        "witness_01.png",
+        "witness_09.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_11.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Celular com histórico de violência e ameaças do suspeito 03",
+        "Roupas com sangue da vítima",
+        "Carta dizendo 'se não for minha, não será de ninguém'"
+      ],
+      "real_culprit": "suspect_03.png"
+    },
+    {
+      "id": 18,
+      "title": "Desmanche de Carros Ilegal",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "case_scene_bg.png",
+      "description": "Galpão é usado como desmanche de carros roubados em operação noturna.",
+      "witnesses": [
+        "witness_35.png",
+        "witness_07.jpg"
+      ],
+      "suspects": [
+        "suspect_06.png",
+        "suspect_18.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Carros desmontados na propriedade do suspeito 20",
+        "Celular com fotos de veículos roubados",
+        "Lista de compradores ilegais"
+      ],
+      "real_culprit": "suspect_20.png"
+    },
+    {
+      "id": 19,
+      "title": "Executado na Porta de Casa",
+      "agency": "PD",
+      "difficulty": 3,
+      "scene": "valley_city_day.png",
+      "description": "Homem é executado com tiro único certeiro na porta de casa.",
+      "witnesses": [
+        "witness_03.png",
+        "witness_18.png",
+        "witness_26.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_05.png",
+        "suspect_12.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "Cofre com munições do mesmo lote na casa do suspeito 12",
+        "Bota compatível com pegada da cena",
+        "Pesquisas sobre disparo certeiro único"
+      ],
+      "real_culprit": "suspect_12.png"
+    },
+    {
+      "id": 20,
+      "title": "O Caso da Carteira Misteriosa",
+      "agency": "PD",
+      "difficulty": 2,
+      "scene": "crime_scene_01.png",
+      "description": "Vítima desacordada em beco com bilhete ameaçador escondido no bolso.",
+      "witnesses": [
+        "witness_08.png",
+        "witness_17.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_05.png",
+        "suspect_16.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png",
+        "evidence_text_01.png"
+      ],
+      "search_warrant_findings": [
+        "Roupas do suspeito 16 com respingos da vítima",
+        "Bilhetes com ameaças semelhantes",
+        "Fragmento de papel igual ao bilhete da cena"
+      ],
+      "real_culprit": "suspect_16.png"
+    }
+  ],
+  "fbi": [
+    {
+      "id": 21,
+      "title": "Serial Killer da Interestadual 95",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "crime_scene_03.png",
+      "description": "Assassinatos em três estados com mesmo padrão e símbolo desenhado próximo às vítimas.",
+      "witnesses": [
+        "witness_03.png",
+        "witness_30.png",
+        "witness_11.png",
+        "witness_27.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_10.png",
+        "suspect_14.png",
+        "suspect_21.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png",
+        "evidence_text_01.png"
+      ],
+      "search_warrant_findings": [
+        "Caderno com símbolos idênticos na casa do suspeito 21",
+        "Mapa de rodovias com rotas dos crimes marcadas",
+        "Luvas com sangue seco compatível"
+      ],
+      "real_culprit": "suspect_21.png"
+    },
+    {
+      "id": 22,
+      "title": "O Hacker do Mercado Financeiro",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "escritorio_detective.png",
+      "description": "Ataque digital retira milhões de contas em fraude interestadual sofisticada.",
+      "witnesses": [
+        "witness_06.png",
+        "witness_18.png",
+        "witness_31.png"
+      ],
+      "suspects": [
+        "suspect_04.png",
+        "suspect_05.png",
+        "suspect_17.png"
+      ],
+      "evidence": [
+        "evidence_doc_02.png",
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Notebook do suspeito 17 com scripts de ataque",
+        "HD externo com logs de invasões",
+        "Carteira de criptomoedas com grandes valores"
+      ],
+      "real_culprit": "suspect_17.png"
+    },
+    {
+      "id": 23,
+      "title": "Rota dos Órgãos Ilegais",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "morgue_room.png",
+      "description": "Corpo aparece sem rins, indicando rede de tráfico de órgãos interestadual.",
+      "witnesses": [
+        "witness_12.png",
+        "witness_14.png",
+        "witness_22.png",
+        "witness_29.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_09.png",
+        "suspect_18.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png"
+      ],
+      "search_warrant_findings": [
+        "Bolsas térmicas médicas na casa do suspeito 18",
+        "Lista de 'clientes' internacionais",
+        "Agenda com datas e códigos de procedimentos"
+      ],
+      "real_culprit": "suspect_18.png"
+    },
+    {
+      "id": 24,
+      "title": "Atirador das Torres de Comunicação",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Torres de rádio em dois estados são destruídas por tiros de precisão.",
+      "witnesses": [
+        "witness_08.png",
+        "witness_05.png",
+        "witness_32.png"
+      ],
+      "suspects": [
+        "suspect_12.png",
+        "suspect_05.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "Rifle .308 na casa do suspeito 12 com microestriagem compatível",
+        "Mira telescópica com poeira do local das torres",
+        "Mapa com posições e distâncias marcadas"
+      ],
+      "real_culprit": "suspect_12.png"
+    },
+    {
+      "id": 25,
+      "title": "Infiltração no Laboratório Farmacêutico",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "exam_room.png",
+      "description": "Amostra confidencial de medicamento experimental desaparece do laboratório.",
+      "witnesses": [
+        "witness_21.png",
+        "witness_03.png",
+        "witness_26.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_13.png",
+        "suspect_11.png",
+        "suspect_09.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png",
+        "evidence_doc_01.png"
+      ],
+      "search_warrant_findings": [
+        "Frasco com amostra experimental na casa do suspeito 13",
+        "Relatório alterado com iniciais dele",
+        "Imagens de câmeras internas mostrando entrada fora do expediente"
+      ],
+      "real_culprit": "suspect_13.png"
+    },
+    {
+      "id": 26,
+      "title": "Carregamento Fantasma",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "crime_scene_02.png",
+      "description": "Caminhão abandonado na divisa entre estados com vestígios de contrabando.",
+      "witnesses": [
+        "witness_17.png",
+        "witness_24.png",
+        "witness_12.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_14.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Mapas de rotas interestaduais na casa do suspeito 20",
+        "Chave do caminhão escondida",
+        "Anotações de entregas sem notas fiscais"
+      ],
+      "real_culprit": "suspect_20.png"
+    },
+    {
+      "id": 27,
+      "title": "Atirador da Freeway",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Veículos são alvejados ao acaso por atirador em viaduto de freeway federal.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_29.png",
+        "witness_25.png",
+        "witness_06.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_12.png",
+        "suspect_05.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "AR-15 compatível na residência do suspeito 12",
+        "Munições do mesmo lote das cápsulas da cena",
+        "Pesquisas sobre 'pontos cegos da polícia na freeway'"
+      ],
+      "real_culprit": "suspect_12.png"
+    },
+    {
+      "id": 28,
+      "title": "Fraude das Assinaturas Digitais",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "escritorio_detective.png",
+      "description": "Centenas de identidades são usadas em empréstimos fraudulentos em larga escala.",
+      "witnesses": [
+        "witness_18.png",
+        "witness_33.png",
+        "witness_03.png"
+      ],
+      "suspects": [
+        "suspect_05.png",
+        "suspect_09.png",
+        "suspect_17.png",
+        "suspect_11.png"
+      ],
+      "evidence": [
+        "evidence_doc_02.png",
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Banco de dados com perfis falsos no notebook do suspeito 09",
+        "Scripts de automatização de assinaturas",
+        "Extratos com recebimentos divididos em pequenas partes"
+      ],
+      "real_culprit": "suspect_09.png"
+    },
+    {
+      "id": 29,
+      "title": "Correio da Morte",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "evidence_room.png",
+      "description": "Juiz federal recebe pacote com substância tóxica enviada pelo correio.",
+      "witnesses": [
+        "witness_20.png",
+        "witness_14.png",
+        "witness_02.png",
+        "witness_32.png"
+      ],
+      "suspects": [
+        "suspect_06.png",
+        "suspect_13.png",
+        "suspect_01.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Materiais químicos na casa do suspeito 13",
+        "Comprovantes de envio de pacote no correio",
+        "Rascunho da carta ameaçadora"
+      ],
+      "real_culprit": "suspect_13.png"
+    },
+    {
+      "id": 30,
+      "title": "Operador Fantasma da Bolsa",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "exam_room.png",
+      "description": "Oscilação suspeita na bolsa revela manipulação sincronizada de ações entre estados.",
+      "witnesses": [
+        "witness_08.png",
+        "witness_26.png",
+        "witness_33.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_04.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_doc_01.png",
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Scripts de negociação automática no notebook do suspeito 10",
+        "Contas offshore ligadas às transações",
+        "Registros de acesso em horários idênticos aos picos de manipulação"
+      ],
+      "real_culprit": "suspect_10.png"
+    },
+    {
+      "id": 31,
+      "title": "Sequestrador das Áreas Rurais",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "valley_city_day.png",
+      "description": "Três adolescentes desaparecem em viagens diferentes por estradas rurais.",
+      "witnesses": [
+        "witness_25.png",
+        "witness_33.png",
+        "witness_03.png",
+        "witness_17.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_04.png",
+        "suspect_06.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Mapas com rotas secundárias na casa do suspeito 06",
+        "Cordas e fitas com DNA compatível",
+        "Barro igual ao das estradas nas rodas do veículo"
+      ],
+      "real_culprit": "suspect_06.png"
+    },
+    {
+      "id": 32,
+      "title": "Ataque ao Ônibus Interestadual",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "crime_scene_03.png",
+      "description": "Ônibus é alvejado na divisa estadual, deixando um morto e vários feridos.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_28.png",
+        "witness_30.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_18.png",
+        "suspect_12.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "Rifle de precisão na casa do suspeito 12",
+        "Pegadas de botas militares na cena",
+        "Pesquisas sobre trajetórias de ônibus"
+      ],
+      "real_culprit": "suspect_12.png"
+    },
+    {
+      "id": 33,
+      "title": "Máquina de Falsificação Digital",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "escritorio_detective.png",
+      "description": "Rede produz centenas de carteiras de identidade falsificadas conectadas a crimes.",
+      "witnesses": [
+        "witness_02.png",
+        "witness_12.png",
+        "witness_18.png"
+      ],
+      "suspects": [
+        "suspect_05.png",
+        "suspect_14.png",
+        "suspect_09.png",
+        "suspect_11.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Modelos gráficos de documentos no computador do suspeito 09",
+        "Impressora industrial escondida",
+        "Lista de encomendas de identidades"
+      ],
+      "real_culprit": "suspect_09.png"
+    },
+    {
+      "id": 34,
+      "title": "Atentado à Central de Água",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "evidence_room.png",
+      "description": "Explosivo caseiro é desarmado em tubulação principal da central de água.",
+      "witnesses": [
+        "witness_05.png",
+        "witness_22.png",
+        "witness_24.png"
+      ],
+      "suspects": [
+        "suspect_10.png",
+        "suspect_19.png",
+        "suspect_03.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Materiais explosivos na casa do suspeito 19",
+        "Rascunhos com esquemas da central",
+        "Pesquisas sobre vulnerabilidades de sistemas de água"
+      ],
+      "real_culprit": "suspect_19.png"
+    },
+    {
+      "id": 35,
+      "title": "Enigma dos 3 Corpos",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "morgue_room.png",
+      "description": "Três corpos surgem com cortes simétricos e símbolos desenhados no peito.",
+      "witnesses": [
+        "witness_01.png",
+        "witness_33.png",
+        "witness_29.png",
+        "witness_17.png"
+      ],
+      "suspects": [
+        "suspect_14.png",
+        "suspect_20.png",
+        "suspect_11.png",
+        "suspect_04.png"
+      ],
+      "evidence": [
+        "evidence_text_01.png"
+      ],
+      "search_warrant_findings": [
+        "Cadernos com símbolos idênticos na casa do suspeito 14",
+        "Máscara ritualística",
+        "Planejamento das datas dos três crimes"
+      ],
+      "real_culprit": "suspect_14.png"
+    },
+    {
+      "id": 36,
+      "title": "O Homem do Túnel",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Explosão controlada danifica túnel da Interstate 44 em possível ato terrorista.",
+      "witnesses": [
+        "witness_17.png",
+        "witness_30.png",
+        "witness_06.png",
+        "witness_14.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_13.png",
+        "suspect_18.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Caminhonete com resquícios de explosivos do suspeito 18",
+        "Recibos de compra de nitrato de amônio",
+        "Caderno com esboços do túnel"
+      ],
+      "real_culprit": "suspect_18.png"
+    },
+    {
+      "id": 37,
+      "title": "Mercador das Armas Fantasmas",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "case_scene_bg.png",
+      "description": "Rede distribui 'ghost guns' sem numeração para vários estados.",
+      "witnesses": [
+        "witness_29.png",
+        "witness_03.png",
+        "witness_22.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_09.png",
+        "suspect_21.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png"
+      ],
+      "search_warrant_findings": [
+        "Impressora 3D e moldes na casa do suspeito 21",
+        "Lista de compradores e quantidades",
+        "Comprovantes de envio interestadual"
+      ],
+      "real_culprit": "suspect_21.png"
+    },
+    {
+      "id": 38,
+      "title": "Menina do Lago Frost",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "crime_scene_02.png",
+      "description": "Garota de 11 anos desaparece perto de lago isolado na fronteira estadual.",
+      "witnesses": [
+        "witness_05.png",
+        "witness_26.png",
+        "witness_09.png",
+        "witness_32.png"
+      ],
+      "suspects": [
+        "suspect_04.png",
+        "suspect_06.png",
+        "suspect_15.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Lanterna da vítima no porta-malas do suspeito 15",
+        "Barro do lago nas rodas do carro",
+        "Fotos de vigilância da família"
+      ],
+      "real_culprit": "suspect_15.png"
+    },
+    {
+      "id": 39,
+      "title": "Operação Bluecoin",
+      "agency": "FBI",
+      "difficulty": 3,
+      "scene": "escritorio_detective.png",
+      "description": "Lavagem de 14 milhões de dólares usando criptomoedas em seis estados.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_24.png",
+        "witness_14.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_09.png",
+        "suspect_17.png"
+      ],
+      "evidence": [
+        "evidence_doc_01.png"
+      ],
+      "search_warrant_findings": [
+        "Ledger digital com rastros até o suspeito 17",
+        "Carteiras de cripto com grandes valores",
+        "Scripts de ofuscação de transações"
+      ],
+      "real_culprit": "suspect_17.png"
+    },
+    {
+      "id": 40,
+      "title": "Apagão do Norte",
+      "agency": "FBI",
+      "difficulty": 4,
+      "scene": "evidence_room.png",
+      "description": "Sabotagem simultânea de três subestações causa apagão massivo em vários estados.",
+      "witnesses": [
+        "witness_33.png",
+        "witness_02.png",
+        "witness_18.png",
+        "witness_05.png"
+      ],
+      "suspects": [
+        "suspect_12.png",
+        "suspect_03.png",
+        "suspect_19.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Ferramentas modificadas na casa do suspeito 19",
+        "Mapa com as três subestações marcadas",
+        "Mensagens coordenando ataques simultâneos"
+      ],
+      "real_culprit": "suspect_19.png"
+    }
+  ],
+  "cia": [
+    {
+      "id": 41,
+      "title": "Operação Blackchord",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Tráfico internacional de chips de navegação militar rastreado até Valley City.",
+      "witnesses": [
+        "witness_03.png",
+        "witness_25.png",
+        "witness_32.png",
+        "witness_14.png"
+      ],
+      "suspects": [
+        "suspect_10.png",
+        "suspect_03.png",
+        "suspect_14.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_doc_01.png",
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Chips militares escondidos em parede falsa",
+        "Celular com mensagens criptografadas",
+        "Mapa com rota de entrega em aeroporto privado"
+      ],
+      "real_culprit": "suspect_10.png"
+    },
+    {
+      "id": 42,
+      "title": "Operação Morpheus",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "interrogation_room.png",
+      "description": "Agente interno vaza dados sensíveis da CIA para serviço estrangeiro.",
+      "witnesses": [
+        "witness_12.png",
+        "witness_28.png",
+        "witness_07.jpg"
+      ],
+      "suspects": [
+        "suspect_11.png",
+        "suspect_05.png",
+        "suspect_17.png"
+      ],
+      "evidence": [
+        "evidence_doc_02.png"
+      ],
+      "search_warrant_findings": [
+        "HD externo com arquivos internos da agência",
+        "Pagamentos em criptomoedas sem origem clara",
+        "Registros de encontros com estrangeiro em estação de trem"
+      ],
+      "real_culprit": "suspect_11.png"
+    },
+    {
+      "id": 43,
+      "title": "Bioagente em Trânsito",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "morgue_room.png",
+      "description": "Cientista é encontrado morto com frasco de agente biológico experimental no bolso.",
+      "witnesses": [
+        "witness_06.png",
+        "witness_30.png",
+        "witness_21.png",
+        "witness_01.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_15.png",
+        "suspect_19.png",
+        "suspect_12.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png"
+      ],
+      "search_warrant_findings": [
+        "Frasco idêntico na casa do suspeito 15",
+        "Laptop com negociação de bioagente",
+        "Passaporte com viagens para países suspeitos"
+      ],
+      "real_culprit": "suspect_15.png"
+    },
+    {
+      "id": 44,
+      "title": "Conexão do Deserto",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "crime_scene_03.png",
+      "description": "Intermediário de milícia do Oriente Médio é morto enquanto negociava armas.",
+      "witnesses": [
+        "witness_17.png",
+        "witness_26.png",
+        "witness_35.png"
+      ],
+      "suspects": [
+        "suspect_06.png",
+        "suspect_08.png",
+        "suspect_21.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Chave de cofre internacional na posse do suspeito 21",
+        "Extratos bancários com transferências via Dubai",
+        "Agenda com contatos de milícias estrangeiras"
+      ],
+      "real_culprit": "suspect_21.png"
+    },
+    {
+      "id": 45,
+      "title": "Vazamento do Satélite Cerberus",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "escritorio_detective.png",
+      "description": "Imagens ultra secretas de satélite são vendidas em fórum clandestino.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_29.png",
+        "witness_05.png",
+        "witness_14.png"
+      ],
+      "suspects": [
+        "suspect_09.png",
+        "suspect_02.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_doc_01.png",
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Logs de acesso interno clonados na máquina do suspeito 09",
+        "Pen drive com software de descriptografia",
+        "Transações em cripto associadas à venda das imagens"
+      ],
+      "real_culprit": "suspect_09.png"
+    },
+    {
+      "id": 46,
+      "title": "Operação Sandtide",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "valley_city_day.png",
+      "description": "Rastreamento de 2 milhões de dólares destinados a grupo extremista africano.",
+      "witnesses": [
+        "witness_17.png",
+        "witness_25.png",
+        "witness_32.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_14.png",
+        "suspect_20.png"
+      ],
+      "evidence": [
+        "evidence_doc_02.png",
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Extratos de conta offshore do suspeito 20",
+        "Chip de celular internacional",
+        "Mapa com rotas de fronteira africana"
+      ],
+      "real_culprit": "suspect_20.png"
+    },
+    {
+      "id": 47,
+      "title": "A Arma do Silêncio",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "morgue_room.png",
+      "description": "Cientista nuclear refugiado é assassinado com veneno de ação retardada.",
+      "witnesses": [
+        "witness_01.png",
+        "witness_29.png",
+        "witness_33.png",
+        "witness_06.png"
+      ],
+      "suspects": [
+        "suspect_11.png",
+        "suspect_12.png",
+        "suspect_15.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png"
+      ],
+      "search_warrant_findings": [
+        "Frasco com mesmo agente tóxico na casa do suspeito 15",
+        "Passaportes com múltiplas entradas curtas",
+        "Mensagens apagadas recuperadas ligando a operação"
+      ],
+      "real_culprit": "suspect_15.png"
+    },
+    {
+      "id": 48,
+      "title": "Ghostlayer: Rede Invisível",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "escritorio_detective.png",
+      "description": "Rede hacker internacional derruba sistemas de energia em três países.",
+      "witnesses": [
+        "witness_18.png",
+        "witness_26.png",
+        "witness_12.png"
+      ],
+      "suspects": [
+        "suspect_04.png",
+        "suspect_09.png",
+        "suspect_10.png",
+        "suspect_17.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Servidor improvisado na casa do suspeito 17",
+        "Conexões criptografadas com IPs russos e vietnamitas",
+        "Diagrama de rede com o ataque sincronizado"
+      ],
+      "real_culprit": "suspect_17.png"
+    },
+    {
+      "id": 49,
+      "title": "Veneno Branco",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "crime_scene_01.png",
+      "description": "Mortes por substância sintética rara ligam cartéis estrangeiros a laboratório clandestino.",
+      "witnesses": [
+        "witness_07.jpg",
+        "witness_14.png",
+        "witness_23.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_06.png",
+        "suspect_19.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Barris químicos ilegais na propriedade do suspeito 19",
+        "Lista codificada de distribuidores",
+        "Notas com dinheiro marcado da DEA"
+      ],
+      "real_culprit": "suspect_19.png"
+    },
+    {
+      "id": 50,
+      "title": "Operação Harpy",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "case_scene_bg.png",
+      "description": "Peça arqueológica roubada de museu europeu é rastreada até Valley City.",
+      "witnesses": [
+        "witness_03.png",
+        "witness_32.png",
+        "witness_20.png"
+      ],
+      "suspects": [
+        "suspect_02.png",
+        "suspect_05.png",
+        "suspect_13.png",
+        "suspect_21.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Fotos da peça antes do roubo na casa do suspeito 13",
+        "Passagens recentes para Turquia e Grécia",
+        "Contatos com colecionadores ilegais"
+      ],
+      "real_culprit": "suspect_13.png"
+    },
+    {
+      "id": 51,
+      "title": "Mercado das Sombras",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "escritorio_detective.png",
+      "description": "Identidades diplomáticas falsas são vendidas para transporte de armas e dinheiro.",
+      "witnesses": [
+        "witness_11.png",
+        "witness_24.png",
+        "witness_01.png"
+      ],
+      "suspects": [
+        "suspect_09.png",
+        "suspect_14.png",
+        "suspect_06.png",
+        "suspect_10.png"
+      ],
+      "evidence": [
+        "evidence_doc_02.png",
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Impressora industrial e documentos diplomáticos falsos",
+        "Lista de compradores internacionais",
+        "Transações internacionais ligadas ao suspeito 09"
+      ],
+      "real_culprit": "suspect_09.png"
+    },
+    {
+      "id": 52,
+      "title": "Operador do Atlântico",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Agente clandestino coleta dados sobre rotas de navios militares.",
+      "witnesses": [
+        "witness_26.png",
+        "witness_29.png",
+        "witness_33.png"
+      ],
+      "suspects": [
+        "suspect_11.png",
+        "suspect_17.png",
+        "suspect_18.png"
+      ],
+      "evidence": [
+        "evidence_obj_03.png"
+      ],
+      "search_warrant_findings": [
+        "Telefone com app de comunicação militar na casa do suspeito 17",
+        "Fotos de rotas navais",
+        "Gravações criptografadas enviadas ao exterior"
+      ],
+      "real_culprit": "suspect_17.png"
+    },
+    {
+      "id": 53,
+      "title": "Rede do Serpente Branco",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "morgue_room.png",
+      "description": "Informante do Oriente Médio é morto antes de entregar arquivo sobre rede biológica.",
+      "witnesses": [
+        "witness_03.png",
+        "witness_21.png",
+        "witness_30.png"
+      ],
+      "suspects": [
+        "suspect_15.png",
+        "suspect_20.png",
+        "suspect_06.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png"
+      ],
+      "search_warrant_findings": [
+        "Frasco igual ao usado na morte na casa do suspeito 15",
+        "Mensagens com líderes da rede Serpente Branco",
+        "Transferências vindas do Oriente Médio"
+      ],
+      "real_culprit": "suspect_15.png"
+    },
+    {
+      "id": 54,
+      "title": "Operação Icebreaker",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "crime_scene_02.png",
+      "description": "Dados de supercondutor experimental são roubados e ofertados a compradores chineses.",
+      "witnesses": [
+        "witness_14.png",
+        "witness_32.png",
+        "witness_08.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_12.png",
+        "suspect_13.png",
+        "suspect_02.png"
+      ],
+      "evidence": [
+        "evidence_doc_01.png"
+      ],
+      "search_warrant_findings": [
+        "Pendrive com blueprints na casa do suspeito 13",
+        "Passagens para Hong Kong",
+        "Plano de infiltração no laboratório"
+      ],
+      "real_culprit": "suspect_13.png"
+    },
+    {
+      "id": 55,
+      "title": "O Apagador",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Informante da CIA é morto com assinatura de executor internacional conhecido.",
+      "witnesses": [
+        "witness_07.jpg",
+        "witness_23.png",
+        "witness_22.png"
+      ],
+      "suspects": [
+        "suspect_01.png",
+        "suspect_04.png",
+        "suspect_12.png"
+      ],
+      "evidence": [
+        "evidence_weapon_02.png"
+      ],
+      "search_warrant_findings": [
+        "Arma modificada europeia na casa do suspeito 12",
+        "Passaporte com múltiplas viagens rápidas",
+        "Pagamentos altos em criptomoedas"
+      ],
+      "real_culprit": "suspect_12.png"
+    },
+    {
+      "id": 56,
+      "title": "Operação Redline",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Tentativas de envenenamento de diplomatas americanos têm ligação com Valley City.",
+      "witnesses": [
+        "witness_18.png",
+        "witness_33.png",
+        "witness_05.png"
+      ],
+      "suspects": [
+        "suspect_03.png",
+        "suspect_15.png",
+        "suspect_11.png"
+      ],
+      "evidence": [
+        "evidence_weapon_01.png"
+      ],
+      "search_warrant_findings": [
+        "Frasco do veneno na casa do suspeito 11",
+        "Ticket de estacionamento do aeroporto",
+        "Documentos com nomes dos diplomatas"
+      ],
+      "real_culprit": "suspect_11.png"
+    },
+    {
+      "id": 57,
+      "title": "Projeto Mirror",
+      "agency": "CIA",
+      "difficulty": 3,
+      "scene": "escritorio_detective.png",
+      "description": "Programa internacional recruta civis para manipular informações e influenciar eleições.",
+      "witnesses": [
+        "witness_01.png",
+        "witness_14.png",
+        "witness_03.png"
+      ],
+      "suspects": [
+        "suspect_09.png",
+        "suspect_02.png",
+        "suspect_04.png"
+      ],
+      "evidence": [
+        "evidence_doc_01.png"
+      ],
+      "search_warrant_findings": [
+        "Redes de bots políticos ligados ao suspeito 02",
+        "Ferramentas de automação de contas",
+        "Pagamentos triangulados relacionados a campanhas"
+      ],
+      "real_culprit": "suspect_02.png"
+    },
+    {
+      "id": 58,
+      "title": "Chama de Nyx",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "evidence_room.png",
+      "description": "Planejado ataque químico em metrô europeu seria acionado remotamente de Valley City.",
+      "witnesses": [
+        "witness_12.png",
+        "witness_30.png",
+        "witness_35.png"
+      ],
+      "suspects": [
+        "suspect_17.png",
+        "suspect_06.png",
+        "suspect_14.png"
+      ],
+      "evidence": [
+        "evidence_obj_02.png"
+      ],
+      "search_warrant_findings": [
+        "Dispositivo modificável na casa do suspeito 14",
+        "Frascos químicos escondidos",
+        "Anotações sobre sistema de ventilação do metrô"
+      ],
+      "real_culprit": "suspect_14.png"
+    },
+    {
+      "id": 59,
+      "title": "A Mão do Fantasma",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "crime_scene_03.png",
+      "description": "Assassinato quase perfeito deixa apenas fibra rara de casaco vendido em três países.",
+      "witnesses": [
+        "witness_23.png",
+        "witness_06.png"
+      ],
+      "suspects": [
+        "suspect_12.png",
+        "suspect_08.png",
+        "suspect_03.png"
+      ],
+      "evidence": [
+        "evidence_obj_01.png"
+      ],
+      "search_warrant_findings": [
+        "Casaco com fibra faltante na casa do suspeito 08",
+        "Passaporte com viagens aos três países",
+        "Pagamentos altos de contratante internacional"
+      ],
+      "real_culprit": "suspect_08.png"
+    },
+    {
+      "id": 60,
+      "title": "Operação Orion",
+      "agency": "CIA",
+      "difficulty": 4,
+      "scene": "valley_city_night.png",
+      "description": "Conspiração internacional planeja ataque coordenado a satélites, bancos e infraestrutura.",
+      "witnesses": [
+        "witness_32.png",
+        "witness_33.png",
+        "witness_18.png",
+        "witness_24.png"
+      ],
+      "suspects": [
+        "suspect_10.png",
+        "suspect_21.png",
+        "suspect_17.png",
+        "suspect_19.png"
+      ],
+      "evidence": [
+        "evidence_doc_02.png"
+      ],
+      "search_warrant_findings": [
+        "Servidor com estrutura completa do ataque na casa do suspeito 21",
+        "Lista de alvos globais",
+        "Comunicações com agentes estrangeiros sobre horários sincronizados"
+      ],
+      "real_culprit": "suspect_21.png"
+    }
+  ]
+}
