@@ -8,22 +8,196 @@
 =========================== */
 
 let currentScreen = "";
-let player = {
-  name: "",
-  avatar: "",
-  gender: "M",
-  moral: 50,
-  prestige: 0,
-  currentCaseIndex: 0,
-  solvedCases: 0,
-  failedCases: 0,
-  rank: "Detetive Júnior",
-};
-
 let cases = [];
 let currentWitness = null;
 let currentSuspect = null;
 let typewriterTimer = null;
+let lastWarrantResult = null;
+
+let examQuestions = [];
+let examCurrentIndex = 0;
+let examScore = 0;
+
+let player = {
+  name: "",
+  avatar: "",
+  gender: "M",
+  agency: "PD",        // PD, FBI, CIA
+  rankIndex: 0,        // Índice no RANK_PATH
+  rank: "Detetive Júnior",
+  moral: 50,
+  prestige: 0,
+  currentCaseIndex: 0, // índice no array de cases
+  solvedCases: 0,
+  failedCases: 0
+};
+
+/* ==========================
+   CAMINHO DE PROMOÇÃO
+=========================== */
+
+const RANK_PATH = [
+  { agency: "PD",  name: "Detetive Júnior",                        minCases: 0,  minPrestige: 0,  minMoral: 0  },
+  { agency: "PD",  name: "Detetive Titular",                       minCases: 2,  minPrestige: 50, minMoral: 40 },
+  { agency: "PD",  name: "Detetive – Casos Especiais",             minCases: 5,  minPrestige: 80, minMoral: 50 },
+  { agency: "FBI", name: "Agente de Investigação Júnior",          minCases: 7,  minPrestige: 80, minMoral: 55 },
+  { agency: "FBI", name: "Agente de Investigação Federal",         minCases: 10, minPrestige: 85, minMoral: 60 },
+  { agency: "FBI", name: "Agente Federal de Investigações Especiais", minCases: 13, minPrestige: 90, minMoral: 65 },
+  { agency: "CIA", name: "Analista de Dados Júnior",               minCases: 16, minPrestige: 90, minMoral: 70 },
+  { agency: "CIA", name: "Agente Nível 1",                         minCases: 20, minPrestige: 92, minMoral: 72 },
+  { agency: "CIA", name: "Agente Nível 2",                         minCases: 24, minPrestige: 94, minMoral: 74 },
+  { agency: "CIA", name: "Agente Nível 3",                         minCases: 28, minPrestige: 96, minMoral: 76 },
+  { agency: "CIA", name: "Agente Nível 4",                         minCases: 32, minPrestige: 97, minMoral: 78 },
+  { agency: "CIA", name: "Agente Especial",                        minCases: 36, minPrestige: 98, minMoral: 80 }
+];
+
+/* ==========================
+   BANCO DE PERGUNTAS DO EXAME
+=========================== */
+
+const PROMO_QUESTIONS = [
+  {
+    question: "Ao ouvir versões diferentes das testemunhas, o que um bom investigador faz primeiro?",
+    options: [
+      "Ignora a versão mais confusa",
+      "Procura pontos em comum e contradições",
+      "Escolhe a versão de quem parece mais calmo",
+      "Conclui que alguém está mentindo e encerra"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "Qual é a função principal de um mandado de busca?",
+    options: [
+      "Permitir a prisão imediata do suspeito",
+      "Autorizar a entrada legal em um local específico",
+      "Autorizar o interrogatório forçado",
+      "Substituir todas as outras investigações"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "O que é um álibi?",
+    options: [
+      "Uma prova material",
+      "Uma contradição em depoimento",
+      "A declaração de inocência de um suspeito",
+      "A justificativa de onde a pessoa estava no momento do crime"
+    ],
+    correctIndex: 3
+  },
+  {
+    question: "Quando uma prova digital (logs, câmeras) contradiz o álibi de um suspeito, você deve:",
+    options: [
+      "Desconsiderar o álibi imediatamente",
+      "Confrontar o suspeito com calma, buscando explicação",
+      "Ignorar a prova digital porque pode estar errada",
+      "Encerrar o caso e prender o suspeito na hora"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "No interrogatório, uma abordagem agressiva em excesso pode:",
+    options: [
+      "Sempre trazer a verdade à tona",
+      "Ajuda mas não muda nada",
+      "Fazer o suspeito se calar ou inventar respostas",
+      "Não tem impacto"
+    ],
+    correctIndex: 2
+  },
+  {
+    question: "Qual é o papel do FBI em relação à polícia local?",
+    options: [
+      "Substituir a polícia local em qualquer crime",
+      "Atuar em crimes federais e interestaduais",
+      "Tratar apenas de crimes de trânsito",
+      "Cuidar apenas de crimes internacionais"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "A CIA está mais focada em:",
+    options: [
+      "Crimes de trânsito",
+      "Crimes de rua em bairro específico",
+      "Inteligência, espionagem e ameaças à segurança nacional",
+      "Apenas investigações de homicídio simples"
+    ],
+    correctIndex: 2
+  },
+  {
+    question: "Ao analisar uma cena de crime, a prioridade é:",
+    options: [
+      "Mover o corpo para local melhor",
+      "Evitar contaminar e preservar o local",
+      "Permitir entrada de curiosos",
+      "Recolher tudo o mais rápido possível"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "Prestígio alto no departamento significa:",
+    options: [
+      "O detetive é famoso na TV",
+      "O detetive resolve casos com técnica e conduta correta",
+      "O detetive é temido pelos suspeitos",
+      "O detetive nunca erra"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "Quando uma testemunha diz 'acho que era por volta de 22h', isso indica:",
+    options: [
+      "Horário exato comprovado",
+      "Um horário aproximado, sujeito a erro",
+      "Que ela está mentindo",
+      "Que o crime aconteceu às 23h"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "Ao elogiar a equipe e o chefe, o investigador:",
+    options: [
+      "Manipula o sistema",
+      "Demonstra respeito e fortalece relações de trabalho",
+      "Perde moral com todos",
+      "Automaticamente é promovido"
+    ],
+    correctIndex: 1
+  },
+  {
+    question: "Ao usar o telefone para pedir desculpas ao chefe por erros, isso mostra:",
+    options: [
+      "Fraqueza",
+      "Falta de preparo",
+      "Capacidade de reconhecer falhas e evoluir",
+      "Desinteresse pelo trabalho"
+    ],
+    correctIndex: 2
+  }
+];
+
+/* ==========================
+   PERGUNTAS PADRÃO
+=========================== */
+
+const WITNESS_QUESTIONS = [
+  { id: "where",      label: "Onde você estava no momento do crime?" },
+  { id: "knowVictim", label: "Você conhecia a vítima? De onde?" },
+  { id: "seeSomeone", label: "Você viu alguém suspeito?" },
+  { id: "hear",       label: "Você ouviu algum som ou discussão?" },
+  { id: "moreInfo",   label: "Você tem mais alguma informação importante?" }
+];
+
+const SUSPECT_QUESTIONS = [
+  { id: "alibi",   label: "Onde você estava no momento do crime?" },
+  { id: "relation",label: "Qual era sua relação com a vítima?" },
+  { id: "motive",  label: "Por que alguém acharia que você é suspeito?" },
+  { id: "witness", label: "Alguém pode confirmar seu álibi?" },
+  { id: "stress",  label: "Por que você está tão nervoso?" },
+  { id: "weapon",  label: "Você tem alguma arma registrada ou não?" }
+];
 
 /* ==========================
    FUNÇÃO MUDAR DE TELA
@@ -97,7 +271,8 @@ function loadGame() {
       alert("Nenhum jogo salvo encontrado.");
       return;
     }
-    player = JSON.parse(data);
+    const obj = JSON.parse(data);
+    player = { ...player, ...obj }; // mescla com defaults
     goTo("office");
   } catch (e) {
     alert("Erro ao carregar o jogo.");
@@ -120,21 +295,23 @@ function startNextCase() {
 
 function concludeCaseWith(suspectId) {
   const c = cases[player.currentCaseIndex];
+  if (!c) return;
   const chosen = c.suspects.find(s => s.id === suspectId);
 
   if (chosen && chosen.isGuilty) {
     player.solvedCases++;
-    player.prestige += 12;
-    player.moral += 4;
+    player.prestige = Math.min(player.prestige + 12, 100);
+    player.moral    = Math.min(player.moral + 4, 100);
     alert("Caso resolvido corretamente!");
   } else {
     player.failedCases++;
     player.prestige = Math.max(player.prestige - 5, 0);
-    player.moral = Math.max(player.moral - 10, 0);
+    player.moral    = Math.max(player.moral - 10, 0);
     alert("Você errou o culpado!");
   }
 
   player.currentCaseIndex++;
+  player.currentCase = null;
   goTo("office");
 }
 
@@ -145,11 +322,24 @@ function concludeCaseWith(suspectId) {
 function renderHUD() {
   const el = document.getElementById("player-hud");
   if (!el) return;
+
+  const avatarImg = player.avatar
+    ? `<img src="assets/${player.avatar}.png" alt="avatar">`
+    : "";
+
   el.innerHTML = `
-    <div class="section-card">
-      <h3>${player.name || "Detetive"} <span class="pill-inline">${player.rank}</span></h3>
-      <p class="small">Moral: ${player.moral}% • Prestígio: ${player.prestige}%</p>
-      <p class="small">Casos Resolvidos: ${player.solvedCases} • Falhas: ${player.failedCases}</p>
+    <div class="section-card office-header">
+      <div class="office-avatar">
+        ${avatarImg}
+      </div>
+      <div class="office-info">
+        <h3>${player.name || "Detetive"} 
+          <span class="pill-inline">${player.rank}</span>
+        </h3>
+        <p class="small">Agência: ${player.agency}</p>
+        <p class="small">Moral: ${player.moral}% • Prestígio: ${player.prestige}%</p>
+        <p class="small">Casos Resolvidos: ${player.solvedCases} • Falhas: ${player.failedCases}</p>
+      </div>
     </div>
   `;
 }
@@ -160,7 +350,7 @@ function renderHUD() {
 
 function selectAvatar(avatar) {
   player.avatar = avatar;
-  player.gender = avatar.endsWith("f") ? "F" : "M";
+  player.gender = "M"; // por enquanto, usamos apenas avatars padrão
 
   document.querySelectorAll(".avatar-option")
     .forEach(a => a.classList.remove("selected"));
@@ -185,25 +375,189 @@ function confirmAvatar() {
 }
 
 /* ==========================
-   TABELAS DE PERGUNTAS
+   PROMOÇÃO
 =========================== */
 
-const WITNESS_QUESTIONS = [
-  { id: "where",      label: "Onde você estava no momento do crime?" },
-  { id: "knowVictim", label: "Você conhecia a vítima? De onde?" },
-  { id: "seeSomeone", label: "Você viu alguém suspeito?" },
-  { id: "hear",       label: "Você ouviu algum som ou discussão?" },
-  { id: "moreInfo",   label: "Você tem mais alguma informação importante?" }
-];
+function openPromotion() {
+  const nextIndex = player.rankIndex + 1;
+  const nextRank = RANK_PATH[nextIndex];
 
-const SUSPECT_QUESTIONS = [
-  { id: "alibi",   label: "Onde você estava no momento do crime?" },
-  { id: "relation",label: "Qual era sua relação com a vítima?" },
-  { id: "motive",  label: "Por que alguém acharia que você é suspeito?" },
-  { id: "witness", label: "Alguém pode confirmar seu álibi?" },
-  { id: "stress",  label: "Por que você está tão nervoso?" },
-  { id: "weapon",  label: "Você tem alguma arma registrada ou não?" }
-];
+  if (!nextRank) {
+    alert("Você já atingiu o topo da carreira.");
+    return;
+  }
+
+  const faltaCases = Math.max(0, nextRank.minCases - player.solvedCases);
+  const faltaPrestige = Math.max(0, nextRank.minPrestige - player.prestige);
+  const faltaMoral = Math.max(0, nextRank.minMoral - player.moral);
+
+  if (faltaCases > 0 || faltaPrestige > 0 || faltaMoral > 0) {
+    let msg = "Você ainda não está pronto para a próxima promoção.\n\nFalta:";
+    if (faltaCases > 0) msg += `\n- ${faltaCases} caso(s) resolvido(s)`;
+    if (faltaPrestige > 0) msg += `\n- ${faltaPrestige}% de prestígio`;
+    if (faltaMoral > 0) msg += `\n- ${faltaMoral}% de moral`;
+    alert(msg);
+    return;
+  }
+
+  // monta exame
+  preparePromotionExam();
+  goTo("promotionExam");
+}
+
+function preparePromotionExam() {
+  // embaralha perguntas e pega 10 (ou menos se não tiver)
+  const pool = [...PROMO_QUESTIONS];
+  pool.sort(() => Math.random() - 0.5);
+  examQuestions = pool.slice(0, 10);
+  examCurrentIndex = 0;
+  examScore = 0;
+}
+
+function answerExam(optionIndex) {
+  const q = examQuestions[examCurrentIndex];
+  if (!q) return;
+
+  if (optionIndex === q.correctIndex) {
+    examScore++;
+  }
+
+  examCurrentIndex++;
+
+  if (examCurrentIndex >= examQuestions.length) {
+    finishPromotionExam();
+  } else {
+    renderExamQuestion();
+  }
+}
+
+function finishPromotionExam() {
+  const acertos = examScore;
+  const total = examQuestions.length;
+  const aprovado = acertos >= 7;
+
+  if (aprovado) {
+    player.rankIndex++;
+    const r = RANK_PATH[player.rankIndex];
+    player.rank = r.name;
+    player.agency = r.agency;
+    alert(`Parabéns! Você foi aprovado no exame (${acertos}/${total}) e promovido a ${r.name}.`);
+  } else {
+    player.moral = Math.max(player.moral - 5, 0);
+    alert(`Você não atingiu a nota mínima. (${acertos}/${total})\nEstude os procedimentos e tente novamente.`);
+  }
+
+  goTo("office");
+}
+
+function renderExamQuestion() {
+  const q = examQuestions[examCurrentIndex];
+  if (!q) return;
+
+  const qEl = document.getElementById("examQuestion");
+  const optsEl = document.getElementById("examOptions");
+
+  if (!qEl || !optsEl) return;
+
+  qEl.innerText = `Pergunta ${examCurrentIndex + 1}/${examQuestions.length}: ${q.question}`;
+  optsEl.innerHTML = "";
+
+  q.options.forEach((opt, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "btn-full";
+    btn.innerText = opt;
+    btn.onclick = () => answerExam(idx);
+    optsEl.appendChild(btn);
+  });
+}
+
+/* ==========================
+   TELEFONE
+=========================== */
+
+function confirmResign() {
+  if (confirm("Tem certeza que deseja pedir demissão? Isso encerrará sua carreira em Valley City.")) {
+    goTo("resigned");
+  }
+}
+
+function callChiefApologize() {
+  player.moral = Math.min(player.moral + 5, 100);
+  player.prestige = Math.min(player.prestige + 3, 100);
+  alert("Você pediu desculpas pelos erros. O chefe reconhece sua postura e sua moral aumentou.");
+}
+
+function callChiefPraiseTeam() {
+  player.prestige = Math.min(player.prestige + 4, 100);
+  alert("Você elogiou a equipe. O clima no distrito melhora e seu prestígio aumenta.");
+}
+
+function callChiefPraiseChief() {
+  player.moral = Math.min(player.moral + 2, 100);
+  player.prestige = Math.min(player.prestige + 2, 100);
+  alert("Você demonstrou respeito pelo chefe. Sua relação com a liderança melhora.");
+}
+
+function openWarrantScreen() {
+  if (!player.currentCase) {
+    player.currentCase = cases[player.currentCaseIndex];
+  }
+  const c = player.currentCase;
+  if (!c || !c.suspects || c.suspects.length === 0) {
+    alert("Nenhum suspeito disponível para mandado de busca neste caso.");
+    return;
+  }
+  goTo("phoneWarrant");
+
+  const list = document.getElementById("warrantSuspectList");
+  if (!list) return;
+
+  list.innerHTML = "";
+  c.suspects.forEach(s => {
+    const div = document.createElement("div");
+    div.className = "list-item";
+    div.onclick = () => executeWarrant(s.id);
+    div.innerHTML = `
+      <div class="flex">
+        <div class="portrait"><img src="assets/${s.image}.png"></div>
+        <div>
+          <div class="list-item-title">${s.name}</div>
+          <div class="list-item-sub">${s.occupation} • ${s.age} anos</div>
+        </div>
+      </div>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function executeWarrant(suspectId) {
+  const c = player.currentCase || cases[player.currentCaseIndex];
+  if (!c) return;
+
+  const suspect = c.suspects.find(s => s.id === suspectId);
+  if (!suspect) return;
+
+  const foundEvidence = [];
+  const evList = suspect.warrantEvidence || [];
+
+  // adiciona as evidências do mandado ao caso
+  evList.forEach(ev => {
+    if (!c.evidence) c.evidence = [];
+    const exists = c.evidence.some(e => e.id === ev.id);
+    if (!exists) {
+      c.evidence.push({ ...ev });
+      foundEvidence.push(ev);
+    }
+  });
+
+  lastWarrantResult = {
+    suspectName: suspect.name,
+    guilty: !!suspect.isGuilty,
+    evidence: foundEvidence
+  };
+
+  goTo("phoneWarrantResult");
+}
 
 /* ==========================
    TELAS (SCREENS)
@@ -230,14 +584,14 @@ const SCREENS = {
       <div class="label">Escolha seu avatar:</div>
       <div class="avatar-grid">
         ${(() => {
+          // SOMENTE avatar_01.png até avatar_10.png (sem versões 'f' para evitar imagens quebradas)
           let html = "";
           for (let i = 1; i <= 10; i++) {
+            const num = i.toString().padStart(2, "0");
+            const id = `avatar_${num}`;
             html += `
-              <div class="avatar-option" id="av_avatar_0${i}" onclick="selectAvatar('avatar_0${i}')">
-                <img src="assets/avatar_0${i}.png">
-              </div>
-              <div class="avatar-option" id="av_avatar_0${i}f" onclick="selectAvatar('avatar_0${i}f')">
-                <img src="assets/avatar_0${i}f.png">
+              <div class="avatar-option" id="av_${id}" onclick="selectAvatar('${id}')">
+                <img src="assets/${id}.png" alt="avatar ${num}">
               </div>
             `;
           }
@@ -253,7 +607,7 @@ const SCREENS = {
     <div class="section-card">
       <h2 class="title">Distrito Policial de Valley City</h2>
       <div class="flex">
-        <div class="portrait"><img src="assets/capitao_brief.png"></div>
+        <div class="portrait"><img src="assets/capitao_brief.png" alt="Capitão"></div>
         <p class="small">Capitão Rodriguez</p>
       </div>
       <div id="captainText" class="typewriter"></div>
@@ -267,8 +621,17 @@ const SCREENS = {
     <div class="section-card">
       <h2 class="title">Escritório do Detetive</h2>
       <p class="subtitle">Escolha sua próxima ação.</p>
-      <button class="btn" onclick="startNextCase()">Próximo Caso</button>
-      <button class="btn-secondary" onclick="saveGame()">Salvar Jogo</button>
+
+      <div class="btn-row">
+        <button class="btn" onclick="startNextCase()">Próximo Caso</button>
+        <button class="btn-secondary" onclick="saveGame()">Salvar Jogo</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn" onclick="goTo('phoneMenu')">Telefone</button>
+        <button class="btn" onclick="openPromotion()">Promoção</button>
+      </div>
+
       <button class="btn-ghost" onclick="goTo('stats')">Estatísticas</button>
     </div>
   `,
@@ -276,6 +639,8 @@ const SCREENS = {
   stats: `
     <div class="section-card">
       <h2 class="title">Status do Detetive</h2>
+      <p class="small">Patente atual: ${player.rank}</p>
+      <p class="small">Agência: ${player.agency}</p>
       <p class="small">Casos concluídos: ${player.solvedCases}</p>
       <p class="small">Casos falhados: ${player.failedCases}</p>
       <p class="small">Moral: ${player.moral}%</p>
@@ -288,7 +653,7 @@ const SCREENS = {
     <div class="section-card">
       <h2 class="title" id="caseTitle"></h2>
       <p id="caseDesc" class="subtitle"></p>
-      <img id="caseImg" class="thumb">
+      <img id="caseImg" class="thumb" alt="Cena do caso">
       <button class="btn" onclick="goTo('investigation')">Iniciar Investigação</button>
     </div>
   `,
@@ -315,7 +680,7 @@ const SCREENS = {
   witnessDetail: `
     <div class="section-card">
       <div class="flex">
-        <div class="portrait"><img id="wP"></div>
+        <div class="portrait"><img id="wP" alt="Testemunha"></div>
         <div>
           <h3 id="wN"></h3>
           <p id="wR" class="small"></p>
@@ -346,7 +711,7 @@ const SCREENS = {
   suspectDetail: `
     <div class="section-card">
       <div class="flex">
-        <div class="portrait"><img id="sP"></div>
+        <div class="portrait"><img id="sP" alt="Suspeito"></div>
         <div>
           <h3 id="sN"></h3>
           <p id="sInfo" class="small"></p>
@@ -391,10 +756,67 @@ const SCREENS = {
     </div>
   `,
 
+  phoneMenu: `
+    <div class="section-card">
+      <h2 class="title">Telefone</h2>
+      <p class="subtitle">Escolha uma opção de chamada.</p>
+      <button class="btn" onclick="goTo('phoneChief')">Ligar para o chefe</button>
+      <button class="btn" onclick="openWarrantScreen()">Mandado de busca</button>
+      <button class="btn-danger" onclick="confirmResign()">Pedir demissão</button>
+      <button class="btn-ghost" onclick="goTo('office')">Voltar</button>
+    </div>
+  `,
+
+  phoneChief: `
+    <div class="section-card">
+      <h2 class="title">Linha com o Capitão Rodriguez</h2>
+      <p class="subtitle">Use com sabedoria. Suas escolhas afetam moral e prestígio.</p>
+      <button class="btn-full" onclick="callChiefApologize()">Pedir desculpas pelos erros recentes</button>
+      <button class="btn-full" onclick="callChiefPraiseTeam()">Elogiar o trabalho da equipe</button>
+      <button class="btn-full" onclick="callChiefPraiseChief()">Reconhecer a liderança do chefe</button>
+      <button class="btn-ghost" onclick="goTo('phoneMenu')">Voltar</button>
+    </div>
+  `,
+
+  phoneWarrant: `
+    <div class="section-card">
+      <h2 class="title">Mandado de Busca</h2>
+      <p class="subtitle">Escolha um suspeito para enviar a equipe à casa dele.</p>
+      <div id="warrantSuspectList"></div>
+      <button class="btn-ghost" onclick="goTo('phoneMenu')">Voltar</button>
+    </div>
+  `,
+
+  phoneWarrantResult: `
+    <div class="section-card">
+      <h2 class="title">Resultado do Mandado</h2>
+      <div id="warrantResultBox"></div>
+      <button class="btn" onclick="goTo('investigation')">Voltar à investigação</button>
+      <button class="btn-ghost" onclick="goTo('phoneMenu')">Outra ligação</button>
+    </div>
+  `,
+
+  promotionExam: `
+    <div class="section-card">
+      <h2 class="title">Exame de Promoção</h2>
+      <p id="examQuestion" class="subtitle"></p>
+      <div id="examOptions"></div>
+      <button class="btn-ghost" onclick="goTo('office')">Cancelar exame</button>
+    </div>
+  `,
+
+  resigned: `
+    <div class="section-card">
+      <h2 class="title">Você se Demitiu</h2>
+      <p class="subtitle">Sua carreira em Valley City terminou por escolha própria.</p>
+      <button class="btn" onclick="resetGame()">Iniciar nova carreira</button>
+    </div>
+  `,
+
   theEnd: `
     <div class="section-card">
       <h2 class="title">Fim da Campanha</h2>
-      <p class="subtitle">Você concluiu todos os casos disponíveis.</p>
+      <p class="subtitle">Você concluiu todos os casos disponíveis nesta versão.</p>
       <button class="btn" onclick="goTo('office')">Voltar ao Escritório</button>
     </div>
   `
@@ -416,7 +838,7 @@ const SCREEN_HOOKS = {
     typeWriter(
       "Bem-vindo(a) a Valley City.\nSou o Capitão Rodriguez.\n\n" +
       "Esta cidade está afundando em violência.\n" +
-      "Precisamos de você.\n\n" +
+      "Temos poucos policiais e muitos crimes.\n\n" +
       "Não pise na bola, detetive.\nBoa sorte.",
       "captainText",
       28
@@ -428,6 +850,7 @@ const SCREEN_HOOKS = {
   },
   caseIntro() {
     const c = cases[player.currentCaseIndex];
+    if (!c) return;
     const t = document.getElementById("caseTitle");
     const d = document.getElementById("caseDesc");
     const img = document.getElementById("caseImg");
@@ -435,638 +858,47 @@ const SCREEN_HOOKS = {
     if (d) d.innerText = c.description;
     if (img) img.src = "assets/" + c.introImage + ".png";
     setBackground("valley_city_night");
+  },
+  promotionExam() {
+    renderExamQuestion();
+  },
+  phoneWarrantResult() {
+    const box = document.getElementById("warrantResultBox");
+    if (!box || !lastWarrantResult) {
+      if (box) box.innerHTML = "<p class='small'>Nenhuma informação de mandado disponível.</p>";
+      return;
+    }
+
+    const { suspectName, guilty, evidence } = lastWarrantResult;
+
+    let html = `<p class="small"><b>Suspeito vistoriado:</b> ${suspectName}</p>`;
+
+    if (evidence && evidence.length > 0) {
+      html += `<p class="small">A equipe encontrou as seguintes evidências na residência:</p>`;
+      evidence.forEach(ev => {
+        html += `
+          <div class="list-item">
+            <div class="list-item-title">${ev.title} <span class="pill-inline">${ev.type}</span></div>
+            <div class="list-item-sub">${ev.description}</div>
+          </div>
+        `;
+      });
+      if (guilty) {
+        html += `<p class="small"><b>Observação:</b> As novas provas fortalecem a autoria deste suspeito.</p>`;
+      } else {
+        html += `<p class="small"><b>Observação:</b> As novas provas não o ligam diretamente ao crime.</p>`;
+      }
+    } else {
+      if (guilty) {
+        html += `<p class="small">O mandado foi executado, mas nenhuma prova nova foi encontrada nesta busca específica.</p>`;
+      } else {
+        html += `<p class="small">Nada relevante foi encontrado. Isso pode indicar inocência ou falta de ligação direta.</p>`;
+      }
+    }
+
+    box.innerHTML = html;
   }
 };
-
-/* ==========================
-   BANCO DE CASOS
-=========================== */
-
-cases = [
-  {
-    id: 1,
-    name: "Homicídio no Motel Riverside",
-    introImage: "crime_scene_01",
-    description:
-      "Um corpo foi encontrado em um quarto do Motel Riverside. A vítima, um empresário local, foi morta entre 22h30 e 23h15.",
-    witnesses: [
-      {
-        id: "w1",
-        name: "Recepcionista do Motel",
-        role: "Funcionário",
-        image: "witness_01",
-        initial:
-          "Eu estava na recepção a noite toda. Vi a vítima entrar com alguém por volta das 22h10.",
-        answers: {
-          where:
-            "Eu estava na recepção, conferindo as reservas e câmeras. Não saí de lá.",
-          knowVictim:
-            "Eu não conhecia a vítima pessoalmente, mas ele já tinha se hospedado antes.",
-          seeSomeone:
-            "Vi um homem alto de jaqueta preta subir com ele. Pareciam discutir baixinho no corredor.",
-          hear:
-            "Escutei algo como uma porta batendo forte por volta das 22h40, mas achei que era só briga de casal.",
-          moreInfo:
-            "Depois disso, ninguém mais saiu pelo corredor da câmera. Só vi o homem de jaqueta preta descer às 23h20, apressado."
-        }
-      },
-      {
-        id: "w2",
-        name: "Hóspede do Quarto ao Lado",
-        role: "Testemunha",
-        image: "witness_03",
-        initial:
-          "Eu estava vendo TV, mas ouvi uma discussão e algo pesado caindo.",
-        answers: {
-          where:
-            "Eu estava no quarto ao lado, deitado na cama tentando dormir.",
-          knowVictim:
-            "Nunca tinha visto a vítima antes. Só ouvi vozes de homem discutindo.",
-          seeSomeone:
-            "Pela fresta da porta, vi um homem alto, barba rala, descendo rápido as escadas.",
-          hear:
-            "Ouvi xingamentos, algo como 'você acabou com tudo', depois um barulho seco.",
-          moreInfo:
-            "O barulho de algo caindo foi por volta das 22h45, eu chequei no celular logo depois."
-        }
-      }
-    ],
-    suspects: [
-      {
-        id: "s1",
-        name: "Mark Thompson",
-        image: "suspect_01",
-        age: 38,
-        occupation: "Sócio do negócio da vítima",
-        address: "Bairro Central, Valley City",
-        record: "Sem antecedentes criminais, mas com dívidas recentes.",
-        alibi:
-          "Diz que estava em casa sozinho, revisando contratos.",
-        isGuilty: true,
-        stats: { stress: 60, confidence: 45, anger: 35 },
-        answers: {
-          alibi:
-            "Eu estava em casa, revisando documentos. Ninguém pode comprovar, infelizmente.",
-          relation:
-            "Ele era meu sócio. Tínhamos divergências, mas nada que levasse a isso.",
-          motive:
-            "As pessoas sabem que brigamos por causa de dinheiro, mas eu nunca faria isso.",
-          witness:
-            "Não, eu moro sozinho. Ninguém me viu, isso é verdade.",
-          stress:
-            "Eu estou nervoso porque isso é um absurdo. Ninguém quer ser acusado de algo assim.",
-          weapon:
-            "Eu tenho uma pistola registrada, mas está guardada no cofre. Podem verificar."
-        }
-      },
-      {
-        id: "s2",
-        name: "Jason Reed",
-        image: "suspect_02",
-        age: 29,
-        occupation: "Garçom",
-        address: "Zona Leste, Valley City",
-        record: "Uma briga de bar registrada, sem condenação.",
-        alibi:
-          "Diz que estava trabalhando em um restaurante até meia-noite.",
-        isGuilty: false,
-        stats: { stress: 45, confidence: 60, anger: 20 },
-        answers: {
-          alibi:
-            "Eu estava no meu turno no restaurante até meia-noite. O gerente e colegas podem confirmar.",
-          relation:
-            "Só conhecia a vítima como cliente. Ele ia algumas vezes lá.",
-          motive:
-            "Não tenho motivo nenhum, sou só um garçom tentando sobreviver.",
-          witness:
-            "Meu gerente, dois colegas de trabalho e até clientes podem confirmar que eu estava lá, ocupado.",
-          stress:
-            "Estou nervoso porque isso pode acabar com meu emprego, mas estou falando a verdade.",
-          weapon:
-            "Não tenho arma, nunca tive. A única coisa que eu seguro é bandeja."
-        }
-      }
-    ],
-    evidence: [
-      {
-        id: "e1",
-        title: "Gravação de Câmera do Corredor",
-        type: "Vídeo",
-        image: "evidence_doc_01",
-        description:
-          "Mostra a vítima entrando no quarto às 22h10, acompanhada de um homem alto com jaqueta preta. O homem sai sozinho às 23h20.",
-        relevance:
-          "Confirma o relato da recepcionista e do hóspede do quarto ao lado."
-      },
-      {
-        id: "e2",
-        title: "Mensagem de Ameaça",
-        type: "Digital",
-        image: "evidence_text_01",
-        description:
-          "Mensagem no celular da vítima, enviada algumas horas antes: 'Se você fechar esse contrato sem mim, vai se arrepender'. Assinada por Mark.",
-        relevance:
-          "Indica motivo financeiro e ameaça prévia, ligando Mark à vítima."
-      }
-    ]
-  },
-
-  {
-    id: 2,
-    name: "Roubo à Joalheria Midtown",
-    introImage: "crime_scene_02",
-    description:
-      "Uma joalheria foi assaltada à mão armada às 14h05. Os criminosos fugiram em um carro preto.",
-    witnesses: [
-      {
-        id: "w1",
-        name: "Vendedor da Joalheria",
-        role: "Vítima",
-        image: "witness_05",
-        initial:
-          "Dois sujeitos entraram, um apontou a arma, o outro pegou as joias.",
-        answers: {
-          where:
-            "Eu estava atrás do balcão, arrumando vitrines.",
-          knowVictim:
-            "Eu não conhecia os assaltantes. Mas um deles parecia reconhecer o lugar.",
-          seeSomeone:
-            "O que apontava a arma tinha tatuagem no pescoço, uma espécie de cobra.",
-          hear:
-            "Eles falaram entre si que o 'motorista' estaria esperando do lado de fora.",
-          moreInfo:
-            "O carro preto tinha placa começando com VCX, mas não consegui ver o restante."
-        }
-      }
-    ],
-    suspects: [
-      {
-        id: "s1",
-        name: "Derek Collins",
-        image: "suspect_03",
-        age: 32,
-        occupation: "Desempregado",
-        address: "Zona Norte, Valley City",
-        record: "Dois registros de roubo, um de receptação.",
-        alibi:
-          "Diz que estava em casa assistindo TV.",
-        isGuilty: true,
-        stats: { stress: 70, confidence: 35, anger: 50 },
-        answers: {
-          alibi:
-            "Tava em casa vendo jogo, sozinho. Ninguém pode provar, mas é verdade.",
-          relation:
-            "Nem sei onde fica essa joalheria direito.",
-          motive:
-            "Todo mundo sabe que tô quebrado, mas isso não prova nada.",
-          witness:
-            "Ninguém, moro sozinho.",
-          stress:
-            "Tatuagem no pescoço? Tem um monte de gente com tatuagem, isso não quer dizer nada.",
-          weapon:
-            "Não tenho arma nenhuma, se tivesse a polícia já tinha achado."
-        }
-      },
-      {
-        id: "s2",
-        name: "Kevin Morales",
-        image: "suspect_04",
-        age: 27,
-        occupation: "Motorista de aplicativo",
-        address: "Centro, Valley City",
-        record: "Sem antecedentes.",
-        alibi:
-          "Afirma que estava rodando com clientes, com registro no app.",
-        isGuilty: false,
-        stats: { stress: 35, confidence: 70, anger: 25 },
-        answers: {
-          alibi:
-            "Eu estava em corrida o dia todo, o aplicativo registra tudo.",
-          relation:
-            "Não conheço esses caras, nem entro em bairro suspeito.",
-          motive:
-            "Não faz sentido arriscar meu trabalho por isso.",
-          witness:
-            "Os próprios registros do app e os passageiros podem confirmar isso.",
-          stress:
-            "Só estou tenso porque isso mancha a reputação, mas confio que o sistema vai provar minha inocência.",
-          weapon:
-            "Não tenho arma, nem carteira vencida eu tenho."
-        }
-      }
-    ],
-    evidence: [
-      {
-        id: "e1",
-        title: "Câmera Externa",
-        type: "Vídeo",
-        image: "evidence_doc_02",
-        description:
-          "Mostra carro preto, placa VCX-2H19, com Derek no banco do passageiro.",
-        relevance:
-          "Contradiz o álibi de Derek, ligando-o ao veículo usado na fuga."
-      }
-    ]
-  },
-
-  {
-    id: 3,
-    name: "Corpo Encontrado no Beco da 9ª Avenida",
-    introImage: "crime_scene_03",
-    description:
-      "Um jovem foi encontrado morto em um beco escuro. Há sinais de luta.",
-    witnesses: [
-      {
-        id: "w1",
-        name: "Morador de Rua",
-        role: "Testemunha",
-        image: "witness_06",
-        initial:
-          "Eu estava dormindo num canto quando ouvi gente brigando.",
-        answers: {
-          where:
-            "Eu estava deitado perto das caixas, na mesma rua do beco.",
-          knowVictim:
-            "Já tinha visto a vítima passar algumas vezes, parecia estudante.",
-          seeSomeone:
-            "Vi um cara de capuz empurrando ele, e outro segurando algo brilhante.",
-          hear:
-            "Ouvi um deles dizer 'Passa tudo, rápido', e depois um grito.",
-          moreInfo:
-            "Depois, ouvi passos correndo para a avenida principal, em direção à parada de ônibus."
-        }
-      }
-    ],
-    suspects: [
-      {
-        id: "s1",
-        name: "Leo Martins",
-        image: "suspect_05",
-        age: 20,
-        occupation: "Estudante",
-        address: "Zona Leste",
-        record: "Nenhum antecedente.",
-        alibi:
-          "Diz que estava em uma festa de universidade.",
-        isGuilty: false,
-        stats: { stress: 40, confidence: 60, anger: 25 },
-        answers: {
-          alibi:
-            "Eu estava na festa da faculdade, muita gente pode confirmar.",
-          relation:
-            "Ele era meu colega de classe, a gente se dava bem.",
-          motive:
-            "Não tenho motivo, isso é um choque pra mim.",
-          witness:
-            "Meus amigos, o segurança da faculdade, o DJ, todo mundo me viu lá.",
-          stress:
-            "Estou em choque, não com raiva.",
-          weapon:
-            "Nunca tive arma, nem faca de cozinha eu mexo direito."
-        }
-      },
-      {
-        id: "s2",
-        name: "Rafa dos Becos",
-        image: "suspect_06",
-        age: 24,
-        occupation: "Vendedor ambulante informal",
-        address: "Próximo à 9ª Avenida",
-        record: "Dois registros de furto e um de agressão.",
-        alibi:
-          "Afirma que estava vendendo mercadorias em outra rua.",
-        isGuilty: true,
-        stats: { stress: 65, confidence: 40, anger: 55 },
-        answers: {
-          alibi:
-            "Eu tava vendendo minhas coisas umas duas quadras pra cima, longe desse beco.",
-          relation:
-            "Nunca vi esse garoto antes, só sei que às vezes estudantes passam por ali.",
-          motive:
-            "Motivo? Tô tentando ganhar dinheiro na rua, não arrumar problema.",
-          witness:
-            "Talvez alguém me viu vendendo na esquina, mas eu não lembro de rosto.",
-          stress:
-            "Tô nervoso porque vocês sempre olham pra quem já tem passagem.",
-          weapon:
-            "Não ando com arma. Quando muito, uma chave de fenda pra arrumar carrinho."
-        }
-      }
-    ],
-    evidence: [
-      {
-        id: "e1",
-        title: "Carteira da Vítima Encontrada Vazia",
-        type: "Objeto",
-        image: "evidence_obj_01",
-        description:
-          "A carteira da vítima foi achada aberta, sem dinheiro.",
-        relevance:
-          "Indica possível roubo com violência, coerente com histórico do suspeito Rafa."
-      },
-      {
-        id: "e2",
-        title: "Câmera da Rua Paralela",
-        type: "Vídeo",
-        image: "evidence_doc_01",
-        description:
-          "Gravação mostra Rafa correndo em direção à avenida poucos minutos após a hora estimada da morte.",
-        relevance:
-          "Contradiz o álibi de Rafa, que diz estar em outra rua, e reforça a acusação."
-      }
-    ]
-  },
-
-  {
-    id: 4,
-    name: "Fraude Bancária Digital",
-    introImage: "case_scene_bg",
-    description:
-      "Várias contas foram esvaziadas em Valley City usando acesso online de dentro de uma mesma residência.",
-    witnesses: [
-      {
-        id: "w1",
-        name: "Analista de TI do Banco",
-        role: "Perito Digital",
-        image: "witness_11",
-        initial:
-          "Todas as tentativas de login partiram do mesmo IP residencial.",
-        answers: {
-          where:
-            "Eu estava no centro de monitoramento do banco quando o alerta disparou.",
-          knowVictim:
-            "Conheço apenas pelos registros, são clientes antigos.",
-          seeSomeone:
-            "Pelos dados de rede, a conexão veio de uma casa na zona norte.",
-          hear:
-            "Os logs mostram tentativa de acesso em sequência, pulando de uma conta para outra.",
-          moreInfo:
-            "O IP está fixo em nome de um morador: o irmão de um dos investigados."
-        }
-      }
-    ],
-    suspects: [
-      {
-        id: "s1",
-        name: "Andrew Blake",
-        image: "suspect_07",
-        age: 30,
-        occupation: "Técnico em informática",
-        address: "Zona Norte",
-        record: "Sem antecedentes.",
-        alibi:
-          "Afirma que estava viajando e outro familiar usou o computador.",
-        isGuilty: true,
-        stats: { stress: 55, confidence: 50, anger: 30 },
-        answers: {
-          alibi:
-            "Eu estava viajando, meu irmão ficou em casa, qualquer coisa foi ele que mexeu.",
-          relation:
-            "Nenhuma relação direta com as vítimas, só vejo nomes nos registros.",
-          motive:
-            "Eu não ganharia nada com isso, tenho meu próprio trabalho.",
-          witness:
-            "Meu irmão pode confirmar que eu não estava em casa, mas ele é suspeito também, pelo visto.",
-          stress:
-            "Estou tenso porque isso envolve minha área, fica parecendo que eu sou culpado só por entender de TI.",
-          weapon:
-            "Minha 'arma' é um computador, mas não usei pra isso."
-        }
-      },
-      {
-        id: "s2",
-        name: "Eric Blake",
-        image: "suspect_08",
-        age: 26,
-        occupation: "Desempregado",
-        address: "Zona Norte",
-        record: "Uma ocorrência de vandalismo.",
-        alibi:
-          "Diz que só usava videogame, não computador.",
-        isGuilty: false,
-        stats: { stress: 40, confidence: 55, anger: 35 },
-        answers: {
-          alibi:
-            "Eu tava jogando videogame. Nem sei mexer nesses esquemas de banco.",
-          relation:
-            "Nenhuma relação com as vítimas.",
-          motive:
-            "Não tenho acesso a conta de banco de ninguém.",
-          witness:
-            "Meu histórico de jogo mostra que eu estava online nesse horário.",
-          stress:
-            "Tô irritado porque meu irmão quer jogar a culpa em mim.",
-          weapon:
-            "Nem notebook eu tenho, só console."
-        }
-      }
-    ],
-    evidence: [
-      {
-        id: "e1",
-        title: "Log de Acesso",
-        type: "Digital",
-        image: "evidence_text_01",
-        description:
-          "Horário dos acessos combina com uma mudança de login que só alguém com conhecimento avançado faria.",
-        relevance:
-          "Aponta para alguém com habilidades técnicas, reforçando suspeita sobre Andrew."
-      }
-    ]
-  },
-
-  {
-    id: 5,
-    name: "Incêndio Suspeito em Depósito",
-    introImage: "case_scene_bg",
-    description:
-      "Um depósito de móveis pegou fogo durante a madrugada. Indícios de incêndio criminoso.",
-    witnesses: [
-      {
-        id: "w1",
-        name: "Vigilante Noturno",
-        role: "Segurança",
-        image: "witness_12",
-        initial:
-          "Eu vi alguém pulando o muro antes do fogo começar.",
-        answers: {
-          where:
-            "Estava na guarita da esquina, olhando as câmeras.",
-          knowVictim:
-            "Trabalho para a empresa que aluga o depósito.",
-          seeSomeone:
-            "A pessoa vestia moletom com capuz, mas tropeçou e mancou ao correr.",
-          hear:
-            "Ouvi um barulho de vidro quebrando e depois um 'whoosh' de fogo pegando rápido.",
-          moreInfo:
-            "A pessoa correu em direção a uma moto estacionada na rua lateral."
-        }
-      }
-    ],
-    suspects: [
-      {
-        id: "s1",
-        name: "Carl Jenkins",
-        image: "suspect_09",
-        age: 42,
-        occupation: "Ex-funcionário demitido",
-        address: "Zona Oeste",
-        record: "Nenhum registro criminal, mas histórico de reclamações.",
-        alibi:
-          "Diz que estava dormindo em casa.",
-        isGuilty: true,
-        stats: { stress: 65, confidence: 40, anger: 60 },
-        answers: {
-          alibi:
-            "Eu estava dormindo, não tenho porque ir naquele depósito.",
-          relation:
-            "Trabalhei anos lá e me mandaram embora sem motivo justo.",
-          motive:
-            "Eu estava bravo, sim, mas isso não quer dizer que eu pus fogo.",
-          witness:
-            "Minha vizinha talvez tenha me visto em casa, mas não tenho certeza.",
-          stress:
-            "Perdi meu emprego e agora me acusam disso. Quem não ficaria tenso?",
-          weapon:
-            "Eu tenho uma moto, mas isso não prova nada."
-        }
-      },
-      {
-        id: "s2",
-        name: "Novo Gerente do Depósito",
-        image: "suspect_10",
-        age: 35,
-        occupation: "Gerente",
-        address: "Centro",
-        record: "Sem antecedentes.",
-        alibi:
-          "Afirma que estava em viagem de negócios em outra cidade.",
-        isGuilty: false,
-        stats: { stress: 35, confidence: 65, anger: 25 },
-        answers: {
-          alibi:
-            "Eu estava viajando, tem passagens e hotel para comprovar.",
-          relation:
-            "Sou responsável pelo estoque, perdi muito com esse incêndio.",
-          motive:
-            "Não teria motivo para prejudicar meu próprio trabalho.",
-          witness:
-            "Meu chefe, o hotel e até o táxi podem comprovar.",
-          stress:
-            "Apenas frustrado pelo prejuízo.",
-          weapon:
-            "Nenhuma arma, apenas documentos e planilhas."
-        }
-      }
-    ],
-    evidence: [
-      {
-        id: "e1",
-        title: "Pegadas Próximas ao Muro",
-        type: "Físico",
-        image: "evidence_obj_02",
-        description:
-          "Pegadas profundas indicando alguém mancando, com uma perna sobrecarregada.",
-        relevance:
-          "Bate com o relato do vigilante e com o histórico de lesão no joelho de Carl."
-      }
-    ]
-  },
-
-  {
-    id: 6,
-    name: "Sequestro Relâmpago na Zona Leste",
-    introImage: "case_scene_bg",
-    description:
-      "Um motorista foi rendido e obrigado a sacar dinheiro em vários caixas pela cidade.",
-    witnesses: [],
-    suspects: [
-      {
-        id: "s1",
-        name: "Miguel Santos",
-        image: "suspect_11",
-        age: 28,
-        occupation: "Auxiliar de oficina",
-        address: "Zona Leste",
-        record: "Uma passagem por furto de carro.",
-        alibi:
-          "Diz que estava na oficina até tarde.",
-        isGuilty: true,
-        stats: { stress: 60, confidence: 45, anger: 40 },
-        answers: {
-          alibi:
-            "Eu estava fazendo hora extra na oficina, o dono pode confirmar.",
-          relation:
-            "Não conheço a vítima.",
-          motive:
-            "Tô apertado de grana, mas não chego a tanto.",
-          witness:
-            "Se o dono disser que eu não tava lá, é porque tá com raiva de mim.",
-          stress:
-            "Já sei que estão me apontando porque eu tenho passagem.",
-          weapon:
-            "Não tenho arma, mas na oficina tem ferramentas perigosas."
-        }
-      }
-    ],
-    evidence: [
-      {
-        id: "e1",
-        title: "Imagens de Caixa Eletrônico",
-        type: "Vídeo",
-        image: "evidence_doc_02",
-        description:
-          "Mostram um homem usando capuz, mas com tatuagem visível no antebraço igual à de Miguel.",
-        relevance:
-          "Ligação visual clara entre o criminoso e Miguel."
-      }
-    ]
-  },
-
-  {
-    id: 7,
-    name: "Desaparecimento em Valley City Night",
-    introImage: "valley_city_night",
-    description:
-      "Uma adolescente desapareceu após sair de uma festa no centro.",
-    witnesses: [],
-    suspects: [],
-    evidence: []
-  },
-
-  {
-    id: 8,
-    name: "Assalto à Mão Armada no Estacionamento",
-    introImage: "case_scene_bg",
-    description:
-      "Um casal foi assaltado ao sair de um cinema. O ladrão levou carteira, celular e carro.",
-    witnesses: [],
-    suspects: [],
-    evidence: []
-  },
-
-  {
-    id: 9,
-    name: "Envenenamento em Restaurante Famoso",
-    introImage: "case_scene_bg",
-    description:
-      "Um cliente faleceu após jantar em um restaurante de luxo.",
-    witnesses: [],
-    suspects: [],
-    evidence: []
-  },
-
-  {
-    id: 10,
-    name: "Atentado Frustrado ao Prefeito de Valley City",
-    introImage: "police_station_front",
-    description:
-      "Informações de inteligência indicam plano de ataque contra o prefeito.",
-    witnesses: [],
-    suspects: [],
-    evidence: []
-  }
-];
 
 /* ==========================
    FUNÇÕES DE INVESTIGAÇÃO
@@ -1082,7 +914,7 @@ function openWitnesses() {
   const list = document.getElementById("witnessList");
   if (!list) return;
 
-  if (!c.witnesses || c.witnesses.length === 0) {
+  if (!c || !c.witnesses || c.witnesses.length === 0) {
     list.innerHTML = `<p class="small">Nenhuma testemunha disponível neste caso.</p>`;
     return;
   }
@@ -1094,7 +926,7 @@ function openWitnesses() {
     div.onclick = () => openWitnessDetail(w.id);
     div.innerHTML = `
       <div class="flex">
-        <div class="portrait"><img src="assets/${w.image}.png"></div>
+        <div class="portrait"><img src="assets/${w.image}.png" alt="${w.name}"></div>
         <div>
           <div class="list-item-title">${w.name}</div>
           <div class="list-item-sub">${w.role}</div>
@@ -1107,6 +939,8 @@ function openWitnesses() {
 
 function openWitnessDetail(wId) {
   const c = player.currentCase;
+  if (!c) return;
+
   currentWitness = c.witnesses.find(w => w.id === wId);
   if (!currentWitness) return;
 
@@ -1180,7 +1014,7 @@ function openSuspects() {
   const list = document.getElementById("suspectList");
   if (!list) return;
 
-  if (!c.suspects || c.suspects.length === 0) {
+  if (!c || !c.suspects || c.suspects.length === 0) {
     list.innerHTML = `<p class="small">Nenhum suspeito definido neste caso ainda.</p>`;
     return;
   }
@@ -1192,7 +1026,7 @@ function openSuspects() {
     div.onclick = () => openSuspectDetail(s.id);
     div.innerHTML = `
       <div class="flex">
-        <div class="portrait"><img src="assets/${s.image}.png"></div>
+        <div class="portrait"><img src="assets/${s.image}.png" alt="${s.name}"></div>
         <div>
           <div class="list-item-title">${s.name}</div>
           <div class="list-item-sub">${s.occupation} • ${s.age} anos</div>
@@ -1205,6 +1039,8 @@ function openSuspects() {
 
 function openSuspectDetail(sId) {
   const c = player.currentCase;
+  if (!c) return;
+
   currentSuspect = c.suspects.find(s => s.id === sId);
   if (!currentSuspect) return;
 
@@ -1241,8 +1077,8 @@ function openSuspectDetail(sId) {
 }
 
 function updateSuspectBars() {
-  if (!currentSuspect) return;
-  const { stress, confidence, anger } = currentSuspect.stats || {};
+  if (!currentSuspect || !currentSuspect.stats) return;
+  const { stress, confidence, anger } = currentSuspect.stats;
   const st = document.getElementById("sb_stress");
   const cf = document.getElementById("sb_conf");
   const ag = document.getElementById("sb_ang");
@@ -1262,12 +1098,11 @@ function askSuspect(questionId) {
       ? currentSuspect.answers[questionId]
       : "Não tenho nada a declarar sobre isso.";
 
-  // Ajuste de barras de stress/confiança/raiva
   if (!currentSuspect.stats) currentSuspect.stats = { stress: 0, confidence: 0, anger: 0 };
 
   if (questionId === "stress") {
     currentSuspect.stats.stress = Math.min(currentSuspect.stats.stress + 10, 100);
-    currentSuspect.stats.anger = Math.min(currentSuspect.stats.anger + 5, 100);
+    currentSuspect.stats.anger  = Math.min(currentSuspect.stats.anger + 5, 100);
   } else if (questionId === "relation" || questionId === "motive") {
     currentSuspect.stats.stress = Math.min(currentSuspect.stats.stress + 5, 100);
   } else {
@@ -1305,7 +1140,7 @@ function openEvidence() {
   const list = document.getElementById("eList");
   if (!list) return;
 
-  if (!c.evidence || c.evidence.length === 0) {
+  if (!c || !c.evidence || c.evidence.length === 0) {
     list.innerHTML = `<p class="small">Nenhuma prova cadastrada neste caso.</p>`;
     return;
   }
@@ -1317,7 +1152,7 @@ function openEvidence() {
     div.innerHTML = `
       <div class="list-item-title">${e.title} <span class="pill-inline">${e.type}</span></div>
       <div class="list-item-sub">${e.description}</div>
-      <img class="thumb" src="assets/${e.image}.png">
+      <img class="thumb" src="assets/${e.image}.png" alt="${e.title}">
       <p class="small"><b>Relevância:</b> ${e.relevance}</p>
     `;
     list.appendChild(div);
@@ -1338,7 +1173,7 @@ function openConclusion() {
   const list = document.getElementById("concludeList");
   if (!list) return;
 
-  if (!c.suspects || c.suspects.length === 0) {
+  if (!c || !c.suspects || c.suspects.length === 0) {
     list.innerHTML = `<p class="small">Nenhum suspeito disponível. Impossível concluir o caso.</p>`;
     return;
   }
@@ -1354,7 +1189,7 @@ function openConclusion() {
     };
     div.innerHTML = `
       <div class="flex">
-        <div class="portrait"><img src="assets/${s.image}.png"></div>
+        <div class="portrait"><img src="assets/${s.image}.png" alt="${s.name}"></div>
         <div>
           <div class="list-item-title">${s.name}</div>
           <div class="list-item-sub">${s.occupation}</div>
@@ -1366,7 +1201,47 @@ function openConclusion() {
 }
 
 /* ==========================
-   INICIAR JOGO
+   RESETAR JOGO (DEMISSÃO)
 =========================== */
 
-goTo("start");
+function resetGame() {
+  player = {
+    name: "",
+    avatar: "",
+    gender: "M",
+    agency: "PD",
+    rankIndex: 0,
+    rank: "Detetive Júnior",
+    moral: 50,
+    prestige: 0,
+    currentCaseIndex: 0,
+    solvedCases: 0,
+    failedCases: 0
+  };
+  currentWitness = null;
+  currentSuspect = null;
+  lastWarrantResult = null;
+  saveGame(); // salva estado limpo
+  goTo("start");
+}
+
+/* ==========================
+   INICIAR GAME (CARREGAR cases.json)
+=========================== */
+
+function initGame() {
+  fetch("cases.json")
+    .then(r => r.json())
+    .then(data => {
+      cases = data;
+      goTo("start");
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Erro ao carregar casos. Verifique se 'cases.json' está presente e acessível.");
+      // Mesmo assim, mostra tela inicial (sem casos)
+      goTo("start");
+    });
+}
+
+document.addEventListener("DOMContentLoaded", initGame);
