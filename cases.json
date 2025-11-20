@@ -4,97 +4,98 @@
     "title": "O Quadro Desaparecido",
     "difficulty": "Fácil",
     "location": "Museu Municipal de Arte",
-    "intro": "Um quadro famoso sumiu poucas horas antes da abertura de uma grande exposição.",
-    "story": "Você é chamado ao museu quando o diretor descobre que 'A Noite Sobre o Vale' desapareceu do cofre. Apenas três pessoas tiveram acesso ao local nas últimas horas.",
+    "intro": "Um quadro valioso sumiu poucas horas antes da abertura de uma grande exposição.",
+    "story": "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais importante da mostra, desapareceu da sala de segurança.",
     "clues": [
-      "A câmera de segurança ficou desligada por 10 minutos.",
-      "O segurança noturno ouviu passos às 02h17.",
-      "Um funcionário tem dívidas altas de jogo."
+      "O sistema registrou que a porta do cofre foi aberta apenas uma vez na última hora.",
+      "Uma luva de tecido fino foi encontrada caída perto da porta do cofre.",
+      "A câmera da sala do cofre ficou borrada por 10 segundos, exatamente no horário do sumiço."
     ],
     "suspects": [
       {
-        "id": "seguranca",
-        "name": "Marcelo, o segurança",
-        "description": "Trabalha há 10 anos no museu, parece nervoso e evita contato visual."
+        "id": "a",
+        "name": "Júlio, o Curador",
+        "description": "Trabalha há anos no museu. Foi visto discutindo com o diretor sobre cortes de orçamento.",
+        "isGuilty": false
       },
       {
-        "id": "curadora",
-        "name": "Dra. Helena, a curadora",
-        "description": "Conhece cada obra de arte, foi a última a sair antes do sumiço."
+        "id": "b",
+        "name": "Carla, a Restauradora",
+        "description": "Teria acesso à chave reserva do cofre. Está sempre usando luvas de tecido para proteger as obras.",
+        "isGuilty": true
       },
       {
-        "id": "estagiario",
-        "name": "Jonas, o estagiário",
-        "description": "Jovem entusiasmado, mas com pouco acesso às áreas restritas."
+        "id": "c",
+        "name": "Rogério, o Segurança",
+        "description": "Responsável pelo monitoramento das câmeras. Diz que o sistema travou por alguns segundos.",
+        "isGuilty": false
       }
-    ],
-    "correctSuspectId": "curadora",
-    "solutionText": "A curadora tinha a senha do cofre e aproveitou a falha da câmera para agir."
+    ]
   },
-
   {
     "id": 2,
-    "title": "O Misterioso Apagão no Vale",
+    "title": "O Segredo do Café 24h",
     "difficulty": "Médio",
-    "location": "Bairro Central do Vale",
-    "intro": "Um apagão inesperado deixou todo o bairro às escuras por 15 minutos.",
-    "story": "Pouco antes do apagão, um carro-forte passava pela avenida. O Capitão suspeita de sabotagem.",
+    "location": "Café Esquina do Vale",
+    "intro": "O dono de um café 24 horas afirma que alguém está roubando dinheiro do caixa durante a madrugada.",
+    "story": "Não há sinais de arrombamento e o dono garante que só três pessoas têm a chave: ele, o atendente da madrugada e a gerente.",
     "clues": [
-      "Moradores ouviram um estrondo na subestação elétrica.",
-      "A empresa de energia não registrou falhas técnicas.",
-      "Um vídeo mostra um grupo perto da subestação minutos antes."
+      "Os relatórios de vendas mostram um pico de consumo em um horário em que quase não há clientes.",
+      "A gerente vive reclamando do salário baixo, mas apareceu com um celular novo.",
+      "O atendente costuma levar amigos para o café depois do turno para 'fechar o dia'."
     ],
     "suspects": [
       {
-        "id": "tecnico",
-        "name": "Rafael, o técnico",
-        "description": "Tem acesso à subestação e conhecimento para provocar o apagão."
+        "id": "a",
+        "name": "Paulo, o Dono",
+        "description": "Controlador, sabe tudo o que acontece no café. Diz que sempre confere o caixa pessoalmente.",
+        "isGuilty": false
       },
       {
-        "id": "moradora",
-        "name": "Dona Zuleica",
-        "description": "Moradora antiga, mas sem acesso a sistemas elétricos."
+        "id": "b",
+        "name": "Lígia, a Gerente",
+        "description": "Responsável pelos relatórios de vendas. Tem a senha do sistema e a chave do estabelecimento.",
+        "isGuilty": true
       },
       {
-        "id": "chefe_bando",
-        "name": "Cassiano, chefe de quadrilha",
-        "description": "Já investigado anteriormente, mas nunca foi pego."
+        "id": "c",
+        "name": "Mateus, o Atendente da Madrugada",
+        "description": "Carismático, vive cheio de amigos. Diz que não entende nada de sistema e só ‘marca no caderninho’.",
+        "isGuilty": false
       }
-    ],
-    "correctSuspectId": "tecnico",
-    "solutionText": "O técnico manipulou o sistema internamente, sincronizando o apagão com a passagem do carro-forte."
+    ]
   },
-
   {
     "id": 3,
-    "title": "Notas Falsas na Feira",
+    "title": "O Laptop Silencioso",
     "difficulty": "Fácil",
-    "location": "Feira Municipal do Vale",
-    "intro": "Feirantes reclamaram de grande circulação de notas falsas.",
-    "story": "O capitão acredita que alguém na feira esteja distribuindo as notas fraudulentas.",
+    "location": "Estação Central do Vale",
+    "intro": "Um laptop com dados sigilosos desapareceu da sala de funcionários da estação.",
+    "story": "A sala fica trancada, mas muitas pessoas entram e saem ao longo do dia. O dono jura que deixou o laptop carregando sobre a mesa.",
     "clues": [
-      "As notas falsas têm a mesma numeração.",
-      "Um feirante começou a aceitar apenas PIX recentemente.",
-      "Uma nova barraca apareceu sem cadastro oficial."
+      "Um carregador continua conectado à tomada, mas o laptop não está mais ali.",
+      "Um bilhete amassado no lixo diz: 'Traga o pendrive hoje, antes do plantão'.",
+      "Câmeras mostram um funcionário saindo apressado, segurando uma mochila maior do que o normal."
     ],
     "suspects": [
       {
-        "id": "feirante_antigo",
-        "name": "Naldo",
-        "description": "Feirante antigo, conhecido por ser honesto."
+        "id": "a",
+        "name": "Bianca, Analista de Dados",
+        "description": "Tem acesso aos arquivos sigilosos e costuma levar trabalho para casa.",
+        "isGuilty": false
       },
       {
-        "id": "barraca_nova",
-        "name": "Lívia",
-        "description": "Dona da barraca nova, sempre recebe dinheiro vivo."
+        "id": "b",
+        "name": "Henrique, Técnico de TI",
+        "description": "Vive reclamando que ninguém faz backup. Sabe todas as senhas da rede.",
+        "isGuilty": false
       },
       {
-        "id": "cliente_misterioso",
-        "name": "Homem de capuz",
-        "description": "Aparece rapidamente e sempre paga com notas altas."
+        "id": "c",
+        "name": "Douglas, Plantonista da Noite",
+        "description": "Foi visto saindo carregando uma mochila cheia no final do turno.",
+        "isGuilty": true
       }
-    ],
-    "correctSuspectId": "barraca_nova",
-    "solutionText": "Lívia distribuía as notas falsas usando o movimento intenso para despistar."
+    ]
   }
 ]
