@@ -589,3 +589,92 @@ main {
     flex-direction: column;
   }
 }
+/* ===== Tela SEU OFICIAL / AVATARES ===== */
+
+#screen-official,
+#seu-oficial,
+.oficial-screen {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Título e texto */
+.oficial-header h1,
+#screen-official h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.oficial-header p {
+  font-size: 0.9rem;
+  color: #d1d5db;
+  margin-bottom: 8px;
+}
+
+/* Inputs do nome */
+.oficial-form input[type="text"] {
+  width: 100%;
+  max-width: 280px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(148,163,184,0.5);
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 0.9rem;
+}
+
+/* GRID de avatares */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Cada avatar */
+.avatar-card {
+  background: #020617;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(148,163,184,0.5);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, border 0.1s ease;
+}
+
+.avatar-card input {
+  display: none;
+}
+
+.avatar-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  /* força proporção bonitinha (3:4) */
+  aspect-ratio: 3 / 4;
+}
+
+.avatar-card span {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(0,0,0,0.6);
+  font-size: 0.7rem;
+}
+
+/* Selecionado */
+.avatar-card.selected {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56,189,248,0.7);
+  transform: translateY(-2px);
+}
+
+/* Garante que nenhuma imagem do site estoure a tela */
+img {
+  max-width: 100%;
+  height: auto;
+}
