@@ -1,251 +1,97 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Jogo de Detetive Investigativo</title>
+  <title>Valley Detective</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="app">
-    <header class="top-bar">
-      <div class="logo-title">
-        <div class="badge">Arquivo Secreto</div>
-        <h1>Jogo de Detetive Investigativo</h1>
-      </div>
-      <div class="top-actions">
-        <button id="btn-open-builder" class="btn ghost small">
-          Criar / Editar Casos (JSON)
-        </button>
-      </div>
-    </header>
+  <div id="game-root">
+    <!-- TELA DE FUNDO / ESCRITÓRIO -->
+    <div class="background-layer"></div>
 
-    <main>
-      <!-- TELA 1: INTRO / CAPITÃO -->
-      <section id="screen-start" class="screen active">
-        <div class="screen-inner start-screen">
-          <div class="start-left">
-            <div class="start-caption">
-              <h2>Bem-vindo, Detetive!</h2>
-              <p class="captain-text">
-                Aqui é o <strong>Capitão Almeida</strong>. A cidade está um caos e precisamos de uma mente afiada.
-                Cada caso neste arquivo secreto é um quebra-cabeça real: observe as pistas, desconfie de todos
-                e tome cuidado com conclusões fáceis.
-              </p>
-              <p class="captain-text">
-                Seu trabalho é simples: <strong>ler o caso</strong>, <strong>analisar as pistas</strong> e
-                <strong>apontar o verdadeiro culpado</strong>. Uma acusação errada… e o criminoso foge.
-              </p>
-              <button id="btn-start" class="btn primary big">
-                Começar a investigar
-              </button>
-            </div>
-          </div>
-          <div class="start-right">
-            <div class="office-card">
-              <div class="office-overlay"></div>
-              <div class="office-content">
-                <p class="office-title">Central de Casos Especiais</p>
-                <p class="office-subtitle">Dossiês confidenciais • Acesso restrito</p>
-              </div>
-            </div>
-            <p class="hint">
-              Toque em <strong>Começar a investigar</strong> para abrir o mural de casos.
-            </p>
-          </div>
+    <!-- CONTAINER PRINCIPAL -->
+    <div class="game-container">
+      <!-- CABEÇALHO -->
+      <header class="game-header">
+        <div class="logo-title">
+          <h1>Valley Detective</h1>
+          <span class="subtitle">Unidade de Casos Especiais</span>
         </div>
-      </section>
-
-      <!-- TELA 2: LISTA DE CASOS -->
-      <section id="screen-case-list" class="screen">
-        <div class="screen-inner">
-          <div class="section-header">
-            <h2>Mural de Casos</h2>
-            <p>Escolha um dossiê para investigar. Cada caso possui dificuldade e nível de complexidade.</p>
-          </div>
-          <div id="case-list" class="case-list">
-            <!-- Cartões de casos são inseridos via JS -->
-          </div>
-          <div class="bottom-bar">
-            <button id="btn-back-from-list" class="btn ghost">
-              ⬅ Voltar para o Capitão
-            </button>
-          </div>
+        <div class="status-bar">
+          <span id="case-counter">Caso 0 de 0</span>
+          <span id="difficulty-label">Dificuldade: -</span>
         </div>
-      </section>
-
-      <!-- TELA 3: JOGAR CASO -->
-      <section id="screen-case-play" class="screen">
-        <div class="screen-inner">
-          <div class="section-header header-with-case">
-            <div>
-              <h2 id="play-case-title">Título do Caso</h2>
-              <p id="play-case-meta" class="case-meta"></p>
-            </div>
-            <span id="play-case-difficulty" class="pill"></span>
-          </div>
-
-          <div class="case-layout">
-            <div class="case-main">
-              <article class="card">
-                <h3>Relatório Inicial</h3>
-                <p id="play-case-intro" class="case-intro"></p>
-                <p id="play-case-story" class="case-story"></p>
-              </article>
-
-              <article class="card">
-                <h3>Questão Principal</h3>
-                <p id="play-case-question" class="case-question"></p>
-              </article>
-
-              <article class="card">
-                <h3>Suspeitos</h3>
-                <div id="play-suspects" class="suspect-list">
-                  <!-- Suspeitos via JS -->
-                </div>
-              </article>
-            </div>
-
-            <aside class="case-side">
-              <article class="card">
-                <h3>Pistas</h3>
-                <ul id="play-clues" class="clue-list">
-                  <!-- Pistas via JS -->
-                </ul>
-              </article>
-
-              <article class="card accusation-card">
-                <h3>Sua Acusação</h3>
-                <p>Selecione um suspeito e confirme sua acusação:</p>
-                <div id="selected-suspect-box" class="selected-suspect-box">
-                  Nenhum suspeito selecionado.
-                </div>
-                <button id="btn-accuse" class="btn danger full">
-                  Acusar
-                </button>
-                <button id="btn-back-to-list" class="btn ghost full">
-                  Voltar para o mural
-                </button>
-              </article>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <!-- TELA 4: RESULTADO -->
-      <section id="screen-result" class="screen">
-        <div class="screen-inner">
-          <article class="card result-card">
-            <h2 id="result-title">Resultado</h2>
-            <p id="result-summary" class="result-summary"></p>
-            <p id="result-solution" class="result-solution"></p>
-
-            <div class="result-actions">
-              <button id="btn-result-retry" class="btn ghost">
-                Tentar o mesmo caso novamente
-              </button>
-              <button id="btn-result-list" class="btn primary">
-                Voltar ao mural de casos
-              </button>
-            </div>
-          </article>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- MODAL: CRIADOR DE JSON -->
-  <div id="builder-modal" class="modal hidden">
-    <div class="modal-backdrop"></div>
-    <div class="modal-content">
-      <header class="modal-header">
-        <h2>Criador de Casos (JSON)</h2>
-        <button id="btn-close-builder" class="btn ghost small">✕</button>
       </header>
 
-      <div class="modal-body">
-        <p class="builder-info">
-          Use este painel para criar novos casos e gerar o arquivo <code>cases.json</code>.
-          Depois é só baixar e substituir o arquivo no servidor / GitHub.
+      <!-- TELA DE BOAS-VINDAS DO CAPITÃO -->
+      <section id="intro-screen" class="card intro-card">
+        <h2>Bem-vindo, Detetive!</h2>
+        <p id="captain-message">
+          Você acaba de ser transferido para o Vale, a região mais enigmática da cidade.
+          Seu trabalho é simples: analisar pistas, interrogar suspeitos e tomar decisões
+          rápidas. Cada escolha pode mudar o rumo da investigação.
         </p>
+        <p>
+          Começaremos com uma série de casos selecionados. Concentre-se nas pistas,
+          desconfie de versões muito perfeitas e siga sua intuição.
+        </p>
+        <button id="start-game-btn" class="primary-btn">
+          Começar Investigação
+        </button>
+      </section>
 
-        <div class="builder-grid">
-          <div class="builder-form">
-            <h3>Novo Caso Rápido</h3>
-            <label>
-              Título do caso
-              <input type="text" id="b-title" placeholder="Ex: O Quadro Desaparecido" />
-            </label>
+      <!-- ÁREA PRINCIPAL DO JOGO (APARECE DEPOIS DO INTRO) -->
+      <main id="game-screen" class="game-main hidden">
+        <!-- INFO DO CASO -->
+        <section class="case-info card">
+          <h2 id="case-title">Título do Caso</h2>
+          <p class="case-location" id="case-location"></p>
+          <p class="case-intro" id="case-intro"></p>
+          <p class="case-story" id="case-story"></p>
+        </section>
 
-            <label>
-              Dificuldade
-              <select id="b-difficulty">
-                <option value="Fácil">Fácil</option>
-                <option value="Médio">Médio</option>
-                <option value="Difícil">Difícil</option>
-              </select>
-            </label>
+        <!-- DUAS COLUNAS: PISTAS / SUSPEITOS + AÇÕES -->
+        <section class="case-columns">
+          <!-- PISTAS -->
+          <div class="card column">
+            <h3>Pistas</h3>
+            <ul id="clues-list" class="clues-list"></ul>
+          </div>
 
-            <label>
-              Local
-              <input type="text" id="b-location" placeholder="Ex: Museu Municipal de Arte" />
-            </label>
+          <!-- SUSPEITOS -->
+          <div class="card column">
+            <h3>Suspeitos</h3>
+            <ul id="suspects-list" class="suspects-list"></ul>
 
-            <label>
-              Introdução (curta)
-              <textarea id="b-intro" rows="2" placeholder="Resumo rápido do caso..."></textarea>
-            </label>
+            <div class="notes-area">
+              <h4>Anotações</h4>
+              <textarea id="notes" placeholder="Escreva aqui suas teorias..."></textarea>
+            </div>
 
-            <label>
-              História (detalhada)
-              <textarea id="b-story" rows="4" placeholder="Descrição completa do crime..."></textarea>
-            </label>
-
-            <label>
-              Pistas (separe com ponto e vírgula ;)
-              <textarea id="b-clues" rows="3" placeholder="Pista 1; Pista 2; Pista 3"></textarea>
-            </label>
-
-            <label>
-              Suspeitos (somente nomes, separados por ponto e vírgula ;)
-              <textarea id="b-suspects" rows="3" placeholder="Suspeito A; Suspeito B; Suspeito C"></textarea>
-            </label>
-
-            <label>
-              Nome exato do culpado (deve ser um dos suspeitos)
-              <input type="text" id="b-answer" placeholder="Ex: Suspeito B" />
-            </label>
-
-            <label>
-              Explicação da solução
-              <textarea id="b-solution" rows="3" placeholder="Explique por que este suspeito é o verdadeiro culpado..."></textarea>
-            </label>
-
-            <button id="btn-add-case" class="btn primary full">
-              Adicionar caso à lista (JSON)
+            <button id="accuse-btn" class="primary-btn full-width">
+              Fazer Acusação
             </button>
           </div>
+        </section>
 
-          <div class="builder-json">
-            <h3>JSON Gerado</h3>
-            <p class="builder-info">
-              Esta é a lista completa de casos que o jogo está usando agora.
-              Você pode copiar e colar ou baixar o arquivo direto.
-            </p>
-            <textarea id="json-output" class="json-output" spellcheck="false"></textarea>
-            <div class="builder-actions">
-              <button id="btn-copy-json" class="btn ghost small">
-                Copiar JSON
-              </button>
-              <button id="btn-download-json" class="btn primary small">
-                Baixar cases.json
-              </button>
-            </div>
+        <!-- ÁREA DE RESULTADO / MENSAGEM DO CAPITÃO -->
+        <section class="card result-card">
+          <h3>Relatório do Capitão</h3>
+          <p id="result-message">
+            Analise as pistas e escolha um suspeito para acusar.
+          </p>
+          <div class="result-actions">
+            <button id="next-case-btn" class="secondary-btn" disabled>
+              Próximo Caso
+            </button>
+            <button id="restart-btn" class="ghost-btn">
+              Voltar ao Escritório
+            </button>
           </div>
-        </div>
-      </div>
-
+        </section>
+      </main>
     </div>
   </div>
 
