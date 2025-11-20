@@ -1,334 +1,356 @@
-// game.js – versão estável com poucos casos e visual organizado
+// ==========================
+// ESTADO DO JOGO
+// ==========================
 
-let cases = [];
+let detectiveName = "";
+let detectiveAvatarId = null;
 let currentCaseIndex = 0;
 let selectedSuspectId = null;
+let lastAccusationWasCorrect = false;
 
-// FALLBACK LOCAL (se o fetch do JSON falhar)
-const fallbackCases = [
+// Casos clássicos (alguns exemplos, sem JSON externo)
+const cases = [
   {
     id: 1,
     title: "O Quadro Desaparecido",
     difficulty: "Fácil",
     location: "Museu Municipal de Arte",
     intro:
-      "Um quadro valioso sumiu poucas horas antes da abertura de uma grande exposição.",
+      "Um quadro famoso sumiu poucas horas antes da abertura de uma grande exposição.",
     story:
-      "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais importante da mostra, desapareceu da sala de segurança.",
+      "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais valiosa da exposição, desapareceu do cofre. Apenas três pessoas tiveram acesso à sala do cofre na última hora antes do sumiço.",
     clues: [
-      "O sistema registrou que a porta do cofre foi aberta apenas uma vez na última hora.",
-      "Uma luva de tecido fino foi encontrada caída perto da porta do cofre.",
-      "A câmera da sala do cofre ficou borrada por 10 segundos, exatamente no horário do sumiço."
+      "O sistema de segurança registra que a porta do cofre foi aberta duas vezes na última hora.",
+      "Há um pequeno respingo de tinta azul no chão, próximo ao carrinho de limpeza.",
+      "A chave reserva do cofre fica na sala do diretor, que alega não ter saído de lá.",
     ],
     suspects: [
       {
-        id: "a",
-        name: "Júlio, o Curador",
+        id: "diretor",
+        name: "Sr. Álvaro (Diretor)",
         description:
-          "Trabalha há anos no museu. Foi visto discutindo com o diretor sobre cortes de orçamento.",
-        isGuilty: false
+          "Diretor do museu há mais de 15 anos. Está desesperado com o sumiço.",
+        guilty: false,
       },
       {
-        id: "b",
-        name: "Carla, a Restauradora",
+        id: "seguranca",
+        name: "Marta (Segurança)",
         description:
-          "Teria acesso à chave reserva do cofre. Está sempre usando luvas de tecido para proteger as obras.",
-        isGuilty: true
+          "Responsável pela ronda. Diz que não viu nada de estranho.",
+        guilty: false,
       },
       {
-        id: "c",
-        name: "Rogério, o Segurança",
+        id: "zelador",
+        name: "João (Zelador)",
         description:
-          "Responsável pelo monitoramento das câmeras. Diz que o sistema travou por alguns segundos.",
-        isGuilty: false
-      }
-    ]
+          "Faz a limpeza do corredor do cofre. Carrega sempre um carrinho com produtos.",
+        guilty: true,
+      },
+    ],
+    solution:
+      "O zelador usou o carrinho de limpeza para esconder o quadro. O respingo de tinta no chão e o fato de o cofre ter sido aberto duas vezes indicam que alguém entrou primeiro, saiu com o quadro escondido, e depois voltou para trancar.",
   },
   {
     id: 2,
-    title: "O Segredo do Café 24h",
-    difficulty: "Médio",
-    location: "Café Esquina do Vale",
+    title: "O Notebook Silenciado",
+    difficulty: "Fácil",
+    location: "Escritório Central do Vale",
     intro:
-      "O dono de um café 24 horas afirma que alguém está roubando dinheiro do caixa durante a madrugada.",
+      "Um notebook com informações sigilosas foi substituído por um aparelho falso.",
     story:
-      "Não há sinais de arrombamento e o dono garante que só três pessoas têm a chave: ele, o atendente da madrugada e a gerente.",
+      "No início do plantão, o analista de dados percebe que o notebook que ele usa todos os dias foi trocado por um idêntico, porém completamente vazio. Apenas três pessoas ficaram no escritório na noite anterior.",
     clues: [
-      "Os relatórios de vendas mostram um pico de consumo em um horário em que quase não há clientes.",
-      "A gerente vive reclamando do salário baixo, mas apareceu com um celular novo.",
-      "O atendente costuma levar amigos para o café depois do turno para 'fechar o dia'."
+      "As câmeras do corredor foram desligadas por 10 minutos durante a madrugada.",
+      "Um dos funcionários apareceu com uma mochila maior do que costuma usar.",
+      "Há marcas de café fresco na mesa, mesmo depois do horário do expediente.",
     ],
     suspects: [
       {
-        id: "a",
-        name: "Paulo, o Dono",
+        id: "analista",
+        name: "Edu (Analista)",
         description:
-          "Controlador, sabe tudo o que acontece no café. Diz que sempre confere o caixa pessoalmente.",
-        isGuilty: false
+          "Dono do notebook. Diz que deixou o equipamento trancado na gaveta.",
+        guilty: false,
       },
       {
-        id: "b",
-        name: "Lígia, a Gerente",
+        id: "estagiaria",
+        name: "Lia (Estagiária)",
         description:
-          "Responsável pelos relatórios de vendas. Tem a senha do sistema e a chave do estabelecimento.",
-        isGuilty: true
+          "Ficou no escritório estudando relatórios. É organizada e sempre anota tudo.",
+        guilty: false,
       },
       {
-        id: "c",
-        name: "Mateus, o Atendente da Madrugada",
+        id: "tecnico",
+        name: "Rogério (Técnico de TI)",
         description:
-          "Carismático, vive cheio de amigos. Diz que não entende nada de sistema e só ‘marca no caderninho’.",
-        isGuilty: false
-      }
-    ]
+          "Responsável pelos computadores. Chegou mais cedo que o normal na manhã seguinte.",
+        guilty: true,
+      },
+    ],
+    solution:
+      "O técnico de TI desligou as câmeras por alguns minutos e levou o notebook na mochila maior. As marcas de café indicam que alguém ficou depois do expediente e precisava se manter acordado.",
   },
   {
     id: 3,
-    title: "O Laptop Silencioso",
-    difficulty: "Fácil",
-    location: "Estação Central do Vale",
+    title: "O Cofre da Loja de Joias",
+    difficulty: "Médio",
+    location: "Joalheria Luz do Vale",
     intro:
-      "Um laptop com dados sigilosos desapareceu da sala de funcionários da estação.",
+      "O cofre da joalheria foi encontrado aberto pela manhã, mas sem sinais de arrombamento.",
     story:
-      "A sala fica trancada, mas muitas pessoas entram e saem ao longo do dia. O dono jura que deixou o laptop carregando sobre a mesa.",
+      "A proprietária da joalheria afirma ter trancado o cofre antes de ir embora. No dia seguinte, o cofre estava aberto e algumas peças sumiram. Três pessoas têm a combinação.",
     clues: [
-      "Um carregador continua conectado à tomada, mas o laptop não está mais ali.",
-      "Um bilhete amassado no lixo diz: 'Traga o pendrive hoje, antes do plantão'.",
-      "Câmeras mostram um funcionário saindo apressado, segurando uma mochila maior do que o normal."
+      "Não há sinais de arrombamento na porta do cofre ou na vitrine.",
+      "Um dos funcionários costuma anotar tudo em um caderninho.",
+      "A proprietária recebeu uma ligação estranha minutos antes de fechar a loja.",
     ],
     suspects: [
       {
-        id: "a",
-        name: "Bianca, Analista de Dados",
+        id: "proprietaria",
+        name: "Helena (Proprietária)",
         description:
-          "Tem acesso aos arquivos sigilosos e costuma levar trabalho para casa.",
-        isGuilty: false
+          "Dona da loja há mais de 10 anos. Muito preocupada com a reputação da joalheria.",
+        guilty: false,
       },
       {
-        id: "b",
-        name: "Henrique, Técnico de TI",
+        id: "vendedor",
+        name: "Caio (Vendedor)",
         description:
-          "Vive reclamando que ninguém faz backup. Sabe todas as senhas da rede.",
-        isGuilty: false
+          "Atendente simpático, conhece todos os clientes pelo nome.",
+        guilty: true,
       },
       {
-        id: "c",
-        name: "Douglas, Plantonista da Noite",
+        id: "caixa",
+        name: "Nina (Caixa)",
         description:
-          "Foi visto saindo carregando uma mochila cheia no final do turno.",
-        isGuilty: true
-      }
-    ]
-  }
+          "Cuida do caixa e da papelada. Odeia confusão e atrasos.",
+        guilty: false,
+      },
+    ],
+    solution:
+      "O vendedor observava atentamente quando o cofre era aberto e anotou a combinação no seu caderno. Durante a noite, voltou com a sequência memorizada e pegou as joias sem deixar sinais de arrombamento.",
+  },
 ];
 
-// ELEMENTOS DE INTERFACE
-const welcomeSection = document.getElementById("welcome-section");
-const caseSection = document.getElementById("case-section");
-const reportSection = document.getElementById("report-section");
+// ==========================
+// UTILITÁRIOS DE TELA
+// ==========================
 
-const startBtn = document.getElementById("start-game-btn");
-const accuseBtn = document.getElementById("accuse-btn");
-const backOfficeBtn = document.getElementById("back-office-btn");
-const nextCaseBtn = document.getElementById("next-case-btn");
-
-const caseNumberEl = document.getElementById("case-number");
-const totalCasesEl = document.getElementById("total-cases");
-const caseDifficultyEl = document.getElementById("case-difficulty");
-
-const caseTitleEl = document.getElementById("case-title");
-const caseLocationEl = document.getElementById("case-location");
-const caseIntroEl = document.getElementById("case-intro");
-const caseStoryEl = document.getElementById("case-story");
-const clueListEl = document.getElementById("clue-list");
-const suspectListEl = document.getElementById("suspect-list");
-const notesEl = document.getElementById("notes");
-const captainReportTextEl = document.getElementById("captain-report-text");
-
-// UTIL
-function showSection(sectionToShow) {
-  [welcomeSection, caseSection, reportSection].forEach((sec) => {
-    sec.classList.add("hidden");
-  });
-  sectionToShow.classList.remove("hidden");
+function showScreen(id) {
+  document
+    .querySelectorAll(".screen")
+    .forEach((s) => s.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
 }
 
-function updateHeaderInfo() {
-  const total = cases.length;
-  totalCasesEl.textContent = total;
-
-  if (total === 0) {
-    caseNumberEl.textContent = 0;
-    caseDifficultyEl.textContent = "-";
+function updateCaseMeta() {
+  const metaEl = document.getElementById("caseMeta");
+  if (!cases.length) {
+    metaEl.textContent = "Nenhum caso disponível";
     return;
   }
 
-  caseNumberEl.textContent = currentCaseIndex + 1;
-  caseDifficultyEl.textContent = cases[currentCaseIndex].difficulty || "-";
+  const current = cases[currentCaseIndex];
+  metaEl.textContent = `Caso ${currentCaseIndex + 1} de ${
+    cases.length
+  } • Dificuldade: ${current.difficulty}`;
 }
 
-// CARREGA UM CASO NA TELA
-function loadCurrentCase() {
-  if (!cases.length) return;
+// ==========================
+// CARREGAR CASO NA TELA
+// ==========================
 
-  const c = cases[currentCaseIndex];
+function loadCase(index) {
+  if (index < 0 || index >= cases.length) return;
 
-  caseTitleEl.textContent = c.title;
-  caseLocationEl.textContent = c.location
-    ? `Local: ${c.location}`
-    : "";
-  caseIntroEl.textContent = c.intro || "";
-  caseStoryEl.textContent = c.story || "";
-
-  // pistas
-  clueListEl.innerHTML = "";
-  (c.clues || []).forEach((clue) => {
-    const li = document.createElement("li");
-    li.textContent = clue;
-    clueListEl.appendChild(li);
-  });
-
-  // suspeitos
-  suspectListEl.innerHTML = "";
-  (c.suspects || []).forEach((s) => {
-    const card = document.createElement("label");
-    card.className = "suspect-card";
-
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "suspect";
-    radio.value = s.id;
-    radio.className = "suspect-radio";
-
-    radio.addEventListener("change", () => {
-      selectedSuspectId = s.id;
-    });
-
-    const info = document.createElement("div");
-    info.className = "suspect-info";
-
-    const nameEl = document.createElement("div");
-    nameEl.className = "suspect-name";
-    nameEl.textContent = s.name;
-
-    const descEl = document.createElement("div");
-    descEl.className = "suspect-desc";
-    descEl.textContent = s.description || "";
-
-    info.appendChild(nameEl);
-    info.appendChild(descEl);
-
-    card.appendChild(radio);
-    card.appendChild(info);
-
-    suspectListEl.appendChild(card);
-  });
-
-  // limpa seleção e notas
+  currentCaseIndex = index;
   selectedSuspectId = null;
-  notesEl.value = "";
-  document
-    .querySelectorAll("input[name='suspect']")
-    .forEach((r) => (r.checked = false));
-
-  // atualiza cabeçalho
-  updateHeaderInfo();
-
-  // reseta relatório
-  captainReportTextEl.textContent =
-    "Analise as pistas e escolha um suspeito para acusar.";
-
-  nextCaseBtn.textContent =
-    currentCaseIndex === cases.length - 1 ? "ENCERRAR CASOS" : "PRÓXIMO CASO";
-}
-
-// LÓGICA DE ACUSAÇÃO
-function handleAccusation() {
-  if (!cases.length) return;
+  lastAccusationWasCorrect = false;
 
   const current = cases[currentCaseIndex];
 
+  document.getElementById("caseTitle").textContent = current.title;
+  document.getElementById(
+    "caseLocation"
+  ).textContent = `${current.location}`;
+  document.getElementById("caseIntro").textContent = current.intro;
+  document.getElementById("caseStory").textContent = current.story;
+
+  // Pistas
+  const cluesEl = document.getElementById("caseClues");
+  cluesEl.innerHTML = "";
+  current.clues.forEach((clue) => {
+    const li = document.createElement("li");
+    li.textContent = clue;
+    cluesEl.appendChild(li);
+  });
+
+  // Suspeitos
+  const suspectsEl = document.getElementById("caseSuspects");
+  suspectsEl.innerHTML = "";
+  current.suspects.forEach((s) => {
+    const btn = document.createElement("button");
+    btn.className = "suspect-card";
+    btn.dataset.suspectId = s.id;
+
+    const title = document.createElement("div");
+    title.className = "suspect-card-title";
+    title.textContent = s.name;
+
+    const desc = document.createElement("div");
+    desc.className = "suspect-card-desc";
+    desc.textContent = s.description;
+
+    btn.appendChild(title);
+    btn.appendChild(desc);
+
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".suspect-card")
+        .forEach((el) => el.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedSuspectId = s.id;
+    });
+
+    suspectsEl.appendChild(btn);
+  });
+
+  // Limpar notas e relatório
+  document.getElementById("notesArea").value = "";
+  document.getElementById("captainReport").textContent =
+    "Analise as pistas e escolha um suspeito para acusar.";
+  updateCaseMeta();
+}
+
+// ==========================
+// AÇÕES DO JOGADOR
+// ==========================
+
+function handleAccusation() {
   if (!selectedSuspectId) {
-    captainReportTextEl.textContent =
-      "Você precisa escolher um suspeito antes de acusar.";
-    showSection(reportSection);
+    alert("Escolha um suspeito antes de fazer a acusação.");
     return;
   }
 
-  const guilty = current.suspects.find((s) => s.isGuilty);
-  const chosen = current.suspects.find((s) => s.id === selectedSuspectId);
+  const current = cases[currentCaseIndex];
+  const chosen = current.suspects.find(
+    (s) => s.id === selectedSuspectId
+  );
+  const guilty = current.suspects.find((s) => s.guilty);
 
-  if (!guilty || !chosen) return;
+  const reportEl = document.getElementById("captainReport");
 
-  if (chosen.id === guilty.id) {
-    captainReportTextEl.textContent =
-      `Boa, detetive! ${chosen.name} era realmente o culpado. ` +
-      "Sua análise das pistas foi precisa.";
+  if (chosen && chosen.guilty) {
+    lastAccusationWasCorrect = true;
+    reportEl.innerHTML =
+      `<strong>Acerto!</strong> Você acusou <strong>${chosen.name}</strong> e a investigação confirmou sua culpa.<br><br>` +
+      current.solution;
   } else {
-    captainReportTextEl.textContent =
-      `Não foi dessa vez. ${chosen.name} era inocente. ` +
-      `O verdadeiro culpado era ${guilty.name}. Continue treinando sua intuição.`;
-  }
-
-  showSection(reportSection);
-}
-
-// PRÓXIMO CASO / ENCERRAR
-function handleNextCase() {
-  if (!cases.length) return;
-
-  if (currentCaseIndex < cases.length - 1) {
-    currentCaseIndex++;
-    loadCurrentCase();
-    showSection(caseSection);
-  } else {
-    // acabou os casos, volta para o escritório (boas-vindas)
-    currentCaseIndex = 0;
-    updateHeaderInfo();
-    showSection(welcomeSection);
+    lastAccusationWasCorrect = false;
+    reportEl.innerHTML =
+      `<strong>Acusação equivocada.</strong> O verdadeiro culpado era <strong>${guilty.name}</strong>.<br><br>` +
+      current.solution;
   }
 }
 
-// INICIALIZAÇÃO
-function initGame() {
-  fetch("cases.json")
-    .then((res) => {
-      if (!res.ok) throw new Error("Erro no JSON");
-      return res.json();
-    })
-    .then((data) => {
-      if (Array.isArray(data) && data.length > 0) {
-        cases = data;
-      } else {
-        cases = fallbackCases;
-      }
-      updateHeaderInfo();
-    })
-    .catch(() => {
-      cases = fallbackCases;
-      updateHeaderInfo();
+function goToNextCase() {
+  if (currentCaseIndex + 1 < cases.length) {
+    loadCase(currentCaseIndex + 1);
+  } else {
+    document.getElementById("captainReport").innerHTML =
+      "<strong>Parabéns!</strong> Você concluiu todos os casos disponíveis por enquanto. Novas investigações serão adicionadas em breve.";
+  }
+}
+
+// ==========================
+// INICIALIZAÇÃO E EVENTOS
+// ==========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const screenStart = "screen-start";
+  const screenAvatar = "screen-avatar";
+  const screenName = "screen-name";
+  const screenOffice = "screen-office";
+  const screenCase = "screen-case";
+
+  // TELA INICIAL
+  document
+    .getElementById("btnStartGame")
+    .addEventListener("click", () => {
+      showScreen(screenAvatar);
     });
-}
 
-// EVENTOS
-startBtn.addEventListener("click", () => {
-  if (!cases.length) {
-    cases = fallbackCases;
-  }
-  currentCaseIndex = 0;
-  loadCurrentCase();
-  showSection(caseSection);
+  // AVATAR
+  const avatarButtons = document.querySelectorAll(".avatar-option");
+  const btnAvatarContinue = document.getElementById(
+    "btnAvatarContinue"
+  );
+  const btnAvatarBack = document.getElementById("btnAvatarBack");
+
+  avatarButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      avatarButtons.forEach((b) =>
+        b.classList.remove("selected")
+      );
+      btn.classList.add("selected");
+      detectiveAvatarId = btn.dataset.avatarId;
+      btnAvatarContinue.disabled = false;
+    });
+  });
+
+  btnAvatarContinue.addEventListener("click", () => {
+    showScreen(screenName);
+  });
+
+  btnAvatarBack.addEventListener("click", () => {
+    showScreen(screenStart);
+  });
+
+  // NOME
+  const inputDetectiveName = document.getElementById(
+    "inputDetectiveName"
+  );
+  const btnNameContinue = document.getElementById("btnNameContinue");
+  const btnNameBack = document.getElementById("btnNameBack");
+
+  btnNameContinue.addEventListener("click", () => {
+    const name = inputDetectiveName.value.trim();
+    detectiveName = name || "Detetive do Vale";
+    const officeIntro = document.getElementById("officeIntro");
+    officeIntro.innerHTML = `Bem-vindo ao seu novo escritório, <strong>${detectiveName}</strong>.`;
+    showScreen(screenOffice);
+  });
+
+  btnNameBack.addEventListener("click", () => {
+    showScreen(screenAvatar);
+  });
+
+  // ESCRITÓRIO
+  document
+    .getElementById("btnGoToCase")
+    .addEventListener("click", () => {
+      loadCase(0);
+      showScreen(screenCase);
+    });
+
+  // CASO
+  document
+    .getElementById("btnAccuse")
+    .addEventListener("click", handleAccusation);
+
+  document
+    .getElementById("btnBackToOffice")
+    .addEventListener("click", () => {
+      showScreen(screenOffice);
+      document.getElementById("caseMeta").textContent =
+        "Nenhum caso em andamento";
+    });
+
+  document
+    .getElementById("btnNextCase")
+    .addEventListener("click", goToNextCase);
+
+  // Meta inicial
+  updateCaseMeta();
 });
-
-accuseBtn.addEventListener("click", handleAccusation);
-
-backOfficeBtn.addEventListener("click", () => {
-  showSection(welcomeSection);
-  caseNumberEl.textContent = 0;
-  caseDifficultyEl.textContent = "-";
-});
-
-nextCaseBtn.addEventListener("click", handleNextCase);
-
-// Quando a página carrega
-document.addEventListener("DOMContentLoaded", initGame);
