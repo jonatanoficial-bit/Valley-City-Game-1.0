@@ -1,290 +1,337 @@
+/* =========================================
+   VALLEY DETECTIVE – STYLE REBUILD
+   Substitua TODO o conteúdo do CSS por este
+   ========================================= */
+
+/* RESET SIMPLES */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: #050611;
-  color: #f5f5f5;
-  min-height: 100vh;
+/* VARIÁVEIS DE COR */
+:root {
+  --bg-dark: #050813;
+  --bg-panel: rgba(12, 18, 30, 0.92);
+  --bg-panel-soft: rgba(24, 32, 52, 0.96);
+  --accent: #f5c15c;
+  --accent-soft: #f5e2b4;
+  --accent-danger: #ff6b6b;
+  --text-main: #f5f5f5;
+  --text-muted: #b8b8c9;
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --shadow-strong: 0 18px 45px rgba(0, 0, 0, 0.75);
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.6);
 }
 
-/* FUNDO CINEMATOGRÁFICO */
-.background-layer {
-  position: fixed;
-  inset: 0;
-  background-image: url("background-escritorio.jpg");
+/* BODY / FUNDO GERAL */
+body {
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top, #1d2840 0, transparent 55%),
+    radial-gradient(circle at bottom, #050813 0, #020308 60%);
+  /* Se quiser usar imagem depois, só trocar o URL abaixo:
+  background-image: url("img/escritorio-noite.jpg");
   background-size: cover;
   background-position: center;
-  filter: brightness(0.35) blur(1px);
-  z-index: -2;
-}
-
-#game-root {
-  min-height: 100vh;
+  background-attachment: fixed;
+  */
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: flex-start;
   padding: 16px;
 }
 
-/* CONTAINER CENTRAL */
-.game-container {
+/* CONTAINER PRINCIPAL */
+.game-wrapper {
   width: 100%;
-  max-width: 1100px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  max-width: 980px;
+  margin: 0 auto;
 }
 
-/* CABEÇALHO */
+/* PAINEL PRINCIPAL */
+.game-panel {
+  background: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-panel-soft) 60%);
+  border-radius: 18px;
+  padding: 20px 18px 24px;
+  box-shadow: var(--shadow-strong);
+  border: 1px solid var(--border-soft);
+  backdrop-filter: blur(8px);
+}
+
+/* HEADER / TÍTULO DO JOGO */
+header,
 .game-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(90deg, rgba(10, 20, 40, 0.95), rgba(10, 60, 90, 0.95));
-  border-radius: 16px;
-  padding: 12px 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 10px;
 }
 
-.logo-title h1 {
-  font-size: 1.4rem;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-size: 0.85rem;
-  color: #b0d8ff;
-}
-
-.status-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  font-size: 0.85rem;
-}
-
-/* CARDS GENÉRICOS */
-.card {
-  background: rgba(7, 10, 22, 0.94);
-  border-radius: 16px;
-  padding: 16px 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-}
-
-/* INTRO */
-.intro-card {
+header h1,
+.game-title {
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-align: center;
-  max-width: 640px;
-  margin: 24px auto;
-}
-
-.intro-card h2 {
-  font-size: 1.6rem;
-  margin-bottom: 12px;
-}
-
-.intro-card p {
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-
-/* MAIN */
-.game-main {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* INFO DO CASO */
-.case-info h2 {
-  font-size: 1.4rem;
   margin-bottom: 6px;
 }
 
-.case-location {
+.game-subtitle {
+  text-align: center;
   font-size: 0.9rem;
-  color: #b0d8ff;
-  margin-bottom: 8px;
+  color: var(--text-muted);
 }
 
-.case-intro {
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.case-story {
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-/* COLUNAS */
-.case-columns {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 12px;
-}
-
-.column h3 {
-  margin-bottom: 8px;
-}
-
-/* LISTAS */
-.clues-list,
-.suspects-list {
-  list-style: none;
+/* INFO DO CASO NO TOPO (UNIDADE / DIFICULDADE) */
+.case-info-bar {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 240px;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.clues-list li {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
   font-size: 0.9rem;
-  padding: 6px 8px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.02);
-  border-left: 3px solid rgba(0, 188, 255, 0.4);
+  color: var(--accent-soft);
+  margin-bottom: 14px;
 }
 
-/* SUSPEITOS */
-.suspect-btn {
-  width: 100%;
+/* ÁREA DE CONTEÚDO (TELA INICIAL + CASO) */
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* TELA DE BOAS-VINDAS */
+#welcome-screen {
   text-align: left;
+}
+
+#welcome-screen h2 {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+#welcome-screen p {
   font-size: 0.95rem;
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  background: rgba(255, 255, 255, 0.03);
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 8px;
 }
 
-.suspect-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
-}
-
-.suspect-btn.selected {
-  background: linear-gradient(90deg, #0ea5e9, #22c55e);
-  color: #020617;
-  border-color: transparent;
-}
-
-/* ANOTAÇÕES */
-.notes-area {
-  margin-top: 10px;
-}
-
-.notes-area textarea {
-  width: 100%;
-  min-height: 90px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 8px 10px;
-  background: rgba(2, 6, 23, 0.9);
-  color: #f5f5f5;
-  font-size: 0.9rem;
-  resize: vertical;
-}
-
-/* BOTÕES */
-.primary-btn,
-.secondary-btn,
-.ghost-btn {
-  border-radius: 999px;
-  padding: 10px 18px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.95rem;
+/* BOTÕES – ESTILO GERAL */
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease, color 0.15s ease;
-}
-
-.primary-btn {
-  background: linear-gradient(120deg, #22c55e, #0ea5e9);
-  color: #020617;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.7);
-}
-
-.primary-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.secondary-btn {
-  background: rgba(15, 23, 42, 0.95);
-  color: #e5e7eb;
-  border: 1px solid rgba(148, 163, 184, 0.6);
-}
-
-.ghost-btn {
-  background: transparent;
-  color: #e5e7eb;
+  padding: 10px 18px;
+  border-radius: 999px;
   border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: var(--accent);
+  color: #241a08;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s ease;
 }
 
-.primary-btn:hover:not(:disabled),
-.secondary-btn:hover,
-.ghost-btn:hover {
+.btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55);
+  background: #ffcf73;
 }
 
-/* RESULTADO */
-.result-card h3 {
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent-soft);
+  border-color: var(--accent-soft);
+}
+
+.btn-secondary:hover {
+  background: rgba(245, 225, 186, 0.12);
+}
+
+.btn-danger {
+  background: var(--accent-danger);
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #ff8585;
+}
+
+/* BOTÃO CENTRAL TELA INICIAL */
+#welcome-screen .btn {
+  margin-top: 16px;
+}
+
+/* TÍTULOS DE SEÇÃO (PISTAS, SUSPEITOS, ETC.) */
+.section-title {
+  font-size: 1.1rem;
+  margin: 12px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-soft);
+}
+
+/* CARTÕES / BLOCOS */
+.card {
+  background: rgba(3, 8, 18, 0.55);
+  border-radius: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-soft);
+  margin-bottom: 10px;
+}
+
+/* TEXTO GERAL NO CASO */
+.case-title {
+  font-size: 1.4rem;
   margin-bottom: 6px;
 }
 
-#result-message {
+.case-text,
+#clues-list,
+#suspects-list,
+#captain-report {
   font-size: 0.95rem;
-  line-height: 1.4;
+  line-height: 1.6;
+  color: var(--text-muted);
 }
 
-.result-actions {
-  margin-top: 10px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+/* LISTAS DE PISTAS / SUSPEITOS */
+ul {
+  list-style: none;
+  margin-top: 6px;
 }
 
-/* UTILIDADES */
-.hidden {
-  display: none !important;
+li {
+  margin-bottom: 6px;
 }
 
-.full-width {
+.suspect-item {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.suspect-item:hover {
+  background: rgba(245, 193, 92, 0.09);
+}
+
+.suspect-item.selected {
+  border-color: var(--accent);
+  background: rgba(245, 193, 92, 0.14);
+}
+
+/* ANOTAÇÕES (TEXTAREA) */
+textarea {
   width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: rgba(5, 9, 18, 0.9);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
 }
 
-/* RESPONSIVO */
+textarea::placeholder {
+  color: var(--text-muted);
+}
+
+/* RODAPÉ DO RELATÓRIO DO CAPITÃO */
+.captain-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+/* RELATÓRIO DO CAPITÃO – TEXTO */
+#captain-report-title {
+  font-size: 1.1rem;
+  margin-top: 14px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-soft);
+}
+
+#captain-report {
+  margin-top: 2px;
+}
+
+/* ALERTAS / RESULTADOS (ACERTOS/ERROS) */
+.feedback-message {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.feedback-correct {
+  color: #7dff9a;
+}
+
+.feedback-wrong {
+  color: var(--accent-danger);
+}
+
+/* RESPONSIVIDADE – MOBILE */
 @media (max-width: 768px) {
-  .game-header {
+  body {
+    padding: 10px;
+    align-items: stretch;
+  }
+
+  .game-panel {
+    padding: 16px 14px 20px;
+    border-radius: 16px;
+  }
+
+  header h1,
+  .game-title {
+    font-size: 1.6rem;
+  }
+
+  .case-info-bar {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
   }
 
-  .case-columns {
-    grid-template-columns: 1fr;
+  .captain-footer {
+    flex-direction: column;
   }
 
-  .intro-card {
-    margin-top: 12px;
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* RESPONSIVIDADE – TELAS GRANDES */
+@media (min-width: 1024px) {
+  .game-panel {
+    padding: 24px 28px 26px;
+  }
+
+  header h1,
+  .game-title {
+    font-size: 2.1rem;
   }
 }
