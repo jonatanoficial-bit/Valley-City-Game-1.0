@@ -1,15 +1,10 @@
-// game.js – Versão “estável” (antes de 13:30)
-// Lida com carregamento de casos, seleção, veredito e mensagens do capitão.
+// game.js – versão estável com poucos casos e visual organizado
 
-// =========================
-// VARIÁVEIS GLOBAIS
-// =========================
 let cases = [];
-let currentCaseIndex = null;
+let currentCaseIndex = 0;
 let selectedSuspectId = null;
-let lastResultWasCorrect = false;
 
-// FALLBACK LOCAL CASOS (usado se o fetch do cases.json falhar)
+// FALLBACK LOCAL (se o fetch do JSON falhar)
 const fallbackCases = [
   {
     id: 1,
@@ -17,411 +12,323 @@ const fallbackCases = [
     difficulty: "Fácil",
     location: "Museu Municipal de Arte",
     intro:
-      "Um quadro famoso sumiu poucas horas antes da abertura de uma grande exposição.",
+      "Um quadro valioso sumiu poucas horas antes da abertura de uma grande exposição.",
     story:
-      "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais valiosa da exposição, desapareceu do cofre. Apenas três pessoas tiveram acesso à sala do cofre na última hora antes do sumiço.",
+      "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais importante da mostra, desapareceu da sala de segurança.",
     clues: [
-      "O sistema de segurança registra que o cofre foi aberto apenas uma vez na última hora.",
-      "Há marcas de tinta azul no chão, levando até a porta de serviço.",
-      "Uma das chaves reserva do cofre está faltando."
+      "O sistema registrou que a porta do cofre foi aberta apenas uma vez na última hora.",
+      "Uma luva de tecido fino foi encontrada caída perto da porta do cofre.",
+      "A câmera da sala do cofre ficou borrada por 10 segundos, exatamente no horário do sumiço."
     ],
     suspects: [
       {
-        id: "suspect1",
-        name: "Helena Prado",
-        role: "Curadora-chefe",
+        id: "a",
+        name: "Júlio, o Curador",
         description:
-          "Responsável pela exposição. Estava nervosa e dizia que o quadro era a 'alma' do evento.",
-        isCulprit: false
+          "Trabalha há anos no museu. Foi visto discutindo com o diretor sobre cortes de orçamento.",
+        isGuilty: false
       },
       {
-        id: "suspect2",
-        name: "Rogério Mota",
-        role: "Segurança",
+        id: "b",
+        name: "Carla, a Restauradora",
         description:
-          "Trabalhava no turno da noite. Disse que não viu nada de estranho, mas estava com o uniforme manchado de tinta azul.",
-        isCulprit: true
+          "Teria acesso à chave reserva do cofre. Está sempre usando luvas de tecido para proteger as obras.",
+        isGuilty: true
       },
       {
-        id: "suspect3",
-        name: "Marcelo Dias",
-        role: "Artista convidado",
+        id: "c",
+        name: "Rogério, o Segurança",
         description:
-          "Tinha acesso VIP ao cofre para estudar a obra, mas afirma que saiu horas antes do roubo.",
-        isCulprit: false
+          "Responsável pelo monitoramento das câmeras. Diz que o sistema travou por alguns segundos.",
+        isGuilty: false
       }
-    ],
-    captainMessageWin:
-      "Excelente trabalho, detetive! Você recuperou o quadro e salvou a exposição.",
-    captainMessageLose:
-      "Dessa vez o ladrão escapou. Analise melhor as pistas e tente novamente."
+    ]
   },
   {
     id: 2,
-    title: "O Cofre do Banco",
+    title: "O Segredo do Café 24h",
     difficulty: "Médio",
-    location: "Banco Central do Vale",
+    location: "Café Esquina do Vale",
     intro:
-      "Um pequeno cofre de segurança pessoal foi violado sem sinais de arrombamento.",
+      "O dono de um café 24 horas afirma que alguém está roubando dinheiro do caixa durante a madrugada.",
     story:
-      "O gerente do banco chama você às pressas: um cliente importante afirma que valores desapareceram do seu cofre pessoal, mas não há nenhum registro de acesso indevido no sistema.",
+      "Não há sinais de arrombamento e o dono garante que só três pessoas têm a chave: ele, o atendente da madrugada e a gerente.",
     clues: [
-      "A fechadura é eletrônica e aceita cartão + senha.",
-      "Uma funcionária foi vista anotando algo em um papel perto dos caixas.",
-      "As câmeras mostram um cliente cobrindo o teclado com o corpo ao digitar a senha."
+      "Os relatórios de vendas mostram um pico de consumo em um horário em que quase não há clientes.",
+      "A gerente vive reclamando do salário baixo, mas apareceu com um celular novo.",
+      "O atendente costuma levar amigos para o café depois do turno para 'fechar o dia'."
     ],
     suspects: [
       {
-        id: "suspect1",
-        name: "Carla Nunes",
-        role: "Atendente",
+        id: "a",
+        name: "Paulo, o Dono",
         description:
-          "Trabalha há anos no banco, conhece todos os clientes, e foi vista perto dos cofres naquele dia.",
-        isCulprit: true
+          "Controlador, sabe tudo o que acontece no café. Diz que sempre confere o caixa pessoalmente.",
+        isGuilty: false
       },
       {
-        id: "suspect2",
-        name: "Eduardo Lima",
-        role: "Cliente",
+        id: "b",
+        name: "Lígia, a Gerente",
         description:
-          "Diz que sempre toma cuidado com a senha, mas aparece nas imagens tapando o teclado de forma exagerada.",
-        isCulprit: false
+          "Responsável pelos relatórios de vendas. Tem a senha do sistema e a chave do estabelecimento.",
+        isGuilty: true
       },
       {
-        id: "suspect3",
-        name: "Gerente Roberto",
-        role: "Gerente do banco",
+        id: "c",
+        name: "Mateus, o Atendente da Madrugada",
         description:
-          "Tinha acesso administrativo ao sistema, porém estava em uma reunião externa na hora do incidente.",
-        isCulprit: false
+          "Carismático, vive cheio de amigos. Diz que não entende nada de sistema e só ‘marca no caderninho’.",
+        isGuilty: false
       }
+    ]
+  },
+  {
+    id: 3,
+    title: "O Laptop Silencioso",
+    difficulty: "Fácil",
+    location: "Estação Central do Vale",
+    intro:
+      "Um laptop com dados sigilosos desapareceu da sala de funcionários da estação.",
+    story:
+      "A sala fica trancada, mas muitas pessoas entram e saem ao longo do dia. O dono jura que deixou o laptop carregando sobre a mesa.",
+    clues: [
+      "Um carregador continua conectado à tomada, mas o laptop não está mais ali.",
+      "Um bilhete amassado no lixo diz: 'Traga o pendrive hoje, antes do plantão'.",
+      "Câmeras mostram um funcionário saindo apressado, segurando uma mochila maior do que o normal."
     ],
-    captainMessageWin:
-      "Parabéns, detetive! Você descobriu o esquema interno e salvou a reputação do banco.",
-    captainMessageLose:
-      "Algo não fechou nas suas conclusões. Reveja as imagens e tente outra vez."
+    suspects: [
+      {
+        id: "a",
+        name: "Bianca, Analista de Dados",
+        description:
+          "Tem acesso aos arquivos sigilosos e costuma levar trabalho para casa.",
+        isGuilty: false
+      },
+      {
+        id: "b",
+        name: "Henrique, Técnico de TI",
+        description:
+          "Vive reclamando que ninguém faz backup. Sabe todas as senhas da rede.",
+        isGuilty: false
+      },
+      {
+        id: "c",
+        name: "Douglas, Plantonista da Noite",
+        description:
+          "Foi visto saindo carregando uma mochila cheia no final do turno.",
+        isGuilty: true
+      }
+    ]
   }
 ];
 
-// =========================
-// INICIALIZAÇÃO
-// =========================
+// ELEMENTOS DE INTERFACE
+const welcomeSection = document.getElementById("welcome-section");
+const caseSection = document.getElementById("case-section");
+const reportSection = document.getElementById("report-section");
 
-document.addEventListener("DOMContentLoaded", () => {
-  setupUIEvents();
-  loadCases();
-});
+const startBtn = document.getElementById("start-game-btn");
+const accuseBtn = document.getElementById("accuse-btn");
+const backOfficeBtn = document.getElementById("back-office-btn");
+const nextCaseBtn = document.getElementById("next-case-btn");
 
-// =========================
-// CARREGAR CASOS
-// =========================
-function loadCases() {
-  fetch("cases.json")
-    .then((response) => {
-      if (!response.ok) throw new Error("Falha ao carregar cases.json");
-      return response.json();
-    })
-    .then((data) => {
-      // Aceita tanto { cases:[...] } quanto [ ... ]
-      if (Array.isArray(data)) {
-        cases = data;
-      } else if (Array.isArray(data.cases)) {
-        cases = data.cases;
-      } else {
-        throw new Error("Formato inválido de cases.json");
-      }
-      renderCaseList();
-      showCaptainWelcome();
-    })
-    .catch((error) => {
-      console.warn("Usando fallbackCases devido a erro:", error);
-      cases = fallbackCases;
-      renderCaseList();
-      showCaptainWelcome();
-    });
+const caseNumberEl = document.getElementById("case-number");
+const totalCasesEl = document.getElementById("total-cases");
+const caseDifficultyEl = document.getElementById("case-difficulty");
+
+const caseTitleEl = document.getElementById("case-title");
+const caseLocationEl = document.getElementById("case-location");
+const caseIntroEl = document.getElementById("case-intro");
+const caseStoryEl = document.getElementById("case-story");
+const clueListEl = document.getElementById("clue-list");
+const suspectListEl = document.getElementById("suspect-list");
+const notesEl = document.getElementById("notes");
+const captainReportTextEl = document.getElementById("captain-report-text");
+
+// UTIL
+function showSection(sectionToShow) {
+  [welcomeSection, caseSection, reportSection].forEach((sec) => {
+    sec.classList.add("hidden");
+  });
+  sectionToShow.classList.remove("hidden");
 }
 
-// =========================
-// EVENTOS DE INTERFACE
-// =========================
-function setupUIEvents() {
-  const startBtn = document.getElementById("start-game-btn");
-  if (startBtn) {
-    startBtn.addEventListener("click", () => {
-      showOfficeScreen();
-      showCaptainWelcome();
-    });
-  }
+function updateHeaderInfo() {
+  const total = cases.length;
+  totalCasesEl.textContent = total;
 
-  const backToOfficeBtn = document.getElementById("back-to-office-btn");
-  if (backToOfficeBtn) {
-    backToOfficeBtn.addEventListener("click", () => {
-      showOfficeScreen();
-    });
-  }
-
-  const solveCaseBtn = document.getElementById("solve-case-btn");
-  if (solveCaseBtn) {
-    solveCaseBtn.addEventListener("click", handleSolveCase);
-  }
-
-  const nextCaseBtn = document.getElementById("next-case-btn");
-  if (nextCaseBtn) {
-    nextCaseBtn.addEventListener("click", goToNextCase);
-  }
-
-  const tryAgainBtn = document.getElementById("try-again-btn");
-  if (tryAgainBtn) {
-    tryAgainBtn.addEventListener("click", resetCurrentCase);
-  }
-}
-
-// =========================
-// TELA INICIAL / ESCRITÓRIO
-// =========================
-function showOfficeScreen() {
-  const startScreen = document.getElementById("start-screen");
-  const officeScreen = document.getElementById("office-screen");
-  const caseScreen = document.getElementById("case-screen");
-
-  if (startScreen) startScreen.classList.add("hidden");
-  if (caseScreen) caseScreen.classList.add("hidden");
-  if (officeScreen) officeScreen.classList.remove("hidden");
-}
-
-function showCaseScreen() {
-  const officeScreen = document.getElementById("office-screen");
-  const caseScreen = document.getElementById("case-screen");
-
-  if (officeScreen) officeScreen.classList.add("hidden");
-  if (caseScreen) caseScreen.classList.remove("hidden");
-}
-
-// Mensagem inicial do capitão no escritório
-function showCaptainWelcome() {
-  const captainMessageBox = document.getElementById("captain-message");
-  if (!captainMessageBox) return;
-
-  captainMessageBox.textContent =
-    "Bem-vindo à Delegacia do Vale. Temos casos acumulando na sua mesa, detetive. Escolha um e comece a investigar!";
-}
-
-// =========================
-// LISTA DE CASOS
-// =========================
-function renderCaseList() {
-  const listContainer = document.getElementById("case-list");
-  if (!listContainer) return;
-
-  listContainer.innerHTML = "";
-
-  if (!cases || cases.length === 0) {
-    listContainer.innerHTML = "<p>Nenhum caso disponível no momento.</p>";
+  if (total === 0) {
+    caseNumberEl.textContent = 0;
+    caseDifficultyEl.textContent = "-";
     return;
   }
 
-  cases.forEach((c, index) => {
-    const item = document.createElement("div");
-    item.className = "case-card";
-    item.innerHTML = `
-      <div class="case-header">
-        <h3>${c.title}</h3>
-        <span class="case-difficulty">${c.difficulty || ""}</span>
-      </div>
-      <p class="case-location">${c.location || ""}</p>
-      <p class="case-intro">${c.intro || ""}</p>
-      <button class="btn small btn-choose-case" data-index="${index}">
-        Investigar caso
-      </button>
-    `;
-    listContainer.appendChild(item);
-  });
-
-  // Eventos dos botões de casos
-  const buttons = listContainer.querySelectorAll(".btn-choose-case");
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const idx = parseInt(e.currentTarget.getAttribute("data-index"), 10);
-      startCase(idx);
-    });
-  });
+  caseNumberEl.textContent = currentCaseIndex + 1;
+  caseDifficultyEl.textContent = cases[currentCaseIndex].difficulty || "-";
 }
 
-// =========================
-// INICIAR UM CASO
-// =========================
-function startCase(index) {
-  if (!cases[index]) return;
-  currentCaseIndex = index;
+// CARREGA UM CASO NA TELA
+function loadCurrentCase() {
+  if (!cases.length) return;
+
+  const c = cases[currentCaseIndex];
+
+  caseTitleEl.textContent = c.title;
+  caseLocationEl.textContent = c.location
+    ? `Local: ${c.location}`
+    : "";
+  caseIntroEl.textContent = c.intro || "";
+  caseStoryEl.textContent = c.story || "";
+
+  // pistas
+  clueListEl.innerHTML = "";
+  (c.clues || []).forEach((clue) => {
+    const li = document.createElement("li");
+    li.textContent = clue;
+    clueListEl.appendChild(li);
+  });
+
+  // suspeitos
+  suspectListEl.innerHTML = "";
+  (c.suspects || []).forEach((s) => {
+    const card = document.createElement("label");
+    card.className = "suspect-card";
+
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "suspect";
+    radio.value = s.id;
+    radio.className = "suspect-radio";
+
+    radio.addEventListener("change", () => {
+      selectedSuspectId = s.id;
+    });
+
+    const info = document.createElement("div");
+    info.className = "suspect-info";
+
+    const nameEl = document.createElement("div");
+    nameEl.className = "suspect-name";
+    nameEl.textContent = s.name;
+
+    const descEl = document.createElement("div");
+    descEl.className = "suspect-desc";
+    descEl.textContent = s.description || "";
+
+    info.appendChild(nameEl);
+    info.appendChild(descEl);
+
+    card.appendChild(radio);
+    card.appendChild(info);
+
+    suspectListEl.appendChild(card);
+  });
+
+  // limpa seleção e notas
   selectedSuspectId = null;
-  lastResultWasCorrect = false;
+  notesEl.value = "";
+  document
+    .querySelectorAll("input[name='suspect']")
+    .forEach((r) => (r.checked = false));
 
-  renderCaseDetails(cases[index]);
-  clearResultMessage();
-  showCaseScreen();
+  // atualiza cabeçalho
+  updateHeaderInfo();
+
+  // reseta relatório
+  captainReportTextEl.textContent =
+    "Analise as pistas e escolha um suspeito para acusar.";
+
+  nextCaseBtn.textContent =
+    currentCaseIndex === cases.length - 1 ? "ENCERRAR CASOS" : "PRÓXIMO CASO";
 }
 
-// Preenche a tela do caso
-function renderCaseDetails(caseData) {
-  const caseTitle = document.getElementById("case-title");
-  const caseLocation = document.getElementById("case-location");
-  const caseStory = document.getElementById("case-story");
-  const cluesList = document.getElementById("clues-list");
-  const suspectsList = document.getElementById("suspects-list");
+// LÓGICA DE ACUSAÇÃO
+function handleAccusation() {
+  if (!cases.length) return;
 
-  if (caseTitle) caseTitle.textContent = caseData.title || "";
-  if (caseLocation) caseLocation.textContent = caseData.location || "";
-  if (caseStory) caseStory.textContent = caseData.story || "";
-
-  if (cluesList) {
-    cluesList.innerHTML = "";
-    (caseData.clues || []).forEach((clue) => {
-      const li = document.createElement("li");
-      li.textContent = clue;
-      cluesList.appendChild(li);
-    });
-  }
-
-  if (suspectsList) {
-    suspectsList.innerHTML = "";
-    (caseData.suspects || []).forEach((sus) => {
-      const card = document.createElement("div");
-      card.className = "suspect-card";
-      card.setAttribute("data-suspect-id", sus.id);
-
-      card.innerHTML = `
-        <h4>${sus.name}</h4>
-        <span class="suspect-role">${sus.role || ""}</span>
-        <p>${sus.description || ""}</p>
-      `;
-
-      card.addEventListener("click", () => selectSuspect(sus.id));
-      suspectsList.appendChild(card);
-    });
-  }
-}
-
-// =========================
-// SELEÇÃO DE SUSPEITO
-// =========================
-function selectSuspect(suspectId) {
-  selectedSuspectId = suspectId;
-
-  const suspectsList = document.getElementById("suspects-list");
-  if (!suspectsList) return;
-
-  const cards = suspectsList.querySelectorAll(".suspect-card");
-  cards.forEach((card) => {
-    const id = card.getAttribute("data-suspect-id");
-    if (id === suspectId) {
-      card.classList.add("selected");
-    } else {
-      card.classList.remove("selected");
-    }
-  });
-
-  clearResultMessage();
-}
-
-// =========================
-// RESOLVER CASO
-// =========================
-function handleSolveCase() {
-  if (currentCaseIndex === null || currentCaseIndex === undefined) return;
-
-  const currentCase = cases[currentCaseIndex];
-  if (!currentCase) return;
+  const current = cases[currentCaseIndex];
 
   if (!selectedSuspectId) {
-    showResultMessage("Escolha um suspeito antes de solucionar o caso.", "warning");
+    captainReportTextEl.textContent =
+      "Você precisa escolher um suspeito antes de acusar.";
+    showSection(reportSection);
     return;
   }
 
-  const culprit = (currentCase.suspects || []).find((s) => s.isCulprit);
-  const isCorrect = culprit && culprit.id === selectedSuspectId;
-  lastResultWasCorrect = isCorrect;
+  const guilty = current.suspects.find((s) => s.isGuilty);
+  const chosen = current.suspects.find((s) => s.id === selectedSuspectId);
 
-  if (isCorrect) {
-    showResultMessage(
-      currentCase.captainMessageWin ||
-        "Acertou em cheio! Caso resolvido, detetive.",
-      "success"
-    );
+  if (!guilty || !chosen) return;
+
+  if (chosen.id === guilty.id) {
+    captainReportTextEl.textContent =
+      `Boa, detetive! ${chosen.name} era realmente o culpado. ` +
+      "Sua análise das pistas foi precisa.";
   } else {
-    showResultMessage(
-      currentCase.captainMessageLose ||
-        "Essa não foi a melhor escolha. Tente novamente.",
-      "error"
-    );
+    captainReportTextEl.textContent =
+      `Não foi dessa vez. ${chosen.name} era inocente. ` +
+      `O verdadeiro culpado era ${guilty.name}. Continue treinando sua intuição.`;
   }
 
-  toggleCaseResultButtons(true);
+  showSection(reportSection);
 }
 
-// Mostra mensagem de resultado
-function showResultMessage(text, type) {
-  const resultBox = document.getElementById("result-message");
-  if (!resultBox) return;
+// PRÓXIMO CASO / ENCERRAR
+function handleNextCase() {
+  if (!cases.length) return;
 
-  resultBox.textContent = text;
-  resultBox.className = ""; // limpa classes antigas
-  resultBox.classList.add("result-box");
-
-  if (type === "success") {
-    resultBox.classList.add("result-success");
-  } else if (type === "error") {
-    resultBox.classList.add("result-error");
-  } else if (type === "warning") {
-    resultBox.classList.add("result-warning");
+  if (currentCaseIndex < cases.length - 1) {
+    currentCaseIndex++;
+    loadCurrentCase();
+    showSection(caseSection);
+  } else {
+    // acabou os casos, volta para o escritório (boas-vindas)
+    currentCaseIndex = 0;
+    updateHeaderInfo();
+    showSection(welcomeSection);
   }
 }
 
-function clearResultMessage() {
-  const resultBox = document.getElementById("result-message");
-  if (!resultBox) return;
-  resultBox.textContent = "";
-  resultBox.className = "";
+// INICIALIZAÇÃO
+function initGame() {
+  fetch("cases.json")
+    .then((res) => {
+      if (!res.ok) throw new Error("Erro no JSON");
+      return res.json();
+    })
+    .then((data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        cases = data;
+      } else {
+        cases = fallbackCases;
+      }
+      updateHeaderInfo();
+    })
+    .catch(() => {
+      cases = fallbackCases;
+      updateHeaderInfo();
+    });
 }
 
-// Mostra / esconde botões de Próximo caso / Tentar novamente
-function toggleCaseResultButtons(show) {
-  const nextCaseBtn = document.getElementById("next-case-btn");
-  const tryAgainBtn = document.getElementById("try-again-btn");
-
-  if (nextCaseBtn)
-    nextCaseBtn.classList.toggle("hidden", !show || !lastResultWasCorrect);
-  if (tryAgainBtn)
-    tryAgainBtn.classList.toggle("hidden", !show || lastResultWasCorrect);
-}
-
-// =========================
-// PRÓXIMO CASO / TENTAR DE NOVO
-// =========================
-function goToNextCase() {
-  if (cases.length === 0) return;
-
-  let nextIndex = currentCaseIndex + 1;
-  if (nextIndex >= cases.length) {
-    // Se acabou a lista, volta para o escritório
-      showOfficeScreen();
-      showCaptainSummaryAllCases();
-      return;
+// EVENTOS
+startBtn.addEventListener("click", () => {
+  if (!cases.length) {
+    cases = fallbackCases;
   }
-  startCase(nextIndex);
-  toggleCaseResultButtons(false);
-}
+  currentCaseIndex = 0;
+  loadCurrentCase();
+  showSection(caseSection);
+});
 
-function resetCurrentCase() {
-  if (currentCaseIndex === null || currentCaseIndex === undefined) return;
-  startCase(currentCaseIndex);
-  toggleCaseResultButtons(false);
-}
+accuseBtn.addEventListener("click", handleAccusation);
 
-// Mensagem do capitão quando todos os casos forem concluídos (ou lista acabar)
-function showCaptainSummaryAllCases() {
-  const captainMessageBox = document.getElementById("captain-message");
-  if (!captainMessageBox) return;
+backOfficeBtn.addEventListener("click", () => {
+  showSection(welcomeSection);
+  caseNumberEl.textContent = 0;
+  caseDifficultyEl.textContent = "-";
+});
 
-  captainMessageBox.textContent =
-    "Bom trabalho até aqui, detetive. Você já passou por todos os casos disponíveis hoje. Em breve teremos novas investigações para você.";
-}
+nextCaseBtn.addEventListener("click", handleNextCase);
+
+// Quando a página carrega
+document.addEventListener("DOMContentLoaded", initGame);
