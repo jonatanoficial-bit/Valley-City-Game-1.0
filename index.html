@@ -1,100 +1,113 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <title>Valley Detective</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <div id="game-root">
-    <!-- TELA DE FUNDO / ESCRITÓRIO -->
-    <div class="background-layer"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Valley Detective</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-overlay"></div>
 
-    <!-- CONTAINER PRINCIPAL -->
-    <div class="game-container">
-      <!-- CABEÇALHO -->
+    <div class="game-wrapper">
       <header class="game-header">
-        <div class="logo-title">
-          <h1>Valley Detective</h1>
-          <span class="subtitle">Unidade de Casos Especiais</span>
-        </div>
-        <div class="status-bar">
-          <span id="case-counter">Caso 0 de 0</span>
-          <span id="difficulty-label">Dificuldade: -</span>
-        </div>
+        <h1 class="game-title">Valley Detective</h1>
+        <p class="game-subtitle">Unidade de Casos Especiais</p>
+        <p class="game-meta">
+          Caso <span id="case-number">0</span> de
+          <span id="total-cases">0</span> &bull;
+          Dificuldade: <span id="case-difficulty">-</span>
+        </p>
       </header>
 
-      <!-- TELA DE BOAS-VINDAS DO CAPITÃO -->
-      <section id="intro-screen" class="card intro-card">
-        <h2>Bem-vindo, Detetive!</h2>
-        <p id="captain-message">
-          Você acaba de ser transferido para o Vale, a região mais enigmática da cidade.
-          Seu trabalho é simples: analisar pistas, interrogar suspeitos e tomar decisões
-          rápidas. Cada escolha pode mudar o rumo da investigação.
-        </p>
-        <p>
-          Começaremos com uma série de casos selecionados. Concentre-se nas pistas,
-          desconfie de versões muito perfeitas e siga sua intuição.
-        </p>
-        <button id="start-game-btn" class="primary-btn">
-          Começar Investigação
-        </button>
-      </section>
+      <!-- TELA DO ESCRITÓRIO / BOAS-VINDAS -->
+      <main>
+        <section id="intro-section" class="card-section active">
+          <div class="card">
+            <h2>Bem-vindo, Detetive!</h2>
+            <p>
+              Você acaba de ser transferido para o Vale, a região mais
+              enigmática da cidade. Seu trabalho é simples:
+              analisar pistas, interrogar suspeitos e tomar decisões rápidas.
+            </p>
+            <p>
+              Começaremos com uma série de casos selecionados.
+              Concentre-se nas pistas, desconfie de versões muito perfeitas
+              e siga sua intuição.
+            </p>
 
-      <!-- ÁREA PRINCIPAL DO JOGO (APARECE DEPOIS DO INTRO) -->
-      <main id="game-screen" class="game-main hidden">
-        <!-- INFO DO CASO -->
-        <section class="case-info card">
-          <h2 id="case-title">Título do Caso</h2>
-          <p class="case-location" id="case-location"></p>
-          <p class="case-intro" id="case-intro"></p>
-          <p class="case-story" id="case-story"></p>
-        </section>
-
-        <!-- DUAS COLUNAS: PISTAS / SUSPEITOS + AÇÕES -->
-        <section class="case-columns">
-          <!-- PISTAS -->
-          <div class="card column">
-            <h3>Pistas</h3>
-            <ul id="clues-list" class="clues-list"></ul>
-          </div>
-
-          <!-- SUSPEITOS -->
-          <div class="card column">
-            <h3>Suspeitos</h3>
-            <ul id="suspects-list" class="suspects-list"></ul>
-
-            <div class="notes-area">
-              <h4>Anotações</h4>
-              <textarea id="notes" placeholder="Escreva aqui suas teorias..."></textarea>
+            <div class="captain-box">
+              <h3>Mensagem do Capitão</h3>
+              <p>
+                “Detetive, o Vale não perdoa erros. Leia tudo com atenção
+                e lembre-se: cada escolha muda o rumo da investigação.”
+              </p>
             </div>
 
-            <button id="accuse-btn" class="primary-btn full-width">
-              Fazer Acusação
+            <button id="btn-start" class="btn primary">
+              Começar Investigação
             </button>
           </div>
         </section>
 
-        <!-- ÁREA DE RESULTADO / MENSAGEM DO CAPITÃO -->
-        <section class="card result-card">
-          <h3>Relatório do Capitão</h3>
-          <p id="result-message">
-            Analise as pistas e escolha um suspeito para acusar.
-          </p>
-          <div class="result-actions">
-            <button id="next-case-btn" class="secondary-btn" disabled>
-              Próximo Caso
-            </button>
-            <button id="restart-btn" class="ghost-btn">
-              Voltar ao Escritório
-            </button>
+        <!-- TELA DO CASO -->
+        <section id="case-section" class="card-section hidden">
+          <div class="card">
+            <h2 id="case-title">Título do Caso</h2>
+            <p class="case-location" id="case-location"></p>
+            <p class="case-intro" id="case-intro"></p>
+            <p class="case-story" id="case-story"></p>
+
+            <div class="case-grid">
+              <div class="case-column">
+                <h3>Pistas</h3>
+                <ul id="clues-list" class="clues-list"></ul>
+              </div>
+
+              <div class="case-column">
+                <h3>Suspeitos</h3>
+                <div id="suspects-list" class="suspects-list"></div>
+              </div>
+            </div>
+
+            <div class="notes-box">
+              <label for="notes"><strong>Anotações</strong></label>
+              <textarea
+                id="notes"
+                placeholder="Escreva aqui suas teorias..."
+              ></textarea>
+            </div>
+
+            <div class="buttons-row">
+              <button id="btn-accuse" class="btn danger">
+                Fazer Acusação
+              </button>
+              <button id="btn-back-office" class="btn ghost">
+                Voltar ao Escritório
+              </button>
+            </div>
+          </div>
+
+          <div class="card report-card">
+            <h3>Relatório do Capitão</h3>
+            <p id="captain-report">
+              Analise as pistas, escolha um suspeito e faça sua acusação.
+            </p>
+
+            <div class="buttons-row bottom-row">
+              <button
+                id="btn-next-case"
+                class="btn secondary"
+                disabled
+              >
+                Próximo Caso
+              </button>
+            </div>
           </div>
         </section>
       </main>
     </div>
-  </div>
 
-  <script src="game.js"></script>
-</body>
+    <script src="game.js"></script>
+  </body>
 </html>
