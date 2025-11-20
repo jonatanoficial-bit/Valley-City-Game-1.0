@@ -1,168 +1,81 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Valley Detective</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valley City – Police Investigations</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="app">
+<div id="app">
 
-    <!-- CABEÇALHO FIXO -->
-    <header class="game-header">
-      <div class="game-title">VALLEY DETECTIVE</div>
-      <div class="game-subtitle">Unidade de Casos Especiais</div>
-      <div class="game-meta" id="caseMeta">Nenhum caso em andamento</div>
-    </header>
-
-    <main class="game-main">
-
-      <!-- TELA 1: CAPA / BEM-VINDO -->
-      <section id="screen-start" class="screen active">
-        <div class="card card-centered">
-          <h1>Bem-vindo ao Vale, Detetive.</h1>
-          <p class="lead">
-            A cidade esconde segredos. A <strong>Unidade de Casos Especiais</strong> precisa de alguém
-            com olhar atento, raciocínio rápido e coragem para tomar decisões difíceis.
-          </p>
-          <p>
-            Prepare-se para analisar pistas, interrogar suspeitos e descobrir a verdade por trás dos
-            casos mais enigmáticos do Vale.
-          </p>
-          <button id="btnStartGame" class="btn btn-primary">
-            NOVO JOGO
-          </button>
+    <!-- TELA DE CAPA -->
+    <section id="startScreen" class="screen active">
+        <img src="assets/capa_principal.png" class="full-bg">
+        <div class="centerBox">
+            <button onclick="goToAvatar()">Iniciar</button>
         </div>
-      </section>
+    </section>
 
-      <!-- TELA 2: ESCOLHA DE AVATAR -->
-      <section id="screen-avatar" class="screen">
-        <div class="card card-centered">
-          <h2>Escolha seu Avatar</h2>
-          <p class="lead">Selecione o detetive que vai representar você nas investigações.</p>
+    <!-- TELA DE ESCOLHA DE AVATAR -->
+    <section id="avatarScreen" class="screen">
+        <h2>Escolha seu Avatar</h2>
+        <div id="avatarList" class="avatar-list"></div>
+        <label>Seu Nome:</label>
+        <input type="text" id="playerName" placeholder="Digite seu nome">
+        <button onclick="confirmAvatar()">Confirmar</button>
+    </section>
 
-          <div class="avatar-grid">
-            <button class="avatar-option" data-avatar-id="1">
-              <div class="avatar-circle avatar-a"></div>
-              <span>Detetive A</span>
-            </button>
-            <button class="avatar-option" data-avatar-id="2">
-              <div class="avatar-circle avatar-b"></div>
-              <span>Detetive B</span>
-            </button>
-            <button class="avatar-option" data-avatar-id="3">
-              <div class="avatar-circle avatar-c"></div>
-              <span>Detetive C</span>
-            </button>
-          </div>
-
-          <button id="btnAvatarContinue" class="btn btn-primary" disabled>
-            CONTINUAR
-          </button>
-
-          <button class="btn btn-secondary" id="btnAvatarBack">
-            VOLTAR
-          </button>
+    <!-- TELA DO CAPITÃO -->
+    <section id="captainScreen" class="screen">
+        <img src="assets/capitao_office.png" class="full-bg">
+        <div class="dialogBox">
+            <p id="captainText"></p>
         </div>
-      </section>
+        <button onclick="goToOffice()">Continuar</button>
+    </section>
 
-      <!-- TELA 3: NOME DO DETETIVE -->
-      <section id="screen-name" class="screen">
-        <div class="card card-centered">
-          <h2>Identificação do Detetive</h2>
-          <p class="lead">Como você quer ser chamado(a) nos relatórios oficiais do Vale?</p>
-          <input
-            id="inputDetectiveName"
-            type="text"
-            class="input-text"
-            placeholder="Digite seu nome de detetive..."
-            maxlength="20"
-          />
-          <div class="hint">Exemplos: “Detetive Vale”, “Agente JV”</div>
+    <!-- ESCRITÓRIO -->
+    <section id="officeScreen" class="screen">
+        <img src="assets/escritorio_detective.png" class="full-bg">
+        <div class="officePanel">
+            <img id="officeAvatar" class="officeAvatar">
+            <h2 id="officeName"></h2>
 
-          <button id="btnNameContinue" class="btn btn-primary">
-            ENTRAR NO ESCRITÓRIO
-          </button>
-
-          <button class="btn btn-secondary" id="btnNameBack">
-            VOLTAR
-          </button>
+            <button onclick="loadNextCase()">Próximo Caso</button>
+            <button onclick="openStats()">Estatísticas</button>
+            <button onclick="openPhone()">Telefone</button>
         </div>
-      </section>
+    </section>
 
-      <!-- TELA 4: ESCRITÓRIO -->
-      <section id="screen-office" class="screen">
-        <div class="card">
-          <h2>Escritório da Unidade</h2>
-          <p id="officeIntro" class="lead">
-            Bem-vindo ao seu novo posto, Detetive.
-          </p>
-          <p>
-            O Vale é conhecido por duas coisas: sua paisagem tranquila e seus casos impossíveis.
-            Seu trabalho é simples de explicar, mas difícil de executar: analisar minuciosamente
-            cada pista, desconfiar de versões muito perfeitas e tomar decisões rápidas.
-          </p>
-          <p class="captain-quote">
-            <strong>Mensagem do Capitão:</strong><br />
-            “Detetive, o Vale não perdoa erros. Leia tudo com atenção e lembre-se:
-            cada escolha muda o rumo da investigação.”
-          </p>
+    <!-- TELA DO CASO -->
+    <section id="caseScreen" class="screen">
+        <h2 id="caseTitle"></h2>
+        <div id="caseScene" class="caseScene"></div>
+        <button onclick="openInvestigation()">Iniciar Investigação</button>
+        <button onclick="goToOffice()">Voltar</button>
+    </section>
 
-          <div class="office-actions">
-            <button id="btnGoToCase" class="btn btn-primary">
-              COMEÇAR INVESTIGAÇÃO
-            </button>
-          </div>
-        </div>
-      </section>
+    <!-- TELA DE INVESTIGAÇÃO -->
+    <section id="investigationScreen" class="screen">
+        <h2 id="caseTitle2"></h2>
+        <p id="caseDescription"></p>
 
-      <!-- TELA 5: CASO / JOGO PRINCIPAL -->
-      <section id="screen-case" class="screen">
-        <div class="card">
-          <h2 id="caseTitle">Título do Caso</h2>
-          <p id="caseLocation" class="case-location"></p>
-          <p id="caseIntro" class="lead"></p>
-          <p id="caseStory"></p>
+        <h3>Testemunhas</h3>
+        <div id="witnesses" class="horizontalList"></div>
 
-          <h3>Pistas</h3>
-          <ul id="caseClues" class="clue-list"></ul>
+        <h3>Suspeitos</h3>
+        <div id="suspects" class="horizontalList"></div>
 
-          <h3>Suspeitos</h3>
-          <div id="caseSuspects" class="suspect-list"></div>
+        <h3>Provas</h3>
+        <div id="evidence" class="horizontalList"></div>
 
-          <h3>Anotações</h3>
-          <textarea
-            id="notesArea"
-            class="notes-area"
-            placeholder="Escreva aqui suas teorias..."
-          ></textarea>
+        <button onclick="returnToCase()">Voltar</button>
+    </section>
 
-          <div class="case-actions">
-            <button id="btnAccuse" class="btn btn-primary">
-              FAZER ACUSAÇÃO
-            </button>
-            <button id="btnBackToOffice" class="btn btn-secondary">
-              VOLTAR AO ESCRITÓRIO
-            </button>
-          </div>
-        </div>
+</div>
 
-        <div class="card card-report">
-          <h2>Relatório do Capitão</h2>
-          <p id="captainReport">
-            Analise as pistas e escolha um suspeito para acusar.
-          </p>
-          <button id="btnNextCase" class="btn btn-primary">
-            PRÓXIMO CASO
-          </button>
-        </div>
-      </section>
-
-    </main>
-  </div>
-
-  <script src="game.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
