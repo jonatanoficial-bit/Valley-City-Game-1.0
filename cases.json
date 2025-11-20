@@ -5,97 +5,96 @@
     "difficulty": "Fácil",
     "location": "Museu Municipal de Arte",
     "intro": "Um quadro famoso sumiu poucas horas antes da abertura de uma grande exposição.",
-    "story": "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais valiosa da exposição, desapareceu do cofre. Apenas três pessoas tiveram acesso à sala do cofre na última hora antes do sumiço.",
+    "story": "Você é chamado ao museu quando o diretor descobre que 'A Noite Sobre o Vale' desapareceu do cofre. Apenas três pessoas tiveram acesso ao local nas últimas horas.",
     "clues": [
-      "O sistema de segurança registra que o cofre foi aberto apenas uma vez naquele período.",
-      "A câmera próxima ao corredor do cofre ficou com a lente borrada por alguns minutos.",
-      "A chave reserva do cofre está intacta e lacrada dentro da sala do diretor."
+      "A câmera de segurança ficou desligada por 10 minutos.",
+      "O segurança noturno ouviu passos às 02h17.",
+      "Um funcionário tem dívidas altas de jogo."
     ],
     "suspects": [
       {
-        "id": "marina",
-        "name": "Marina – Curadora",
-        "description": "Responsável pela exposição. Conhece bem o cofre e o sistema, mas afirma que estava em reunião com patrocinadores."
+        "id": "seguranca",
+        "name": "Marcelo, o segurança",
+        "description": "Trabalha há 10 anos no museu, parece nervoso e evita contato visual."
       },
       {
-        "id": "jorge",
-        "name": "Jorge – Segurança",
-        "description": "De plantão no turno. Diz que fez rondas normais e não viu nada suspeito, apenas 'um problema técnico' na câmera."
+        "id": "curadora",
+        "name": "Dra. Helena, a curadora",
+        "description": "Conhece cada obra de arte, foi a última a sair antes do sumiço."
       },
       {
-        "id": "luisa",
-        "name": "Luísa – Restauradora",
-        "description": "Trabalhava em outra sala, limpando pinturas menores. Disse que não tem acesso ao cofre principal."
+        "id": "estagiario",
+        "name": "Jonas, o estagiário",
+        "description": "Jovem entusiasmado, mas com pouco acesso às áreas restritas."
       }
     ],
-    "question": "Quem roubou o quadro?",
-    "correctSuspectId": "jorge",
-    "solution": "O quadro foi roubado por Jorge. Apenas o segurança poderia intervir diretamente nas câmeras sem levantar suspeitas. O sistema mostra que o cofre foi aberto apenas uma vez, o que indica uso de credenciais legítimas. Marina estava em reunião com várias testemunhas e a chave reserva nunca foi tocada. Já Jorge tinha acesso ao cofre e foi quem relatou 'problema técnico' na câmera exatamente quando o roubo aconteceu."
+    "correctSuspectId": "curadora",
+    "solutionText": "A curadora tinha a senha do cofre e aproveitou a falha da câmera para agir."
   },
+
   {
     "id": 2,
-    "title": "O Veneno no Café",
+    "title": "O Misterioso Apagão no Vale",
     "difficulty": "Médio",
-    "location": "Redação do Jornal Cidade Viva",
-    "intro": "Um editor-chefe desmaia após tomar café durante o fechamento de uma matéria importante.",
-    "story": "Na redação cheia e caótica, o editor-chefe, Augusto, toma seu café habitual e minutos depois passa mal, sendo levado desacordado ao hospital. Os médicos indicam suspeita de envenenamento. Apenas três pessoas estiveram perto da mesa de Augusto naquele intervalo.",
+    "location": "Bairro Central do Vale",
+    "intro": "Um apagão inesperado deixou todo o bairro às escuras por 15 minutos.",
+    "story": "Pouco antes do apagão, um carro-forte passava pela avenida. O Capitão suspeita de sabotagem.",
     "clues": [
-      "A caneca de Augusto estava limpa no início do dia; ele sempre enchia no mesmo bebedouro.",
-      "Uma assistente lembra de ver alguém mexendo na mesa dele pouco antes do incidente.",
-      "O relatório do laboratório indica traços de um medicamento forte para pressão, que Augusto não toma."
+      "Moradores ouviram um estrondo na subestação elétrica.",
+      "A empresa de energia não registrou falhas técnicas.",
+      "Um vídeo mostra um grupo perto da subestação minutos antes."
     ],
     "suspects": [
       {
-        "id": "paula",
-        "name": "Paula – Repórter",
-        "description": "Envolvida em uma matéria polêmica que Augusto quase cancelou. Afirma que estava no telefone com uma fonte."
+        "id": "tecnico",
+        "name": "Rafael, o técnico",
+        "description": "Tem acesso à subestação e conhecimento para provocar o apagão."
       },
       {
-        "id": "ricardo",
-        "name": "Ricardo – Estagiário",
-        "description": "Faz café para todos. Diz que apenas deixou o copo de Augusto na mesa e depois saiu para buscar impressões."
+        "id": "moradora",
+        "name": "Dona Zuleica",
+        "description": "Moradora antiga, mas sem acesso a sistemas elétricos."
       },
       {
-        "id": "helena",
-        "name": "Helena – Assistente Pessoal",
-        "description": "Organiza a agenda e a mesa de Augusto. Foi contra a publicação da matéria por medo de processos."
+        "id": "chefe_bando",
+        "name": "Cassiano, chefe de quadrilha",
+        "description": "Já investigado anteriormente, mas nunca foi pego."
       }
     ],
-    "question": "Quem adulterou o café de Augusto?",
-    "correctSuspectId": "helena",
-    "solution": "Helena tinha acesso constante à mesa de Augusto sob o pretexto de organização. O estagiário só deixou o café e saiu, e Paula estava ocupada ao telefone em outra sala. O medicamento encontrado é usado por uma pessoa da família de Helena, segundo colegas, o que explica o acesso ao remédio. Ela não queria que a matéria fosse publicada e tentou apenas afastar Augusto temporariamente, sem chegar a uma tentativa de homicídio declarada."
+    "correctSuspectId": "tecnico",
+    "solutionText": "O técnico manipulou o sistema internamente, sincronizando o apagão com a passagem do carro-forte."
   },
+
   {
     "id": 3,
-    "title": "O Notebook Sumido",
-    "difficulty": "Difícil",
-    "location": "Empresa de Tecnologia ValeSoft",
-    "intro": "Um protótipo de software sigiloso desaparece junto com o notebook onde estava instalado.",
-    "story": "Durante a madrugada que antecede uma grande apresentação para investidores, o notebook contendo o protótipo exclusivo da empresa desaparece da sala de reuniões. A porta não foi arrombada e o sistema registra três acessos com cartão naquele período.",
+    "title": "Notas Falsas na Feira",
+    "difficulty": "Fácil",
+    "location": "Feira Municipal do Vale",
+    "intro": "Feirantes reclamaram de grande circulação de notas falsas.",
+    "story": "O capitão acredita que alguém na feira esteja distribuindo as notas fraudulentas.",
     "clues": [
-      "O histórico de acessos mostra três cartões: o do diretor, o da gerente de projetos e o do técnico de TI.",
-      "As câmeras do corredor registram entrada e saída da sala, mas não é possível ver o interior.",
-      "O log do sistema de rede mostra um acesso remoto ao protótipo pouco antes do notebook ser desligado."
+      "As notas falsas têm a mesma numeração.",
+      "Um feirante começou a aceitar apenas PIX recentemente.",
+      "Uma nova barraca apareceu sem cadastro oficial."
     ],
     "suspects": [
       {
-        "id": "diretor",
-        "name": "Carlos – Diretor",
-        "description": "Responsável por negociar com os investidores. Tem acesso total à sala, mas afirma que estava em outra reunião externa."
+        "id": "feirante_antigo",
+        "name": "Naldo",
+        "description": "Feirante antigo, conhecido por ser honesto."
       },
       {
-        "id": "gerente",
-        "name": "Fernanda – Gerente de Projetos",
-        "description": "Conhece profundamente o protótipo e está sobrecarregada com prazos. Entrou na sala para revisar slides."
+        "id": "barraca_nova",
+        "name": "Lívia",
+        "description": "Dona da barraca nova, sempre recebe dinheiro vivo."
       },
       {
-        "id": "ti",
-        "name": "Bruno – Técnico de TI",
-        "description": "Cuida dos servidores e da rede. Foi chamado para resolver um problema de conexão naquela noite."
+        "id": "cliente_misterioso",
+        "name": "Homem de capuz",
+        "description": "Aparece rapidamente e sempre paga com notas altas."
       }
     ],
-    "question": "Quem levou o notebook com o protótipo?",
-    "correctSuspectId": "ti",
-    "solution": "Bruno, o técnico de TI, tinha o conhecimento necessário para acessar o protótipo remotamente e desativar rastros. O log da rede indica um acesso especializado e desligamento remoto, algo que o diretor e a gerente não costumam fazer. Além disso, seu cartão aparece nos registros na mesma faixa de tempo do desaparecimento. Fernanda usou a sala para revisar slides, mas não teria motivo para sumir com o único protótipo antes da apresentação decisiva."
+    "correctSuspectId": "barraca_nova",
+    "solutionText": "Lívia distribuía as notas falsas usando o movimento intenso para despistar."
   }
 ]
