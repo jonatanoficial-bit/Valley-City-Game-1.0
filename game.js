@@ -1,1247 +1,532 @@
-/* ======================================================
-   Valley City: Police Investigations
-   game.js - Lógica principal do jogo (versão mobile)
-======================================================*/
+// game.js
 
-/* ==========================
-   VARIÁVEIS GLOBAIS
-=========================== */
-
-let currentScreen = "";
 let cases = [];
-let currentWitness = null;
-let currentSuspect = null;
-let typewriterTimer = null;
-let lastWarrantResult = null;
+let currentCaseIndex = null;
+let selectedSuspectId = null;
+let lastResultWasCorrect = false;
 
-let examQuestions = [];
-let examCurrentIndex = 0;
-let examScore = 0;
-
-let player = {
-  name: "",
-  avatar: "",
-  gender: "M",
-  agency: "PD",        // PD, FBI, CIA
-  rankIndex: 0,        // Índice no RANK_PATH
-  rank: "Detetive Júnior",
-  moral: 50,
-  prestige: 0,
-  currentCaseIndex: 0, // índice no array de cases
-  solvedCases: 0,
-  failedCases: 0
-};
-
-/* ==========================
-   CAMINHO DE PROMOÇÃO
-=========================== */
-
-const RANK_PATH = [
-  { agency: "PD",  name: "Detetive Júnior",                        minCases: 0,  minPrestige: 0,  minMoral: 0  },
-  { agency: "PD",  name: "Detetive Titular",                       minCases: 2,  minPrestige: 50, minMoral: 40 },
-  { agency: "PD",  name: "Detetive – Casos Especiais",             minCases: 5,  minPrestige: 80, minMoral: 50 },
-  { agency: "FBI", name: "Agente de Investigação Júnior",          minCases: 7,  minPrestige: 80, minMoral: 55 },
-  { agency: "FBI", name: "Agente de Investigação Federal",         minCases: 10, minPrestige: 85, minMoral: 60 },
-  { agency: "FBI", name: "Agente Federal de Investigações Especiais", minCases: 13, minPrestige: 90, minMoral: 65 },
-  { agency: "CIA", name: "Analista de Dados Júnior",               minCases: 16, minPrestige: 90, minMoral: 70 },
-  { agency: "CIA", name: "Agente Nível 1",                         minCases: 20, minPrestige: 92, minMoral: 72 },
-  { agency: "CIA", name: "Agente Nível 2",                         minCases: 24, minPrestige: 94, minMoral: 74 },
-  { agency: "CIA", name: "Agente Nível 3",                         minCases: 28, minPrestige: 96, minMoral: 76 },
-  { agency: "CIA", name: "Agente Nível 4",                         minCases: 32, minPrestige: 97, minMoral: 78 },
-  { agency: "CIA", name: "Agente Especial",                        minCases: 36, minPrestige: 98, minMoral: 80 }
-];
-
-/* ==========================
-   BANCO DE PERGUNTAS DO EXAME
-=========================== */
-
-const PROMO_QUESTIONS = [
+// FALLBACK LOCAL CASOS (usado se o fetch do cases.json falhar)
+const fallbackCases = [
   {
-    question: "Ao ouvir versões diferentes das testemunhas, o que um bom investigador faz primeiro?",
-    options: [
-      "Ignora a versão mais confusa",
-      "Procura pontos em comum e contradições",
-      "Escolhe a versão de quem parece mais calmo",
-      "Conclui que alguém está mentindo e encerra"
+    id: 1,
+    title: "O Quadro Desaparecido",
+    difficulty: "Fácil",
+    location: "Museu Municipal de Arte",
+    intro: "Um quadro famoso sumiu poucas horas antes da abertura de uma grande exposição.",
+    story:
+      "Você é chamado ao Museu Municipal de Arte quando o diretor descobre que 'A Noite Sobre o Vale', a pintura mais valiosa da exposição, desapareceu do cofre. Apenas três pessoas tiveram acesso à sala do cofre na última hora antes do sumiço.",
+    clues: [
+      "O sistema de segurança registra que o cofre foi aberto apenas uma vez naquele período.",
+      "A câmera próxima ao corredor do cofre ficou com a lente borrada por alguns minutos.",
+      "A chave reserva do cofre está intacta e lacrada dentro da sala do diretor."
     ],
-    correctIndex: 1
-  },
-  {
-    question: "Qual é a função principal de um mandado de busca?",
-    options: [
-      "Permitir a prisão imediata do suspeito",
-      "Autorizar a entrada legal em um local específico",
-      "Autorizar o interrogatório forçado",
-      "Substituir todas as outras investigações"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "O que é um álibi?",
-    options: [
-      "Uma prova material",
-      "Uma contradição em depoimento",
-      "A declaração de inocência de um suspeito",
-      "A justificativa de onde a pessoa estava no momento do crime"
-    ],
-    correctIndex: 3
-  },
-  {
-    question: "Quando uma prova digital (logs, câmeras) contradiz o álibi de um suspeito, você deve:",
-    options: [
-      "Desconsiderar o álibi imediatamente",
-      "Confrontar o suspeito com calma, buscando explicação",
-      "Ignorar a prova digital porque pode estar errada",
-      "Encerrar o caso e prender o suspeito na hora"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "No interrogatório, uma abordagem agressiva em excesso pode:",
-    options: [
-      "Sempre trazer a verdade à tona",
-      "Ajuda mas não muda nada",
-      "Fazer o suspeito se calar ou inventar respostas",
-      "Não tem impacto"
-    ],
-    correctIndex: 2
-  },
-  {
-    question: "Qual é o papel do FBI em relação à polícia local?",
-    options: [
-      "Substituir a polícia local em qualquer crime",
-      "Atuar em crimes federais e interestaduais",
-      "Tratar apenas de crimes de trânsito",
-      "Cuidar apenas de crimes internacionais"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "A CIA está mais focada em:",
-    options: [
-      "Crimes de trânsito",
-      "Crimes de rua em bairro específico",
-      "Inteligência, espionagem e ameaças à segurança nacional",
-      "Apenas investigações de homicídio simples"
-    ],
-    correctIndex: 2
-  },
-  {
-    question: "Ao analisar uma cena de crime, a prioridade é:",
-    options: [
-      "Mover o corpo para local melhor",
-      "Evitar contaminar e preservar o local",
-      "Permitir entrada de curiosos",
-      "Recolher tudo o mais rápido possível"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "Prestígio alto no departamento significa:",
-    options: [
-      "O detetive é famoso na TV",
-      "O detetive resolve casos com técnica e conduta correta",
-      "O detetive é temido pelos suspeitos",
-      "O detetive nunca erra"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "Quando uma testemunha diz 'acho que era por volta de 22h', isso indica:",
-    options: [
-      "Horário exato comprovado",
-      "Um horário aproximado, sujeito a erro",
-      "Que ela está mentindo",
-      "Que o crime aconteceu às 23h"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "Ao elogiar a equipe e o chefe, o investigador:",
-    options: [
-      "Manipula o sistema",
-      "Demonstra respeito e fortalece relações de trabalho",
-      "Perde moral com todos",
-      "Automaticamente é promovido"
-    ],
-    correctIndex: 1
-  },
-  {
-    question: "Ao usar o telefone para pedir desculpas ao chefe por erros, isso mostra:",
-    options: [
-      "Fraqueza",
-      "Falta de preparo",
-      "Capacidade de reconhecer falhas e evoluir",
-      "Desinteresse pelo trabalho"
-    ],
-    correctIndex: 2
-  }
-];
-
-/* ==========================
-   PERGUNTAS PADRÃO
-=========================== */
-
-const WITNESS_QUESTIONS = [
-  { id: "where",      label: "Onde você estava no momento do crime?" },
-  { id: "knowVictim", label: "Você conhecia a vítima? De onde?" },
-  { id: "seeSomeone", label: "Você viu alguém suspeito?" },
-  { id: "hear",       label: "Você ouviu algum som ou discussão?" },
-  { id: "moreInfo",   label: "Você tem mais alguma informação importante?" }
-];
-
-const SUSPECT_QUESTIONS = [
-  { id: "alibi",   label: "Onde você estava no momento do crime?" },
-  { id: "relation",label: "Qual era sua relação com a vítima?" },
-  { id: "motive",  label: "Por que alguém acharia que você é suspeito?" },
-  { id: "witness", label: "Alguém pode confirmar seu álibi?" },
-  { id: "stress",  label: "Por que você está tão nervoso?" },
-  { id: "weapon",  label: "Você tem alguma arma registrada ou não?" }
-];
-
-/* ==========================
-   FUNÇÃO MUDAR DE TELA
-=========================== */
-
-function goTo(screenId) {
-  currentScreen = screenId;
-  const app = document.querySelector("#app");
-  if (!app) return;
-
-  app.innerHTML = SCREENS[screenId] || "<p>ERRO: Tela não encontrada.</p>";
-
-  if (SCREEN_HOOKS[screenId]) {
-    SCREEN_HOOKS[screenId]();
-  }
-}
-
-/* ==========================
-   FUNDO CINEMATOGRÁFICO
-=========================== */
-
-function setBackground(image) {
-  const bg = document.querySelector("#bg-layer");
-  if (!bg) return;
-
-  bg.style.opacity = 0;
-  setTimeout(() => {
-    bg.style.backgroundImage = `url('assets/${image}.png')`;
-    bg.style.opacity = 1;
-  }, 250);
-}
-
-/* ==========================
-   TYPEWRITER EFFECT
-=========================== */
-
-function typeWriter(text, elementId, speed = 36) {
-  const el = document.getElementById(elementId);
-  if (!el) return;
-
-  let index = 0;
-  el.innerHTML = "";
-  clearInterval(typewriterTimer);
-
-  typewriterTimer = setInterval(() => {
-    el.innerHTML = text.substring(0, index);
-    index++;
-    if (index > text.length) {
-      clearInterval(typewriterTimer);
-    }
-  }, speed);
-}
-
-/* ==========================
-   SALVAR / CARREGAR JOGO
-=========================== */
-
-function saveGame() {
-  try {
-    localStorage.setItem("VCPI_SAVE", JSON.stringify(player));
-    alert("Jogo salvo com sucesso!");
-  } catch (e) {
-    alert("Erro ao salvar o jogo (verifique permissões do navegador).");
-  }
-}
-
-function loadGame() {
-  try {
-    const data = localStorage.getItem("VCPI_SAVE");
-    if (!data) {
-      alert("Nenhum jogo salvo encontrado.");
-      return;
-    }
-    const obj = JSON.parse(data);
-    player = { ...player, ...obj }; // mescla com defaults
-    goTo("office");
-  } catch (e) {
-    alert("Erro ao carregar o jogo.");
-  }
-}
-
-/* ==========================
-   PROGRESSÃO DE CASOS
-=========================== */
-
-function startNextCase() {
-  if (player.currentCaseIndex >= cases.length) {
-    goTo("theEnd");
-    return;
-  }
-  const c = cases[player.currentCaseIndex];
-  player.currentCase = c;
-  goTo("caseIntro");
-}
-
-function concludeCaseWith(suspectId) {
-  const c = cases[player.currentCaseIndex];
-  if (!c) return;
-  const chosen = c.suspects.find(s => s.id === suspectId);
-
-  if (chosen && chosen.isGuilty) {
-    player.solvedCases++;
-    player.prestige = Math.min(player.prestige + 12, 100);
-    player.moral    = Math.min(player.moral + 4, 100);
-    alert("Caso resolvido corretamente!");
-  } else {
-    player.failedCases++;
-    player.prestige = Math.max(player.prestige - 5, 0);
-    player.moral    = Math.max(player.moral - 10, 0);
-    alert("Você errou o culpado!");
-  }
-
-  player.currentCaseIndex++;
-  player.currentCase = null;
-  goTo("office");
-}
-
-/* ==========================
-   HUD DO JOGADOR
-=========================== */
-
-function renderHUD() {
-  const el = document.getElementById("player-hud");
-  if (!el) return;
-
-  const avatarImg = player.avatar
-    ? `<img src="assets/${player.avatar}.png" alt="avatar">`
-    : "";
-
-  el.innerHTML = `
-    <div class="section-card office-header">
-      <div class="office-avatar">
-        ${avatarImg}
-      </div>
-      <div class="office-info">
-        <h3>${player.name || "Detetive"} 
-          <span class="pill-inline">${player.rank}</span>
-        </h3>
-        <p class="small">Agência: ${player.agency}</p>
-        <p class="small">Moral: ${player.moral}% • Prestígio: ${player.prestige}%</p>
-        <p class="small">Casos Resolvidos: ${player.solvedCases} • Falhas: ${player.failedCases}</p>
-      </div>
-    </div>
-  `;
-}
-
-/* ==========================
-   AVATAR + NOME
-=========================== */
-
-function selectAvatar(avatar) {
-  player.avatar = avatar;
-  player.gender = "M"; // por enquanto, usamos apenas avatars padrão
-
-  document.querySelectorAll(".avatar-option")
-    .forEach(a => a.classList.remove("selected"));
-
-  const selected = document.getElementById("av_" + avatar);
-  if (selected) selected.classList.add("selected");
-}
-
-function confirmAvatar() {
-  const input = document.getElementById("playerName");
-  const name = input ? input.value.trim() : "";
-  if (name.length < 2) {
-    alert("Digite um nome válido.");
-    return;
-  }
-  if (!player.avatar) {
-    alert("Escolha um avatar.");
-    return;
-  }
-  player.name = name;
-  goTo("captainWelcome");
-}
-
-/* ==========================
-   PROMOÇÃO
-=========================== */
-
-function openPromotion() {
-  const nextIndex = player.rankIndex + 1;
-  const nextRank = RANK_PATH[nextIndex];
-
-  if (!nextRank) {
-    alert("Você já atingiu o topo da carreira.");
-    return;
-  }
-
-  const faltaCases = Math.max(0, nextRank.minCases - player.solvedCases);
-  const faltaPrestige = Math.max(0, nextRank.minPrestige - player.prestige);
-  const faltaMoral = Math.max(0, nextRank.minMoral - player.moral);
-
-  if (faltaCases > 0 || faltaPrestige > 0 || faltaMoral > 0) {
-    let msg = "Você ainda não está pronto para a próxima promoção.\n\nFalta:";
-    if (faltaCases > 0) msg += `\n- ${faltaCases} caso(s) resolvido(s)`;
-    if (faltaPrestige > 0) msg += `\n- ${faltaPrestige}% de prestígio`;
-    if (faltaMoral > 0) msg += `\n- ${faltaMoral}% de moral`;
-    alert(msg);
-    return;
-  }
-
-  // monta exame
-  preparePromotionExam();
-  goTo("promotionExam");
-}
-
-function preparePromotionExam() {
-  // embaralha perguntas e pega 10 (ou menos se não tiver)
-  const pool = [...PROMO_QUESTIONS];
-  pool.sort(() => Math.random() - 0.5);
-  examQuestions = pool.slice(0, 10);
-  examCurrentIndex = 0;
-  examScore = 0;
-}
-
-function answerExam(optionIndex) {
-  const q = examQuestions[examCurrentIndex];
-  if (!q) return;
-
-  if (optionIndex === q.correctIndex) {
-    examScore++;
-  }
-
-  examCurrentIndex++;
-
-  if (examCurrentIndex >= examQuestions.length) {
-    finishPromotionExam();
-  } else {
-    renderExamQuestion();
-  }
-}
-
-function finishPromotionExam() {
-  const acertos = examScore;
-  const total = examQuestions.length;
-  const aprovado = acertos >= 7;
-
-  if (aprovado) {
-    player.rankIndex++;
-    const r = RANK_PATH[player.rankIndex];
-    player.rank = r.name;
-    player.agency = r.agency;
-    alert(`Parabéns! Você foi aprovado no exame (${acertos}/${total}) e promovido a ${r.name}.`);
-  } else {
-    player.moral = Math.max(player.moral - 5, 0);
-    alert(`Você não atingiu a nota mínima. (${acertos}/${total})\nEstude os procedimentos e tente novamente.`);
-  }
-
-  goTo("office");
-}
-
-function renderExamQuestion() {
-  const q = examQuestions[examCurrentIndex];
-  if (!q) return;
-
-  const qEl = document.getElementById("examQuestion");
-  const optsEl = document.getElementById("examOptions");
-
-  if (!qEl || !optsEl) return;
-
-  qEl.innerText = `Pergunta ${examCurrentIndex + 1}/${examQuestions.length}: ${q.question}`;
-  optsEl.innerHTML = "";
-
-  q.options.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "btn-full";
-    btn.innerText = opt;
-    btn.onclick = () => answerExam(idx);
-    optsEl.appendChild(btn);
-  });
-}
-
-/* ==========================
-   TELEFONE
-=========================== */
-
-function confirmResign() {
-  if (confirm("Tem certeza que deseja pedir demissão? Isso encerrará sua carreira em Valley City.")) {
-    goTo("resigned");
-  }
-}
-
-function callChiefApologize() {
-  player.moral = Math.min(player.moral + 5, 100);
-  player.prestige = Math.min(player.prestige + 3, 100);
-  alert("Você pediu desculpas pelos erros. O chefe reconhece sua postura e sua moral aumentou.");
-}
-
-function callChiefPraiseTeam() {
-  player.prestige = Math.min(player.prestige + 4, 100);
-  alert("Você elogiou a equipe. O clima no distrito melhora e seu prestígio aumenta.");
-}
-
-function callChiefPraiseChief() {
-  player.moral = Math.min(player.moral + 2, 100);
-  player.prestige = Math.min(player.prestige + 2, 100);
-  alert("Você demonstrou respeito pelo chefe. Sua relação com a liderança melhora.");
-}
-
-function openWarrantScreen() {
-  if (!player.currentCase) {
-    player.currentCase = cases[player.currentCaseIndex];
-  }
-  const c = player.currentCase;
-  if (!c || !c.suspects || c.suspects.length === 0) {
-    alert("Nenhum suspeito disponível para mandado de busca neste caso.");
-    return;
-  }
-  goTo("phoneWarrant");
-
-  const list = document.getElementById("warrantSuspectList");
-  if (!list) return;
-
-  list.innerHTML = "";
-  c.suspects.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.onclick = () => executeWarrant(s.id);
-    div.innerHTML = `
-      <div class="flex">
-        <div class="portrait"><img src="assets/${s.image}.png"></div>
-        <div>
-          <div class="list-item-title">${s.name}</div>
-          <div class="list-item-sub">${s.occupation} • ${s.age} anos</div>
-        </div>
-      </div>
-    `;
-    list.appendChild(div);
-  });
-}
-
-function executeWarrant(suspectId) {
-  const c = player.currentCase || cases[player.currentCaseIndex];
-  if (!c) return;
-
-  const suspect = c.suspects.find(s => s.id === suspectId);
-  if (!suspect) return;
-
-  const foundEvidence = [];
-  const evList = suspect.warrantEvidence || [];
-
-  // adiciona as evidências do mandado ao caso
-  evList.forEach(ev => {
-    if (!c.evidence) c.evidence = [];
-    const exists = c.evidence.some(e => e.id === ev.id);
-    if (!exists) {
-      c.evidence.push({ ...ev });
-      foundEvidence.push(ev);
-    }
-  });
-
-  lastWarrantResult = {
-    suspectName: suspect.name,
-    guilty: !!suspect.isGuilty,
-    evidence: foundEvidence
-  };
-
-  goTo("phoneWarrantResult");
-}
-
-/* ==========================
-   TELAS (SCREENS)
-=========================== */
-
-const SCREENS = {
-  start: `
-    <div class="section-card">
-      <h1 class="title">Valley City: Police Investigations</h1>
-      <p class="subtitle">Toque em INICIAR para começar sua carreira.</p>
-      <button class="btn" onclick="goTo('avatarSelect')">Iniciar</button>
-      <button class="btn-secondary" onclick="loadGame()">Carregar Jogo</button>
-    </div>
-  `,
-
-  avatarSelect: `
-    <div class="section-card">
-      <h2 class="title">Seu Oficial</h2>
-      <p class="subtitle">Escolha o avatar e digite seu nome.</p>
-
-      <div class="label">Seu nome:</div>
-      <input id="playerName" class="input" placeholder="Digite seu nome..." />
-
-      <div class="label">Escolha seu avatar:</div>
-      <div class="avatar-grid">
-        ${(() => {
-          // SOMENTE avatar_01.png até avatar_10.png
-          let html = "";
-          for (let i = 1; i <= 10; i++) {
-            const num = i.toString().padStart(2, "0");
-            const id = `avatar_${num}`;
-            html += `
-              <div class="avatar-option" id="av_${id}" onclick="selectAvatar('${id}')">
-                <img src="assets/${id}.png" alt="avatar ${num}">
-              </div>
-            `;
-          }
-          return html;
-        })()}
-      </div>
-
-      <button class="btn" onclick="confirmAvatar()">Confirmar</button>
-    </div>
-  `,
-
-  captainWelcome: `
-    <div class="section-card">
-      <h2 class="title">Distrito Policial de Valley City</h2>
-      <div class="flex">
-        <div class="portrait"><img src="assets/capitao_brief.png" alt="Capitão"></div>
-        <p class="small">Capitão Rodriguez</p>
-      </div>
-      <div id="captainText" class="typewriter"></div>
-      <button class="btn" onclick="goTo('office')">Continuar</button>
-    </div>
-  `,
-
-  office: `
-    <div id="player-hud"></div>
-
-    <div class="section-card">
-      <h2 class="title">Escritório do Detetive</h2>
-      <p class="subtitle">Escolha sua próxima ação.</p>
-
-      <div class="btn-row">
-        <button class="btn" onclick="startNextCase()">Próximo Caso</button>
-        <button class="btn-secondary" onclick="saveGame()">Salvar Jogo</button>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn" onclick="goTo('phoneMenu')">Telefone</button>
-        <button class="btn" onclick="openPromotion()">Promoção</button>
-      </div>
-
-      <button class="btn-ghost" onclick="goTo('stats')">Estatísticas</button>
-    </div>
-  `,
-
-  stats: `
-    <div class="section-card">
-      <h2 class="title">Status do Detetive</h2>
-      <p class="small">Patente atual: ${player.rank}</p>
-      <p class="small">Agência: ${player.agency}</p>
-      <p class="small">Casos concluídos: ${player.solvedCases}</p>
-      <p class="small">Casos falhados: ${player.failedCases}</p>
-      <p class="small">Moral: ${player.moral}%</p>
-      <p class="small">Prestígio: ${player.prestige}%</p>
-      <button class="btn-ghost" onclick="goTo('office')">Voltar</button>
-    </div>
-  `,
-
-  caseIntro: `
-    <div class="section-card">
-      <h2 class="title" id="caseTitle"></h2>
-      <p id="caseDesc" class="subtitle"></p>
-      <img id="caseImg" class="thumb" alt="Cena do caso">
-      <button class="btn" onclick="goTo('investigation')">Iniciar Investigação</button>
-    </div>
-  `,
-
-  investigation: `
-    <div class="section-card">
-      <h2 class="title">Investigação</h2>
-      <button class="btn" onclick="openWitnesses()">Testemunhas</button>
-      <button class="btn" onclick="openEvidence()">Provas</button>
-      <button class="btn" onclick="openSuspects()">Suspeitos</button>
-      <button class="btn-danger" onclick="openConclusion()">Concluir Caso</button>
-      <button class="btn-ghost" onclick="goTo('office')">Voltar ao Escritório</button>
-    </div>
-  `,
-
-  witnesses: `
-    <div class="section-card">
-      <h2 class="title">Testemunhas</h2>
-      <div id="witnessList"></div>
-      <button class="btn-ghost" onclick="goTo('investigation')">Voltar</button>
-    </div>
-  `,
-
-  witnessDetail: `
-    <div class="section-card">
-      <div class="flex">
-        <div class="portrait"><img id="wP" alt="Testemunha"></div>
-        <div>
-          <h3 id="wN"></h3>
-          <p id="wR" class="small"></p>
-        </div>
-      </div>
-
-      <div class="label">Depoimento Inicial:</div>
-      <div id="wInit" class="small"></div>
-
-      <div class="label">Perguntas:</div>
-      <div id="wQuestions"></div>
-
-      <div class="label">Log:</div>
-      <div id="wLog" class="log-box"></div>
-
-      <button class="btn-ghost" onclick="goTo('witnesses')">Voltar</button>
-    </div>
-  `,
-
-  suspects: `
-    <div class="section-card">
-      <h2 class="title">Suspeitos</h2>
-      <div id="suspectList"></div>
-      <button class="btn-ghost" onclick="goTo('investigation')">Voltar</button>
-    </div>
-  `,
-
-  suspectDetail: `
-    <div class="section-card">
-      <div class="flex">
-        <div class="portrait"><img id="sP" alt="Suspeito"></div>
-        <div>
-          <h3 id="sN"></h3>
-          <p id="sInfo" class="small"></p>
-        </div>
-      </div>
-
-      <div class="stat-bars">
-        <div class="stat-row">
-          Stress <div class="stat-bar"><div id="sb_stress" class="stat-bar-fill"></div></div>
-        </div>
-        <div class="stat-row">
-          Confiança <div class="stat-bar"><div id="sb_conf" class="stat-bar-fill"></div></div>
-        </div>
-        <div class="stat-row">
-          Raiva <div class="stat-bar"><div id="sb_ang" class="stat-bar-fill"></div></div>
-        </div>
-      </div>
-
-      <div class="label">Perguntar:</div>
-      <div id="sQuestions"></div>
-
-      <div class="label">Log:</div>
-      <div id="sLog" class="log-box"></div>
-
-      <button class="btn-ghost" onclick="goTo('suspects')">Voltar</button>
-    </div>
-  `,
-
-  evidence: `
-    <div class="section-card">
-      <h2 class="title">Provas</h2>
-      <div id="eList"></div>
-      <button class="btn-ghost" onclick="goTo('investigation')">Voltar</button>
-    </div>
-  `,
-
-  conclude: `
-    <div class="section-card">
-      <h2 class="title">Quem é o culpado?</h2>
-      <div id="concludeList"></div>
-      <button class="btn-ghost" onclick="goTo('investigation')">Voltar</button>
-    </div>
-  `,
-
-  phoneMenu: `
-    <div class="section-card">
-      <h2 class="title">Telefone</h2>
-      <p class="subtitle">Escolha uma opção de chamada.</p>
-      <button class="btn" onclick="goTo('phoneChief')">Ligar para o chefe</button>
-      <button class="btn" onclick="openWarrantScreen()">Mandado de busca</button>
-      <button class="btn-danger" onclick="confirmResign()">Pedir demissão</button>
-      <button class="btn-ghost" onclick="goTo('office')">Voltar</button>
-    </div>
-  `,
-
-  phoneChief: `
-    <div class="section-card">
-      <h2 class="title">Linha com o Capitão Rodriguez</h2>
-      <p class="subtitle">Use com sabedoria. Suas escolhas afetam moral e prestígio.</p>
-      <button class="btn-full" onclick="callChiefApologize()">Pedir desculpas pelos erros recentes</button>
-      <button class="btn-full" onclick="callChiefPraiseTeam()">Elogiar o trabalho da equipe</button>
-      <button class="btn-full" onclick="callChiefPraiseChief()">Reconhecer a liderança do chefe</button>
-      <button class="btn-ghost" onclick="goTo('phoneMenu')">Voltar</button>
-    </div>
-  `,
-
-  phoneWarrant: `
-    <div class="section-card">
-      <h2 class="title">Mandado de Busca</h2>
-      <p class="subtitle">Escolha um suspeito para enviar a equipe à casa dele.</p>
-      <div id="warrantSuspectList"></div>
-      <button class="btn-ghost" onclick="goTo('phoneMenu')">Voltar</button>
-    </div>
-  `,
-
-  phoneWarrantResult: `
-    <div class="section-card">
-      <h2 class="title">Resultado do Mandado</h2>
-      <div id="warrantResultBox"></div>
-      <button class="btn" onclick="goTo('investigation')">Voltar à investigação</button>
-      <button class="btn-ghost" onclick="goTo('phoneMenu')">Outra ligação</button>
-    </div>
-  `,
-
-  promotionExam: `
-    <div class="section-card">
-      <h2 class="title">Exame de Promoção</h2>
-      <p id="examQuestion" class="subtitle"></p>
-      <div id="examOptions"></div>
-      <button class="btn-ghost" onclick="goTo('office')">Cancelar exame</button>
-    </div>
-  `,
-
-  resigned: `
-    <div class="section-card">
-      <h2 class="title">Você se Demitiu</h2>
-      <p class="subtitle">Sua carreira em Valley City terminou por escolha própria.</p>
-      <button class="btn" onclick="resetGame()">Iniciar nova carreira</button>
-    </div>
-  `,
-
-  theEnd: `
-    <div class="section-card">
-      <h2 class="title">Fim da Campanha</h2>
-      <p class="subtitle">Você concluiu todos os casos disponíveis nesta versão.</p>
-      <button class="btn" onclick="goTo('office')">Voltar ao Escritório</button>
-    </div>
-  `
-};
-
-/* ==========================
-   HOOKS (AÇÃO AO ENTRAR NA TELA)
-=========================== */
-
-const SCREEN_HOOKS = {
-  start() {
-    setBackground("capa_principal");
-  },
-  avatarSelect() {
-    setBackground("bg_login");
-  },
-  captainWelcome() {
-    setBackground("capitao_office");
-    typeWriter(
-      "Bem-vindo(a) a Valley City.\nSou o Capitão Rodriguez.\n\n" +
-      "Esta cidade está afundando em violência.\n" +
-      "Temos poucos policiais e muitos crimes.\n\n" +
-      "Não pise na bola, detetive.\nBoa sorte.",
-      "captainText",
-      28
-    );
-  },
-  office() {
-    setBackground("escritorio_detective");
-    renderHUD();
-  },
-  caseIntro() {
-    const c = cases[player.currentCaseIndex];
-    if (!c) return;
-    const t = document.getElementById("caseTitle");
-    const d = document.getElementById("caseDesc");
-    const img = document.getElementById("caseImg");
-    if (t) t.innerText = c.name;
-    if (d) d.innerText = c.description;
-    if (img) img.src = "assets/" + c.introImage + ".png";
-    setBackground("valley_city_night");
-  },
-  promotionExam() {
-    renderExamQuestion();
-  },
-  phoneWarrantResult() {
-    const box = document.getElementById("warrantResultBox");
-    if (!box || !lastWarrantResult) {
-      if (box) box.innerHTML = "<p class='small'>Nenhuma informação de mandado disponível.</p>";
-      return;
-    }
-
-    const { suspectName, guilty, evidence } = lastWarrantResult;
-
-    let html = `<p class="small"><b>Suspeito vistoriado:</b> ${suspectName}</p>`;
-
-    if (evidence && evidence.length > 0) {
-      html += `<p class="small">A equipe encontrou as seguintes evidências na residência:</p>`;
-      evidence.forEach(ev => {
-        html += `
-          <div class="list-item">
-            <div class="list-item-title">${ev.title} <span class="pill-inline">${ev.type}</span></div>
-            <div class="list-item-sub">${ev.description}</div>
-          </div>
-        `;
-      });
-      if (guilty) {
-        html += `<p class="small"><b>Observação:</b> As novas provas fortalecem a autoria deste suspeito.</p>`;
-      } else {
-        html += `<p class="small"><b>Observação:</b> As novas provas não o ligam diretamente ao crime.</p>`;
+    suspects: [
+      {
+        id: "marina",
+        name: "Marina – Curadora",
+        description:
+          "Responsável pela exposição. Conhece bem o cofre e o sistema, mas afirma que estava em reunião com patrocinadores."
+      },
+      {
+        id: "jorge",
+        name: "Jorge – Segurança",
+        description:
+          "De plantão no turno. Diz que fez rondas normais e não viu nada suspeito, apenas 'um problema técnico' na câmera."
+      },
+      {
+        id: "luisa",
+        name: "Luísa – Restauradora",
+        description:
+          "Trabalhava em outra sala, limpando pinturas menores. Disse que não tem acesso ao cofre principal."
       }
-    } else {
-      if (guilty) {
-        html += `<p class="small">O mandado foi executado, mas nenhuma prova nova foi encontrada nesta busca específica.</p>`;
-      } else {
-        html += `<p class="small">Nada relevante foi encontrado. Isso pode indicar inocência ou falta de ligação direta.</p>`;
+    ],
+    question: "Quem roubou o quadro?",
+    correctSuspectId: "jorge",
+    solution:
+      "O quadro foi roubado por Jorge. Apenas o segurança poderia intervir diretamente nas câmeras sem levantar suspeitas. O sistema mostra que o cofre foi aberto apenas uma vez, o que indica uso de credenciais legítimas. Marina estava em reunião com várias testemunhas e a chave reserva nunca foi tocada. Já Jorge tinha acesso ao cofre e foi quem relatou 'problema técnico' na câmera exatamente quando o roubo aconteceu."
+  },
+  {
+    id: 2,
+    title: "O Veneno no Café",
+    difficulty: "Médio",
+    location: "Redação do Jornal Cidade Viva",
+    intro:
+      "Um editor-chefe desmaia após tomar café durante o fechamento de uma matéria importante.",
+    story:
+      "Na redação cheia e caótica, o editor-chefe, Augusto, toma seu café habitual e minutos depois passa mal, sendo levado desacordado ao hospital. Os médicos indicam suspeita de envenenamento. Apenas três pessoas estiveram perto da mesa de Augusto naquele intervalo.",
+    clues: [
+      "A caneca de Augusto estava limpa no início do dia; ele sempre enchia no mesmo bebedouro.",
+      "Uma assistente lembra de ver alguém mexendo na mesa dele pouco antes do incidente.",
+      "O relatório do laboratório indica traços de um medicamento forte para pressão, que Augusto não toma."
+    ],
+    suspects: [
+      {
+        id: "paula",
+        name: "Paula – Repórter",
+        description:
+          "Envolvida em uma matéria polêmica que Augusto quase cancelou. Afirma que estava no telefone com uma fonte."
+      },
+      {
+        id: "ricardo",
+        name: "Ricardo – Estagiário",
+        description:
+          "Faz café para todos. Diz que apenas deixou o copo de Augusto na mesa e depois saiu para buscar impressões."
+      },
+      {
+        id: "helena",
+        name: "Helena – Assistente Pessoal",
+        description:
+          "Organiza a agenda e a mesa de Augusto. Foi contra a publicação da matéria por medo de processos."
       }
-    }
-
-    box.innerHTML = html;
-  }
-};
-
-/* ==========================
-   FUNÇÕES DE INVESTIGAÇÃO
-=========================== */
-
-function openWitnesses() {
-  if (!player.currentCase) {
-    player.currentCase = cases[player.currentCaseIndex];
-  }
-  const c = player.currentCase;
-  goTo("witnesses");
-
-  const list = document.getElementById("witnessList");
-  if (!list) return;
-
-  if (!c || !c.witnesses || c.witnesses.length === 0) {
-    list.innerHTML = `<p class="small">Nenhuma testemunha disponível neste caso.</p>`;
-    return;
-  }
-
-  list.innerHTML = "";
-  c.witnesses.forEach(w => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.onclick = () => openWitnessDetail(w.id);
-    div.innerHTML = `
-      <div class="flex">
-        <div class="portrait"><img src="assets/${w.image}.png" alt="${w.name}"></div>
-        <div>
-          <div class="list-item-title">${w.name}</div>
-          <div class="list-item-sub">${w.role}</div>
-        </div>
-      </div>
-    `;
-    list.appendChild(div);
-  });
-}
-
-function openWitnessDetail(wId) {
-  const c = player.currentCase;
-  if (!c) return;
-
-  currentWitness = c.witnesses.find(w => w.id === wId);
-  if (!currentWitness) return;
-
-  goTo("witnessDetail");
-
-  const w = currentWitness;
-  const wP = document.getElementById("wP");
-  const wN = document.getElementById("wN");
-  const wR = document.getElementById("wR");
-  const wInit = document.getElementById("wInit");
-
-  if (wP) wP.src = `assets/${w.image}.png`;
-  if (wN) wN.innerText = w.name;
-  if (wR) wR.innerText = w.role;
-  if (wInit) wInit.innerText = w.initial;
-
-  const qDiv = document.getElementById("wQuestions");
-  if (qDiv) {
-    qDiv.innerHTML = "";
-    WITNESS_QUESTIONS.forEach(q => {
-      const btn = document.createElement("button");
-      btn.className = "chip";
-      btn.innerText = q.label;
-      btn.onclick = () => askWitness(q.id);
-      qDiv.appendChild(btn);
-    });
-  }
-
-  const log = document.getElementById("wLog");
-  if (log) log.innerHTML = "";
-}
-
-function askWitness(questionId) {
-  if (!currentWitness) return;
-
-  const qDef = WITNESS_QUESTIONS.find(q => q.id === questionId);
-  const questionLabel = qDef ? qDef.label : "Pergunta";
-
-  const answer =
-    currentWitness.answers && currentWitness.answers[questionId]
-      ? currentWitness.answers[questionId]
-      : "Não sei responder isso com certeza.";
-
-  const log = document.getElementById("wLog");
-  if (!log) return;
-
-  const qEl = document.createElement("div");
-  qEl.className = "log-line-q";
-  qEl.innerText = "Você: " + questionLabel;
-  log.appendChild(qEl);
-
-  const aEl = document.createElement("div");
-  aEl.className = "log-line-a";
-  aEl.innerText = currentWitness.name + ": " + answer;
-  log.appendChild(aEl);
-
-  log.scrollTop = log.scrollHeight;
-}
-
-/* ==========================
-   SUSPEITOS / INTERROGATÓRIO
-=========================== */
-
-function openSuspects() {
-  if (!player.currentCase) {
-    player.currentCase = cases[player.currentCaseIndex];
-  }
-  const c = player.currentCase;
-  goTo("suspects");
-
-  const list = document.getElementById("suspectList");
-  if (!list) return;
-
-  if (!c || !c.suspects || c.suspects.length === 0) {
-    list.innerHTML = `<p class="small">Nenhum suspeito definido neste caso ainda.</p>`;
-    return;
-  }
-
-  list.innerHTML = "";
-  c.suspects.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.onclick = () => openSuspectDetail(s.id);
-    div.innerHTML = `
-      <div class="flex">
-        <div class="portrait"><img src="assets/${s.image}.png" alt="${s.name}"></div>
-        <div>
-          <div class="list-item-title">${s.name}</div>
-          <div class="list-item-sub">${s.occupation} • ${s.age} anos</div>
-        </div>
-      </div>
-    `;
-    list.appendChild(div);
-  });
-}
-
-function openSuspectDetail(sId) {
-  const c = player.currentCase;
-  if (!c) return;
-
-  currentSuspect = c.suspects.find(s => s.id === sId);
-  if (!currentSuspect) return;
-
-  goTo("suspectDetail");
-
-  const s = currentSuspect;
-  const sP = document.getElementById("sP");
-  const sN = document.getElementById("sN");
-  const sInfo = document.getElementById("sInfo");
-
-  if (sP) sP.src = `assets/${s.image}.png`;
-  if (sN) sN.innerText = s.name;
-  if (sInfo) {
-    sInfo.innerText =
-      `${s.age} anos • ${s.occupation} • Residência: ${s.address}\nRegistro: ${s.record}`;
-  }
-
-  updateSuspectBars();
-
-  const qDiv = document.getElementById("sQuestions");
-  if (qDiv) {
-    qDiv.innerHTML = "";
-    SUSPECT_QUESTIONS.forEach(q => {
-      const btn = document.createElement("button");
-      btn.className = "chip";
-      btn.innerText = q.label;
-      btn.onclick = () => askSuspect(q.id);
-      qDiv.appendChild(btn);
-    });
-  }
-
-  const log = document.getElementById("sLog");
-  if (log) log.innerHTML = "";
-}
-
-function updateSuspectBars() {
-  if (!currentSuspect || !currentSuspect.stats) return;
-  const { stress, confidence, anger } = currentSuspect.stats;
-  const st = document.getElementById("sb_stress");
-  const cf = document.getElementById("sb_conf");
-  const ag = document.getElementById("sb_ang");
-  if (st) st.style.width = (stress || 0) + "%";
-  if (cf) cf.style.width = (confidence || 0) + "%";
-  if (ag) ag.style.width = (anger || 0) + "%";
-}
-
-function askSuspect(questionId) {
-  if (!currentSuspect) return;
-
-  const qDef = SUSPECT_QUESTIONS.find(q => q.id === questionId);
-  const questionLabel = qDef ? qDef.label : "Pergunta";
-
-  const answer =
-    currentSuspect.answers && currentSuspect.answers[questionId]
-      ? currentSuspect.answers[questionId]
-      : "Não tenho nada a declarar sobre isso.";
-
-  if (!currentSuspect.stats) currentSuspect.stats = { stress: 0, confidence: 0, anger: 0 };
-
-  if (questionId === "stress") {
-    currentSuspect.stats.stress = Math.min(currentSuspect.stats.stress + 10, 100);
-    currentSuspect.stats.anger  = Math.min(currentSuspect.stats.anger + 5, 100);
-  } else if (questionId === "relation" || questionId === "motive") {
-    currentSuspect.stats.stress = Math.min(currentSuspect.stats.stress + 5, 100);
-  } else {
-    currentSuspect.stats.confidence = Math.max(currentSuspect.stats.confidence - 3, 0);
-  }
-  updateSuspectBars();
-
-  const log = document.getElementById("sLog");
-  if (!log) return;
-
-  const qEl = document.createElement("div");
-  qEl.className = "log-line-q";
-  qEl.innerText = "Você: " + questionLabel;
-  log.appendChild(qEl);
-
-  const aEl = document.createElement("div");
-  aEl.className = "log-line-a";
-  aEl.innerText = currentSuspect.name + ": " + answer;
-  log.appendChild(aEl);
-
-  log.scrollTop = log.scrollHeight;
-}
-
-/* ==========================
-   PROVAS
-=========================== */
-
-function openEvidence() {
-  if (!player.currentCase) {
-    player.currentCase = cases[player.currentCaseIndex];
-  }
-  const c = player.currentCase;
-  goTo("evidence");
-
-  const list = document.getElementById("eList");
-  if (!list) return;
-
-  if (!c || !c.evidence || c.evidence.length === 0) {
-    list.innerHTML = `<p class="small">Nenhuma prova cadastrada neste caso.</p>`;
-    return;
-  }
-
-  list.innerHTML = "";
-  c.evidence.forEach(e => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.innerHTML = `
-      <div class="list-item-title">${e.title} <span class="pill-inline">${e.type}</span></div>
-      <div class="list-item-sub">${e.description}</div>
-      <img class="thumb" src="assets/${e.image}.png" alt="${e.title}">
-      <p class="small"><b>Relevância:</b> ${e.relevance}</p>
-    `;
-    list.appendChild(div);
-  });
-}
-
-/* ==========================
-   CONCLUSÃO DO CASO
-=========================== */
-
-function openConclusion() {
-  if (!player.currentCase) {
-    player.currentCase = cases[player.currentCaseIndex];
-  }
-
-  goTo("conclude");
-  const c = player.currentCase;
-  const list = document.getElementById("concludeList");
-  if (!list) return;
-
-  if (!c || !c.suspects || c.suspects.length === 0) {
-    list.innerHTML = `<p class="small">Nenhum suspeito disponível. Impossível concluir o caso.</p>`;
-    return;
-  }
-
-  list.innerHTML = "";
-  c.suspects.forEach(s => {
-    const div = document.createElement("div");
-    div.className = "list-item";
-    div.onclick = () => {
-      if (confirm(`Confirmar ${s.name} como culpado?`)) {
-        concludeCaseWith(s.id);
+    ],
+    question: "Quem adulterou o café de Augusto?",
+    correctSuspectId: "helena",
+    solution:
+      "Helena tinha acesso constante à mesa de Augusto sob o pretexto de organização. O estagiário só deixou o café e saiu, e Paula estava ocupada ao telefone em outra sala. O medicamento encontrado é usado por uma pessoa da família de Helena, segundo colegas, o que explica o acesso ao remédio. Ela não queria que a matéria fosse publicada e tentou apenas afastar Augusto temporariamente, sem chegar a uma tentativa de homicídio declarada."
+  },
+  {
+    id: 3,
+    title: "O Notebook Sumido",
+    difficulty: "Difícil",
+    location: "Empresa de Tecnologia ValeSoft",
+    intro:
+      "Um protótipo de software sigiloso desaparece junto com o notebook onde estava instalado.",
+    story:
+      "Durante a madrugada que antecede uma grande apresentação para investidores, o notebook contendo o protótipo exclusivo da empresa desaparece da sala de reuniões. A porta não foi arrombada e o sistema registra três acessos com cartão naquele período.",
+    clues: [
+      "O histórico de acessos mostra três cartões: o do diretor, o da gerente de projetos e o do técnico de TI.",
+      "As câmeras do corredor registram entrada e saída da sala, mas não é possível ver o interior.",
+      "O log do sistema de rede mostra um acesso remoto ao protótipo pouco antes do notebook ser desligado."
+    ],
+    suspects: [
+      {
+        id: "diretor",
+        name: "Carlos – Diretor",
+        description:
+          "Responsável por negociar com os investidores. Tem acesso total à sala, mas afirma que estava em outra reunião externa."
+      },
+      {
+        id: "gerente",
+        name: "Fernanda – Gerente de Projetos",
+        description:
+          "Conhece profundamente o protótipo e está sobrecarregada com prazos. Entrou na sala para revisar slides."
+      },
+      {
+        id: "ti",
+        name: "Bruno – Técnico de TI",
+        description:
+          "Cuida dos servidores e da rede. Foi chamado para resolver um problema de conexão naquela noite."
       }
-    };
-    div.innerHTML = `
-      <div class="flex">
-        <div class="portrait"><img src="assets/${s.image}.png" alt="${s.name}"></div>
-        <div>
-          <div class="list-item-title">${s.name}</div>
-          <div class="list-item-sub">${s.occupation}</div>
-        </div>
-      </div>
-    `;
-    list.appendChild(div);
-  });
+    ],
+    question: "Quem levou o notebook com o protótipo?",
+    correctSuspectId: "ti",
+    solution:
+      "Bruno, o técnico de TI, tinha o conhecimento necessário para acessar o protótipo remotamente e desativar rastros. O log da rede indica um acesso especializado e desligamento remoto, algo que o diretor e a gerente não costumam fazer. Além disso, seu cartão aparece nos registros na mesma faixa de tempo do desaparecimento. Fernanda usou a sala para revisar slides, mas não teria motivo para sumir com o único protótipo antes da apresentação decisiva."
+  }
+];
+
+// UTILIDADES DE TELA
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach((s) => s.classList.remove("active"));
+  const el = document.getElementById(id);
+  if (el) el.classList.add("active");
 }
 
-/* ==========================
-   RESETAR JOGO (DEMISSÃO)
-=========================== */
-
-function resetGame() {
-  player = {
-    name: "",
-    avatar: "",
-    gender: "M",
-    agency: "PD",
-    rankIndex: 0,
-    rank: "Detetive Júnior",
-    moral: 50,
-    prestige: 0,
-    currentCaseIndex: 0,
-    solvedCases: 0,
-    failedCases: 0
-  };
-  currentWitness = null;
-  currentSuspect = null;
-  lastWarrantResult = null;
-  saveGame(); // salva estado limpo
-  goTo("start");
-}
-
-/* ==========================
-   INICIAR GAME (CARREGAR cases.json)
-=========================== */
-
-function initGame() {
+// Carrega casos a partir do arquivo cases.json
+function loadCases() {
   fetch("cases.json")
-    .then(r => r.json())
-    .then(data => {
-      cases = data;
-      goTo("start");
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Falha ao carregar cases.json");
+      }
+      return res.json();
     })
-    .catch(err => {
-      console.error(err);
-      alert("Erro ao carregar casos. Verifique se 'cases.json' está presente e acessível.");
-      // Mesmo assim, mostra tela inicial (sem casos)
-      goTo("start");
+    .then((data) => {
+      cases = Array.isArray(data) ? data : [];
+      if (!cases.length) {
+        cases = fallbackCases;
+      }
+      renderCaseList();
+      updateBuilderJson();
+    })
+    .catch((err) => {
+      console.warn("Usando fallback de casos locais:", err);
+      cases = fallbackCases;
+      renderCaseList();
+      updateBuilderJson();
     });
 }
 
-document.addEventListener("DOMContentLoaded", initGame);
+// Renderiza o mural de casos
+function renderCaseList() {
+  const listEl = document.getElementById("case-list");
+  listEl.innerHTML = "";
+
+  cases.forEach((c, index) => {
+    const card = document.createElement("article");
+    card.className = "case-card";
+
+    const title = document.createElement("h3");
+    title.className = "case-card-title";
+    title.textContent = c.title;
+
+    const meta = document.createElement("div");
+    meta.className = "case-card-meta";
+    const locationSpan = document.createElement("span");
+    locationSpan.textContent = c.location || "Local confidencial";
+    const difficultySpan = document.createElement("span");
+    difficultySpan.className = "pill " + difficultyClass(c.difficulty);
+    difficultySpan.textContent = c.difficulty || "N/D";
+    meta.appendChild(locationSpan);
+    meta.appendChild(difficultySpan);
+
+    const intro = document.createElement("p");
+    intro.className = "case-card-intro";
+    intro.textContent = c.intro || "";
+
+    const footer = document.createElement("div");
+    footer.className = "case-card-footer";
+
+    const idTag = document.createElement("span");
+    idTag.style.fontSize = "0.8rem";
+    idTag.style.color = "#9ca3af";
+    idTag.textContent = `Caso #${c.id ?? index + 1}`;
+
+    const btn = document.createElement("button");
+    btn.className = "btn primary small";
+    btn.textContent = "Investigar";
+    btn.addEventListener("click", () => startCase(index));
+
+    footer.appendChild(idTag);
+    footer.appendChild(btn);
+
+    card.appendChild(title);
+    card.appendChild(meta);
+    card.appendChild(intro);
+    card.appendChild(footer);
+
+    listEl.appendChild(card);
+  });
+}
+
+function difficultyClass(d) {
+  if (!d) return "";
+  const text = d.toLowerCase();
+  if (text.includes("fácil") || text.includes("facil")) return "easy";
+  if (text.includes("médio") || text.includes("medio")) return "medium";
+  if (text.includes("difícil") || text.includes("dificil")) return "hard";
+  return "";
+}
+
+// Inicia um caso específico
+function startCase(index) {
+  currentCaseIndex = index;
+  selectedSuspectId = null;
+
+  const c = cases[index];
+
+  document.getElementById("play-case-title").textContent = c.title;
+  document.getElementById(
+    "play-case-meta"
+  ).textContent = `${c.location || "Local confidencial"} • Caso #${c.id ?? index + 1}`;
+
+  const diffEl = document.getElementById("play-case-difficulty");
+  diffEl.textContent = c.difficulty || "N/D";
+  diffEl.className = "pill " + difficultyClass(c.difficulty);
+
+  document.getElementById("play-case-intro").textContent = c.intro || "";
+  document.getElementById("play-case-story").textContent = c.story || "";
+  document.getElementById("play-case-question").textContent = c.question || "";
+
+  // Pistas
+  const cluesEl = document.getElementById("play-clues");
+  cluesEl.innerHTML = "";
+  (c.clues || []).forEach((clue) => {
+    const li = document.createElement("li");
+    li.textContent = "• " + clue;
+    cluesEl.appendChild(li);
+  });
+
+  // Suspeitos
+  const suspectsEl = document.getElementById("play-suspects");
+  suspectsEl.innerHTML = "";
+  (c.suspects || []).forEach((s) => {
+    const card = document.createElement("div");
+    card.className = "suspect-card";
+    card.dataset.suspectId = s.id || s.name;
+
+    const name = document.createElement("div");
+    name.className = "suspect-name";
+    name.textContent = s.name;
+
+    const desc = document.createElement("div");
+    desc.className = "suspect-desc";
+    desc.textContent = s.description || "";
+
+    card.appendChild(name);
+    card.appendChild(desc);
+
+    card.addEventListener("click", () => selectSuspect(card));
+
+    suspectsEl.appendChild(card);
+  });
+
+  updateSelectedSuspectBox();
+  showScreen("screen-case-play");
+}
+
+// Seleciona um suspeito
+function selectSuspect(cardEl) {
+  const suspectId = cardEl.dataset.suspectId;
+  selectedSuspectId = suspectId;
+
+  document.querySelectorAll(".suspect-card").forEach((el) => {
+    el.classList.toggle("selected", el === cardEl);
+  });
+
+  updateSelectedSuspectBox();
+}
+
+function updateSelectedSuspectBox() {
+  const box = document.getElementById("selected-suspect-box");
+  if (!selectedSuspectId || currentCaseIndex === null) {
+    box.textContent = "Nenhum suspeito selecionado.";
+    return;
+  }
+  const c = cases[currentCaseIndex];
+  const s = (c.suspects || []).find(
+    (sus) => (sus.id || sus.name) === selectedSuspectId
+  );
+  if (s) {
+    box.textContent = `Você selecionou: ${s.name}`;
+  } else {
+    box.textContent = "Nenhum suspeito selecionado.";
+  }
+}
+
+// Verifica acusação
+function checkAccusation() {
+  if (currentCaseIndex === null) return;
+
+  const c = cases[currentCaseIndex];
+  if (!selectedSuspectId) {
+    alert("Escolha um suspeito antes de acusar.");
+    return;
+  }
+
+  const correct = c.correctSuspectId || "";
+  const isCorrect =
+    normalizeId(selectedSuspectId) === normalizeId(correct) ||
+    normalizeId(findSuspectNameById(c, selectedSuspectId)) === normalizeId(correct);
+
+  lastResultWasCorrect = isCorrect;
+
+  const resultTitleEl = document.getElementById("result-title");
+  const resultSummaryEl = document.getElementById("result-summary");
+  const resultSolutionEl = document.getElementById("result-solution");
+
+  if (isCorrect) {
+    resultTitleEl.textContent = "Caso resolvido!";
+    resultSummaryEl.textContent =
+      "Parabéns, detetive! Sua análise foi precisa e o verdadeiro culpado foi identificado.";
+  } else {
+    resultTitleEl.textContent = "Acusação incorreta...";
+    resultSummaryEl.textContent =
+      "Dessa vez o verdadeiro culpado escapou. Revise as pistas com atenção e tente novamente.";
+  }
+
+  resultSolutionEl.textContent =
+    c.solution ||
+    "Nenhuma explicação detalhada foi fornecida para este caso. Adicione uma solução no JSON para orientar o jogador.";
+
+  showScreen("screen-result");
+}
+
+function normalizeId(str) {
+  if (!str) return "";
+  return String(str).toLowerCase().trim();
+}
+
+function findSuspectNameById(c, suspectId) {
+  const s = (c.suspects || []).find(
+    (sus) => (sus.id || sus.name) === suspectId
+  );
+  return s ? s.name : "";
+}
+
+// BUILDER / JSON
+function updateBuilderJson() {
+  const out = document.getElementById("json-output");
+  if (out) {
+    out.value = JSON.stringify(cases, null, 2);
+  }
+}
+
+function openBuilder() {
+  updateBuilderJson();
+  document.getElementById("builder-modal").classList.remove("hidden");
+}
+
+function closeBuilder() {
+  document.getElementById("builder-modal").classList.add("hidden");
+}
+
+// Adiciona um novo caso rápido via formulário
+function addCaseFromBuilder() {
+  const title = document.getElementById("b-title").value.trim();
+  const difficulty = document.getElementById("b-difficulty").value.trim();
+  const location = document.getElementById("b-location").value.trim();
+  const intro = document.getElementById("b-intro").value.trim();
+  const story = document.getElementById("b-story").value.trim();
+  const cluesRaw = document.getElementById("b-clues").value.trim();
+  const suspectsRaw = document.getElementById("b-suspects").value.trim();
+  const answer = document.getElementById("b-answer").value.trim();
+  const solution = document.getElementById("b-solution").value.trim();
+
+  if (!title || !answer || !suspectsRaw) {
+    alert("Preencha pelo menos título, suspeitos e o culpado.");
+    return;
+  }
+
+  const clues = cluesRaw
+    ? cluesRaw.split(";").map((c) => c.trim()).filter((c) => c)
+    : [];
+
+  const suspectNames = suspectsRaw
+    .split(";")
+    .map((s) => s.trim())
+    .filter((s) => s);
+
+  const suspects = suspectNames.map((name) => ({
+    id: slugify(name),
+    name,
+    description: ""
+  }));
+
+  const newCase = {
+    id: nextCaseId(),
+    title,
+    difficulty: difficulty || "Médio",
+    location: location || "Local confidencial",
+    intro,
+    story,
+    clues,
+    suspects,
+    question: `Quem é o culpado no caso "${title}"?`,
+    correctSuspectId: slugify(answer),
+    solution: solution || "Descreva aqui a explicação completa da solução do caso."
+  };
+
+  cases.push(newCase);
+  renderCaseList();
+  updateBuilderJson();
+
+  // Limpa alguns campos
+  document.getElementById("b-title").value = "";
+  document.getElementById("b-intro").value = "";
+  document.getElementById("b-story").value = "";
+  document.getElementById("b-clues").value = "";
+  document.getElementById("b-suspects").value = "";
+  document.getElementById("b-answer").value = "";
+  document.getElementById("b-solution").value = "";
+
+  alert("Caso adicionado ao JSON. Não esqueça de baixar o novo cases.json!");
+}
+
+function nextCaseId() {
+  if (!cases.length) return 1;
+  const maxId = cases.reduce(
+    (acc, c) => Math.max(acc, typeof c.id === "number" ? c.id : 0),
+    0
+  );
+  return maxId + 1;
+}
+
+function slugify(str) {
+  return String(str)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Copiar JSON
+function copyJsonToClipboard() {
+  const out = document.getElementById("json-output");
+  out.select();
+  out.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  alert("JSON copiado para a área de transferência.");
+}
+
+// Baixar cases.json
+function downloadJsonFile() {
+  const dataStr = JSON.stringify(cases, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "cases.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// EVENTOS / INICIALIZAÇÃO
+document.addEventListener("DOMContentLoaded", () => {
+  // Carrega casos
+  loadCases();
+
+  // Navegação principal
+  document.getElementById("btn-start").addEventListener("click", () => {
+    showScreen("screen-case-list");
+  });
+
+  document
+    .getElementById("btn-back-from-list")
+    .addEventListener("click", () => showScreen("screen-start"));
+
+  document
+    .getElementById("btn-back-to-list")
+    .addEventListener("click", () => showScreen("screen-case-list"));
+
+  document
+    .getElementById("btn-accuse")
+    .addEventListener("click", checkAccusation);
+
+  document
+    .getElementById("btn-result-list")
+    .addEventListener("click", () => showScreen("screen-case-list"));
+
+  document
+    .getElementById("btn-result-retry")
+    .addEventListener("click", () => {
+      if (currentCaseIndex !== null) {
+        startCase(currentCaseIndex);
+      } else {
+        showScreen("screen-case-list");
+      }
+    });
+
+  // Builder / JSON
+  document
+    .getElementById("btn-open-builder")
+    .addEventListener("click", openBuilder);
+  document
+    .getElementById("btn-close-builder")
+    .addEventListener("click", closeBuilder);
+
+  document
+    .getElementById("btn-add-case")
+    .addEventListener("click", addCaseFromBuilder);
+
+  document
+    .getElementById("btn-copy-json")
+    .addEventListener("click", copyJsonToClipboard);
+
+  document
+    .getElementById("btn-download-json")
+    .addEventListener("click", downloadJsonFile);
+});
